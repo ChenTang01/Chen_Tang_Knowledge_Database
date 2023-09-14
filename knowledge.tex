@@ -1,0 +1,1265 @@
+\documentclass[12pt]{report}
+\input{chentang}
+
+\title{\textbf{Chen Tang's \break Knowledge Database}}
+\author{\textbf{ChenTang@link.cuhk.edu.cn}}
+\date{Last updated on \today}
+
+\begin{document}
+
+\maketitle
+
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+\begin{center}
+    {\Large The following is a compendium of my academic notes
+        spanning various domains.
+        I present these notes
+        publicly to share my methodological framework for
+        managing and structuring an individual's knowledge
+        networks.\\
+        The inevitability of encountering
+        occasional errors is acknowledged.\\
+        \bigskip
+        \textbf{This notebook will undergo continuous updates.}}
+\end{center}
+
+\tableofcontents
+
+\chapter{Mathematics and Optimization}
+
+\section{Calculus and Linear Algebra}
+
+\clearpage
+\section{Analysis and Algebra}
+
+\clearpage
+\section{Probability Theory}
+
+\subsection{Basics of Probability}
+\sep{Common Discrete Distribution}
+\tbf{Bernoulli}(p)\\
+\tit{pmf}: $P(X=x\mid p)=p^{x}(1-p)^{1-x};\quad x=0,1;\quad0\leq p\leq1$\\
+\tit{mean}: $EX=p$; \tit{variance}: $VarX=p(1-p)$\\
+\tab{
+    \item A Bernoulli trial (named after James Bernoulli) is an experiment with only
+    two possible outcomes;
+    \item Bernoulli random variable $X = 1$ if “success” occurs and $X = 0$ if “failure”
+    occurs where the probability of a “success” is $p$.
+}
+\tbf{Binomial}(n,p)\\
+\tit{pmf}: $P(X=x\mid n,p)=\binom{n}{x}p^{x}(1-p)^{n-x},\quad x=0,1,\ldots,n;\quad0\leq p\leq1$\\
+\tit{mean}: $EX=np$; \tit{variance}: $np(1-p)$\\
+\tab{
+    \item A Binomial experiment consists of $n$ independent identical Bernoulli trials;
+    \item $X=\sum_{i=1}^nY_i$, where $Y_1,\cdots,Y_n$ are $n$ identical, independent Bernoulli random variables.
+}
+\tbf{Poisson}($\lambda$)\\
+\tit{pmf}: $P(X=x\mid\lambda)=\frac{e^{-\lambda}\lambda^x}{x!};\quad x=0,1,\ldots;\quad0\leq\lambda<\infty $\\
+\tit{mean}: $EX=\lambda$; \tit{variance}: $Var X=\lambda$\\
+\tab{
+    \item A Poisson distribution is typically used to model the probability distribution
+    of the number of occurrences (with $\lambda$ being the intensity rate) per unit
+    time or per unit area;
+    \item Binomial pmf approximates Poisson pmf.
+    Poisson pmf is also a limiting distribution of a negative binomial distribution;
+    \item A useful result: By Taylor series expansion: $e^{\lambda}=\sum_{x=0}^{\infty}\frac{\lambda^x}{x!}$.
+}
+\ass{Poisson Process}{
+    \lis{
+        \item Let $X(\Delta)$ be the number of events that occur during an interval $\Delta$;
+        \item The events are independent: if $\Delta_1,\cdots,\Delta_n$ are disjoint intervals,
+        then $X(\Delta_1),\cdots,X(\Delta_n)$ are independent;
+        \item $X(\Delta)$ only depends on the length of $\Delta$;
+        \item The probability that exactly one event occurs in a small interval of length $\Delta t$ equals $\lambda \Delta t+\tit{o}(\Delta t)$;
+        \item Poisson distribution is \hl{not} memoryless, but its interval (exponential distribution) is memoryless.
+    }
+}
+\tbf{Geometric}($p$)\\
+\tit{pmf}: $P(X=x\mid p)=p(1-p)^{x-1};\quad x=1,2,\ldots;\quad0\leq p\leq1$\\
+\tit{mean}: $\frac{1}{p}$; \tit{variance}: $\frac{1-p}{p^2}$\\
+\tab{
+    \item The experiment consists of a sequence of independent trials;
+    \item \emotree The property of memoryless: $P(X>s\mid X.t)=P(X>s-t)$.
+}
+\tbf{Negative Binomial}($r,p$)\\
+\tit{pmf}: $P(X=x\mid r,p)=\binom{r+x-1}{x}p^r(1-p)^x,\quad x=0,1,\ldots;\quad0\leq p\leq1$\\
+\tit{mean}: $EX=\frac{r(1-p)}{p}$; \tit{varaince}: $\frac{r(1-p)}{p^2}$\\
+\tab{
+    \item assume there are many independent and identical experiments, to observe the $r$th success, $X$ is the number of games to see the failure;
+}
+\tbf{Hypergeometric}($N,M,K$)\\
+\tit{pmf}: $\begin{aligned}P(X=x\mid N,M,K) & =\frac{\binom{M}{k}\binom{N-M}{K-x}}{\binom{N}{K}};
+               \quad x=0,1,2,\ldots,K;                                                \\M-(N-K)&\le x\le M;\quad N,M,K\ge0\end{aligned}$\\
+\tit{mean}: $EX=\frac{KM}{N}$; \tit{varaince}: $\frac{KM}{N}\frac{(N-M)(N-K)}{N(N-1)}$\\
+
+\sep{Common Continuous Distribution}
+\tbf{Uniform}($a,b$)\\
+\tit{pdf}:$f(x\mid a,b)=\frac{1}{b-a}$; \tit{mean}:$EX=\frac{b+a}{2}$; \tit{variance}: $Var X=\frac{(b-a)^2}{12}$.\\
+\tbf{Exponential}($\beta$)\\
+\tit{pdf}: $f(x\mid \beta)=\frac{1}{\beta}e^{-x/\beta},0\le x< \infty, \beta>0$; \tit{mean}: $EX=\beta$; \tit{variance}: $VarX=\beta^2$.\\
+\tbf{Gamma}($\alpha,\beta$)\\
+\tit{pdf}:$f(x\mid\alpha,\beta)=\frac{1}{\Gamma(\alpha)\beta^\alpha}x^{\alpha-1}e^{-x/\beta},\quad0\leq x<\infty,\quad\alpha,\beta>0$;
+\tit{mean}:$\alpha\beta$; \tit{variance}:$\alpha\beta^2$.\\
+\tab{
+\item The \tit{gamma function} is defined as $\Gamma(\alpha)=\int_0^\infty t^{\alpha-1}e^{-t}dt$;
+\item $\Gamma(\alpha+1)=\alpha\Gamma(\alpha), \alpha>0$;
+\item $\Gamma(n)=(n-1)!,\quad\text{ for any integer }n>0$.
+}
+\tbf{Normal}($\mu,\sigma^2$)\\
+\tit{pdf}:$f\left(x\mid\mu,\sigma^2\right)=\frac{1}{\sqrt{2\pi}\sigma}e^{-(x-\mu)^2/\left(2\sigma^2\right)},\quad-\infty<x<\infty$;
+\tit{mean}:$\mu$; \tit{variance}:$\sigma^2$.\\
+\ex{for $f(x)=\frac{\beta\alpha^{\beta}}{x^{\beta+1}},\quad\alpha<x<\infty,\quad\alpha>0,\quad\beta>0$: \\
+    \tab{
+        \item (a) Verify $f(x)$ is a pdf;
+        \item (b) Derive the mean and variance of this distribution;
+        \item (c) Prove that the variance does not exist if $\beta\leq2$.
+    }}{
+    (a)
+    \eq{\begin{aligned}\int_{\alpha}^{\infty}f(x)dx&=\int_{\alpha}^{\infty}\frac{\beta\cdot \alpha^{\beta}}{x^{\beta+1}}dx=-x^{\beta\cdot\alpha^{\beta}|\alpha}\\&=0+\alpha^{-\beta}\cdot\alpha^{\beta}=1\end{aligned}}
+    (b)
+    \eq{\begin{aligned}\\Ex=\int_{\alpha}^{\infty}xf(x)dx=\int_{\alpha}^{\infty}\frac{\beta\cdot \alpha^{\beta}}{X^{\beta}}dx\\=\frac{\beta}{-\beta+1}\cdot\alpha^{\beta}\cdot x^{-\beta+1}|_{\alpha}^{\infty}=\frac{\beta\cdot\alpha}{\beta-1}\end{aligned}}
+    \eq{\begin{aligned}Ex^{2}&=\int_{\alpha}^{\infty}\frac{\beta\cdot\alpha^{\beta}}{x^{\beta-1}}dx=\frac{\beta}{-\beta+2}\cdot\alpha^{\beta}\cdot x^{-\beta+2}|_{\alpha}^{\infty}\\&=\frac{\alpha^{2}\beta}{\beta-2}\end{aligned}}
+    \eq{\operatorname{Var}X=EX^2-(EX)^2=\frac{\beta\alpha^2}{(\beta-1)^2(\beta-2)}}
+    (c)\\
+    If $\beta<2$, then the variance is negative.
+}
+\fig{type of distribution}{Type of distribution}
+
+\clearpage
+\section{Stochastic Process}
+
+\clearpage
+\section{Linear Programming}
+
+\clearpage
+\section{Convex Optimization}
+
+\clearpage
+\section{Non-Convex Optimization}
+
+\clearpage
+\chapter{Statistics and Econometrics}
+
+\section{Statistical Inference}
+This section is maily the notes from \cite{casella2021statistical}
+\fig{statistical inference}{The scope of statistical inference}
+Statistics is using observed data to \hl{inference} the statistical model.
+
+\subsection{Exponential Families}
+\defi{Exponential Families
+}{A family of pdfs or pmfs is called an \tit{exponential family} if:
+    \eq{
+        f(x|\boldsymbol{\theta})=h(x)c(\boldsymbol{\theta})\exp\left(\sum_{i=1}^kw_i(\boldsymbol{\theta})t_i(x)\right)
+    }
+    Where $h(x)\le0,c(\boldsymbol{\theta})\le0$, and $h(x),t_i(x)$ don't depend on $\boldsymbol{\theta}$. $c(\boldsymbol{\theta}),
+        w_i(\boldsymbol{\theta})$ don't depend on $x$.
+    \tab{
+        \item Continuous: normal, gamma, beta, exponential;
+        \item Discrete: binomial, poisson, nagative binomial;
+        \item $\boldsymbol{\theta}=\theta_1,\theta_2, \codts,\theta_d$, $k$ must $\ge d$;
+        \item If $k=d$, then it's a \tit{full exponential family}, if $k>d$, then it's a \tit{curved exponential family} (For example,
+        most normal distributions are \tit{full exponential family}, but normal distribution satisfy $\mu=\sigma^2$ is a \tit{curved exponential family}).
+    }
+}
+To verify a pdf is an exponential family, identify the function $h(x),c(\boldsymbol{\theta}),t_i(x),w_i(\boldsymbol{\theta})$, then
+verify these functions satisfy the condition above.
+\ex{
+    Show that Binomial, Poisson, Exponential and Normal distribution belongs to the exponential families.
+}{
+    \tbf{Binomial}:\\
+    \eq{
+        \begin{gathered}
+            f(x|p) =\binom nxp^x(1-p)^{n-x}=\binom nx(1-p)^n\left(\frac p{1-p}\right)^x \\
+            =\begin{pmatrix}n\\x\end{pmatrix}(1-p)^n\exp\left(x\log\left(\frac{p}{1-p}\right)\right),
+        \end{gathered}
+    }
+    Among which $\begin{pmatrix}n\\x\end{pmatrix}$ is $h(x)$, $(1-p)^n$ is $c(\theta)$, $x$ is $t_1(x)$, and $\log\left(\frac{p}{1-p}\right)$ is $w_i(\theta)$.
+    Note that $f(x\mid p)$ is only in exponential families when $0<p<1$.\\
+    \tbf{Poisson}:\\
+    \eq{
+        \begin{aligned}
+             & f(x|\lambda)=\frac{\lambda^{x}e^{-\lambda}}{x!}=\frac{1}{x!}e^{-\lambda}\exp\left(x\log(\lambda)\right) \\
+             & \text{then}                                                                                             \\
+             & h(x)=\frac{1}{x!},c(\lambda)=e^{-\lambda},t(x)=x\mathrm{~and}w(\lambda)=\log(\lambda).
+        \end{aligned}
+    }
+    \tbf{Exponential}:\\
+    \eq{
+        \begin{aligned}
+             & f(x|\beta)=\frac{1}{\beta}\exp\left(-\frac{x}{\beta}\right)                   \\
+             & \text{then}                                                                   \\
+             & h(x)=1,c(\beta)=\frac{1}{\beta},t(x)=x\mathrm{~and}w(\beta)=-\frac{1}{\beta}.
+        \end{aligned}
+    }
+    \tbf{Normal}:\\
+    \eq{
+        \begin{aligned}
+             & f(x|\mu,\sigma^{2})=\frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{(x-\mu)^{2}}{2\sigma^{2}}\right)=\frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{x^{2}}{2\sigma^{2}}+\frac{x\mu}{\sigma^{2}}-\frac{\mu^{2}}{2\sigma^{2}}\right) \\
+             & \text{then}                                                                                                                                                                                                                 \\
+             & \begin{aligned}h(x)=1,c(\mu,\sigma)=\frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{\mu^{2}}{2\sigma^{2}}\right),\end{aligned}                           \\
+             & t_{1}(x)=-\frac{x^{2}}{2},w_{1}(\mu,\sigma)=\frac{1}{\sigma^{2}},t_{2}(x)=x\mathrm{~and~}w_{2}(\mu,\sigma)=\frac{\mu}{\sigma^{2}}.
+        \end{aligned}
+    }
+}
+\ex{Show the followings are exponential families:
+\tab{
+    \item Gamma family with either $\alpha,\beta$ is unkown or both unkown;
+    \item Beta family with either $\alpha,\beta$ is unkown or both unkown;
+    \item Negative Binomial family when $r$ is unkown.
+}}{
+\tbf{Gamma $\alpha$ unkown}:
+\eq{f(x|\alpha;\beta)=e^{-x/\beta}\frac1{\Gamma(\alpha)\beta^\alpha}\exp((\alpha-1)\log x)}
+thus $h(x)=e^{-x/\beta},x>0;c(\alpha)=\frac1{\Gamma(\alpha)\beta^\alpha};w_1(\alpha)=\alpha-1;t_1(x)=\log x.$\\
+\tbf{Gamma $beta$ unknown}:
+\eq{f(x|\beta;\alpha)=\frac1{\Gamma(\alpha)\beta^\alpha}x^{\alpha-1}e^{\frac{-x}\beta}}
+thus $h(x)=\frac{x^{\alpha-1}}{\Gamma(\alpha)},x>0;c(\beta)=\frac1{\beta^\alpha};w_1(\beta)=\frac1\beta; t_1(x)=-x.$\\
+\tbf{Gamma both unknown}:
+\eq{f(x|\alpha,\beta)=\frac1{\Gamma(\alpha)\beta^\alpha}\exp((\alpha-1)\log x-\frac x\beta)}
+thus $h(x)=I_{\{x>0\}}(x);c(\alpha,\beta)=\frac{1}{\Gamma(\alpha)\beta^\alpha};w_1(\alpha)=\alpha-1;t_1(x)=\log x;w_2(\alpha,\beta)=-1/\beta;t_2(x)=x.$\\
+\tbf{Beta $\alpha$ unknown}:\\
+$h(x)=(1-x)^{\beta-1}I_{[0,1]}(x),\quad c(\alpha)=\frac{1}{B(\alpha,\beta)},\quad w_1(x)=\alpha-1,\quad t_1(x)=\log x$\\
+\tbf{Beta $\beta$ unkown}:\\
+$h(x)=x^{\alpha-1}I_{[0,1]}(x),c(\beta)=\frac{1}{B(\alpha,\beta)},w_1(\beta)=\beta-1,t_1(x)=\log(1-x)$\\
+\tbf{Beta both unknown}:\\
+$h(x)=I_{[0,1]}(x),c(\alpha,\beta)=\frac{1}{B(\alpha,\beta)},w_1(\alpha)=\alpha-1,t_1(x)=\log x,w_2(\beta)=\beta-1,t_2(x)=\log(1-x).$\\
+\tbf{Negative Binomial}:\\
+\eq{h(x)=\left(\begin{matrix}r+x-1\\x\end{matrix}\right)I_{\NN}(x),\quad c(p)=\left(\frac{p}{1-p}\right)^r,\quad w_1(p)=\log(1-p),\quad t_1(x)=x.}
+}
+\thm{
+    Expectation and Variance of Exponential Families
+}{
+    If X is a random variable satisfy any distribution from the exponential families, then:
+    \eq{
+        \begin{aligned}
+             & 1.\quad\operatorname{E}\left(\sum_{i=1}^{k}\frac{\partial w_{i}(\boldsymbol{\theta})}{\partial\theta_{j}}t_{i}(X)\right)=-\frac{\partial}{\partial\theta_{j}}\log\big(c(\boldsymbol{\theta})\big);                                                                                                                           \\
+             & 2.\quad\mathrm{Var}\left(\sum_{i=1}^{k}\frac{\partial w_{i}(\boldsymbol{\theta})}{\partial\theta_{j}}t_{i}(X)\right)=-\frac{\partial^{2}}{\partial\theta_{j}^{2}}\log\left(c(\boldsymbol{\theta})\right)-\mathrm{E}\left(\sum_{i=1}^{k}\frac{\partial^{2}w_{i}(\boldsymbol{\theta})}{\partial\theta_{j}^{2}}t_{i}(X)\right).
+        \end{aligned}
+    }
+}
+\ex{Derive the mean and variance for binomial and normal distribution using the above theorem.}{
+    \tbf{Binomial}:\\
+    \eq{
+        \begin{aligned}
+             & h(x)=\begin{pmatrix}n\\x\end{pmatrix},c(p)=(1-p)^n,t(x)=x\mathrm{and}w(p)=\log\biggl(\frac{p}{1-p}\biggr).                                     \\
+             & \mathrm{Then},                                                                                                                                 \\
+             & \frac{\mathrm{d}}{\mathrm{d}p}w(p)=\frac{\mathrm{d}}{\mathrm{d}p}\log\left(\frac{p}{1-p}\right)=\frac{1}{p(1-p)},                              \\
+             & \frac{\mathrm{d}^{2}}{\mathrm{d}p^{2}}w(p)=-\frac{1}{p^{2}}+\frac{1}{(1-p)^{2}}=\frac{2p-1}{p^{2}(1-p)^{2}},                                   \\
+             & \frac{\mathrm{d}}{\mathrm{d}p}\log\big(c(p)\big)=\frac{\mathrm{d}}{\mathrm{d}p}n\log(1-p)=-\frac{n}{1-p},                                      \\
+             & \frac{\mathrm{d}^{2}}{\mathrm{d}p^{2}}\log\left(c(p)\right)=-\frac{n}{(1-p)^{2}}.                                                              \\
+             & \text{Therefore, from Theorem 3.4.2, we have}                                                                                                  \\
+             & \operatorname{E}\left(\frac1{p(1-p)}X\right)=\frac n{1-p}\Rightarrow\operatorname{E}(X)=np,                                                    \\
+             & \mathrm{Var}\left(\frac{1}{p(1-p)}X\right)=\frac{n}{(1-p)^2}-\mathrm{E}\left(\frac{2p-1}{p^2(1-p)^2}X\right)\Rightarrow\mathrm{Var}(X)=np(1-p)
+        \end{aligned}
+    }
+    \tbf{Normal}:\\
+    \eq{
+        \begin{aligned}
+             & \text{For Normal Distribution, we have}                                                                                                                                                                                                          \\
+             & h(x)=1,c(\mu,\sigma)=\frac1{\sqrt{2\pi}\sigma}\exp\left(-\frac{\mu^2}{2\sigma^2}\right),                                                                                                                                                         \\
+             & t_{1}(x)=-\frac{x^{2}}{2},w_{1}(\mu,\sigma)=\frac{1}{\sigma^{2}},t_{2}(x)=x\mathrm{and}w_{2}(\mu,\sigma)=\frac{\mu}{\sigma^{2}}.                                                                                                                 \\
+             & \mathrm{Then},                                                                                                                                                                                                                                   \\
+             & \begin{aligned}\frac{\partial w_1(\mu,\sigma)}{\partial\mu}=\frac{\partial(1/\sigma^2)}{\partial\mu}=0,\end{aligned}                                                                                                                             \\
+             & \begin{aligned}\frac{\partial w_2(\mu,\sigma)}{\partial\mu}=\frac{\partial(\mu/\sigma^2)}{\partial\mu}=\frac{1}{\sigma^2},\end{aligned}                                                                                                          \\
+             & \begin{aligned}\frac{\partial w_1(\mu,\sigma)}{\partial\sigma}=\frac{\partial(1/\sigma^2)}{\partial\sigma}=-\frac{2}{\sigma^3},\end{aligned}                                                                                                     \\
+             & \frac{\partial w_2(\mu,\sigma)}{\partial\sigma}=\frac{\partial(\mu/\sigma^2)}{\partial\sigma}=-\frac{2\mu}{\sigma^3},                                                                                                                            \\
+             & \frac{\partial}{\partial\mu}\log\left(c(\mu,\sigma)\right)=\frac{\partial}{\partial\mu}\left(-\frac{\log(2\pi)}{2}-\log(\sigma)-\frac{\mu^{2}}{2\sigma^{2}}\right)=-\frac{\mu}{\sigma^{2}},                                                      \\
+             & \frac\partial{\partial\sigma}\log\left(c(\mu,\sigma)\right)=\frac\partial{\partial\sigma}\left(-\frac{\log(2\pi)}2-\log(\sigma)-\frac{\mu^2}{2\sigma^2}\right)=-\frac1\sigma+\frac{\mu^2}{\sigma^3}.                                             \\
+             & \operatorname{E}\left(\frac{1}{\sigma^{2}}X\right)=\frac{\mu}{\sigma^{2}}\operatorname{and}\operatorname{E}\left(-\frac{2}{\sigma^{3}}\left(-\frac{X^{2}}{2}\right)-\frac{2\mu}{\sigma^{3}}X\right)=\frac{1}{\sigma}-\frac{\mu^{2}}{\sigma^{3}}, \\
+             & \text{which implies}                                                                                                                                                                                                                             \\
+             & \operatorname{E}(X)=\mu,\operatorname{E}(X^{2})=\mu^{2}+\sigma^{2}\mathrm{and}\mathrm{Var}(X)=\mathrm{E}(X^{2})-(\mathrm{E}X)^{2}=\sigma^{2}
+        \end{aligned}
+    }
+}
+\defi{
+    The indicator function
+}{
+    I_A(x)=\begin{cases}1,&\text{if }x\in A\\0,&\text{if }x\notin A\end{cases}
+}
+\ex{
+Show that $f(x\mid \theta)=\frac{1}{\theta}exp(1-\frac{X}{\theta})$ is \tbf{NOT} an exponential family.
+}{\eq{
+f(x|\theta)=\frac1\theta\exp\left(1-\frac x\theta\right)I_{[\theta,\infty)}(x)
+}
+At here $h(x)=I_{[\theta,\infty)}(x)$, which is not independent with $\theta$.}
+\defi{
+    Reparameterization of Exponential Families
+}{
+    \eq{
+        f(x|\boldsymbol{\eta})=h(x)c^*(\boldsymbol{\eta})\exp\left(\sum_{i=1}^k\eta_it_i(x)\right)
+    }
+    Where $h(x)$ and $t_i(x)$ is identical with the original of parameterization. $\boldsymbol{\eta}=(\eta_1,\eta_2,\cdots,\eta_n)$ and
+    $\eta_i=w_i(\bold{\theta})$. And to make it a pdf (integrates to 1):
+    \eq{
+        c^*(\boldsymbol{\eta})=\left[\int_{-\infty}^\infty h(x)\exp\left(\sum_{i=1}^k\eta_it_i(x)\right)dx\right]^{-1}
+    }
+}
+
+\subsection{Scale and Location}
+step 1: define the standard pdf $f(Z)$, for example: $f(Z)=e^{-Z},Z\ge0$;\\
+step 2: find the relationship between $X$ and $X$: $\sigma Z+\mu=X$, where $\sigma$ is the scale parameter and $\mu$ is the location parameter;\\
+step 3: replace $Z$ using $X$: $f(x)=\frac{1}{\sigma}f(\frac{x-\mu}{\sigma})$ is a distribution transformed from the standard pdf.
+\thm{Sacle-Location Family}{If f(x) is any pdf, for $\mu, \sigma>0$, then the function
+    $g(x\mid \mu,\sigma)=\frac{1}{\sigma}f(\frac{x-\mu}{\sigma})$ is a valid pdf.
+    \proo{}{
+        \eq{
+            \begin{aligned}g(x|\mu,\sigma)&=\frac{1}{\sigma}f\left(\frac{x-\mu}{\sigma}\right)\geq0\\\\\int_{-\infty}^{\infty}g(x|\mu,\sigma)dx&=\int_{-\infty}^{\infty}\frac{1}{\sigma}f\left(\frac{x-\mu}{\sigma}\right)dx\xrightarrow{\left(y=\frac{x-\mu}{\sigma}\right)}\int_{-\infty}^{\infty}f(y)dy=1.\end{aligned}
+        }
+    }
+    \re{
+        \tab{
+            \item For discrete R.V.(pmf), the above theorem doesn't hold. (ignore the $\frac{1}{\sigma}$);
+            \item The $\sigma$ is the scale parameter, the $\mu$ is the location parameter.
+        }
+    }}\label{thm:ScaleLocation}
+\ex{\begin{align}
+    \quad\int_{\mathbf{X}}(x_1\mid\theta) & = \frac1\theta\exp\{1-\frac x\theta\},\quad x \ge \theta                   \\
+                                          & =\frac1\theta\exp\{-\frac{x-\theta}\theta\}\cdot\mathrm{I}_{[0,\infty)}(x)
+\end{align} Is $\theta$ a scale parameter or a location parameter?}{
+It depends on the standard pdf:\\
+If the standard pdf is $f_{Z}(z)=\exp\{-z\}\cdot\mathcal{I}_{[0,+\infty)}(z)$:\\
+then $\theta$ serves as both parameters because $f_X(x)=\frac1\theta\exp\{-\frac{x-\theta}\theta\}\cdot I_{[0,+\infty)}(\frac{x-\theta}\theta)$.\\
+Else if the standard pdf is $f_{Z}(z)=\exp\{1-z\}\cdot\mathcal{I}_{[0,+\infty)}(z)$:\\
+then $\theta$ is only a scale parameter because $f_X(x)=\frac1\theta\exp\{1-\frac{x}\theta\}\cdot I_{[0,+\infty)}(\frac{x-\theta}\theta)$.
+}
+\thm{For any pdf $f(\cdot)$, and $\sigma, \mu>0$. Then $X$ is a random variable with pdf $\frac{1}{\sigma}f\left(\frac{x-\mu}{\sigma}\right)$
+    \tbf{if and only if} there is a random variable $Z$ with pdf $f(z)$ and $X=\sigma Z+\mu$.}{
+    \proo{Rigorous Proof}{The ncessity of the proof can be found in \ref{thm:ScaleLocation}, here the sufficiency need }
+    \proo{Intuitive Proof}{}
+}
+
+\subsection{Data Reduction}
+
+The idea of data reduction is to summerize or reduce the data $X_1,X_2,\cdots,X_n$ to get the information of the unknown parameter $\theta$.\\
+There are many sample point $\bold{x}=(x_1,x_2,\cdots,x_n)$, which are realizations (observations) of the random variable $\bold{X}=(X_1,X_2,\cdots,X_n)$.
+A \tbf{Statistic} $T(\bold{X})$ is a form of data reduction, or a summary of the data, $T(\bold{x})$ is an observation of $T(\bold{X})$. $\cX$ is
+the \tbf{sample space}. $\mathcal{T}=\{t:t=T(\mathbf{x}),\mathrm{~for~}\mathbf{x}\in\mathcal{X}\}$ is the image of $cX$ under $T(\bold{X})$.
+$T(\bold{X})$ partition the sapmle sapce $\cX$ into sets $A_t=\{\mathbf{x}:T(\mathbf{x})=t,\mathbf{x}\in\mathcal{X}\}$.
+\ex{
+    Give a two-dimensinal example for random variable, sample point, Statistic, observation of Statistic, sample space, image and $A_t$.
+}{
+    Assume $\bold{X}=X_1,X_2$, among which $X_1,X_2$ are Bernoulli R.V. with $p=0.5$. $\bold{x}=(0,1)$ is a sample point.\\
+    The sample space $\cX$ is $(0,0), (0,1), (1,0), (1,1)$, set $T(\bold{X})$ as the statistic, then the image $\cT$ is $(0,1,2)$.\\
+    $A_1(\bold{x})=((1,0),(0,1))$, $A_2(\bold{x})=(1,1)$, $A_0(\bold{x})=(0,0)$.
+}
+
+\clearpage
+\section{Causal Model}
+
+\subsection{Rubin's Causal Model}
+
+
+\clearpage
+\section{Reduced-Form Identification}
+The main contents of this chapter is the notes of \cite{angrist2014mastering}, \cite{angrist2009mostly}.
+
+\subsection{Randomized Trials}
+\key{ATT, ATE, Counter-factual World, Potential Outcome}
+The outcome is $Y_i$, the potential outcome is $Y_{1i},Y_{0i}$:
+\eq{Y_i=\begin{cases}Y_{1i}\quad&ifD_i=1\\Y_{0i}\quad&ifD_i=0\end{cases}\\Y_i=Y_{0i}+(Y_{1i}-Y_{0i})D_i}
+\textit{Naive Comparison}:
+\eq{\begin{aligned}\{\mathbf{E}[Y_i|D_i=1]-\mathbf{E}[Y_i|D_i=0]\} & =\{\mathbf{E}[Y_{1i}|D_i=1]-
+               \mathbf{E}[Y_{0i}|D_i=1]\}                                                     \\&+\{\mathbf{E}[Y_{0i}|D_i=1]-\mathbf{E}[Y_{0i}|D_i=0]\}\end{aligned}}
+\tab{\item observed difference: $\mathbf{E}[Y_i|D_i=1]-\mathbf{E}[Y_i|D_i=0]$;
+    \item ATT: $\mathbf{E}[Y_{1i}|D_i=1]-\mathbf{E}[Y_{0i}|D_i=1]$;
+    \item selection bias: $\mathbf{E}[Y_{0i}|D_i=1]-\mathbf{E}[Y_{0i}|D_i=0]$.
+}
+\no The existence of the selection bias is due to the dependence between $D_i$ and the \textbf{potential} outcome $Y_{1i},Y_{0i}$. Randomization can make
+$D_i \perp Y_{1i},Y_{0i}$:
+\eq{E[Y_{1i}|D_i=1]=E[Y_{1i}|D_i=0]=E[Y_{1i}]\\
+E[Y_{0i}|D_i=1]=E[Y_{0i}|D_i=0]=E[Y_{0i}]}
+\no So selection $=\mathbf{E}[Y_{0i}|D_i=1]-\mathbf{E}[Y_{0i}|D_i=0]=0$. \emocool Besides, by randomization, $ATT=ATE$.
+Randomization example:
+\tab{
+    \item Rand HIE experiment: whether the insurance program makes people healthier;
+    \item STAR: the effects of class size on education;
+    \item OHP: this group experiment is not perfect because the group is not a determinant of whether to receive the treatment, but the treatment group does have
+    a higher probability to get the treatment (\textbf{Instrumental Variable} can handle this situation);
+}
+\re{\tab{
+        \item By randomization, the individual differences still exists;
+        \item Checking for balance is an important step in randomization;
+        \item The most critical idea of randomization is \textbf{Other Things Equal}(\textit{ceteris paribus});
+        \item Randomization was invented by \textit{Ronald Aylmer Fisher} in 1925.
+    }}
+
+\subsection{Regression and Matching}
+\key{\tab{
+        \item CEF, CEF decomposition, ANOVA;
+        \item regression justification,
+    }}
+\no Conditional Expectation Function (CEF) is a \hl{population} concept:
+\eq{\begin{gathered}
+        E[Y_i|X_i=x]=\int tf_y(t|X_i=x)dt \\
+        E[Y_{i}|X_{i}=x]=\sum_{t}tP(Y_{i}=t|X_{i}=x)
+    \end{gathered}}
+\lem{The law of iterated expectations}{
+    \eq{E\left[\mathrm{y}_i|\mathrm{X}_i=x\right]=\int tf_{\boldsymbol{y}}\left(t|\mathrm{X}_i=x\right)dt.}
+    \proo{}{
+        \eq{\begin{aligned}
+                E\{E\left[\mathrm{y}_{i}|\mathrm{X}_{i}\right]\} & =\quad\int E\left[\mathrm{y}_{i}|\mathrm{X}_{i}=u\right]g_{x}(u)du                                                                                                                    \\
+                                                                 & =\quad\int\left[\int tf_{\boldsymbol{y}}\left(t|\mathrm{X}_{i}=u\right)dt\right]g_{\boldsymbol{x}}(u)du                                                                               \\
+                                                                 & \text{=} =\int\int tf_{y}\left(t|\mathrm{X}_{i}=u\right)g_{x}(u)dudt                                                                                                                  \\
+                                                                 & =\quad\int t\left[\int f_{\boldsymbol{y}}\left(t|\mathrm{X}_{i}=u\right)g_{\boldsymbol{x}}(u)du\right]dt=\int t\left[\int f_{\boldsymbol{x}\boldsymbol{y}}\left(u,t\right)du\right]dt \\
+                                                                 & =\quad\int tg_{y}(t)dt.
+            \end{aligned}}
+    }
+}
+\no \emoheart \hl{3 important property of CEF}:
+\thm{CEF Decompostion Property}{
+\eq{Y_i=E[Y_i|X_i]+\epsilon_i}
+where $\epsilon_i$ is mean independent of $X_i$, and $X_i$ is uncorrelated with any function of $X_i$.
+\proo{}{
+Take the expectation of $X_i$ at both side:
+\eq{
+    \begin{align}
+        E[Y_i|X_i]        & = E[E[Y_i|X_i]|X_i]+E[\epsilon_i|X_i] \\
+        E[\epsilon_i|X_i] & = E[Y_i|X_i] - E[Y_i|X_i]  = 0
+    \end{align}
+}
+\eq{E[\epsilon_i]=\int_{X_i}f_x(t)E[\epsilon_i|X_i]dt=\int_{X_i}0dt=0=E[epsilon_i|X_i]}
+}
+}
+\no \hl{\textbf{This means that $Y_i$ can be decomposed into 2 parts: explaind by $X_i$ and terms uncorrelated with $X_i$.}}
+\thm{CEF Prediction Property}{
+    CEF is the best estimator of $Y_i$ in MMSE sense, which means:
+    \eq{E\left[\mathrm{y}_i|\mathrm{X}_i\right]=\arg\min_{m(\mathrm{X}_i)}
+        E\left[\left(\mathrm{Y}_i-m\left(\mathrm{X}_i\right)\right)^2\right]}
+    \proo{}{
+        \eq{
+            \begin{array}{rcl}\left(\mathrm{Y}_i-m\left(\mathrm{X}_i\right)\right)^2&=&\left(\left(\mathrm{Y}_i-E\left[\mathrm{Y}_i|\mathrm{X}_i\right]\right)+\left(E\left[\mathrm{Y}_i|\mathrm{X}_i\right]-m\left(\mathrm{X}_i\right)\right)\right)^2\\&=&\left(\mathrm{Y}_i-E\left[\mathrm{Y}_i|\mathrm{X}_i\right]\right)^2+2\left(E\left[\mathrm{Y}_i|\mathrm{X}_i\right]-m\left(\mathrm{X}_i\right)\right)\left(\mathrm{Y}_i-E\left[\mathrm{Y}_i|\mathrm{X}_i\right]\right)\\&&+\left(E\left[\mathrm{Y}_i|\mathrm{X}_i\right]-m\left(\mathrm{X}_i\right)\right)^2\end{array}
+        }
+        By setting $m\left(\mathrm{X}_i\right)=$ CEF, the formula has the lowest constant value.
+    }}
+\thm{ANOVA Theorem}{
+\eq{\operatorname{V}(Y_i)=E[\operatorname{V}(Y_i|X_i)]+\operatorname{V}(E[Y_i|X_i])}
+}
+\no This indicates that the variance of $Y_i$ can be decomposed into two parts:
+\lis{
+    \item the variance of the CEF;
+    \item the variance of the residual;
+}
+\re{\tab{
+        \item The CEF property \hl{dosen't rely on any assumption}! It has nothing to do with regression right now;
+        \item If $X_i$ is not mean independent of $Y_i$, then by ANOVA theorem, the variance of the outcome variable controlled
+        by $X_i$ could be smaller;
+    }}
+\sep{CEF and (Population) Regression}
+\eq{\begin{aligned}\beta&=\arg\min_bE[(Y_i-X_i'b)^2]\\1storder&:E[X_i(Y_i-X_i'b)]=0\\solution&:\beta=E[X_iX_i']^{-1}E[X_iY_i]\end{aligned}}
+\thm{Regression Anatomy}{
+\eq{\beta_k = \frac{Cov(Y_i,\tilde{X_{ki}})}{V(\tilde{X_{ki}})}}
+\co{Bivariate Case}{
+    \eq{\beta = \frac{Cov(Y_i,\tilde{X_i})}{V(\tilde{X_{i}})}}
+}
+\proo{}{Substitute\eq{
+    Y_i=\alpha+\beta_1x_{1i}+\cdots+\beta_kx_{ki}+e_i
+}
+$\tilde{x}_{ki}$ is uncorrelated with $e_i$ and other covariates by construction, thus $Cov(\tilde{x}_{ki},x_{ki})=Var(\tilde{x}_{ki})$,
+thus $Cov(Y_i,\tilde{x_{ki}}=\beta_k x_{ki})$.
+}
+\re{The regression anatomy shows that each $\beta_k$ in multi-regression is the bivariate slope after "partialing out"
+    all the other regressors.}
+}
+\emogood Why the population regression coefficient is what we are interested in (Link with CEF):
+\thm{Regression Justification}{\lis{
+        \item Suppose the CEF is linear, then the population regression function is it;
+        \item In any condition, $X^'_i\beta$ is the best predictor of $Y_i$ in a MMSE sense;
+        \item The function $X^'_i\beta$ provides the MMSE linear approximation to $E[Y_i|X_i]$.\\
+        \eq{\beta=\arg\min_bE\{(E[\mathrm{Y}_i|\mathrm{X}_i]-\mathrm{X}_i'b)^2\}}}
+    \proo{}{Suppose $E[\mathrm{Y}_i|\mathrm{X}_i]=X_i^'\beta^{*}$. By regression decomposition theorem:
+        \eq{\begin{align}
+                E[X_i(Y_i-X_i'\beta^{*})]                             & = 0             \\
+                \beta^{*}                  = E[X_iX_i']^{-1}E[X_iY_i] & = \tilde{\beta}
+            \end{align}
+        }
+        \eq{
+            \begin{aligned}
+                \left(\mathrm{Y}_{i}-\mathrm{X}_{i}^{\prime}b\right)^{2} =\quad\{(\mathrm{y}_i-E[\mathrm{y}_i|\mathrm{X}_i])+(E[\mathrm{y}_i|\mathrm{X}_i]-\mathrm{X}_i^{\prime}b)\}^2 \\
+                =\quad(\mathrm{y}_i-E[\mathrm{y}_i|\mathrm{X}_i])^2+(E[\mathrm{y}_i|\mathrm{X}_i]-\mathrm{X}_i^{\prime}b)^2                                                            \\
+                +2(\mathrm{y}_i-E[\mathrm{y}_i|\mathrm{X}_i])(E[\mathrm{y}_i|\mathrm{X}_i]-\mathrm{X}_i^{\prime}b).
+            \end{aligned}
+        }}
+    \co{}{\tab{
+            \item For saturated model, the population linear regression is the CEF;
+            \item For single dummy variable, the coefficient is the mean probability of receiving treatment;
+        }
+
+    }
+}
+
+
+\sep{From Regression to Causality}
+
+
+\subsection{Asymptotic Analysis}
+
+
+
+
+
+\clearpage
+\section{Advanced Econometrics}
+
+\clearpage
+\section{Machine Learning Interface}
+
+\clearpage
+\chapter{Economics}
+
+\section{Microeconomics}
+
+\clearpage
+\section{Macroeconomics}
+
+\clearpage
+\section{Game Theory}
+
+\clearpage
+\section{Development Economics}
+
+\subsection{Models of Development Economics}
+
+\subsection{Clan Culture}
+
+\defi{Clan Culture}{
+    A clan is a consolidated kin group made up of component
+    families that trace their patrilineal descent from a common ancestor.
+}
+\sep{History of Clans}
+"Modern" clan originated in the Song Dynasty (860-1279 CE). At that time Neo-Confucian ideology was formed,
+which provided the theoretical basis as well as clan organization structure design. The characteristics
+of "modern" clan culture:
+\lis{
+    \item The families of a clan lived in the same or several nearby communities;
+    \item Common properties and organized routine group activities, resource pooling;
+    \item Compilation of genealogies;
+    \item Own internal governance structures.
+}
+Currently although China has been transitioning for a long time from a traditional society to a modern society, clan culture is still
+prevalent and has a broad impact on the lives of Chinese people, especially in rural areas.
+
+\cite{bertrand2006role} shows the positive correlation between the fraction of family control among listed firms and family
+ties using cross-country level data.
+\cite{cheng2021clan} uses IV (the minimum distance to two prominent neoConfucian academies,
+the Kaoting Academy (Kaoting Shuyuan) and the Xiangshan Academy (Xiangshan Shuyuan)) to identify that
+clan culture causes higher firm ownership concentration.
+\fig{clan indensity}{Clan Culture Intensity}
+Potential reasons that culture affects the concentration of family ownership:
+\lis{
+    \item Clan culture fosters high trust within the family and low trust in outsiders(\textbf{short-radius trust attitude}).
+    According to agency-cost based theories,
+    family ownership can be concentrated in such a situation.
+    \item \textit{Resources Pooling}: commom property ownership.
+    \item \textit{Amenity Potential}: other things constant, owners subject to stronger influences of clan culture
+    could have a higher utility.
+}
+\cite{zhang2020clans} estimates the effect of clan on entrepreneurship. He finds that clan leads to a higher
+occurrence of entrepreneurship by helping overcome financing constraints and escape from local governments' "grabbing hand".
+\cite{zhang2019family} investigates the relationship between the low take-up rate of social pensions and the clan culture intensity. In
+his article, dummy variable $temple_c$ (whether community $c$ has ancestral temple) is constructed as the proxy variable for the strength of clan
+culture. Some interesting insights are obtained:
+\lis{
+    \item Clan culture is positively related to adults raising children for support in their old age;
+    \item Clan culture is associated with a larger number of children being born and a higher probability of having sons;
+    \item Clan culture is associated with a higher coresidence rate between old parents and adult sons;
+    \item Clan culture is associated with a higher likelihood of receiving financial transfers from non-coresident children;
+    \item Clan culture is associated with a lower likelihood of participating in rural pension programs.
+}
+\cite{cao2022clans}
+There are much research about clan culture outside Mainland China. \cite{yang2019family} found the concave relationship the between the \textbf{heterogeneity}
+of clan family and the provision of public goods. This finding implies that group homogeneity yields not only benefits, but also some possible costs.
+re{Common Control Variables in Clan Research Identification(Individual Level):
+        \lis{
+            \item \textit{Hukou} Status;
+        }
+        Regional Level:
+        \lis{
+            \item Distance to the sea;
+        }}
+\sep{Data resources in Clan Research}
+\re{\tab{
+        \item \textit{Comprehensive Catalogue of the Chinese Genealogy} can be used to construct the strength of clan culture;
+        \item
+    }}
+
+\clearpage
+\section{Data Science Interface}
+
+\clearpage
+\chapter{Computer Science and Data Science}
+
+\section{Cloud Computing}
+
+This section is mainly the notes of \cite{hwang2017cloud}.
+
+\subsection{Principles of Cloud Computing System}
+\key{\tab{
+        \item HTC, HPC, physical machine, virtual machine, VM clusters;
+        \item IaaS, PaaS, SaaS,
+    }}
+\defi{HPC and HTC}{
+    \tab{
+        \item \textbf{HTC} refers to \textit{highly-throughput computing} system built with parallel and distributed computing technologies;
+        \item \textbf{HPC} refers to \textit{highly-performance computing} system in terms of raw speed in batch processing.
+    }
+}
+\fig{Cloud Computing Technology Convergence}{Cloud Computing Technology Convergence}
+\defi{Cloud}{A cloud is a pool of virtualized computer resources. A cloud can host a variety of different workloads,
+    including batch-style backend jobs and interactive, user-facing applications.\\
+    Some view the clouds as computing clusters with modest changes in \tit{virtualization}.}
+\fig{from HPC systems and clusters to p2p}{From HPC systems and clusters to grids, p2p networks, clouds and IoT}
+Basic cloud service models are \tit{infrastructure as a service} (IaaS) or infrastructure cloud,
+\tit{platform as a service} (PaaS) or platform cloud,
+and \tit{software as a service} (SaaS) or application cloud. Their differences with on-premise computing are listed below:
+\fig{comparing three cloud service models}{Comparing three cloud service models with on-premise computing}
+\tab{
+    \item \tbf{IaaS}: AWS, GoGrid;
+    \item \tbf{PaaS}: Google App Engine, Microsoft Azure, Salesforce;
+    \item \tbf{SaaS}: CRM, ERP, HR, Hadoop, Google Docs.
+}
+A physical cluster is a collection of servers (PMs) interconnected by a physical network. \tbf{virtual clusters} are built with multiple
+VMs installed at PM belong to one or more physical clusters.
+\fig{physical clusters and virtual clusters}{physical cluster and virtual cluster}
+The virtual clusters have the following interesting properties:
+\lis{
+    \item Multiple VMs running with different OSs can be deployed on the same physical node;
+    \item A VM runs with a guest OS, which is often different than the host OS that manages the resources
+    in the PM, where the VM is implemented;
+    \item Using VMs can greatly enhance server utilization and application flexibility;
+    \item VMs can be colonized (replicated) in multiple servers for fault tolerance and disaster recovery;
+    \item The size (number of nodes) of a virtual cluster can grow or shrink dynamically;
+    \item the failure of any physical nodes may disable some VMs installed on the failing
+    nodes but the failure of VMs will not pull down the host system.
+}
+\sep{Cloud Scalability}
+\emogood There are two fundamental issues on cloud performance: \tbf{Scalability} and \tbf{Availability}.
+The total execution time of the program is calculated by $\alpha \bT+(1-\alpha)\bT/n$.
+\thm{Amdahl's Law}{
+The total execution time of the program is calculated by $\alpha \bT+(1-\alpha)\bT/n$.
+\eq{
+Speedup\ factor=S=T/[\alpha T+(1-\alpha)T/n]=1/[\alpha+(1-\alpha)/n]
+}
+\tab{
+    \item The communication time and I/O time are excluded in this fomula;
+    \item When $n\to\infty$, the $S$ can have the upper bound $\frac{1}{\alpha}$, thus $\alpha$ is the \tit{sequential bottleneck} here;
+    \item This speedup is called \tit{fixed-workload speedup};
+    \item The \tit{cluster efficiency} is defined by $E=S/n=\frac{1}{\alpha n+1-\alpha}$; (
+    efficiency means that one more cluster can reduce how much time to process
+    )
+    \item Large sequential bottleneck would lead to many idle servers in the cluster;
+}
+}
+\thm{Gustafson's Law}{
+By fixing the parallel execution time at level $W$:
+\eq{S^{\prime}=W^{\prime}/W=[\alpha W+(1-\alpha)nW]/W=\alpha+(1-\alpha)n}
+\tab{
+\item The efficiency is obtained by: $E^{\prime}=S^{\prime}/n=\alpha/n+(1-\alpha)$, this means one more cluster
+can increase how much workload;
+\item For a fixed workload, use Amdahl's Law; for a scaled problem, apply Gustafson's Law.
+}
+}
+\sep{Cloud Availability}
+\thm{Cluster Availability}{
+    \eq{
+        \text{Clusater Availability}=MTTF/(MTTF+MTTR)
+    }
+    \tab{
+        \item \tit{MTTF}: mean time to failure;
+        \item \tit{MTTR}: mean time to repair.
+    }
+}
+\ex{
+    There is a double-redundancy cluster, the MTTF is 200 units while MTTR is 5 units, calculate the availability of this system.
+}{
+    The availability of each server is $200/(200+5)=97.5\%$, the failure rate of the whole system is $1-(1-97.5\%)^2=0.625\%$
+}
+Consider the use of a cluster of $n$ homogeneous servers in a system, the system is available when more than $k$ machine is running,
+then the system availability can be expressed by:
+\eq{
+    \begin{aligned}
+        \text{A} & =\sum_{i=k}^{n}\left(\begin{array}{c}n\\i\end{array}\right)p^{i}\left(1-p\right)^{n-i}                                                               \\
+                 & =\left(\begin{array}{c}n\\k\end{array}\right)p^k\left(1-p\right)^{n-k}+\left(\begin{array}{c}n\\k+1\end{array}\right)p^{k+1}\left(1-p\right)^{n-k-1} \\
+                 & +\cdots+\left(\begin{array}{c}n\\n-1\end{array}\right)p^{n-1}\left(1-p\right)^1+\left(\begin{array}{c}n\\n\end{array}\right)p^n\left(1-p\right)^0,
+    \end{aligned}
+}
+\sep{CPU and GPU}
+\fig{CPU and GPU Architecture}{CPU and GPU Architecture}
+\tab{
+    \item CPU has high flexibility for different applications. \tit{Von Neumann bottleneck}: memory access is slow compared to calculation.
+    \item GPU has high throughput, it works well on application with \tit{massive parallelism}.
+}
+
+\subsection{Virtual Machines}
+A VM is essentially built as a software package that can be loaded into a host computer to
+execute certain user applications. Once the jobs are done, the VM package can be removed from the host computer.
+The host acts like a “hotel” to accommodate different “guests” at different timeframes. \\
+\tbf{VMM} (virtual machine monitor) can be used to build virtual machine for the guest OS, it can have the following operations:
+\fig{VMM Operations}{VMM Operations}
+There are five levels of virtualization, among which only 2 are valuable:
+\tab{
+    \item \tbf{Hypervisor}: virtualization on top of bare-metal hardware;
+    \item \bf{Container}: virtualization on operating system level, isolated containers of user app with isolated resources.
+}
+\sep{Hypervisor}
+
+\sep{Container}
+
+
+
+\clearpage
+\section{Machine Learning}
+
+\clearpage
+\section{Deep Learning}
+
+\clearpage
+\section{Reinforcement Learning}
+
+This section is mainly the notes of \cite{thrun2000reinforcement}.
+
+\subsection{Introduction and MDP}
+
+\key{\tab{
+        \item Exploration, Exploitation, Reward, Policy, Value Function;
+        \item
+    }}
+
+\no The four elements of reinforcement learning:
+\lis{
+    \item \textit{Policy}: agent's way to interact with the environment;
+    \item \textit{Reward Signal}: on each time step, the environment sends to the agent a single number;
+    \item \textit{Value Function}: specify what is good in the long run, which is the discount value of the rewards;
+    \item \textit{Model}: mimics behaviors of the environment;
+}
+
+\re{"Deadly Trials"\lis{
+        \item The balance between \textbf{Exploration} and \textbf{Exploitation};
+        \item Reinforcement learning is difficult to generalize;
+        \item Delayed consequences may cause RL algorithm perform poorly.
+    }}
+
+\no \textbf{MDP} is a mathematical framework to model \tit{discrete-time} sequential decision process, denoted by the tuple
+$(\cS,\cA,\cT,\cR,\rho_0,\gamma)$:
+\tab{
+    \item $\cS$: the state space, which is the states for the \tbf{entire} environment(MOBA games may can not directly be modeled by MDP);
+    \item $\cA$: the action space. $\cA$ can depend on $s \in \cS$;
+    \item $\cT:\cS\times\cA\to\Delta(\cS)$:the environment transition probability function;
+    \item $\cR:\cS\times\cA\to\Delta(\RR)$: the reward function;
+    \item $\rho_0\in\Delta(\cS)$: the initial state distribution;
+    \item $\gamma \in [0,1]$ is the discount factor.
+}
+
+\re{
+    \tab{
+        \item The $\Delta(\dot)$ may not be deterministic, but some random distribution;
+        \item Among the above tuple, $\cS,\cT,\cR,\rho_0$ can not be modified by the agent, to train a good policy, $\cA,\gamma$ is the key;
+        \item RL is more like infants, rather than adults;
+        \item The reward function is the way of communicating with the agent \tit{what} to do, not \tit{how} to do;
+        \item The \tit{trajectory} of the MDP sequence: $S_0,A_0,R_1,S_1,A_1,\cdots$.
+    }
+}
+\fig{agent–environment interaction}{The agent–environment interaction in a Markov decision process}
+\thm{Dynamics of MDP}{\eq{
+p(s',r|s,a)\doteq\Pr\{S_t=s',R_t=r\mid S_{t-1}=s,A_{t-1}=a\}\\
+\sum_{s^{\prime}\in\mathcal{S}}\sum_{r\in\mathcal{R}}p(s^{\prime},r|s,a)=1,\text{ for all }s\in\mathcal{S},a\in\mathcal{A}(s)
+}}
+\co{Some formula derived from the dynamics theorem}{
+\eq{
+p(s'|s,a)\doteq\Pr\{S_t=s'\mid S_{t-1}=s,A_{t-1}=a\}=\sum_{r\in\mathbb{R}}p(s',r|s,a)
+}
+\eq{
+r(s,a)\doteq\mathbb{E}[R_t\mid S_{t-1}=s,A_{t-1}=a]~=~\sum_{r\in\mathbb{R}}r\sum_{s'\in\mathcal{S}}p(s',r|s,a)
+}
+\eq{
+r(s,a,s')~\doteq~\mathbb{E}[R_t\mid S_{t-1}=s,A_{t-1}=a,S_t=s']~=~\sum_{r\in\mathbb{R}}r\frac{p(s',r|s,a)}{p(s'|s,a)}
+}
+}
+\defi{Some useful function:}{
+    The act value function given policy $\pi$:
+    \eq{Q^{\pi}(s,a)=\mathbb{E}_{s_t,a_t,r_t,t\geq0}\big[\sum_{t=0}^{\infty}\gamma^tr(s_t,a_t)\mid s_0=s,a_0=a\big]}
+    The expected return at state $s$ given policy $\pi$:
+    \eq{V^\pi(s)=\mathbb{E}_{a\sim\pi(s)}\left[Q^\pi(s,a)\right]}
+    The \tbf{advantage function}:
+    \eq{A^\pi(s,a)=Q^\pi(s,a)-V^\pi(s)}
+    The temporal-difference error:
+    \eq{\delta_t=r_t+\gamma V(s_{t+1})-V(s_t)}
+}
+If we denote $G_t=R_{t+1}+\gammaG_{t+1}$, then we have:
+\thm{Bellman Equation}{
+    \eq{
+        \begin{aligned}
+            v_{\pi}(s) & \doteq\mathbb{E}_\pi[G_t\mid S_t=s]                                                                                   \\
+                       & =\mathbb{E}_\pi[R_{t+1}+\gamma G_{t+1}\mid S_t=s]                                                                     \\
+                       & =\sum_a\pi(a|s)\sum_{s^{\prime}}\sum_rp(s^{\prime},r|s,a)\Big[r+\gamma\mathbb{E}_\pi[G_{t+1}|S_{t+1}=s^{\prime}]\Big] \\
+                       & =\sum\pi(a|s)\sum p(s^{\prime},r|s,a)\Big[r+\gamma v_\pi(s^{\prime})\Big],\quad\text{for all }s\in\mathcal{S},
+        \end{aligned}
+    }
+}
+A policy $\pi$ is better $\pi'$ if and only if $v_{\pi}(s)\le v_{\pi'}(S) \text{for all } s \in \cS$. There is always at list one
+\tit{optimal policy} denoted by $\pi_*$ (doesn't hold for partial observed MDP). They share the same state-value function, called the \tit{optimal state-value function}:
+$v_*(s)\doteq\max_\pi v_\pi(s)$. Optimal policy also shares the same \tit{optimal action-value function}:
+$q_*(s,a)\doteq\max_{\pi}q_\pi(s,a)=\mathbb{E}[R_{t+1}+\gamma v_*(S_{t+1})\mid S_t=s,A_t=a]$. Then we can get the \tbf{Bellman optimality function}
+in an action-value function sense:
+\thm{Bellman optimality function}{
+    \eq{
+        \begin{gathered}
+            q_{*}(s,a) \begin{array}{rl}{=}&{\mathbb{E}\Big[R_{t+1}+\gamma\max_{a^{\prime}}q_{*}(S_{t+1},a^{\prime})\Big|S_{t}=s,A_{t}=a\Big]}\end{array} \\
+            =\quad\sum_{s^{\prime}.r}p(s^{\prime},r|s,a)\Big[r+\gamma\operatorname*{max}_{a^{\prime}}q_{*}(s^{\prime},a^{\prime})\Big].
+        \end{gathered}
+    }
+}
+\fig{different reinforcement learning agents}{Classification of different reinforcement learning agents}
+
+
+
+
+\clearpage
+\chapter{Information Systems and Operations Management}
+
+\section{Empirical Operations Management}
+
+\cite{roth2007applications} describes the evolution of empirical OM from 1980 to 2007, the author selects 12 profounding papers
+in this domain. \cite{brusco2017cluster} reviewed the clustering methods applied in 6 OM journals.\\
+\cite{choi2016multi}, multi-methodological OM is advocated, which includes the empirical methodology.
+\defi{Multi-methodological OM}{an approach for OM research in which at least two distinct OM research
+    methods are employed nontrivially to meet the research goals.}
+\cite{roth2022pioneering} classified 75 papers as empirical among the top 200 cited papers in \textit{POM}, these papers are mainly from 3 topical areas:
+\lis{
+    \item Responsibility Operations: covers environmental management, sustainability, humanitarian efforts;
+    \item Supply Chain Management: bullwhip effect, risk management, supply chain finance;
+    \item Manufacturing Strategy and Quality Management.
+}
+Among these studies, primary data (surveys, experiments, interviews) are used, followed by secondary data (public database, firm's data).
+\no \hl{Roth's suggestions}:
+\lis{
+    \item For some topic which is very intuitive and not surprising, focus on the \textbf{size} of effect rather than sign;
+    \item Avoid the confirmation bias and focus on consistency;
+    \item Focus on endogeneity and causality, using common sense at the same time.
+}
+\cite{kumar2022expanding} reviewed different domains of OM publications on \textit{POM}, within which a section about empirical OM is covered.\\
+\cite{mithas2022causality} reviewed 411 empirical papers form 2016-2021 on \textit{POM}, with a
+causal inference and counterfactual perspective.
+\fig{identification strategies}{identification strategies from 2016 to 2021}
+\re{Two challenges in assessing causality:\\
+    \eq{\begin{aligned}T & =ATE+\left[E(Y(0)|Z=1)-E(Y(0)|Z=0)\right] \\
+                 & +(1-\pi)*\left[(ATT-ATU)\right].\end{aligned}}
+    \tab{
+        \item $\left[E(Y(0)|Z=1)-E(Y(0)|Z=0)\right]$ is the \textbf{baseline bias}, coming from \textit{OVB} or
+        \textit{simultaneity};
+        \item $\left[(ATT-ATU)\right]$ is the \textbf{differential treatment bias}.
+    }
+}
+\fig{identification techniques}{How identification techniques works}
+\cite{fisher2022innovations} especially investigate the empirical research in retail operations from
+traditional ones like forecasting and inventory planning, to new technologies, like radio frequency
+identification (RFID) and e-commerce.
+
+\subsection{12 Papers of \cite{roth2007applications}}
+
+\cite{fisher2007strengthening} is a conceptual paper, in which a matrix is proposed to navigate conducting research:
+\fig{Navigating Matrix Cells}{Navigating Matrix Cells}
+Fisher suggests that a good empirical OM research should include the following:
+\lis{
+    \item Identifying and verifying important phenomena;
+    \item Identifying and characterizing important questions on which we can do useful research;
+    \item Validating models and assumptions that have been made;
+    \item Establishing the relevance of our research by demonstrating how the research outputs apply to practice.
+}
+\cite{gans2007simple} investigates the posit of some bandit consumer choice model:
+
+
+\clearpage
+\section{Revenue Management}
+
+Revenue management is a data-driven system to price perishable assets tactically
+at the micro-market level to maximize expected revenue or profit. Some important reviews
+before 2009 can be found in the book \cite{Gallego2019}.
+There are some extra summary papers like \cite{Strauss2018},
+\cite{Klein2020}.
+
+\subsection{Traditional RM}
+
+
+\key{\tab{
+        \item Protection Level, Booking Limit, Littlewood's Rule
+    }}
+
+\ass{What does \textbf{"traditional"} means in RM?}{
+    \lis{
+        \item The traditional RM system doesn't consider the choice model,
+        in particular, it assumes the demands are independent random variables;
+        \item Further assumption: consumer will leave without purchasing if preferred fare
+        class is unavailable (holds when gaps in fares are large enough);
+        \item The capacity is fixed, the capacity's marginal profit is zero(can be relaxed);
+        \item All booked consumers would arrive (another circumstance see \ref{subsec:overbooking}).}}
+\ass{Single Resource RM}{
+    \lis{
+        \item The units of capacity is $c$, pricing at multiple different level $p_n<\cdots<p_1$;
+        \item Low-before-high fare class arrival order: $D_2$ before $D_1$ for example
+        (this is the worst case for revenue);
+        \item \textbf{Protection level} for customer $j$: leave $y \in \{0,1,\cdots,c\}$ for $D_{j-1},\codts,D_1$; $c-y$ is
+        the \textbf{booking limit} which serves $D_j$;
+    }
+}
+\emocool So the problem is to solve the optimal protection level given the current consumer level $j$.
+
+Let $V_j(x)$ be the optimal revenue given $D_j$ coming in, $x$ units remained. $V_0(x)=0$ by design.
+Let $y$ be the protection level for $D_{j-1},\cdots,D_1$: sales at $p_j$ = $\min\{x-y,D_j\}  $.
+The remaining capacity for $D_{j-1},\cdots,D_1$ is $x-\min\{x-y,D_j\}=max\{y,x-D_j\}$.
+Now let $W_j(y,x)$ be the optimal solution. We have:
+
+\eq{W_j(y,x)=p_j\mathbb{E}\{\min\{x-y,D_j\}\}+\mathbb{E}\{V_{j-1}(\max\{y,x-D_j\})\}}
+\eq{V_{j}(x)=\max_{y\in\{0,\ldots,x\}}W_{j}(y,x) =
+\max_{y\in\{0,...,x\}}\left\{p_{j}\mathbb{E}\{\min\{x-y,D_{j}\}\}+
+\mathbb{E}\{V_{j-1}(\max\{y,x-D_{j}\})\}\right\}}
+
+\pro{Structure of the Optimal Policy}{
+    \begin{equation}
+        y_{j-1}^*=\max\{y\in\mathbb{N}_+:\Delta V_{j-1}(y)>p_j\}.
+    \end{equation}
+    The maximizer of $W_j(y,x)$ is given by $y_j^*,\codts, y_1^*$
+}
+
+\re{The optimal solution for $y_j $is independent of the distribution of $D_j$;}
+
+\co{When $j=2$:}{
+    \thm{Littlewood's rule}{
+        \eq{y_1^*=\max\{y\in\mathbb{N}_+:\mathbb{P}\{D_1\geq y\}>r\}};
+
+    }
+}
+
+\re{The Littlewoood's Rule:\lis{
+\item The solution depends on the \textbf{fare ratio}: $r:=p_2/p_1$;
+\item When the distribution of $D_2$ is continuous: $F_{1}(y)=\mathbb{P}\{D_{1}\leq y\}$.
+The optimal protection level is $y_1^*=F_1^{-1}(1-r)=\mu_{1}+\sigma_{1}\notin^{-1}(1-r)$:\lis{
+    \item if $r>\frac{1}{2}$, $y_1^*<\mu_1$ and $y_1^*$ decreases with $\sigma_1$;
+    \item if $r<\frac{1}{2}$, $y_1^*<\mu_1$ and $y_1^*$ increases with $\sigma_1$;
+    \item if $r=\frac{1}{2}$, $y_1^*=\mu_1$;}
+\item Using Littlewood's rule would result some $D_1$ served by competitors (high spill rates).
+Solution: add penalty to save more seats for the high fare consumers:
+\eq{ y_1^*=\max\left\{y\in\mathbb{N}_+:\mathbb{R}\{D_1\geq y\}>\frac{p_2}{p_1+\rho}\right\}}
+}}
+
+
+\subsection{Overbooking} \label{subsec:overbooking}
+
+\subsection{Traditional Consumer Choice Model}
+
+\subsection{Current Consumer Choice Model}
+
+
+
+
+
+\clearpage
+\section{Platform Operations Management}
+
+\subsection{Consumer Polarization}
+
+Consumer polarization is a topic in consumer research. \textbf{Group-Polarization Hypothesis} suggests that
+group discussion generally produces attitudes that are more extreme in the direction of the average of
+prediscussion attitudes in a variety of situations. Works like \cite{rao1991polarization} provides a mathematical
+presentation for this phenomenon (in the domain of preference):
+\eq{U_{\mathrm{s}}=\sum_{i=1}^{m}\lambda_{i}u_{i}+\phi(\bar{u}-K)\\
+0\le \lambda_i \le 1, \sum_{i=1}^{m}\lambda_i = 1, \phi \ge 0}
+In this model, the $\bar{u}$ is the algebraic mean of all consumers' utility, and $K$ is the \textbf{Pivot Point}.
+Rewrite this formula:
+\eq{\begin{align}
+        U_{\mathrm{g}} & = \sum_{i=1}^{m} \left( \lambda_{i} + \frac{\phi}{m} \right) u_{i} - \phi K \\
+                       & = w_{0} + w_{1} u_{1} + w_{2} u_{2} + \cdots + w_{m} u_{m}
+    \end{align}\\
+    \begin{array}{c}w_{0}\leq0; \\\sum\limits_{i=1}^{m}w_{i}\geq1;
+        \\\\0\leq\frac{w_{0}}{1-\sum w_{i}}\leq1.\end{array}}
+
+\re{\tab{
+        \item \cite{Zhao2023} use experiment results to suggest that eWOM (electronic word of mouth) polarization (the
+        degree of eWOM to which positive and negative sentiments are simultaneously strong) would decrease the consumers' intention
+        to purchase, mediating by the enhancement of attitude ambivalence.
+        (Ambivalence is a psychological state where a person endorses both positive and negative attitudinal positions)
+        \item \cite{Iyer2021} use game theory framework, to get the conclusion that sequential decision making could
+        reduce the polarization.
+    }}
+
+\subsection{Network Effect}
+
+\textbf{Network Effect} and \textbf{Network Externality}:
+
+\cite{Narayan2011} verifies that peer influence affects attribute preferences via a bayesian updating mechanism. In
+their model, the utility is given as follows:
+\eq{U_{ijp}^R=X_{jp}\beta_i^R+\lambda_i\varepsilon_{ijp}^R}
+Where $U_{ijp}$ is the utility of consumer $i$ for product $j$ given choice set $p$, $X_{jp}$ is the attribute of
+product $j$ in the choice set $p$, $\beta_i^R$ is the customers' weights. The bayesian updating process is given below:
+\eq{\begin{aligned}\beta_{ik}^R=\rho_{ik}\beta_{ik}^l+(1-\rho_{ik})\frac{\sum_{i=1,i\neq i}^Nw_{ii}\beta_{ik}^l}
+        {\max\left[\left(\sum_{i=1,i\neq i}^Nw_{ii}\right),1\right]}, \\\mathrm{where~}0\leq\rho_{ik}\leq1.\end{aligned}}
+
+Other research on peer-influence:
+\re{\item The consumers' interaction and social connections have a proposition proposed in \cite{Zhang2017} for
+    their goal attainment and spending: a positive linear term plus a negative squared term;}
+
+\subsection{Online Gaming}
+
+Many industrial news about online gaming can be found in \cite{Chen2017}.
+In \cite{lei2022revenue}, the dissertation fully discussed loot box pricing, matchmaking, and
+price discrimination with fairness constraints.
+
+\subsubsection{Play-Duration and Spending}
+
+\cite{Zhang2017}'s work shows that there is a nonlinear effect of social connections and interactions
+on consumers’ goal attainment and spending: A positive linear terms and a negative squared term. Mechanism:
+functional in providing useful information or tips that can facilitate goal attainment,
+but would raise information overload problem.\\
+
+Player engagement can be embodied by many specific metrics, such as time or money
+spent in the game, the number of matches played within a time window, or churn risk.
+\cite{Chen2017} define churn risk as the proportion of total players stopping playing the game over a period of time.
+
+\subsubsection{Matchmaking}
+
+Matchmaking connects multiple players to participate in online PvP games. (PvP(Player-versus-Player) games,
+which cover many popular genres, such as multiplayer online battle arena (MOBA), first-person shooting (FPS),
+and e-sports, have increased worldwide popularity in recent years.)\\
+
+The past matchmaking strategy matches similar skilled players in the same round (SBMM), the current MM system focuses on improving
+the players' engagement and decreasing the churn rate. For example, in \cite{Chen2017} EOMM (Engagement Optimization MatchMaking) is
+proposed to minimize the churn rate.\\
+
+\cite{chen2021matchmaking} propose an algorithm to maximize the cumulative active players.
+\ass{Chen 2021 MatchMaking}{\lis{
+\item players can have heterogeneous skill levels: level $1$ to level $K$;
+\item the outcome of each match is a Bernoulli random variable: $p_{kj}=1-p_{jk},p_{kk}=0.5$,
+$p_{kj}>0.5$ if $k>j$;
+\item player's skill level is fixed: \textit{relative} level;
+\item and their state depends on the win-loss outcomes of the past $m$ matches: $g\in\mathcal{G}$ ($2^m+1$
+possible cardinality);
+\item A geometric losing churn model: players churn with a fixed probability, starting
+from the second loss in a row;
+\item  $P_{win}^{k},P_{lose}^{k}\in[0,1]^{|\mathcal{G}|\times|\mathcal{G}|}$ is the transition matrix
+of level $k$ player's engagement state;
+\item $M_{kj}=p_{kj}P_{win}^{k}+(1-p_{kj})P_{lose}^{k}$ is the aggregate transition matrix.
+($\bar{\matgcal{G}}$ is the reduced aggregate transition matrix);
+\item using the fluid matching model and assume players are infinitely divisible;
+}}
+The \textbf{Dynamic Programming} formulation: $f_{kg,jg^{\prime}}$ is the amount of $kg$ players
+matched with $jg^{\prime}$ players, $s^t_{kg}$ is the number of $kg$ players at time $t$.\\
+\textbf{FB} \textit{flow balance} constraints:
+\eq{\begin{aligned}
+                                                                         & \sum_{j=1}^K\sum_{g^{\prime}\in\bar{\mathcal{G}}}f_{kg,jg^{\prime}}^t=s_{kg}^t,k=1,\ldots,K,\forall g\in\bar{\mathcal{G}}, \\
+        \sum_{j=1}^K\sum_{g^{\prime}\in\bar{\cal G}}f_{jg^{\prime},kg}^t & =s_{kg}^t,k=1,\ldots,K,\forall g\in\bar{\mathcal{G}},                                                                      \\
+        f_{kg,jg^{\prime}}^{t}                                           & =f_{jg^{\prime},kg}^t,j=1,\ldots,K,k=1,\ldots,K,\forall g\in\bar{\mathcal{G}},g^{\prime}\in\bar{\mathcal{G}}               \\
+        f_{kg,jg^{\prime}}^{t}                                           & \geq0,j=1,\ldots,K,k=1,\ldots,K,\forall g\in\bar{\mathcal{G}},g^{\prime}\in\bar{\mathcal{G}}
+    \end{aligned}}
+\textbf{ED} \textit{evolution of demographics}:
+\eq{\mathbf{s}_k^{t+1}=\sum_{j=1,\ldots,K}
+\left(\mathbf{f}_{kj}^t\mathbf{1}\right)^\top\left(\bar{M}_{kj}+N_k\right)k=1,\ldots,K}
+The value-to-go function is:
+\eq{\begin{aligned}V^{\pi}(\mathbf{s}^{t})=&\sum_{k=1}^{K}\sum_{g\in\bar{\mathcal{G}}}s_{kg}^{t+1}+\gamma V^{\pi}(\mathbf{s}^{t+1})\\&\text{subject to (FB), (ED).}\end{aligned}}
+The above model can be formulated in a linear programming style:
+\thm{Chen 2021 MM LP Formulation}{
+    \eq{\begin{aligned}
+            V^{*}(\mathbf{s}^{0}) & =\max\sum_{t=1}^\infty\gamma^{t-1}\sum_k\sum_{g\in\bar{\mathcal{G}}}s_{kg}^t                                                                           \\
+                                  & \mathrm{s.t.}\sum_{j=1}^{K}\sum_{g^{\prime}\in\bar{\mathcal{G}}}f_{kg,jg^{\prime}}^{t}=s_{kg}^{t},\forall k,\forall g\in\bar{\mathcal{G}},t=0,1,\ldots \\
+                                  & \sum_{j=1}^K\sum_{g^{\prime}\in\bar{\mathcal{G}}}f_{jg^{\prime},kg}^t=s_{kg}^t,\forall k,\forall g\in\bar{\mathcal{G}},t=0,1,\ldots                    \\
+                                  & f_{kg,jg^{\prime}}^t=f_{jg^{\prime},kg}^t,j=1,\ldots,K,k=1,\ldots,K,\forall g\in\bar{\mathcal{G}},g^{\prime}\in\bar{\mathcal{G}},t=0,1,\ldots          \\
+                                  & f_{kg,jg^{\prime}}^t\geq0,j=1,\ldots,K,k=1,\ldots,K,\forall g\in\bar{\mathcal{G}},g^{\prime}\in\bar{\mathcal{G}},t=0,1,\ldots                          \\
+                                  & \mathbf{s}_{k}^{t+1}=\sum_{j=1,\ldots,K}\left(\mathbf{f}_{kj}^{t}\mathbf{1}\right)^{\top}\left(\bar{M}_{kj}+N_{k}\right),\forall k,t=0,1,\ldots
+        \end{aligned}}
+}
+\re{
+    \tab{
+        \item Using an optimal matchmaking policy instead of SBMM may reduce the required
+        bot ratio significantly while maintaining the same level of engagement.
+    }
+}
+
+\clearpage
+\section{Behavioral Operations Management}
+
+\clearpage
+\section{Data-Driven Operations Management}
+
+\clearpage
+\chapter{Miscellaneous} \label{chap:miscellaneous}
+
+\section{Notes on Tools} \label{sec:notestools}
+
+\subsection{LaTeX Shortcuts}
+
+There are 6x6 colors in the preset preamble:\\
+\begin{center}
+    \begin{tabular}{|*{6}{>{\centering\arraybackslash}m{2cm}|}}
+        \hline
+        \cellcolor{aa}\textcolor{black}{aa} &
+        \cellcolor{ab}\textcolor{black}{ab} &
+        \cellcolor{ac}\textcolor{black}{ac} &
+        \cellcolor{ad}\textcolor{black}{ad} &
+        \cellcolor{ae}\textcolor{black}{ae} &
+        \cellcolor{af}\textcolor{black}{af}
+        \\
+        \hline
+        \cellcolor{ba}\textcolor{black}{ba} &
+        \cellcolor{bb}\textcolor{black}{bb} &
+        \cellcolor{bc}\textcolor{black}{bc} &
+        \cellcolor{bd}\textcolor{black}{bd} &
+        \cellcolor{be}\textcolor{black}{be} &
+        \cellcolor{bf}\textcolor{black}{bf}
+        \\
+        \hline
+        \cellcolor{ca}\textcolor{black}{ca} &
+        \cellcolor{cb}\textcolor{black}{cb} &
+        \cellcolor{cc}\textcolor{black}{cc} &
+        \cellcolor{cd}\textcolor{black}{cd} &
+        \cellcolor{ce}\textcolor{black}{ce} &
+        \cellcolor{cf}\textcolor{black}{cf}
+        \\
+        \hline
+        \cellcolor{da}\textcolor{black}{da} &
+        \cellcolor{db}\textcolor{black}{db} &
+        \cellcolor{dc}\textcolor{black}{dc} &
+        \cellcolor{dd}\textcolor{black}{dd} &
+        \cellcolor{de}\textcolor{black}{de} &
+        \cellcolor{df}\textcolor{black}{df}
+        \\
+        \hline
+        \cellcolor{ea}\textcolor{black}{ea} &
+        \cellcolor{eb}\textcolor{black}{eb} &
+        \cellcolor{ec}\textcolor{black}{ec} &
+        \cellcolor{ed}\textcolor{black}{ed} &
+        \cellcolor{ee}\textcolor{black}{ee} &
+        \cellcolor{ef}\textcolor{black}{ef}
+        \\
+        \hline
+        \cellcolor{fa}\textcolor{black}{fa} &
+        \cellcolor{fb}\textcolor{black}{fb} &
+        \cellcolor{fc}\textcolor{black}{fc} &
+        \cellcolor{fd}\textcolor{black}{fd} &
+        \cellcolor{fe}\textcolor{black}{fe} &
+        \cellcolor{ff}\textcolor{black}{ff}
+    \end{tabular}
+\end{center}
+
+\no Using \verb=\href{URL}{text}= to refer a \href{EurekaTangChen.github.io}{website}.\\
+\no Using \verb=\eq= to write equation, \verb=\tab= to get an unordered list,
+\verb=\lis= to get an ordered list.\\
+\eq{E=mc^2} \label{eq:Example}
+\tab{
+    \item item 1;
+    \item item 2;
+    \item item 3.
+}
+\lis{
+    \item item 1;
+    \item item 2;
+    \item item 3.
+}
+
+
+\begin{tcblisting}{colback=red!5!white,colframe=red!75!black,listing side text,
+        title=Format of Words,fonttitle=\bfseries}
+    \hl{highlighted}, \ul{underlined}, \st{strikethrough}\\
+    \rt{red}, \yt{yellow}, \bt{blue}, \gt{green}
+\end{tcblisting}
+\begin{tcblisting}{colback=red!5!white,colframe=red!75!black,listing side text,
+        title=Shortcuts,fonttitle=\bfseries}
+    \RR, \NN, \ZZ, \QQ\\
+    \bA, \bB, \bC, \bD
+\end{tcblisting}
+\begin{tcblisting}{colback=red!5!white,colframe=red!75!black,listing side text,
+        title=Shortcuts,fonttitle=\bfseries}
+    \tbf{Text}, \tit{Text}\\
+    \cA, \cB, \cC, \cD
+\end{tcblisting}
+\begin{tcblisting}{colback=red!5!white,colframe=red!75!black,listing side text,
+        title=Emoji,fonttitle=\bfseries}
+    \emogood, \emobad, \emocool, \emoheart, \emotree
+\end{tcblisting}
+
+\no Use \verb=\ass, \ax, \thm, \co, \pro, \defi, \re, \key, \ex, \proo= to
+\no use preset tcolorboxes template.
+\ass{Example}{\lis{
+        \item item 1;
+        \item item 2;
+        \item item 3.
+    }}
+\ax{Exmaple}{Test} \label{ax:Example}
+\thm{Exmaple}{Test}
+\co{Exmaple}{Test}
+\pro{Exmaple}{Test} \label{pro:Example}
+\defi{Exmaple}{Test}
+\re{Expamle}
+\key{Example}
+\ex{Problem example}{}
+\proo{proposition \ref{pro:Example}}{The Formal Proof}
+
+\no Using \verb=\label, \ref= to refer to chapters \ref{chap:miscellaneous},
+sections \ref{sec:notestools}, equations \ref{eq:Example}, and boxes \ref{ax:Example}.\\
+\no Using \verb=\cite= to cite the literature in apa style. For example:
+\cite{Klein2020}\\
+\no Using \verb=\sep= to insert a horizontal line with words in the middle:\\
+\sep{Compilation}
+Clearning all the auxiliary files: LaTeXmk $\rightarrow$ BibTeX $\rightarrow$ LaTeXmk $\rightarrow$ LaTeXmk.
+Or, zip the main files and upload to Overleaf.\\
+Put photos in the \textit{pic} file and use \verb|\fig| to show it.
+\fig{temp}{Example.png}
+
+\clearpage
+\section{Important Proofs}
+
+\clearpage
+\section{Beautiful Phrases}
+
+\sep{Introduction}
+\emotree To the limit of our knowledge, this study is among the first to unveil ...\\
+
+\sep{PUBG Paper}
+\emocool The bot can be designed so that it is competitive but still loses to the human player,
+which may result in the human breaking their losing streak and remaining in the system longer. On the
+other hand, due to the limitations of technology, AI-powered bots can be identified by experienced
+players. If a human player is frequently matched with bots, they may find out that their opponents
+are not human and perhaps be discouraged from playing the game.
+
+\clearpage
+\section{Eureka Ideas}
+
+\subsection{RNN and Causal Model}
+
+\no On \textbf{1st Aug 2023}.\\
+\no The RNN structure and rubin's causal model under a changing environment
+looks similar;\\
+To-do:
+\lis{
+    \item Inspect the papers containing keywords "RNN" and "Causal";
+    \item Explorations of Causal Models in Bayesian Causal Framework,
+    with a Focus Beyond Rubin's Work;
+    \item explore the further connection between RNN and causal model.}
+
+\subsection{Earthquakes on Immigration and Investment}
+
+\no On \textbf{19th Aug 2023}.\\
+Since 2019, numerous enterprises have engaged in shale gas extraction
+across various cities and counties in southern Sichuan, leading to frequent yet non-hazardous
+seismic activities. The geographical locations subjected to shale gas extraction remain
+independent of the local economic conditions, and the introduction of these enterprises has
+shown no discernible positive impact on the fiscal health of the local governments
+or the regional employment scenario. Essentially, this situation represents a discontinuity,
+wherein the extraction of shale gas corresponds to a quasi-random selection of regions
+experiencing seismic events. This phenomenon can be effectively studied using
+the Differences-in-Differences (DiD) methodology to investigate the causal effects of this unstable geological
+activity on the migration rates of local residents and the influx of external capital.\\
+To Do:
+\lis{
+    \item Reviewing Literature to Investigate
+    the Independence of Shale Gas from Local Economic Levels;
+    \item Assessing the Accessibility of Relevant Data for Investigation.}
+
+
+
+
+
+
+\newpage
+\listoffigures
+
+\bibliographystyle{apalike}
+\bibliography{reference}
+\end{document}

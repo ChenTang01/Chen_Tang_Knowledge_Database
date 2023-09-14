@@ -1,0 +1,278 @@
+% This preamble is written by Chen Tang;
+% Contact: EurekaTangChen@gmail.com;
+% My information: EurekaTangChen.github.io
+
+% template format
+\usepackage[tmargin=2cm,margin=0.85in,bmargin=2cm,footskip=.2in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[varbb]{newpxmath}
+\setlength{\parindent}{1cm}
+\usepackage{setspace}
+\onehalfspacing
+
+% package import
+\usepackage{amsmath,amsfonts,amsthm,amssymb,mathtools,enumitem}
+\usepackage[most,many,breakable]{tcolorbox}
+\tcbuselibrary{theorems, skins, hooks}
+\usepackage{xcolor,varwidth,etoolbox,multicol,array,colortbl}
+\usepackage{tikz-cd,tikzsymbols,xifthen}
+\usepackage{algorithm,algpseudocode}
+\usepackage{import,xfrac,soul,bm,graphicx}
+\graphicspath{{pic/}}
+
+% reference setting
+\usepackage{currfile,hyperref,bookmark}
+\hypersetup{
+	pdftitle={\currfilename},
+	colorlinks=true, linkcolor=ff!90,
+	bookmarksnumbered=true,
+	bookmarksopen=true
+}
+\numberwithin{equation}{subsection}
+
+% self-made color
+\definecolor{aa}{HTML}{eb7faa}
+\definecolor{ab}{HTML}{4da982}
+\definecolor{ac}{HTML}{2e5a95}
+\definecolor{ad}{HTML}{f7b02a}
+\definecolor{ae}{HTML}{f9e584}
+\definecolor{af}{HTML}{30d9fd}
+
+\definecolor{ba}{HTML}{188193}
+\definecolor{bb}{HTML}{35948e}
+\definecolor{bc}{HTML}{555653}
+\definecolor{bd}{HTML}{b7bfc3}
+\definecolor{be}{HTML}{a5978a}
+\definecolor{bf}{HTML}{075773}
+
+\definecolor{ca}{HTML}{e3e3e3}
+\definecolor{cb}{HTML}{dd7d2f}
+\definecolor{cc}{HTML}{c18645}
+\definecolor{cd}{HTML}{e2b021}
+\definecolor{ce}{HTML}{55504d}
+\definecolor{cf}{HTML}{deba95}
+
+\definecolor{da}{HTML}{c3cfd1}
+\definecolor{db}{HTML}{f77b74}
+\definecolor{dc}{HTML}{8bce97}
+\definecolor{dd}{HTML}{d09cd3}
+\definecolor{de}{HTML}{f1a9b6}
+\definecolor{df}{HTML}{fbd114}
+
+\definecolor{ea}{HTML}{0c1514}
+\definecolor{eb}{HTML}{df0b3c}
+\definecolor{ec}{HTML}{56242d}
+\definecolor{ed}{HTML}{851c2b}
+\definecolor{ee}{HTML}{b61a0f}
+\definecolor{ef}{HTML}{f30902}
+
+\definecolor{fa}{HTML}{8b8897}
+\definecolor{fb}{HTML}{a68169}
+\definecolor{fc}{HTML}{a7988c}
+\definecolor{fd}{HTML}{95a07c}
+\definecolor{fe}{HTML}{799ed3}
+\definecolor{ff}{HTML}{1f8084}
+
+% self-made command
+\newtcbtheorem[number within=subsection]{Assumption}{Assumption}
+{
+	enhanced, breakable, colback = aa!10,
+	frame hidden, boxrule = 0sp,
+	borderline west = {2pt}{0pt}{aa},
+	sharp corners, detach title,
+	before upper = \tcbtitle\par, coltitle = aa,
+	fonttitle = \bfseries\sffamily, description font = \mdseries,
+}
+{ass}
+
+\newtcbtheorem[number within=subsection]{Axiom}{Axiom}
+{
+	enhanced, breakable, colback = ab!10,
+	frame hidden, boxrule = 0sp,
+	borderline west = {2pt}{0pt}{ab},
+	sharp corners, detach title,
+	before upper = \tcbtitle\par, coltitle = ab,
+	fonttitle = \bfseries\sffamily, description font = \mdseries,
+}
+{ax}
+
+\newtcbtheorem[number within=subsection]{Theorem}{Theorem}
+{
+	enhanced, breakable, colback = ac!10,
+	frame hidden, boxrule = 0sp,
+	borderline west = {2pt}{0pt}{ac},
+	sharp corners, detach title,
+	before upper = \tcbtitle\par, coltitle = ac,
+	fonttitle = \bfseries\sffamily, description font = \mdseries,
+}
+{th}
+
+\newtcbtheorem[number within=subsection]{Corollary}{Corollary}
+{
+	enhanced, breakable, colback = ad!10,
+	frame hidden, boxrule = 0sp,
+	borderline west = {2pt}{0pt}{ad},
+	sharp corners, detach title,
+	before upper = \tcbtitle\par, coltitle = ad,
+	fonttitle = \bfseries\sffamily, description font = \mdseries,
+}
+{co}
+
+\newtcbtheorem[number within=subsection]{Lemma}{Lemma}
+{
+	enhanced, breakable, colback = ae!10,
+	frame hidden, boxrule = 0sp,
+	borderline west = {2pt}{0pt}{ae},
+	sharp corners, detach title,
+	before upper = \tcbtitle\par, coltitle = ae,
+	fonttitle = \bfseries\sffamily, description font = \mdseries,
+}
+{lem}
+
+\newtcbtheorem[number within=subsection]{Proposition}{Proposition}
+{
+	enhanced, breakable, colback = af!10,
+	frame hidden, boxrule = 0sp,
+	borderline west = {2pt}{0pt}{af},
+	sharp corners, detach title,
+	before upper = \tcbtitle\par, coltitle = af,
+	fonttitle = \bfseries\sffamily, description font = \mdseries,
+}
+{pro}
+
+\newtcbtheorem[number within=subsection]{Definition}{Definition}
+{
+	enhanced, breakable, colback = ef!10,
+	frame hidden, boxrule = 0sp,
+	borderline west = {2pt}{0pt}{ef},
+	sharp corners, detach title,
+	before upper = \tcbtitle\par, coltitle = ef,
+	fonttitle = \bfseries\sffamily, description font = \mdseries,
+}
+{defi}
+
+\newtcbtheorem[number within=section]{Remark}{Remark}
+{
+	enhanced, attach boxed title to top center={yshift=-3mm, yshifttext=-1mm},
+	colback=ba!10, colframe=bb!90, colbacktitle=bc!90,
+	fonttitle=\bfseries, boxed title style={size=small, colframe=bb!90},
+}
+{re}
+
+\newtcbtheorem[number within=chapter]{Keywords}{Keywords}
+{
+	enhanced, attach boxed title to top center={yshift=-3mm, yshifttext=-1mm},
+	colback=ca!10, colframe=cb!90, colbacktitle=cc!90,
+	fonttitle=\bfseries, boxed title style={size=small, colframe=cd!90},
+}
+{key}
+
+\newtcbtheorem[number within=subsection]{Example}{Example}
+{
+	enhanced, breakable, attach boxed title to top center={yshift=-3mm, yshifttext=-1mm},
+	colback=da!10, colframe=db!90, colbacktitle=dc!90,
+	fonttitle=\bfseries, boxed title style={size=small, colframe=dd!90},
+}
+{ex}
+
+\newtcbtheorem[number within=section]{Proof}{Proof}
+{
+	enhanced, breakable, attach boxed title to top center={yshift=-3mm, yshifttext=-1mm},
+	colback=af!10, colframe=bf!90, colbacktitle=cf!90,
+	fonttitle=\bfseries, boxed title style={size=small, colframe=df!90},
+}
+{proo}
+
+\newcommand{\customtext}[1]{
+	\if\relax\detokenize{#1}\relax
+		The solution is omitted.
+	\else
+		#1
+	\fi
+}
+
+% Shortcuts
+\newcommand{\eq}[1]{\begin{equation}#1\end{equation}}
+\newcommand{\tab}[1]{\begin{itemize}#1\end{itemize}}
+\newcommand{\lis}[1]{\begin{enumerate}#1\end{enumerate}}
+
+\newcommand{\ass}[2]{\begin{Assumption}{#1}{}#2\end{Assumption}}
+\newcommand{\ax}[2]{\begin{Axiom}{#1}{}#2\end{Axiom}}
+\newcommand{\thm}[2]{\begin{Theorem}{#1}{}#2\end{Theorem}}
+\newcommand{\co}[2]{\begin{Corollary}{#1}{}#2\end{Corollary}}
+\newcommand{\lem}[2]{\begin{Lemma}{#1}{}#2\end{Lemma}}
+\newcommand{\pro}[2]{\begin{Proposition}{#1}{}#2\end{Proposition}}
+\newcommand{\defi}[2]{\begin{Definition}{#1}{}#2\end{Definition}}
+\newcommand{\re}[1]{\begin{Remark}{}{}#1\end{Remark}}
+\newcommand{\key}[1]{\begin{Keywords}{}{}#1\end{Keywords}}
+\newcommand{\ex}[2]{\begin{Example}{}{}#1\tcblower\begin{center}
+			\textbf{Solution:}\end{center}\textit{\customtext{#2}}\end{Example}}
+\newcommand{\proo}[2]{\begin{Proof}{#1}{}#2\\\centering\bQ.\bE.\bD.\end{Proof}}
+
+\newcommand{\RR}[1][]{\ensuremath{\ifstrempty{#1}{\mathbb{R}}{\mathbb{R}^{#1}}}}
+\newcommand{\NN}[1][]{\ensuremath{\ifstrempty{#1}{\mathbb{N}}{\mathbb{N}^{#1}}}}
+\newcommand{\ZZ}[1][]{\ensuremath{\ifstrempty{#1}{\mathbb{Z}}{\mathbb{Z}^{#1}}}}
+\newcommand{\QQ}[1][]{\ensuremath{\ifstrempty{#1}{\mathbb{Q}}{\mathbb{Q}^{#1}}}}
+
+\newcommand{\tbf}[1]{\textbf{#1}}
+\newcommand{\tit}[1]{\textit{#1}}
+
+\newcommand{\bA}{\mathbb{A}}	\newcommand{\bB}{\mathbb{B}}
+\newcommand{\bC}{\mathbb{C}}	\newcommand{\bD}{\mathbb{D}}
+\newcommand{\bE}{\mathbb{E}}	\newcommand{\bF}{\mathbb{F}}
+\newcommand{\bG}{\mathbb{G}}	\newcommand{\bH}{\mathbb{H}}
+\newcommand{\bI}{\mathbb{I}}	\newcommand{\bJ}{\mathbb{J}}
+\newcommand{\bK}{\mathbb{K}}	\newcommand{\bL}{\mathbb{L}}
+\newcommand{\bM}{\mathbb{M}}	\newcommand{\bN}{\mathbb{N}}
+\newcommand{\bO}{\mathbb{O}}	\newcommand{\bP}{\mathbb{P}}
+\newcommand{\bQ}{\mathbb{Q}}	\newcommand{\bR}{\mathbb{R}}
+\newcommand{\bS}{\mathbb{S}}	\newcommand{\bT}{\mathbb{T}}
+\newcommand{\bU}{\mathbb{U}}	\newcommand{\bV}{\mathbb{V}}
+\newcommand{\bW}{\mathbb{W}}	\newcommand{\bX}{\mathbb{X}}
+\newcommand{\bY}{\mathbb{Y}}	\newcommand{\bZ}{\mathbb{Z}}
+
+\newcommand{\cA}{\mathcal{A}}	\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cC}{\mathcal{C}}	\newcommand{\cD}{\mathcal{D}}
+\newcommand{\cE}{\mathcal{E}}	\newcommand{\cF}{\mathcal{F}}
+\newcommand{\cG}{\mathcal{G}}	\newcommand{\cH}{\mathcal{H}}
+\newcommand{\cI}{\mathcal{I}}	\newcommand{\cJ}{\mathcal{J}}
+\newcommand{\cK}{\mathcal{K}}	\newcommand{\cL}{\mathcal{L}}
+\newcommand{\cM}{\mathcal{M}}	\newcommand{\cN}{\mathcal{N}}
+\newcommand{\cO}{\mathcal{O}}	\newcommand{\cP}{\mathcal{P}}
+\newcommand{\cQ}{\mathcal{Q}}	\newcommand{\cR}{\mathcal{R}}
+\newcommand{\cS}{\mathcal{S}}	\newcommand{\cT}{\mathcal{T}}
+\newcommand{\cU}{\mathcal{U}}	\newcommand{\cV}{\mathcal{V}}
+\newcommand{\cW}{\mathcal{W}}	\newcommand{\cX}{\mathcal{X}}
+\newcommand{\cY}{\mathcal{Y}}	\newcommand{\cZ}{\mathcal{Z}}
+
+\newcommand{\rt}[1]{\textcolor{eb}{#1}}
+\newcommand{\yt}[1]{\textcolor{df}{#1}}
+\newcommand{\bt}[1]{\textcolor{af}{#1}}
+\newcommand{\gt}[1]{\textcolor{dc}{#1}}
+
+\newcommand{\no}{\noindent}
+
+\newcommand{\sep}[1]{
+	\noindent
+	\makebox[\linewidth]{
+		\rule{\dimexpr\linewidth/2}{1pt}
+		\hspace{1em}
+		\textbf{#1}
+		\hspace{1em}
+		\rule{\dimexpr\linewidth/2}{1pt}
+	}
+}
+
+\newcommand{\fig}[2]{
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.95\textwidth]{#1}
+		\caption{#2}
+		\label{fig:#1}
+	\end{figure}}
+
+\newcommand{\emogood}{\Smiley[][af]}
+\newcommand{\emobad}{\Sadey[][df]}
+\newcommand{\emocool}{\Cooley[][ae]}
+\newcommand{\emoheart}{\Heart[][aa]}
+\newcommand{\emotree}{\Springtree[]}
