@@ -336,7 +336,7 @@ A \tbf{Statistic} $T(\bold{X})$ is a form of data reduction, or a summary of the
 the \tbf{sample space}. $\mathcal{T}=\{t:t=T(\mathbf{x}),\mathrm{~for~}\mathbf{x}\in\mathcal{X}\}$ is the image of $cX$ under $T(\bold{X})$.
 $T(\bold{X})$ partition the sapmle sapce $\cX$ into sets $A_t=\{\mathbf{x}:T(\mathbf{x})=t,\mathbf{x}\in\mathcal{X}\}$.
 \ex{
-    Give a two-dimensinal example for random variable, sample point, Statistic, observation of Statistic, sample space, image and $A_t$.
+    Give a two-dimensional example for random variable, sample point, Statistic, observation of Statistic, sample space, image and $A_t$.
 }{
     Assume $\bold{X}=X_1,X_2$, among which $X_1,X_2$ are Bernoulli R.V. with $p=0.5$. $\bold{x}=(0,1)$ is a sample point.\\
     The sample space $\cX$ is $(0,0), (0,1), (1,0), (1,1)$, set $T(\bold{X})$ as the statistic, then the image $\cT$ is $(0,1,2)$.\\
@@ -351,7 +351,7 @@ $T(\bold{X})$ partition the sapmle sapce $\cX$ into sets $A_t=\{\mathbf{x}:T(\ma
 
 \clearpage
 \section{Reduced-Form Identification}
-The main contents of this chapter is the notes of \cite{angrist2014mastering}, \cite{angrist2009mostly}.
+The main contents of this chapter are the notes of \cite{angrist2014mastering}, \cite{angrist2009mostly}.
 
 \subsection{Randomized Trials}
 \key{ATT, ATE, Counter-factual World, Potential Outcome}
@@ -410,7 +410,7 @@ Randomization example:
 \eq{Y_i=E[Y_i|X_i]+\epsilon_i}
 where $\epsilon_i$ is mean independent of $X_i$, and $X_i$ is uncorrelated with any function of $X_i$.
 \proo{}{
-Take the expectation of $X_i$ at both side:
+Take the expectation of $X_i$ at both sides:
 \eq{
     \begin{align}
         E[Y_i|X_i]        & = E[E[Y_i|X_i]|X_i]+E[\epsilon_i|X_i] \\
@@ -640,7 +640,7 @@ The total execution time of the program is calculated by $\alpha \bT+(1-\alpha)\
 Speedup\ factor=S=T/[\alpha T+(1-\alpha)T/n]=1/[\alpha+(1-\alpha)/n]
 }
 \tab{
-    \item The communication time and I/O time are excluded in this fomula;
+    \item The communication time and I/O time are excluded in this formula;
     \item When $n\to\infty$, the $S$ can have the upper bound $\frac{1}{\alpha}$, thus $\alpha$ is the \tit{sequential bottleneck} here;
     \item This speedup is called \tit{fixed-workload speedup};
     \item The \tit{cluster efficiency} is defined by $E=S/n=\frac{1}{\alpha n+1-\alpha}$; (
@@ -686,7 +686,7 @@ then the system availability can be expressed by:
 \fig{CPU and GPU Architecture}{CPU and GPU Architecture}
 \tab{
     \item CPU has high flexibility for different applications. \tit{Von Neumann bottleneck}: memory access is slow compared to calculation.
-    \item GPU has high throughput, it works well on application with \tit{massive parallelism}.
+    \item GPU has high throughput, it works well on applications with \tit{massive parallelism}.
 }
 
 \subsection{Virtual Machines}
@@ -735,7 +735,7 @@ This section is mainly the notes of \cite{thrun2000reinforcement}.
 \re{"Deadly Trials"\lis{
         \item The balance between \textbf{Exploration} and \textbf{Exploitation};
         \item Reinforcement learning is difficult to generalize;
-        \item Delayed consequences may cause RL algorithm perform poorly.
+        \item Delayed consequences may cause RL algorithm to perform poorly.
     }}
 
 \no \textbf{MDP} is a mathematical framework to model \tit{discrete-time} sequential decision process, denoted by the tuple
@@ -796,7 +796,7 @@ If we denote $G_t=R_{t+1}+\gammaG_{t+1}$, then we have:
     }
 }
 A policy $\pi$ is better $\pi'$ if and only if $v_{\pi}(s)\le v_{\pi'}(S) \text{for all } s \in \cS$. There is always at list one
-\tit{optimal policy} denoted by $\pi_*$ (doesn't hold for partial observed MDP). They share the same state-value function, called the \tit{optimal state-value function}:
+\tit{optimal policy} denoted by $\pi_*$ (doesn't hold for partially observed MDP). They share the same state-value function, called the \tit{optimal state-value function}:
 $v_*(s)\doteq\max_\pi v_\pi(s)$. Optimal policy also shares the same \tit{optimal action-value function}:
 $q_*(s,a)\doteq\max_{\pi}q_\pi(s,a)=\mathbb{E}[R_{t+1}+\gamma v_*(S_{t+1})\mid S_t=s,A_t=a]$. Then we can get the \tbf{Bellman optimality function}
 in an action-value function sense:
@@ -865,7 +865,7 @@ Fisher suggests that a good empirical OM research should include the following:
     \item Validating models and assumptions that have been made;
     \item Establishing the relevance of our research by demonstrating how the research outputs apply to practice.
 }
-\cite{gans2007simple} investigates the posit of some bandit consumer choice model:
+\cite{gans2007simple} investigates the posit of some bandit consumer choice models:
 
 
 \clearpage
