@@ -200,31 +200,31 @@ If the solution also satisfies $\mathbf{x}\ge0$, then it's called a \tbf{basic f
 If some of the baisc variables have value zero, then it's called a \tbf{degenerate basic solution}.\\
 Similar to the definition above, we have \tbf{degenerate basic feasible solution}.}
 \thm{Fundamental Theorem of Linear Programming}{
-Given a linear program in standard form, where $\tbf{A}$ is an $m\times n$ matrix of rank $m$:
-\lis{
-    \item if there is a feasible solution, there is a basic feasible solution;
-    \item if there is an optimal feasible solution, there is an optimal basic feasible solution.
-}
-\proo{}{
-    (1)\\
-    If there is a feasible solution $\mathbb{x}$, the solution satisfy:
-    \eq{x_1\mathbf{a}_1+x_2\mathbf{a}_2+\cdots+x_n\mathbf{a}_n=\mathbf{b}}
-    Assume there are $p$ of variable $x_i>0$, then the following equation holds:
-    \eq{x_1\mathbf{a}_1+x_2\mathbf{a}_2+\cdots+x_p\mathbf{a}_n=\mathbf{b}}
-    Then there are two cases:
+    Given a linear program in standard form, where $\tbf{A}$ is an $m\times n$ matrix of rank $m$:
     \lis{
-        \item if $\mathbf{a}_{1},\mathbf{a}_{2},\ldots,\mathbf{a}_{p}$ are linearly independent, then $p\le m$, which means $\mathbf{x}$ is already a basic solution;
-        \item otherwise, there would be a non-trivial solution for $y_1\mathbf{a}_1+y_2\mathbf{a}_2+\cdots+y_p\mathbf{a}_p=\mathbf{0}$, which
-        means $(x_1-\varepsilon y_1)\mathbf{a}_1+(x_2-\varepsilon y_2)\mathbf{a}_2+\cdots+(x_p-\varepsilon y_p)\mathbf{a}_p=\mathbf{b}$.\\
-        Then for any value of $\epsilon$, $\mathbf{x}-\varepsilon\mathbf{y}$ is a solution but may violates the signal constraint.\\
-        Mention that there is at least one $y_i$ is negative or positive, thus there is at least one $x_i$ decreasing when we increase the $\epsilon(\epsilon > 0)$,
-        thus we set $\varepsilon=\min\{x_i/y_i:y_i>0\}$, which would bring us to a new feasible solution but the number of zero is larger.\\
-        Through such iteration, we can get at least one basic feasible solution.
+        \item if there is a feasible solution, there is a basic feasible solution;
+        \item if there is an optimal feasible solution, there is an optimal basic feasible solution.
     }
-    (2)\\
+    \proo{}{
+        (1)\\
+        If there is a feasible solution $\mathbb{x}$, the solution satisfy:
+        \eq{x_1\mathbf{a}_1+x_2\mathbf{a}_2+\cdots+x_n\mathbf{a}_n=\mathbf{b}}
+        Assume there are $p$ of variable $x_i>0$, then the following equation holds:
+        \eq{x_1\mathbf{a}_1+x_2\mathbf{a}_2+\cdots+x_p\mathbf{a}_n=\mathbf{b}}
+        Then there are two cases:
+        \lis{
+            \item if $\mathbf{a}_{1},\mathbf{a}_{2},\ldots,\mathbf{a}_{p}$ are linearly independent, then $p\le m$, which means $\mathbf{x}$ is already a basic solution;
+            \item otherwise, there would be a non-trivial solution for $y_1\mathbf{a}_1+y_2\mathbf{a}_2+\cdots+y_p\mathbf{a}_p=\mathbf{0}$, which
+            means $(x_1-\varepsilon y_1)\mathbf{a}_1+(x_2-\varepsilon y_2)\mathbf{a}_2+\cdots+(x_p-\varepsilon y_p)\mathbf{a}_p=\mathbf{b}$.\\
+            Then for any value of $\epsilon$, $\mathbf{x}-\varepsilon\mathbf{y}$ is a solution but may violates the signal constraint.\\
+            Mention that there is at least one $y_i$ is negative or positive, thus there is at least one $x_i$ decreasing when we increase the $\epsilon(\epsilon > 0)$,
+            thus we set $\varepsilon=\min\{x_i/y_i:y_i>0\}$, which would bring us to a new feasible solution but the number of zero is larger.\\
+            Through such iteration, we can get at least one basic feasible solution.
+        }
+        (2)\\
 
 
-}
+    }}
 
 
 \subsection{Simplex Method}
