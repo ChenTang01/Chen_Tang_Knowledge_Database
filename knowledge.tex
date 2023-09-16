@@ -30,6 +30,25 @@
 
 \section{Calculus and Linear Algebra}
 
+\subsection{Keys of Linaer Algebra}
+
+The properties of Matrix Multiplication:
+\tab{
+    \item Associativity: $(AB)C=A(BC)$;
+    \item Distributivity: $A(C+D)=AC+AD$;
+    \item Identity Multiplication: $I_mA=A,AI_n=A$
+}
+Only square matrix has inverse, and the inverse is unique. If a matrix doesn't have an inverse, then it's called \tbf{regular/invertible/nonsingular}.
+The properties of inverses and transposes:
+\tab{
+\item $(AB)^{-1}=B^{-1}A^{-1}$;
+\item $(A+B)^{-1}\neq A^{-1}+B^{-1}$;
+\item $(AB)^\top=B^\top A^\top $;
+\item $(A+B)^\top=A^\top+B^\top $.
+}
+\sep{Solutions of Linear Systems}
+
+
 \clearpage
 \section{Analysis and Algebra}
 
@@ -222,11 +241,45 @@ Similar to the definition above, we have \tbf{degenerate basic feasible solution
             Through such iteration, we can get at least one basic feasible solution.
         }
         (2)\\
-
-
+        The idea is the same as the first one. In case one it's obvious. in case two, we need to prove for any $\epsilin$, $\mathbf{x}-\varepsilon\mathbf{y}$ is still optimal.\\
+        Note the new value is $\mathbf{c}^T\mathbf{x}-\varepsilon\mathbf{c}^T\mathbf{y}$.
+    }
+    \re{
+        This theorem reduce the original problem to the size of $\begin{pmatrix}n\\m\end{pmatrix}=\frac{n!}{m!(n-m)!}$.
     }}
-
-
+\sep{Relationship with the Convex Optimization}
+\defi{Extreme Point}{A point $\tbf{x}$ in a convex set $\cC$ is an \tit{extreme point} if there are \tbf{no} two distinct
+    $\tbf{x}_1,\tbf{x}_2\in\cC$ such that $\mathbf{x}=\alpha\mathbf{x}_{1}+(1-\alpha)\mathbf{x}_{2}$ for some $\alpha, 0<\alpha<1$}
+\thm{Equivalence of extreme points and basic solutions}{Let \tbf{A} be an $m \times n$ matrix with rank $m$, Let \tbf{K} denote the \tit{convex polytope}
+consisting all vector $\tbf{x}$ satisfying $\mathbf A\mathbf x=\mathbf b,\mathbf x\geqslant\mathbf0$.\\
+A vector \tbf{x} is an extreme point of \tbf{K} if and only if \tbf{x} is a basic feasible solution.
+\proo{}{
+(1) BFS $\to$ extreme point:\\
+Suppose $\textbf{x}=(x_1,x_2,\ldots,x_m,0,0,\ldots,0)$ is a BFS, it satisfies $x_1\mathbf{a}_1+x_2\mathbf{a}_2+\cdots+x_m\mathbf{a}_m=\mathbf{b}$.
+If $\mathbf{x}=\alpha\mathbf{y}+(1-\alpha)\mathbf{z}$, since the value in $\mathbf{y}, \mathbf{z}$ is larger than 0, then we have:
+\eq{y_1\mathbf{a}_1+y_2\mathbf{a}_2+\cdots+y_m\mathbf{a}_m=\mathbf{b}\\z_1\mathbf{a}_1+z_2\mathbf{a}_2+\cdots+z_m\mathbf{a}_m=\mathbf{b}}
+Because the vectors $\mathbf{a}_1,\mathbf{a}_2,\ldots,\mathbf{a}_m$ are linearly independent, then we can get $\mathbf{x}=\mathbf{y}=\mathbf{z}$,
+which means that $\tbf{z}$ is an extreme point.
+(2) Extreme point $\to$ BFS:\\
+Assume that $\tbf{x}$ has $k$ components larger than zero, then we have:
+$y_1\mathbf{a}_1+y_2\mathbf{a}_2+\cdots+y_k\mathbf{a}_k=0$. Assume that $\mathbf{a}_1, \mathbf{a}_2, \cdots, \mathbf{a}_k$ are
+linearly dependent, which would leads to:
+\eq{
+    y_1\mathbf{a}_1+y_2\mathbf{a}_2+\cdots+y_k\mathbf{a}_k=0
+}
+Define $\mathbf{y}=(y_{1},y_{2},\ldots,y_{k},0,0,\ldots,0)$, it's obvious to see the following can exist:
+\eq{
+    \mathbf x+\epsilon\mathbf y\geqslant0,\quad\mathbf x-\epsilon\mathbf y\geqslant0
+}
+Contradicts that $\mathbf{x}$ is an extreme point $\to$ $\mathbf{a}_1, \mathbf{a}_2, \cdots, \mathbf{a}_k$ are
+linearly independent $\to$ $\mathbf{x}$ is a BFS.
+}}
+\co{}{\lis{
+        \item If the convex set $\tbf{K}$ is nonempty, there is at least one extreme point;
+        \item If there is a finite optimal solution to a linear programming problem, there is a finite optimal solution which is an extreme point of the constraint set.;
+        \item The constraint set $\tbf{K}$ possesses at most a finite number of extreme points;
+        \item If \tit{K} is bounded, then it's a \tit{convex polyhedron}.
+    }}
 \subsection{Simplex Method}
 
 
