@@ -135,7 +135,7 @@
 The main contents of this section are notes from \cite{luenberger1984linear}, \cite{bertsimas1997introduction}.
 The \tit{standard form} of the linear programming:
 \eq{
-    \begin{array}{rl}\text{minimize}&c_1x_1+c_2x_2+\ldots+c_nx_n\\\text{subject to}&a_{11}x_1+a_{12}x_2+\ldots+a_{1n}x_n&=b_1\\&a_{21}x_1+a_{22}x_2+\ldots+a_{2n}x_n&=b_2\\&\vdots&\vdots\\&a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n&=b_m\\\text{and}&x_1\geqslant0,x_2\geqslant0,\ldots,x_n\geqslant0,\end{array}
+    \begin{array}{rl}\text{minimize}&c_1x_1+c_2x_2+\ldots+c_nx_n\\\text{subject to}&a_{11}x_1+a_{12}x_2+\ldots+a_{1n}x_n=b_1\\&a_{21}x_1+a_{22}x_2+\ldots+a_{2n}x_n=b_2\\&\vdots\quad\vdots\\&a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n=b_m\\\text{and}&x_1\geqslant0,x_2\geqslant0,\ldots,x_n\geqslant0,\end{array}
 }
 or the above equations can be concisely written in:
 \eq{
@@ -145,15 +145,15 @@ or the above equations can be concisely written in:
 \tbf{Slack Variable}\\
 For this kind of LP formation:
 \eq{
-    \begin{array}{rl}\text{minimize}&c_1x_1+c_2x_2+\ldots+c_nx_n\\\text{subject to}&a_{11}x_1+a_{12}x_2+\ldots+a_{1n}x_n&\leb_1\\&a_{21}x_1+a_{22}x_2+\ldots+a_{2n}x_n&\leb_2\\&\vdots&\vdots\\&a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n&\leb_m\\\text{and}&x_1\geqslant0,x_2\geqslant0,\ldots,x_n\geqslant0,\end{array}
+    \begin{array}{rl}\text{minimize}&c_1x_1+c_2x_2+\ldots+c_nx_n\\\text{subject to}&a_{11}x_1+a_{12}x_2+\ldots+a_{1n}x_n\le b_1\\&a_{21}x_1+a_{22}x_2+\ldots+a_{2n}x_n\le b_2\\&\vdots\quad\vdots\\&a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n\le b_m\\\text{and}&x_1\geqslant0,x_2\geqslant0,\ldots,x_n\geqslant0,\end{array}
 }
-The above fumulation can be transformed into the following standar form:
+The above formulation can be transformed into the following standard form:
 \eq{
-    \begin{array}{rlr}\text{minimize}&c_1x_1+c_2x_2+\cdots+c_nx_n\\\text{subject to}&a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n+y_1&=b_1\\&a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n&+y_2&=b_2\\&\vdots&\vdots\\&a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n&+y_m=b_m\\\text{and}&x_1\geqslant0,x_2\geqslant0,\ldots,x_n\geqslant0,\\\text{and}&y_1\geqslant0,y_2\geqslant0,\ldots,y_m\geqslant0.\end{array}
+    \begin{array}{rlr}\text{minimize}&c_1x_1+c_2x_2+\cdots+c_nx_n\\\text{subject to}&a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n+y_1=b_1\\&a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n+y_2=b_2\\&\vdots\quad\vdots\\&a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n+y_m=b_m\\\text{and}&x_1\geqslant0,x_2\geqslant0,\ldots,x_n\geqslant0,\\\text{and}&y_1\geqslant0,y_2\geqslant0,\ldots,y_m\geqslant0.\end{array}
 }
-Now the constraint would be modified from $\tbf{A}$ to $\tbf{[A,I]}$, and the number of unkonwn is changed from $n$ tp $n+m$.\\
+Now the constraint would be modified from $\tbf{A}$ to $\tbf{[A,I]}$, and the number of unknowns is changed from $n$ to $n+m$.\\
 \tbf{Surplus Variable}\\
-Similar to the slack viriable, formulation like:
+Similar to the slack variable, formulation like:
 \eq{
 a_{i1}x_1+a_{i2}x_2+\cdots+a_{in}x_n\geqslant b_i
 }
@@ -162,13 +162,13 @@ can be transformed into:
 a_{i1}x_1+a_{i2}x_2+\cdots+a_{in}x_n-y_i=b_i
 }\\
 \tbf{Free Variable}\\
-For some vairables without the constraint of the sign, there are two methods to transform it into the standard form. One is
-to $x_i=u_i-v_i$, where both $u_i$ and $v_i$ are larger or euqal than zero. Anothor method can be used when the following condition holds:\\
+For some variables without the constraint of the sign, there are two methods to transform it into the standard form. One is
+to $x_i=u_i-v_i$, where both $u_i$ and $v_i$ are larger or equal to zero. Another method can be used when the following condition holds:\\
 \eq{
     a_{1}x_1+\cdots + a_{i}x_i+\cdots+a_{n}x_n=b_i
 }
 where $x_i$ is the free variable, thus we can replace $x_i$ by $b_i-\sum_{j\ne i}^n a_jx_j$, which can eliminate one variable and one constraint at the same time.\\
-One important exmaple of the linear programming model is the \tbf{maximal flow problem}:
+One important example of the linear programming model is the \tbf{maximal flow problem}:
 \fig{A network with capacities}{A network with capacities}
 This problem can be formulated into:
 \eq{
@@ -177,7 +177,7 @@ This problem can be formulated into:
          & \text{subject to} \sum_{j=1}^nx_{1j}-\sum_{j=1}^nx_{j1}-f=0            \\
          & \sum_{j=1}^nx_{ij}-\sum_{j=1}^nx_{ji}\quad=0,               & i\neq1,m \\
          & \sum_{j=1}^nx_{mj}-\sum_{j=1}^nx_{jm}+f=0                              \\
-         & 0\leq x_{ij}\leq k_{ij},\quad\quad\text{forall }i,j
+         & 0\leq x_{ij}\leq k_{ij},\quad\quad\text{for all }i,j
     \end{aligned}
 }
 \sep{Basic Solutions}
@@ -190,14 +190,14 @@ where $\tbf{A}$ is a $m\times n$ constraint matrix and $\tbf{x}$ is the $n \time
     Full Rank Assumption
 }{The $m\times n \tbf{A}$ has $m<n$, and the $m$ rows of $\tbf{A}$ are linearly independent}.
 This assumption makes the linear equalities always have at least one basic solution.
-At least $m$ linearly independet columns $\to \tbf{B}$, then would get:
+At least $m$ linearly independent columns $\to \tbf{B}$, then would get:
 \eq{
 \mathbf{B}\mathbf{x}_{\mathbf{B}}=\mathbf{b}
 }
 \defi{Basic Feasible Solution}{$\mathbf{x}=(\mathbf{x}_{\mathbf{B}},\mathbf{0})$ is the \tbf{basic solution}, the components of
 $\mathbf{x}$ related to the columns of $\mathbf{B}$ are \tbf{basic variables}\\
 If the solution also satisfies $\mathbf{x}\ge0$, then it's called a \tbf{basic feasible solution}.\\
-If some of the baisc variables have value zero, then it's called a \tbf{degenerate basic solution}.\\
+If some of the basic variables have value zero, then it's called a \tbf{degenerate basic solution}.\\
 Similar to the definition above, we have \tbf{degenerate basic feasible solution}.}
 \thm{Fundamental Theorem of Linear Programming}{
     Given a linear program in standard form, where $\tbf{A}$ is an $m\times n$ matrix of rank $m$:
@@ -216,7 +216,7 @@ Similar to the definition above, we have \tbf{degenerate basic feasible solution
             \item if $\mathbf{a}_{1},\mathbf{a}_{2},\ldots,\mathbf{a}_{p}$ are linearly independent, then $p\le m$, which means $\mathbf{x}$ is already a basic solution;
             \item otherwise, there would be a non-trivial solution for $y_1\mathbf{a}_1+y_2\mathbf{a}_2+\cdots+y_p\mathbf{a}_p=\mathbf{0}$, which
             means $(x_1-\varepsilon y_1)\mathbf{a}_1+(x_2-\varepsilon y_2)\mathbf{a}_2+\cdots+(x_p-\varepsilon y_p)\mathbf{a}_p=\mathbf{b}$.\\
-            Then for any value of $\epsilon$, $\mathbf{x}-\varepsilon\mathbf{y}$ is a solution but may violates the signal constraint.\\
+            Then for any value of $\epsilon$, $\mathbf{x}-\varepsilon\mathbf{y}$ is a solution but may violate the signal constraint.\\
             Mention that there is at least one $y_i$ is negative or positive, thus there is at least one $x_i$ decreasing when we increase the $\epsilon(\epsilon > 0)$,
             thus we set $\varepsilon=\min\{x_i/y_i:y_i>0\}$, which would bring us to a new feasible solution but the number of zero is larger.\\
             Through such iteration, we can get at least one basic feasible solution.
@@ -241,7 +241,7 @@ Similar to the definition above, we have \tbf{degenerate basic feasible solution
 \chapter{Statistics and Econometrics}
 
 \section{Statistical Inference}
-This section is maily the notes from \cite{casella2021statistical}
+This section is mainly the notes from \cite{casella2021statistical}
 \fig{statistical inference}{The scope of statistical inference}
 Statistics is using observed data to \hl{inference} the statistical model.
 
@@ -301,10 +301,10 @@ verify these functions satisfy the condition above.
         \end{aligned}
     }
 }
-\ex{Show the followings are exponential families:
+\ex{Show the following are exponential families:
 \tab{
-    \item Gamma family with either $\alpha,\beta$ is unkown or both unkown;
-    \item Beta family with either $\alpha,\beta$ is unkown or both unkown;
+    \item Gamma family with either $\alpha,\beta$ is unknown or both unknown;
+    \item Beta family with either $\alpha,\beta$ is unknown or both unknown;
     \item Negative Binomial family when $r$ is unkown.
 }}{
 \tbf{Gamma $\alpha$ unkown}:
@@ -328,7 +328,7 @@ $h(x)=I_{[0,1]}(x),c(\alpha,\beta)=\frac{1}{B(\alpha,\beta)},w_1(\alpha)=\alpha-
 \thm{
     Expectation and Variance of Exponential Families
 }{
-    If X is a random variable satisfy any distribution from the exponential families, then:
+    If X is a random variable that satisfies any distribution from the exponential families, then:
     \eq{
         \begin{aligned}
              & 1.\quad\operatorname{E}\left(\sum_{i=1}^{k}\frac{\partial w_{i}(\boldsymbol{\theta})}{\partial\theta_{j}}t_{i}(X)\right)=-\frac{\partial}{\partial\theta_{j}}\log\big(c(\boldsymbol{\theta})\big);                                                                                                                           \\
