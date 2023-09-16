@@ -132,6 +132,105 @@
 \clearpage
 \section{Linear Programming}
 
+The main contents of this section are notes from \cite{luenberger1984linear}, \cite{bertsimas1997introduction}.
+The \tit{standard form} of the linear programming:
+\eq{
+    \begin{array}{rl}\text{minimize}&c_1x_1+c_2x_2+\ldots+c_nx_n\\\text{subject to}&a_{11}x_1+a_{12}x_2+\ldots+a_{1n}x_n&=b_1\\&a_{21}x_1+a_{22}x_2+\ldots+a_{2n}x_n&=b_2\\&\vdots&\vdots\\&a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n&=b_m\\\text{and}&x_1\geqslant0,x_2\geqslant0,\ldots,x_n\geqslant0,\end{array}
+}
+or the above equations can be concisely written in:
+\eq{
+    \begin{array}{ll}\text{minimize}&\mathbf{c}^T\mathbf{x}\\\text{subject to}&\mathbf{A}\mathbf{x}=\mathbf{b}\quad\text{and}\quad\mathbf{x}\geqslant\mathbf{0}.\end{array}
+}
+\sep{Convertion to standard form LP}
+\tbf{Slack Variable}\\
+For this kind of LP formation:
+\eq{
+    \begin{array}{rl}\text{minimize}&c_1x_1+c_2x_2+\ldots+c_nx_n\\\text{subject to}&a_{11}x_1+a_{12}x_2+\ldots+a_{1n}x_n&\leb_1\\&a_{21}x_1+a_{22}x_2+\ldots+a_{2n}x_n&\leb_2\\&\vdots&\vdots\\&a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n&\leb_m\\\text{and}&x_1\geqslant0,x_2\geqslant0,\ldots,x_n\geqslant0,\end{array}
+}
+The above fumulation can be transformed into the following standar form:
+\eq{
+    \begin{array}{rlr}\text{minimize}&c_1x_1+c_2x_2+\cdots+c_nx_n\\\text{subject to}&a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n+y_1&=b_1\\&a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n&+y_2&=b_2\\&\vdots&\vdots\\&a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n&+y_m=b_m\\\text{and}&x_1\geqslant0,x_2\geqslant0,\ldots,x_n\geqslant0,\\\text{and}&y_1\geqslant0,y_2\geqslant0,\ldots,y_m\geqslant0.\end{array}
+}
+Now the constraint would be modified from $\tbf{A}$ to $\tbf{[A,I]}$, and the number of unkonwn is changed from $n$ tp $n+m$.\\
+\tbf{Surplus Variable}\\
+Similar to the slack viriable, formulation like:
+\eq{
+a_{i1}x_1+a_{i2}x_2+\cdots+a_{in}x_n\geqslant b_i
+}
+can be transformed into:
+\eq{
+a_{i1}x_1+a_{i2}x_2+\cdots+a_{in}x_n-y_i=b_i
+}\\
+\tbf{Free Variable}\\
+For some vairables without the constraint of the sign, there are two methods to transform it into the standard form. One is
+to $x_i=u_i-v_i$, where both $u_i$ and $v_i$ are larger or euqal than zero. Anothor method can be used when the following condition holds:\\
+\eq{
+    a_{1}x_1+\cdots + a_{i}x_i+\cdots+a_{n}x_n=b_i
+}
+where $x_i$ is the free variable, thus we can replace $x_i$ by $b_i-\sum_{j\ne i}^n a_jx_j$, which can eliminate one variable and one constraint at the same time.\\
+One important exmaple of the linear programming model is the \tbf{maximal flow problem}:
+\fig{A network with capacities}{A network with capacities}
+This problem can be formulated into:
+\eq{
+    \begin{aligned}
+         & \text{minimize} \text{f}                                               \\
+         & \text{subject to} \sum_{j=1}^nx_{1j}-\sum_{j=1}^nx_{j1}-f=0            \\
+         & \sum_{j=1}^nx_{ij}-\sum_{j=1}^nx_{ji}\quad=0,               & i\neq1,m \\
+         & \sum_{j=1}^nx_{mj}-\sum_{j=1}^nx_{jm}+f=0                              \\
+         & 0\leq x_{ij}\leq k_{ij},\quad\quad\text{forall }i,j
+    \end{aligned}
+}
+\sep{Basic Solutions}
+The system of linear equalities:
+\eq{
+    \mathbf{A}\mathbf{x}=\mathbf{b}
+}
+where $\tbf{A}$ is a $m\times n$ constraint matrix and $\tbf{x}$ is the $n \times 1$ decision variables.
+\ass{
+    Full Rank Assumption
+}{The $m\times n \tbf{A}$ has $m<n$, and the $m$ rows of $\tbf{A}$ are linearly independent}.
+This assumption makes the linear equalities always have at least one basic solution.
+At least $m$ linearly independet columns $\to \tbf{B}$, then would get:
+\eq{
+\mathbf{B}\mathbf{x}_{\mathbf{B}}=\mathbf{b}
+}
+\defi{Basic Feasible Solution}{$\mathbf{x}=(\mathbf{x}_{\mathbf{B}},\mathbf{0})$ is the \tbf{basic solution}, the components of
+$\mathbf{x}$ related to the columns of $\mathbf{B}$ are \tbf{basic variables}\\
+If the solution also satisfies $\mathbf{x}\ge0$, then it's called a \tbf{basic feasible solution}.\\
+If some of the baisc variables have value zero, then it's called a \tbf{degenerate basic solution}.\\
+Similar to the definition above, we have \tbf{degenerate basic feasible solution}.}
+\thm{Fundamental Theorem of Linear Programming}{
+Given a linear program in standard form, where $\tbf{A}$ is an $m\times n$ matrix of rank $m$:
+\lis{
+    \item if there is a feasible solution, there is a basic feasible solution;
+    \item if there is an optimal feasible solution, there is an optimal basic feasible solution.
+}
+\proo{}{
+    (1)\\
+    If there is a feasible solution $\mathbb{x}$, the solution satisfy:
+    \eq{x_1\mathbf{a}_1+x_2\mathbf{a}_2+\cdots+x_n\mathbf{a}_n=\mathbf{b}}
+    Assume there are $p$ of variable $x_i>0$, then the following equation holds:
+    \eq{x_1\mathbf{a}_1+x_2\mathbf{a}_2+\cdots+x_p\mathbf{a}_n=\mathbf{b}}
+    Then there are two cases:
+    \lis{
+        \item if $\mathbf{a}_{1},\mathbf{a}_{2},\ldots,\mathbf{a}_{p}$ are linearly independent, then $p\le m$, which means $\mathbf{x}$ is already a basic solution;
+        \item otherwise, there would be a non-trivial solution for $y_1\mathbf{a}_1+y_2\mathbf{a}_2+\cdots+y_p\mathbf{a}_p=\mathbf{0}$, which
+        means $(x_1-\varepsilon y_1)\mathbf{a}_1+(x_2-\varepsilon y_2)\mathbf{a}_2+\cdots+(x_p-\varepsilon y_p)\mathbf{a}_p=\mathbf{b}$.\\
+        Then for any value of $\epsilon$, $\mathbf{x}-\varepsilon\mathbf{y}$ is a solution but may violates the signal constraint.\\
+        Mention that there is at least one $y_i$ is negative or positive, thus there is at least one $x_i$ decreasing when we increase the $\epsilon(\epsilon > 0)$,
+        thus we set $\varepsilon=\min\{x_i/y_i:y_i>0\}$, which would bring us to a new feasible solution but the number of zero is larger.\\
+        Through such iteration, we can get at least one basic feasible solution.
+    }
+    (2)\\
+
+
+}
+
+
+\subsection{Simplex Method}
+
+
+
 \clearpage
 \section{Convex Optimization}
 
@@ -197,7 +296,7 @@ verify these functions satisfy the condition above.
         \begin{aligned}
              & f(x|\mu,\sigma^{2})=\frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{(x-\mu)^{2}}{2\sigma^{2}}\right)=\frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{x^{2}}{2\sigma^{2}}+\frac{x\mu}{\sigma^{2}}-\frac{\mu^{2}}{2\sigma^{2}}\right) \\
              & \text{then}                                                                                                                                                                                                                 \\
-             & \begin{aligned}h(x)=1,c(\mu,\sigma)=\frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{\mu^{2}}{2\sigma^{2}}\right),\end{aligned}                           \\
+             & \begin{aligned}h(x)=1,c(\mu,\sigma)=\frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{\mu^{2}}{2\sigma^{2}}\right),\end{aligned}                         \\
              & t_{1}(x)=-\frac{x^{2}}{2},w_{1}(\mu,\sigma)=\frac{1}{\sigma^{2}},t_{2}(x)=x\mathrm{~and~}w_{2}(\mu,\sigma)=\frac{\mu}{\sigma^{2}}.
         \end{aligned}
     }
@@ -698,7 +797,7 @@ The host acts like a “hotel” to accommodate different “guests” at differ
 There are five levels of virtualization, among which only 2 are valuable:
 \tab{
     \item \tbf{Hypervisor}: virtualization on top of bare-metal hardware;
-    \item \bf{Container}: virtualization on operating system level, isolated containers of user app with isolated resources.
+    \item \tbf{Container}: virtualization on operating system level, isolated containers of user app with isolated resources.
 }
 \sep{Hypervisor}
 
@@ -809,9 +908,15 @@ in an action-value function sense:
     }
 }
 \fig{different reinforcement learning agents}{Classification of different reinforcement learning agents}
-
-
-
+\defi{The optimal policy $\pi^*$}{A policy $\pi^*$ is an optimal policy if for every policy $\pi$ and every $s\in\cS$, we have:
+    \eq{V^{\pi^*}(s)\geq V^{\pi}(s)}
+    \re{
+        \tab{
+            \item If we have the full information of the game (MDP framwork), then the optimal policy is always deterministic;
+            \item The optimal policy is always stochastic when there are \tbf{minimax} structure (e.g. protection information);
+            \item Whetehr the optimal policy is stochastic or deterministic has nothing to do with the stochasticity of the game.
+        }
+    }}
 
 \clearpage
 \chapter{Information Systems and Operations Management}
@@ -966,7 +1071,42 @@ for the up-stream manufacturing company:
 
 \subsection{Platform Owner's Entry}
 
-\cite{zhu2018competing} studies the entry of Amazon platform. The rank is used as proxy variable for the sales of the products
+\key{Complementory Markets, }
+
+\cite{zhu2018competing} studies the entry of Amazon platform. Logit regression is adopted to verify the following \tbf{Hypothesis}:
+\tab{
+    \item Platform owners are more likely to compete with a complementor when its products are successful;
+    \item Platform owners are less likely to compete with a complementor when its products require significant platform-specific investments to grow.
+}
+\tbf{Identification Techniques}:
+\tab{
+    \item The sales ranking is used as proxy variable for the sales of the products;
+    \item To overcome the impact of the referral rates by category-level fixed effects;
+    \item To measure the seller's platform-specific inverstment, they calculate the seller's average answers;
+}
+
+\cite{shi2023comparing} investigates the timing of the platform owner's entry on the value creation.
+\defi{Timing of Owner's Entry}{
+    \tab{
+        \item \tbf{Platform Complementors}: actors that offer an application that brings additinal value to platform users when used in combination with the platform;
+        \item \tbf{Early-entry}: the entry occurs when the ratio between the current and the eventual complementary market's size is low;
+        \item \tbf{Late-entry}: entry to a relatively mature complementary market;
+        \item \tbf{Value creation}: the activities geared toward increasing the perceived attractiveness of the platform ecosystem among customers and
+        measure it as changes to complement popularity among customers. (proxy variable)
+    }
+}
+\tbf{Identification Techniques}:
+\tab{
+    \item Use the \tit{the number of reviews} as the proxy for the popularity of complements (dependent variables);
+    \item \tit{functional specificity} measures the heterogeneity of a complement based on the complexity of services offered by the complement;
+    \item Follows \cite{zhu2018competing} to account for platform-specific investments by \tit{interfacce coupling}: whether the complement connects with the platform core;
+    \item To verify the exogeneity of Amazon's entry decision, a logit regression is conducted to test the number of reviews (popularity)
+    does not influence Amazon's decision;
+    \item PSM method is adopted.
+}
+\eq{
+    Reviews_{it}=\alpha+\beta Treated_i \times After_t + \delta Controls_{it} + C_i + T_i + \epsilon_{it}
+}
 
 \subsection{Consumer Polarization}
 
