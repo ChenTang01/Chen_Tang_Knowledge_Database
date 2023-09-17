@@ -46,8 +46,61 @@ The properties of inverses and transposes:
 \item $(AB)^\top=B^\top A^\top $;
 \item $(A+B)^\top=A^\top+B^\top $.
 }
+To find the inverse matrix, gaussian elimination can be applied: $[A\mid I]=[I\mid A^{-1}]$.
 \sep{Solutions of Linear Systems}
-
+\tbf{Reduced Row-Echelon Form Matrix}:
+\eq{
+    \boldsymbol{A}=\begin{bmatrix}1&3&0&0&3\\0&0&\mathbf{1}&0&9\\0&0&0&\mathbf{1}&-4\end{bmatrix}
+}
+There are \tit{pivot (basic variables)} and \tit{free variable}, the column of free varaible is dependent on pivots. The steps to find solutions of a linear systems:
+\lis{
+    \item Find a particular solution for $Ax=\boldsymbol{b}$ by setting all free variable zero;
+    \item Find all solutions for $Ax=0$;
+    \item Add them up.
+}
+There is iterative method to solve large scale linear euqations:
+define error = $\|x^{(k+1)}-x_*\|$, then optimize the function $x^{(k+1)}=Cx^{(k)}+d$ and iterate it.
+\sep{Vector Spaces, Basis and Rank}
+\defi{Vector Space and Subspace}{
+    A \tbf{Vector Space} $V=(\mathcal{V},+,\cdot)$ is a set $\cV$ with two operations:
+    \lis{
+        \item $+:\mathcal{V}\times\mathcal{V}\to\mathcal{V}$;
+        \item $\cdot:\mathbb{R}\times\mathcal{V}\to\mathcal{V}$
+    }
+    For $\mathcal{U}\subseteq\mathcal{V}$ and $\mathcal{U}\neq\emptyset$, then $U=(\cU,+,\cdot)$ is a vector subspace.\\
+    \re{
+        \tab{
+            \item $V=(\mathcal{V},+) is an Abelian group$;
+            \item The subspace needs to satisfy \tit{closure}, $\lambda x \in U, x+y\in U$.
+        }
+    }
+}
+If $v=\sum_{i=1}^{k}\lambda_ix_i$, then $v$ is a linear combination of $(x_1,x_2,\cdots,x_k)$. If \tbf{not} all values of a solution are
+0, then it's called a non-trivial solution. For $\sum_{i=1}^{k}\lambda_ix_i=0$, if the non-trivial solution exists, then the vectors is called \tbf{linearly dependent}.
+\defi{Basis and Rank}{
+    \tab{
+        \item \tbf{Generating Set}: if all vectors in $V$ can be expressed as a linear combination of $\mathcal{A}=\{\boldsymbol{x}_{1},\ldots,\boldsymbol{x}_{k}\}\subseteq\mathcal{V}$,
+        then $\cA$ is a generating set of $V$;
+        \item \tbf{Span}: The set of linear combinations of $\cA$ is its span;
+        \item \tbf{Basis}: The minimal generating set (linearly independent) of a vector space $V$ is called its basis;
+        \item \tbf{Rank}: the number of linearly independent column vectors in a matrix $\cA \in \RR&{m\times n}$.
+    }
+    \re{
+        \tab{
+            \item $\operatorname{rk}(A)=\operatorname{rk}(A^{\top})$;
+            \item A matrix $A\in\mathbb{R}^{n\times n}$ is invertible if and only if $rk(A)=n$;
+            \item The span of a matrix is also called its \tbf{image}, $dim(U)=rk(A)$;
+            \item $Ax=b$ only has solution if and only if $rk(A)=rk(A\mid b)$;
+            \item The solution (kernel, null space) to $Ax=0$ has a dimension of $n-rk(A)$;
+        }
+    }
+}
+\defi{Linear Mappings}{
+    For vector spaces $V,W$, a mapping $\Phi:V\rightarrow W$ is called linear mapping if:
+    \eq{
+        \forall x,y\in V\forall\lambda,\psi\in\mathbb{R}:\Phi(\lambda x+\psi\boldsymbol{y})=\lambda\Phi(x)+\psi\Phi(\boldsymbol{y})
+    }
+}
 
 \clearpage
 \section{Analysis and Algebra}
@@ -1160,6 +1213,7 @@ for the up-stream manufacturing company:
 \eq{
     Reviews_{it}=\alpha+\beta Treated_i \times After_t + \delta Controls_{it} + C_i + T_i + \epsilon_{it}
 }
+\cite{hagiu2020creating} examine the
 
 \subsection{Consumer Polarization}
 
