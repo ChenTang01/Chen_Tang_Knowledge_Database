@@ -292,10 +292,11 @@ Similar to the definition above, we have \tbf{degenerate basic feasible solution
             Mention that there is at least one $y_i$ is negative or positive, thus there is at least one $x_i$ decreasing when we increase the $\epsilon(\epsilon > 0)$,
             thus we set $\varepsilon=\min\{x_i/y_i:y_i>0\}$, which would bring us to a new feasible solution but the number of zero is larger.\\
             Through such iteration, we can get at least one basic feasible solution.
-        }
+        }\\
         (2)\\
         The idea is the same as the first one. In case one it's obvious. in case two, we need to prove for any $\epsilin$, $\mathbf{x}-\varepsilon\mathbf{y}$ is still optimal.\\
-        Note the new value is $\mathbf{c}^T\mathbf{x}-\varepsilon\mathbf{c}^T\mathbf{y}$.
+        Note the new value is $\mathbf{c}^T\mathbf{x}-\varepsilon\mathbf{c}^T\mathbf{y}$. Because $\varepsilon$ can be both positive and
+        negative, thus $\mathbf{c}^T\mathbf{y}=0$, which makes $\mathbf{x}-\varepsilon\mathbf{y}$ still as optimal solution.
     }
     \re{
         This theorem reduce the original problem to the size of $\begin{pmatrix}n\\m\end{pmatrix}=\frac{n!}{m!(n-m)!}$.
@@ -312,7 +313,7 @@ Suppose $\textbf{x}=(x_1,x_2,\ldots,x_m,0,0,\ldots,0)$ is a BFS, it satisfies $x
 If $\mathbf{x}=\alpha\mathbf{y}+(1-\alpha)\mathbf{z}$, since the value in $\mathbf{y}, \mathbf{z}$ is larger than 0, then we have:
 \eq{y_1\mathbf{a}_1+y_2\mathbf{a}_2+\cdots+y_m\mathbf{a}_m=\mathbf{b}\\z_1\mathbf{a}_1+z_2\mathbf{a}_2+\cdots+z_m\mathbf{a}_m=\mathbf{b}}
 Because the vectors $\mathbf{a}_1,\mathbf{a}_2,\ldots,\mathbf{a}_m$ are linearly independent, then we can get $\mathbf{x}=\mathbf{y}=\mathbf{z}$,
-which means that $\tbf{z}$ is an extreme point.
+which means that $\tbf{z}$ is an extreme point.\\
 (2) Extreme point $\to$ BFS:\\
 Assume that $\tbf{x}$ has $k$ components larger than zero, then we have:
 $y_1\mathbf{a}_1+y_2\mathbf{a}_2+\cdots+y_k\mathbf{a}_k=0$. Assume that $\mathbf{a}_1, \mathbf{a}_2, \cdots, \mathbf{a}_k$ are
@@ -334,11 +335,35 @@ linearly independent $\to$ $\mathbf{x}$ is a BFS.
         \item If \tit{K} is bounded, then it's a \tit{convex polyhedron}.
     }}
 \subsection{Simplex Method}
-
-
+The standard form linear programming can be transformed to the \tbf{canonial form} (reduced row-echelon form/tabular method
+). The canonial form provides basic varaible and non-basic variable. \tbf{Pivot equations} can transform a non-basic variable
+to a basic variable.
+\eq{
+    \begin{cases}\bar a_{ij}'=\bar a_{ij}-\frac{\bar a_{iq}}{\bar a_{pq}}\bar a_{pj},i\neq p\\\bar a_{pj}'=\frac{\bar a_{pj}}{\bar a_{pq}}.\end{cases}
+}
 
 \clearpage
 \section{Convex Optimization}
+\subsection{Condition of Optimality}
+\defi{Differentiability}{
+    A mapping $F:\mathbb{R}^n\to\mathbb{R}^m$ is said to be \tit{differentiable} at $x$ if there is a
+    function: $DF:\mathbb{R}^n\to\mathbb{R}^{m\times n}$ such that:
+    \eq{
+        \lim_{h\to0}\frac{\|F(x+h)-F(x)-DF(x)\cdot h\|}{\|h\|}=0.
+    }
+    The matrix $DF(x)\in \RR^{m\times n}$ is the \rt{Jacobian Matrix}.\\
+    If $F$ is a $\mathbb{R}^n\to\mathbb{R}$ mapping, then the \tbf{gradient} can be expressed as:
+    \eq{
+        \nabla f(x)=Df(x)^\top=\begin{pmatrix}\frac\partial{\partial x_1}f(x)\\\vdots\\\frac\partial{\partial x_n}f(x)\end{pmatrix}
+    }
+    The \tbf{Hessian Matrix} (symmetric matrix) can be expressed ny:
+    \eq{
+        \nabla^2f(x)=H_f(x)=\begin{pmatrix}\frac{\partial f}{\partial x_1\partial x_1}(x) & \frac{\partial f}{\partial x_1\partial x_2}(x) & \cdots                                         & \frac{\partial f}
+               {\partial x_1\partial x_n}(x)                                                                                                                                        \\\cdot&\cdot&\cdots&\cdot\\\cdot&\cdot&\cdot&\cdot\\\cdot&\cdot&
+               \cdot                                          & \cdot                                                                                                               \\\cdot&\cdot&\cdots&\cdot\\\frac{\partial f}{\partial x_n\partial x_1}(x)&\frac{\partial f}
+               {\partial x_n\partial x_2}(x)                  & \cdots                                         & \frac{\partial f}{\partial x_n\partial x_n}(x)\end{pmatrix}
+    }
+}
 
 \clearpage
 \section{Non-Convex Optimization}
@@ -1166,6 +1191,8 @@ Solution: add penalty to save more seats for the high fare consumers:
 \clearpage
 \section{Platform Operations Management}
 
+\cite{rietveld2021platform} reviews literatures in platform competitions.
+
 \cite{wang2023} uses game theory framework to analyze the cross-licensing policy initiated by Qualcomm, whcih provide some insights
 for the up-stream manufacturing company:
 \lis{
@@ -1179,6 +1206,9 @@ for the up-stream manufacturing company:
 
 \key{Complementory Markets, }
 
+\cite{zhu2018competing} surveys empirical studies that examine the direct entry of platform owners
+into complementors' product spaces.
+
 \cite{zhu2018competing} studies the entry of Amazon platform. Logit regression is adopted to verify the following \tbf{Hypothesis}:
 \tab{
     \item Platform owners are more likely to compete with a complementor when its products are successful;
@@ -1191,6 +1221,18 @@ for the up-stream manufacturing company:
     \item To measure the seller's platform-specific inverstment, they calculate the seller's average answers;
 }
 
+\cite{he2020impact} investigates the effects and the mechanisms of platform owner's entry on third-party's online and offline demands using a B2B shopping platform's data.
+They uses DiD to idetify that the platform owner's entry does harm the demands (more in online channel than offline channel).\\
+What's more, they propose three mechanisms to explain the effects:
+\lis{
+    \item Competition Effects: The owner can appropriate value from the third-party sellers (only significant for online channel);
+    \item Spillover Effects: incresing the exposure or awareness of the prodycts (not the same as the mobile app market);
+    \item Disintermediation effect: sellers would use defensive strategy to transact outside the platform (mostly in offline channel) see
+    \cite{gu2021trust} and \cite{ha2022channel}.
+}
+Finally, DDD and PSM were adopted to identify the heterogeneity of the effects between large and small third-party stores.\\
+\cite{deng2023can} use data from JD.com and provide an unexpected result, thet
+\cite{wen2019threat} and \cite{foerderer2018does} focus on complementors' reaction, especially on inovation strategy for the platform owner entry.\\
 \cite{shi2023comparing} investigates the timing of the platform owner's entry on the value creation.
 \defi{Timing of Owner's Entry}{
     \tab{
@@ -1213,7 +1255,11 @@ for the up-stream manufacturing company:
 \eq{
     Reviews_{it}=\alpha+\beta Treated_i \times After_t + \delta Controls_{it} + C_i + T_i + \epsilon_{it}
 }
-\cite{hagiu2020creating} examine the
+There are many papers analysing the platform owner's entry from a game-throry perspective.\\
+\cite{hagiu2020creating} examine whether a company should transform into a platform,
+they analyse this model from a perspective of customer's cost. The results show that the strategy by turning competitors into complementors can benifit the company.\\
+\cite{cheng2022impact} provides similar results by showing that the 'ban introduction of platform' policy would not benifit the sellers very much.\\
+
 
 \subsection{Consumer Polarization}
 
