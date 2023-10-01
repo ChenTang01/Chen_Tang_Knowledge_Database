@@ -16,7 +16,7 @@
 \tcbuselibrary{theorems, skins, hooks}
 \usepackage{xcolor,varwidth,etoolbox,multicol,array,colortbl}
 \usepackage{tikz-cd,tikzsymbols,xifthen}
-\usepackage{algorithm,algpseudocode}
+\usepackage{algorithm,algpseudocode,listings}
 \usepackage{import,xfrac,soul,bm,graphicx}
 \graphicspath{{pic/}}
 
@@ -183,9 +183,37 @@
 }
 {proo}
 
+\lstdefinestyle{mystyle}{
+	backgroundcolor=dc!50,
+	commentstyle=dd,
+	keywordstyle=de,
+	numberstyle=df,
+	stringstyle=db,
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	keepspaces=true,
+	numbers=left,
+	numbersep=5pt,
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	tabsize=2
+}
+\lstset{style=mystyle}
+
 \newcommand{\customtext}[1]{
 	\if\relax\detokenize{#1}\relax
 		The solution is omitted.
+	\else
+		#1
+	\fi
+}
+
+\newcommand{\customtexta}[1]{
+	\if\relax\detokenize{#1}\relax
+		0.8
 	\else
 		#1
 	\fi
@@ -263,10 +291,10 @@
 	}
 }
 
-\newcommand{\fig}[2]{
+\newcommand{\fig}[3]{
 	\begin{figure}
 		\centering
-		\includegraphics[width=0.95\textwidth]{#1}
+		\includegraphics[width=\customtexta{#3}\textwidth]{#1}
 		\caption{#2}
 		\label{fig:#1}
 	\end{figure}}
@@ -276,3 +304,18 @@
 \newcommand{\emocool}{\Cooley[][ae]}
 \newcommand{\emoheart}{\Heart[][aa]}
 \newcommand{\emotree}{\Springtree[]}
+
+\newcommand{\python}[2]{
+	\begin{lstlisting}[language=Python, caption=#1]
+		#2
+	\end{lstlisting}
+}
+
+\newcommand{\alg}[2]{
+	\begin{algorithm}
+		\caption{#1}
+		\begin{algorithmic}
+			#2
+		\end{algorithmic}
+	\end{algorithm}
+}

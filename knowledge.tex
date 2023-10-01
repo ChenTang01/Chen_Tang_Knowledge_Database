@@ -196,7 +196,7 @@ If $v=\sum_{i=1}^{k}\lambda_ix_i$, then $v$ is a linear combination of $(x_1,x_2
     (c)\\
     If $\beta<2$, then the variance is negative.
 }
-\fig{type of distribution}{Type of distribution}
+\fig{type of distribution}{Type of distribution}{}
 
 \clearpage
 \section{Stochastic Process}
@@ -241,7 +241,7 @@ to $x_i=u_i-v_i$, where both $u_i$ and $v_i$ are larger or equal to zero. Anothe
 }
 where $x_i$ is the free variable, thus we can replace $x_i$ by $b_i-\sum_{j\ne i}^n a_jx_j$, which can eliminate one variable and one constraint simultaneously.\\
 One important example of the linear programming model is the \tbf{maximal flow problem}:
-\fig{A network with capacities}{A network with capacities}
+\fig{A network with capacities}{A network with capacities}{}
 This problem can be formulated into:
 \eq{
     \begin{aligned}
@@ -376,8 +376,8 @@ into a basic variable.
     }
     Thus $\nabla f(x)=Ax+b$}
 \re{
-\tbf{FONC (First-Order Necessary Conditions)}\\ 
-If $x^{\star}$ is a local minimizer of the unconstrained problem, then we must have $\nabla f(x^*)=0.$}
+    \tbf{FONC (First-Order Necessary Conditions)}\\
+    If $x^{\star}$ is a local minimizer of the unconstrained problem, then we must have $\nabla f(x^*)=0.$}
 \thm{SONC (Second Order Necessary Condition)}{
 If $x^*$ is a local minimizer of $f$, then it holds that:
 \lis{
@@ -388,7 +388,7 @@ If $x^*$ is a local minimizer of $f$, then it holds that:
     A point satisfying FONC is a \tbf{stationary point}, a stationary point with indefinite Hessian matrix is called \tbf{saddle point}.
 }
 }
-\fig{An example of saddle point}{An example of saddle point}
+\fig{An example of saddle point}{An example of saddle point}{}
 \thm{SOSC (Second Order Sufficient Conditions)}{
 \lis{
 \item $\nabla f(x^*)=0$;
@@ -463,7 +463,7 @@ Then $x^*$ is a \tit{strict local minimum} of $f$.
 
 \section{Statistical Inference}
 This section is mainly the notes from \cite{casella2021statistical}
-\fig{statistical inference}{The scope of statistical inference}
+\fig{statistical inference}{The scope of statistical inference}{}
 Statistics uses observed data to \hl{inference} the statistical model.
 
 \subsection{Exponential Families}
@@ -916,7 +916,7 @@ ties using cross-country level data.
 \cite{cheng2021clan} uses IV (the minimum distance to two prominent neo-Confucian academies,
 the Kaoting Academy (Kaoting Shuyuan) and the Xiangshan Academy (Xiangshan Shuyuan)) to identify that
 clan culture causes higher firm ownership concentration.
-\fig{clan indensity}{Clan Culture Intensity}
+\fig{clan indensity}{Clan Culture Intensity}{}
 Potential reasons that culture affects the concentration of family ownership:
 \lis{
     \item Clan culture fosters high trust within the family and low trust in outsiders(\textbf{short-radius trust attitude}).
@@ -977,7 +977,7 @@ This section is mainly the notes of \cite{hwang2017cloud}.
         \item \textbf{HPC} refers to \textit{highly-performance computing} system in terms of raw speed in batch processing.
     }
 }
-\fig{Cloud Computing Technology Convergence}{Cloud Computing Technology Convergence}
+\fig{Cloud Computing Technology Convergence}{Cloud Computing Technology Convergence}{}
 \defi{Cloud}{A cloud is a pool of virtualized computer resources. A cloud can host a variety of different workloads,
     including batch-style backend jobs and interactive, user-facing applications.\\
     Some view the clouds as computing clusters with modest changes in \tit{virtualization}.}
@@ -999,11 +999,11 @@ This section is mainly the notes of \cite{hwang2017cloud}.
     HPC tasks need large amounts of computing power for short periods, whereas HTC tasks also require large amounts of computing, but for much longer times;\\
     HPC utilizes centralized high-performance processors to deal with a single large task, HTC utilizes less powerful processors from many servers to deal with the task that requires high throughput.\\
 }
-\fig{from HPC systems and clusters to p2p}{From HPC systems and clusters to grids, p2p networks, clouds and IoT}
+\fig{from HPC systems and clusters to p2p}{From HPC systems and clusters to grids, p2p networks, clouds and IoT}{}
 Basic cloud service models are \tit{infrastructure as a service} (IaaS) or infrastructure cloud,
 \tit{platform as a service} (PaaS) or platform cloud,
 and \tit{software as a service} (SaaS) or application cloud. Their differences with on-premise computing are listed below:
-\fig{comparing three cloud service models}{Comparing three cloud service models with on-premise computing}
+\fig{comparing three cloud service models}{Comparing three cloud service models with on-premise computing}{}
 \tab{
     \item \tbf{IaaS}: AWS, GoGrid;
     \item \tbf{PaaS}: Google App Engine, Microsoft Azure, Salesforce;
@@ -1011,7 +1011,7 @@ and \tit{software as a service} (SaaS) or application cloud. Their differences w
 }
 A physical cluster is a collection of servers (PMs) interconnected by a physical network. \tbf{virtual clusters} are built with multiple
 VMs installed at PM belong to one or more physical clusters.
-\fig{physical clusters and virtual clusters}{physical cluster and virtual cluster}
+\fig{physical clusters and virtual clusters}{physical cluster and virtual cluster}{}
 The virtual clusters have the following interesting properties:
 \lis{
     \item Multiple VMs running with different OSs can be deployed on the same physical node;
@@ -1075,7 +1075,7 @@ then the system availability can be expressed by:
     \end{aligned}
 }
 \sep{CPU and GPU}
-\fig{CPU and GPU Architecture}{CPU and GPU Architecture}
+\fig{CPU and GPU Architecture}{CPU and GPU Architecture}{}
 \tab{
     \item CPU has high flexibility for different applications. \tit{Von Neumann bottleneck}: memory access is slow compared to calculation.
     \item GPU has high throughput, it works well on applications with \tit{massive parallelism}.
@@ -1086,7 +1086,7 @@ A VM is essentially built as a software package that can be loaded into a host c
 execute certain user applications. Once the jobs are done, the VM package can be removed from the host computer.
 The host acts like a “hotel” to accommodate different “guests” at different timeframes. \\
 \tbf{VMM} (virtual machine monitor) can be used to build virtual machine for the guest OS, it can have the following operations:
-\fig{VMM Operations}{VMM Operations}
+\fig{VMM Operations}{VMM Operations}{}
 There are five levels of virtualization, among which only 2 are valuable:
 \tab{
     \item \tbf{Hypervisor}: virtualization on top of bare-metal hardware, an example is XEN.
@@ -1102,7 +1102,7 @@ There are five levels of virtualization, among which only 2 are valuable:
 }
 \tbf{Unikernel}: combines the advantages of hypervisor and container. Don't rely on a host OS, don't need guest OS for every VM.
 High performance and start quickly.
-\fig{virtual machine architecture}{virtual machine architecture}
+\fig{virtual machine architecture}{virtual machine architecture}{}
 
 
 
@@ -1158,7 +1158,7 @@ $(\cS,\cA,\cT,\cR,\rho_0,\gamma)$:
         \item The \tit{trajectory} of the MDP sequence: $S_0,A_0,R_1,S_1,A_1,\cdots$.
     }
 }
-\fig{agent–environment interaction}{The agent–environment interaction in a Markov decision process}
+\fig{agent–environment interaction}{The agent–environment interaction in a Markov decision process}{0.3}
 \thm{Dynamics of MDP}{\eq{
 p(s',r|s,a)\doteq\Pr\{S_t=s',R_t=r\mid S_{t-1}=s,A_{t-1}=a\}\\
 \sum_{s^{\prime}\in\mathcal{S}}\sum_{r\in\mathcal{R}}p(s^{\prime},r|s,a)=1,\text{ for all }s\in\mathcal{S},a\in\mathcal{A}(s)
@@ -1208,7 +1208,7 @@ in an action-value function sense:
         \end{gathered}
     }
 }
-\fig{different reinforcement learning agents}{Classification of different reinforcement learning agents}
+\fig{different reinforcement learning agents}{Classification of different reinforcement learning agents}{0.5}
 \defi{The optimal policy $\pi^*$}{A policy $\pi^*$ is an optimal policy if for every policy $\pi$ and every $s\in\cS$, we have:
     \eq{V^{\pi^*}(s)\geq V^{\pi}(s)}
     \re{
@@ -1225,7 +1225,7 @@ in an action-value function sense:
 \eq{
     \begin{aligned}v_{k+1}(s)\quad&\doteq\quad\mathbb{E}_\pi[R_{t+1}+\gamma v_k(S_{t+1})\mid S_t=s]\\&=\quad\sum_a\pi(a|s)\sum_{s',r}p(s',r|s,a)\Big[r+\gamma v_k(s')\Big]\end{aligned}
 }
-\fig{Iterative Policy Evaluation}{Iterative Policy Evaluation}
+\fig{Iterative Policy Evaluation}{Iterative Policy Evaluation}{}
 \thm{Policy Improvement Theorem}{
     For all $s\in\cS$, if:
     \eq{q_\pi(s,\pi^{\prime}(s))\geq v_\pi(s)}
@@ -1240,8 +1240,8 @@ in an action-value function sense:
     \end{aligned}
 }
 \sep{Policy Iteration and Value Iteration}
-\fig{Policy Iteration}{Policy Iteration}
-\fig{Value Iteration}{Value Iteration}
+\fig{Policy Iteration}{Policy Iteration}{0.5}
+\fig{Value Iteration}{Value Iteration}{0.5}
 Differences between VI and PI:
 \re{
     \tab{
@@ -1250,7 +1250,7 @@ Differences between VI and PI:
         \item PI takes fewer round, but takes more time within each round .
     }
 }
-\fig{Generalized Policy Iteration}{Generalized Policy Iteration}
+\fig{Generalized Policy Iteration}{Generalized Policy Iteration}{0.6}
 
 \subsection{Bandit Algorithms}
 The regret for bandit games is defined as :
@@ -1259,10 +1259,10 @@ The regret for bandit games is defined as :
 }
 Where $N_{t,i}=\sum_{t^{\prime}=0}^{t}\mathbb{1}\{a_{t^{\prime}}=i\}$ and $\Delta_{i}=\mu^{*}-\mu_{i}$.\\
 \sep{Greedy Algorithms}
-\fig{the greedy algorithm}{The greedy algorithm}
+\fig{the greedy algorithm}{The greedy algorithm}{}
 This algorithm achieves a regret at most $O(T)$.\\
 \sep{The $\epsilon$-greedy algorithm}
-\fig{The epsilon greedy algorithm}{The epsilon greedy algorithm}
+\fig{The epsilon greedy algorithm}{The epsilon greedy algorithm}{}
 The lower bound of $\epsilon$ greedy: $\overline{R}_t\geq\frac1m(\Delta_2+\cdots+\Delta_m)\varepsilon(T-m)$, where $\epsilon\le \epsilon_t$ for all $t$;
 \thm{The upper bound of $\epsilon$ greedy}{
     \overline{R}_T\leq C'\sum_{i\geq2}\left(\Delta_i+\frac{\Delta_i}{\Delta_{\mathrm{min}}^2}\log\max\left\{e,\frac{T\Delta_{\mathrm{min}}^2}m\right\}\right)
@@ -1273,7 +1273,7 @@ The lower bound of $\epsilon$ greedy: $\overline{R}_t\geq\frac1m(\Delta_2+\cdots
     }
 }
 \sep{The explore-then-commit algorithm (ETC)}
-\fig{The ETC algorithm}{The ETC algorithm}
+\fig{The ETC algorithm}{The ETC algorithm}{}
 This algorithm has an upper bound of $O(\Delta^2 log T)$, or $O(T^{\frac{2}{3}})$.
 
 
@@ -1303,7 +1303,7 @@ Primary data (surveys, experiments, interviews) are used in these studies, follo
 \cite{kumar2022expanding} reviewed different domains of OM publications on \textit{POM}, within which a section about empirical OM is covered.\\
 \cite{mithas2022causality} reviewed 411 empirical papers form 2016-2021 on \textit{POM}, with a
 causal inference and counterfactual perspective.
-\fig{identification strategies}{identification strategies from 2016 to 2021}
+\fig{identification strategies}{identification strategies from 2016 to 2021}{0.95}
 \re{Two challenges in assessing causality:\\
     \eq{\begin{aligned}T & =ATE+\left[E(Y(0)|Z=1)-E(Y(0)|Z=0)\right] \\
                  & +(1-\pi)*\left[(ATT-ATU)\right].\end{aligned}}
@@ -1313,7 +1313,7 @@ causal inference and counterfactual perspective.
         \item $\left[(ATT-ATU)\right]$ is the \textbf{differential treatment bias}.
     }
 }
-\fig{identification techniques}{How identification techniques works}
+\fig{identification techniques}{How identification techniques works}{}
 \cite{fisher2022innovations} especially investigate the empirical research in retail operations from
 traditional ones like forecasting and inventory planning, to new technologies, like radio frequency
 identification (RFID) and e-commerce.
@@ -1321,7 +1321,7 @@ identification (RFID) and e-commerce.
 \subsection{12 Papers of \cite{roth2007applications}}
 
 \cite{fisher2007strengthening} is a conceptual paper, in which a matrix is proposed to navigate conducting research:
-\fig{Navigating Matrix Cells}{Navigating Matrix Cells}
+\fig{Navigating Matrix Cells}{Navigating Matrix Cells}{0.6}
 Fisher suggests that a good empirical OM research should include the following:
 \lis{
     \item Identifying and verifying important phenomena;
@@ -1788,7 +1788,54 @@ sections \ref{sec:notestools}, equations \ref{eq:Example}, and boxes \ref{ax:Exa
 Cleaning all the auxiliary files: LaTeXmk $\rightarrow$ BibTeX $\rightarrow$ LaTeXmk $\rightarrow$ LaTeXmk.
 Or, zip the main files and upload them to Overleaf.\\
 Put photos in the \textit{pic} file and use \verb|\fig| to show it.
-\fig{temp}{Example.png}
+\fig{temp}{Example.png}{0.6}
+Using \verb=\python= to write python code:
+\python{Example Code}{
+import numpy as np
+def incmatrix(genl1,genl2):
+m = len(genl1)
+n = len(genl2)
+M = None #to become the incidence matrix
+VT = np.zeros((n*m,1), int)  #dummy variable
+
+#compute the bitwise xor matrix
+M1 = bitxormatrix(genl1)
+M2 = np.triu(bitxormatrix(genl2),1)
+
+for i in range(m-1):
+for j in range(i+1, m):
+[r,c] = np.where(M2 == M1[i,j])
+for k in range(len(r)):
+VT[(i)*n + r[k]] = 1;
+VT[(i)*n + c[k]] = 1;
+VT[(j)*n + r[k]] = 1;
+VT[(j)*n + c[k]] = 1;
+
+if M is None:
+M = np.copy(VT)
+else:
+M = np.concatenate((M, VT), 1)
+
+VT = np.zeros((n*m,1), int)
+return M
+}
+Using \verb=\alg= to write the pseudo code:
+\alg{Example Code}{
+    \Require $n \geq 0$
+    \Ensure $y = x^n$
+    \State $y \gets 1$
+    \State $X \gets x$
+    \State $N \gets n$
+    \While{$N \neq 0$}
+    \If{$N$ is even}
+    \State $X \gets X \times X$
+    \State $N \gets \frac{N}{2}$  \Comment{This is a comment}
+    \ElsIf{$N$ is odd}
+    \State $y \gets y \times X$
+    \State $N \gets N - 1$
+    \EndIf
+    \EndWhile
+}
 
 \clearpage
 \section{Important Proofs}
@@ -1843,10 +1890,14 @@ To Do:
 
 
 
-
-
 \newpage
 \listoffigures
+
+\newpage
+\listofalgorithms
+
+\newpage
+\lstlistoflistings
 
 \bibliographystyle{apalike}
 \bibliography{reference}
