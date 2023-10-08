@@ -30,6 +30,8 @@
 
 \section{Calculus and Linear Algebra}
 
+\subsection{Keys of Calculus}
+
 \subsection{Keys of Linear Algebra}
 
 The properties of Matrix Multiplication:
@@ -38,7 +40,7 @@ The properties of Matrix Multiplication:
     \item Distributivity: $A(C+D)=AC+AD$;
     \item Identity Multiplication: $I_mA=A,AI_n=A$
 }
-Only square matrix has an inverse matrix, and the inverse is unique. If a matrix doesn't have an inverse, then it's called \tbf{regular/invertible/nonsingular}.
+Only square matrix has an inverse matrix, and the inverse is unique. If a matrix has an inverse, then it's called \tbf{regular/invertible/nonsingular}.
 The properties of inverses and transposes:
 \tab{
 \item $(AB)^{-1}=B^{-1}A^{-1}$;
@@ -50,7 +52,7 @@ To find the inverse matrix, gaussian elimination can be applied: $[A\mid I]=[I\m
 \sep{Solutions of Linear Systems}
 \tbf{Reduced Row-Echelon Form Matrix}:
 \eq{
-    \boldsymbol{A}=\begin{bmatrix}1&3&0&0&3\\0&0&\mathbf{1}&0&9\\0&0&0&\mathbf{1}&-4\end{bmatrix}
+    \boldsymbol{A}=\begin{bmatrix}1&3&0&0&3\\0&0&1&0&9\\0&0&0&1&-4\end{bmatrix}
 }
 There are \tit{pivot (basic variables)} and \tit{free variable}, and the column of free variable is dependent on pivots. The steps to find solutions of linear systems:
 \lis{
@@ -70,7 +72,7 @@ define error = $\|x^{(k+1)}-x_*\|$, then optimize the function $x^{(k+1)}=Cx^{(k
     For $\mathcal{U}\subseteq\mathcal{V}$ and $\mathcal{U}\neq\emptyset$, then $U=(\cU,+,\cdot)$ is a vector subspace.\\
     \re{
         \tab{
-            \item $V=(\mathcal{V},+) is an Abelian group$;
+            \item $V=(\mathcal{V},+)$ is an \tit{Abelian group};
             \item The subspace needs to satisfy \tit{closure}, $\lambda x \in U, x+y\in U$.
         }
     }
@@ -99,6 +101,74 @@ If $v=\sum_{i=1}^{k}\lambda_ix_i$, then $v$ is a linear combination of $(x_1,x_2
     For vector spaces $V,W$, a mapping $\Phi:V\rightarrow W$ is called linear mapping if:
     \eq{
         \forall x,y\in V\forall\lambda,\psi\in\mathbb{R}:\Phi(\lambda x+\psi\boldsymbol{y})=\lambda\Phi(x)+\psi\Phi(\boldsymbol{y})
+    }
+}
+\sep{Determinant and Trace}
+\tbf{Determinant} is used to decide whether a matrix is invertible, denoted by $del(A)$ or $|A|$, its geometric meaning is
+the signed volume. \tit{Laplace Expansian} can be used to compute the determinant for large matrix.\\
+If $det(A)=0$, then it's non-invertible. otherwise it's invertible.\\
+\tbf{Trace} is defined as $Tr(A)=\sum_{i=1}^n a_{ii}$. Both determinant and trace is applied to only the squared matrix.
+\sep{Eigenvalue and Postive-Definiteness}
+Consider matrix $A\in \RR^{n\times n}$ as a linear mapping rather than a simple matrix, $A$ can map a n-dimensional space
+to another n-dimensional space.
+\fig{Mona-Lisa}{
+    A shear mapping example
+}{0.3}
+The Mona-lisa example is a linear mapping on two-dimensional space, but during the mapping, there are some vectors (such as the blue vector)
+that are only modified in its length rather than direction. This is the idea of the eigenvector.
+\defi{Eigenvalue and Eigenvector}{
+    For a square matrix $A$, if there exists a scalar $\lambda$ and a vector $v\in \RR^n$, such that $A\cdot v=\lambda\cdot v$.
+    Which would lead us to $(A-\lambda I)\cdot v=\tbf{0}$.
+    \re{
+        The following statements are equivalent:
+        \tab{
+            \item $\lambda$ is an eigenvalue of $A\in \RR^{n\times n}$;
+            \item $rk(A-\lambda I)<n$;
+            \item $det(A-\lambda I)=0$.
+        }
+    }
+}
+The definiteness is similar to the idea of eigenvalue. Consider $X^T MX$ as the inner product of $X$ and $MX$, where
+$MX$ can be thought as a transformed version of $X$. If $X^T MX>0$ for all $X$,
+then we can get $\cos \theta=\frac{X^T \cdot MX}{||X||\cdot ||MX||}>0$, whcih means for all vectors, the linear mapping $M$ can map
+the vector to an angle less than 90 degree.\\
+So to show whether a matrix is postive definite, calculate all the eigenvalues of the matrix. If all values are lager than 0, then it's positive definite/
+\re{
+    \tab{
+        \item $Tr(A)=\sum_i^n \lambda_i$;
+        \item $\det(A)=\prod_{i=1}^n\lambda_i$.
+    }
+}
+
+\subsection{Norms}
+
+\defi{Norm}{
+The norm $||\codt||$ is a mapping $V\to \RR$, which assigns each vector a length that satisfy:
+\tab{
+    \item \tit{Absolutely homogeneous}: $\|\lambda x\|=|\lambda|\|x\|$;
+    \item \tit{Triangle inequality}: $\lVert x+y\rVert\leqslant\lVert x\rVert+\lVert y\rVert$;
+    \item \tit{Positivity}: $||x||\ge0$ and $\|\boldsymbol{x}\|=0\iff\boldsymbol{x}=\boldsymbol{0}$.
+}
+The $L_p$ norm: $\|x\|_p=\left(|x_1|^p+|x_2|^p+\cdots+|x_n|^p\right)^{1/p}$.\\
+\co{$L_p$ norm}{
+    \lis{
+        \item \tbf{Manhattan Norm}: $\|\boldsymbol{x}\|_1:=\sum_{i=1}^n|x_i|$;
+        \item \tbf{Euclidean Norm}: $\|\boldsymbol{x}\|_2:=\sqrt{\sum_{i=1}^nx_i^2}=\sqrt{\boldsymbol{x}^\top\boldsymbol{x}}$ (mostly denoted as $||\cdot||$);
+        \item \tbf{Infinity Norm}: $\|x\|_\infty=\max\left\{|x_1|,|x_2|,\ldots,|x_n|\right\}$.
+    }
+}
+\proo{Infinity Norm}{
+By squeeze theorem:\\
+First show that $\|x\|_p=(\sum_i|x_i|^p)^{\frac1p}\leq(\sum_i\max_i|x_i|^p)^{\frac1p}=n^{\frac1p}\max_i|x_i|\to\max_i|x_i|=\|x\|_\infty $,\\
+Next show that $\|x\|_p=(\sum_i|x_i|^p)^{\frac1p}\geq(\max_i|x_i|^p)^{\frac1p}=\max_i|x_i|=\|x\|_\infty $.
+}
+
+}
+\sep{Taking derivatives of Norm}
+\ex{$X\in \RR^m, f(x):\RR^m\to\RR^n, g(x)=||x||_2$, what is $\nabla g(X)$?}{
+    First， $g(X)=\|f(X)\|_2=\sqrt{\sum_{i=1}^nf_i(X)^2}$;
+    \eq{
+        \nabla g(X)=\frac12\left(\sum_{i=1}^nf_i(X)^2\right)^{-\frac12}\left(\sum_{i=1}^n2f_i(X)\nabla f_i(X)\right)=\frac{J_f(X)^Tf(X)}{\|f(X)\|_2}
     }
 }
 
@@ -717,12 +787,6 @@ If $X_i\sim\mathcal{N}(0,1)$, then:
 }
 
 \clearpage
-\section{Causal Model}
-
-\subsection{Rubin's Causal Model}
-
-
-\clearpage
 \section{Reduced-Form Identification}
 The main contents of this chapter are the notes of \cite{angrist2014mastering}, \cite{angrist2009mostly}.
 
@@ -1113,6 +1177,21 @@ High performance and start quickly.
 \section{Deep Learning}
 
 \clearpage
+\section{Causal Inference with Machine Learning}
+
+\subsection{Foundations of Causal Inference}
+
+\cite{peters2017elements} provide a overview of causal inference from a foundamental science perspective. \cite{spirtes2010introduction}
+summarize the development of causal infernce and machine learning interfacce from a computer science perspective.\\
+There are two main causal framework: \tbf{Structural Causal Model} and \tbf{Potential Outcome Framework}.
+
+\subsubsection{Structural Causal Model}
+\tbf{SCM} (Structural Causal Model) can be devided into two subgroups: \tit{causal graph} and \tit{structural euqation}.
+
+\defi{}{}
+
+
+\clearpage
 \section{Reinforcement Learning}
 
 This section is mainly the notes of \cite{thrun2000reinforcement} and \cite{agarwal2019reinforcement}.
@@ -1278,7 +1357,7 @@ This algorithm has an upper bound of $O(\Delta^2 log T)$, or $O(T^{\frac{2}{3}})
 
 
 \clearpage
-\chapter{Information Systems and Operations Management}
+\chapter{Operations Management}
 
 \section{Empirical Operations Management}
 
@@ -1412,9 +1491,29 @@ Solution: add penalty to save more seats for the high fare consumers:
 
 \subsection{Current Consumer Choice Model}
 
+\clearpage
+\section{Dynamic Pricing}
 
+\subsection{Dynamic Pricing and Reinforcement Learning}
 
-
+\cite{misra2019dynamic} is probably the first paper that incoperates reinforcement learning (MAB) algorithm
+into dynamic pricing.
+\ass{\cite{misra2019dynamic}}{
+For consumers:
+\lis{
+    \item She has stable preferences $v_i$ doesn't change over time;
+    \item Her choice satisfies weak axim of revealed preference: if $v_i>p$, then she would buy it;
+    \item Heterogeneity among consumers can be separated as observable and unobservable heterogeneity: $v_i=f(\mathbb{Z}_i)+\nu_i$;
+    \item There are bound for $\nu_i: \nu_{i}\in[-\delta,\delta]$；
+}
+Model Setting:
+\lis{
+\item There are $K$ prices that a firm can choose: $p\in\{p_1,\ldots,p_K\}$;
+\item sample mean $\bar{\pi_{kt}}=1/n_{kt}\sum_{\tau=1}^{n_{kt}}\pi_{k\tau}$, a policy is defined as $p_t=\Psi(\{p_\tau,\pi_\tau|\tau=1,\ldots,t-1\})$;
+\item The regret is given by: $\mathrm{Regret}(\Psi,\{\pi(\mathfrak{p_k})\},t)=\pi^*t-\sum_{k=1}^{K}\pi(p_k)\mathbb{E}[n_{kt}]$
+}
+}
+\cite{calvano2020artificial}
 
 \clearpage
 \section{Platform Operations Management}
@@ -1483,10 +1582,18 @@ They predict 2 propositions:
     Y_{it}=\mu_i+\nu_t+\beta{\cdot}1(\text{Policy})_{it}+\gamma^{\prime}\textbf{X}_{it}+\varepsilon_{it}
 }
 Their results show that the competition effects dominate the role of professional hosts.
+\cite{farronato2022welfare} investigate the peer's entry on consumer's welfare in the accommodation industry using a structural model.\\
+\tbf{Intuition}: Peer hosts are responsive to market conditions, expand supply as hotels fill up, and keep hotel prices down as a result.
 
 \subsection{Platform Owner's Entry}
 
 \key{Complementory Markets, Spillover Effects}
+
+\cite{chen2023price} is the first paper considering the asymmetric information between the platform owner and the third-party sellers, and the effects of the information disadvantage
+on consumer's welfare. They assemble data from Amazon: 122000 products, each with two sellers offering the same product. \tit{The information asymmetry}: when Amazon’s competitors make sales,
+Amazon adjusts its prices accordingly; conversely, third-party sellers do not react to their competitors’ sales.\\
+After observing the empirical evidence of the information asymmetry, they design a theoretical model and itentify the parameters. Using the structural regression, they find that by giving
+information to third-party sellers. Both the Amazon, third-party sellers and the consumers' welfare would be increased.
 
 \cite{zhu2018competing} surveys empirical studies that examine the direct entry of platform owners
 into complementary product spaces.
@@ -1538,10 +1645,76 @@ Finally, DDD and PSM were adopted to identify the heterogeneity of the effects b
     Reviews_{it}=\alpha+\beta Treated_i \times After_t + \delta Controls_{it} + C_i + T_i + \epsilon_{it}
 }
 Many papers analyze the platform owner's entry from a game-theory perspective.\\
-\cite{hagiu2020creating} examine whether a company should transform into a platform,
-they analyze this model from a perspective of customer's cost. The results show that the strategy by turning competitors into complementors can benefit the company.\\
-\cite{cheng2022impact} provides similar results by showing that the 'ban introduction of platform' policy would not benefit the sellers very much.\\
-
+\cite{hagiu2020creating} investigate the owner's entry decision in the complementary markets.
+\ass{Creating platforms by hosting rivals}{
+    \tab{
+        \item There are two companies $M$ and $S$: $M$ sells product $A$ and $B_M$, $S$ can only sell $B_S$;
+        \item The costs to produce are all set to zero;
+        \item The number of customers is normalized to one, $\lambda_A$ customers are only interested in $A$ ($A$-type), $1-\lambda_A$ are interested in both ($B$-type);
+        \item $u_A>0$ for both type of customers, $u_B>0$ and $u_S=u_B+\Delta$ for $B$-type;
+        \item There are costs for consumers to go to each store with a cost $\sigma$, and $0<\sigma<\min\{u_A,u_B\}, \Delta<\sigma$.
+    }
+}
+The authors analyze two conditions: without hosting and hosting. By solving the equilibrium given two conditions, they find the following conclusion:
+\lis{
+    \item In the without hosting condition, $M$ would dominant the whole market, the profit for $S$ is zero;
+    \item Even without transfer for $S$ to sell products in the platform $M$, $M$ can still benefit if $\lambda_A\leq\sigma/u_A$ and $\Delta>\lambda_A(u_A-\sigma)^+F/(1-\lambda_A)$.
+}
+\cite{cheng2022impact} analyze the owner's entry ob the incumbent sellers in the E-commerce platform.
+\ass{
+    Sell-on Contract
+}{
+    Without the entry, the demands for the two incumbent sellers are:
+    \eq{
+        \begin{aligned}D_1^s&=\frac12[1-p_1^s+\theta(p_2^s-p_1^s)]\\D_2^s&=\frac12[1-p_2^s+\theta(p_1^s-p_2^s)]\end{aligned}
+    }
+    After the entry, it is modified to:
+    \eq{
+        \begin{gathered}
+            D_{r}^{o}= \frac{1}{2+a}\left[a-p_{r}^{o}+\frac{1}{2}[\delta(p_{1}^{o}-p_{r}^{o})+\delta(p_{2}^{o}-p_{r}^{o})]\right] \\
+            D_{1}^{o} =\frac{1}{2+a}\left[1-p_{1}^{o}+\frac{1}{2}[\theta(p_{2}^{o}-p_{1}^{o})+\delta(p_{r}^{o}-p_{1}^{o})]\right] \\
+            D_{2}^{o}= =\frac{1}{2+a}\left[1-p_{2}^{o}+\frac{1}{2}[\theta(p_{1}^{o}-p_{2}^{o})+\delta(p_{r}^{o}-p_{2}^{o})]\right]
+        \end{gathered}
+    }
+    Where $a$ captures the strength of pltform's own brand. $\theta,\delta$ are the cross sensitivity.
+}
+They find that in both the sell-to and sell-on conditions, the entry of the platform owner may not harm the incumbent sellers.
+What's more, comparing to the entry of a new third-party sellers, the incumbent sellers profit more when facing the entry of the owner.
+\cite{lai2022fulfilled} investigates the introduction of Amazon's fullfillment program (FBA) on the third-party sellers in the E-commerce platform.
+\ass{FBA on the third-party sellers}{
+    \tab{
+        \item Both Amazon and the third-party sell substitute products, at price of $p_A$ and $p_S$;
+        \item Amazon procure the products from OEM supplier at price $w$ with a cost $c_0$, the third-party obtain its products with a cost $g$;
+        \item The third party pays $r$ share of its revenue to Amazon as commission;
+        \item The delivery cost for different means are all $c$, the Amazon provides a better service $S_A>S_s$, the third party can pay $T>c$ to use FBA;
+    }
+    Without FBA, the demands are given by:
+    \eq{
+        \begin{aligned}q_A&=Q_A-p_A+\beta p_S+\alpha s_A-\eta s_S,\\q_S&=Q_S-p_S+\beta p_A+\alpha s_S-\eta s_A,\end{aligned}
+    }
+    With FBA, the demands are given by:
+    \eq{
+        \begin{aligned}q_A&=Q_A-p_A+\beta p_S+\alpha s_A-\eta s_A,\\q_S&=Q_S-p_S+\beta p_A+\alpha s_A-\eta s_A.\end{aligned}
+    }
+    They assume are informations are common knowledge.
+}
+There are three decision makers: Amazon: $p_A, T$, Third-party: $p_S, FBA$, OEM: $w$:
+\eq{
+    \begin{array}{l}\Pi_{A,N}=(p_A-w-c)q_A(p_A,p_S)+rp_Sq_S(p_A,p_S)\\\Pi_{S,N}=[(1-r)p_S-g-c]q_S(p_A,p_S)\\\Pi_{M,N}=(w-c_0)q_A(p_A,p_S)\end{array}
+}
+To given insights which policy would benefit different parties, they took the following steps:
+\lis{
+\item In the without-FBA condition, given $w$, solve the equilibrium for $p_A^{\star}(w),p_S^{\star}(w)$;
+\item Substituting them into the decision model of OEM, solve the optimal $w^{\star}$ in the SOSC condition.
+\item In the FBA condition, repete above steps, solve the equilibrium for $p_A^{\star}(w),p_S^{\star}(w),w^{\star}$;
+\item Substituting them into the decision model of OEM, solve the optimal $T^{\star}$.
+}
+They find some interesting insights:
+\lis{
+    \item The third party benifits from FBA when $T<\bar{T}$;
+    \item Amazon can benefit from FBA if $\eta$ is either small or large;
+    \item The FBA program can achieve a \tit{win-win-win} outcome for he third-party seller, Amazon and its OEM supplier.
+}
 
 \subsection{Consumer Polarization}
 
