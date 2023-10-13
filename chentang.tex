@@ -13,7 +13,7 @@
 % package import
 \usepackage{amsmath,amsfonts,amsthm,amssymb,mathtools,enumitem}
 \usepackage[most,many,breakable]{tcolorbox}
-\tcbuselibrary{theorems, skins, hooks}
+\tcbuselibrary{theorems, skins, hooks, minted}
 \usepackage{xcolor,varwidth,etoolbox,multicol,array,colortbl}
 \usepackage{tikz-cd,tikzsymbols,xifthen}
 \usepackage{algorithm,algpseudocode}
@@ -182,6 +182,27 @@
 	fonttitle=\bfseries, boxed title style={size=small, colframe=df!90},
 }
 {proo}
+
+\newtcblisting{mylistingp}{
+	colframe=cyan,
+	colback=cyan!10,
+	listing only,
+	listing engine=minted,
+	minted language=python,
+	minted options={fontsize=\small,linenos,numbersep=3mm},
+}
+
+\newtcblisting{mylistings}{
+	colframe=cyan,
+	colback=cyan!10,
+	listing only,
+	listing engine=minted,
+	minted language=sh,
+	minted options={fontsize=\small,linenos,numbersep=3mm},
+}
+
+\newcommand{\python}[1]{\begin{mylistingp}#1\end{mylistingp}}
+\newcommand{\bash}[1]{\begin{mylistings}#1\end{mylistings}}
 
 \newcommand{\customtext}[1]{
 	\if\relax\detokenize{#1}\relax
