@@ -183,27 +183,6 @@
 }
 {proo}
 
-\newtcblisting{mylistingp}{
-	colframe=cyan,
-	colback=cyan!10,
-	listing only,
-	listing engine=minted,
-	minted language=python,
-	minted options={fontsize=\small,linenos,numbersep=3mm},
-}
-
-\newtcblisting{mylistings}{
-	colframe=cyan,
-	colback=cyan!10,
-	listing only,
-	listing engine=minted,
-	minted language=sh,
-	minted options={fontsize=\small,linenos,numbersep=3mm},
-}
-
-\newcommand{\python}[1]{\begin{mylistingp}#1\end{mylistingp}}
-\newcommand{\bash}[1]{\begin{mylistings}#1\end{mylistings}}
-
 \newcommand{\customtext}[1]{
 	\if\relax\detokenize{#1}\relax
 		The solution is omitted.
@@ -295,7 +274,7 @@
 }
 
 \newcommand{\fig}[3]{
-	\begin{figure}
+	\begin{figure}[H]
 		\centering
 		\includegraphics[width=\customtexta{#3}\textwidth]{#1}
 		\caption{#2}
