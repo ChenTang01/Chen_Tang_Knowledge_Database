@@ -986,6 +986,40 @@ thus $Cov(Y_i,\tilde{x_{ki}}=\beta_k x_{ki})$.
 
 \subsection{Asymptotic Analysis}
 
+\subsection{Empirical Classics}
+
+\subsubsection{Returns to Schooling}
+It's been a long history to study the effects of education on the salary. Counterfactuals here are multi-faceted: instead of the
+single contrast $Y_{1i}-Y{0i}$, it is more often to study every possible schooling choice $Y_{n,i}-Y_{m,i}$, where $n,m$ are the
+years of education.
+\cite{mincer1974schooling} uses U.S. census data to do the following regression:
+\eq{
+    \ln Y_i = \alpha+\rho S_i+\beta_1 X_i +\beta_2 X_i^2+e_i,
+}
+where $X_i=Age_i-S_i-6$, defined as the \tit{potential experience}, and $S_i$ is the year of education. The result shows that one-year more eduction would bring 10.7\% more earnings.\\
+This result may be biased because it doesn't consider individual's ability, which is correlated both with the earnings and the education.\\
+To handle ability bias, \cite{griliches1977estimating} includes IQ as a control variable to eliminate the influence of personal
+ability, the new $\rho$ estimated is 5.9\%, which is smaller as expected.\\
+In the process of handling ability bias, be aware of the bad control: which is controling the occupation. This is because the occupation
+is a variable \tit{after} the eduction years, and some effect of the eduction is through occupation, controling occupation would
+underestimate the effect. \\
+The above regressions don't consider other variables, one approach to handle this is by comparing the twins
+(\cite{ashenfelter1994estimates}, \cite{ashenfelter1998income}), since each person of twins are almost identical in IQ,
+family background, etc. The long regression is written as:
+\eq{
+\ln Y_{i,f} = \alpha+\rho S_{i,f}+\lambda A_{i,f}+e_{i,f},
+}
+where subscript $i,f$ stand for individual and family respectively, $i=1,2$ indexes twin siblings. If we consider the regression within a family:
+\eq{
+\ln Y_{1,f} = \alpha + \rho S_{1,f} +\lambda A_f +e_{1,f}\\
+\ln Y_{2,f} = \alpha + \rho S_{2,f} +\lambda A_f +e_{2,f}
+}
+Subtracting them would lead to:
+\eq{
+\ln Y_{1,f}-\ln Y_{2,f}=\rho (S_{1,f}-S_{2,f}) + e_{1,f}-e_{2,f}
+}
+This regression gives an estimation of 6.2\% for $\rho$. But in practice the self-reported schooling has
+
 \clearpage
 \chapter{Data Science}
 
