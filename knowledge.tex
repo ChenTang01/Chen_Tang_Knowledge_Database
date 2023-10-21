@@ -771,8 +771,33 @@ Then $x^*$ is a \tit{strict local minimum} of $f$.
         \item If $f$ is strongly convex, then it has at most one global minimizer, which is the stationary point.
     }
 }
+\lem{Convexity and Level Sets}{
+    Let $f$ be a convex function, then for any $\alpha$, the level set $\mathcal{L}_{\leq\alpha}=\{x:f(x)\leq\alpha\}$ is a convex set.\\
+    Linear constraints are always convex.
+}
+\ex{Is the optimizaion probelm:
+    \eq{
+        \begin{aligned}\mathrm{maximize}_{x,y,z}&&\mathrm{xyz}\\\mathrm{s.t.}&&x+2y+3z\leq3\\&&x,y,z\geq0\end{aligned}
+    }
+    convex or not?}{
+    All constraints are convex since they are linear. The objective $xyz$ is not concave. However,
+    we can turn the above problem into an equivalent form:
+    \eq{
+        \begin{aligned}\mathrm{maximize}_{x,y,z}&&\log xyz\\\mathrm{s.t.}&&x+2y+3z\leq3\\&&x,y,z\geq0\end{aligned}
+    }
+    This problem is convex since $\log xyz = \log x +\log y+\log z$, which is a concave-preserved operation on concave functions.
+}
 
-\subsection{Convex Optimization ALgorithms}
+\subsection{Unconstrained Convex Optimization ALgorithms}
+
+\subsubsection{Single Variable Problem}
+\tbf{Bisection method} uses the idea that the local minimizer must satisfy the FONC :$f^{\prime}(x)=0.$
+\fig{Bisection Methods}{Bisection Method}{0.5}
+The bisection method can only help us find an approximate \tit{stationary point}. When $f$ is convex, this is an approximate global minimizer of $f$.\\
+The iteration of the bisection method takes at most $\log_2(\frac{x_r-x_\ell}\epsilon)$ steps.\\
+\tbf{Golden section method} can optimize those problems whose first derivative is difficult to obtain, but it requires us to know the range of the local optimal solution.\\
+\fig{Golden Section Method}{Golden Section Method}{0.5}
+If we set $\phi=\frac{3-\sqrt{5}}2$, then we can save one function evaluation during each iteration.
 
 \clearpage
 \chapter{Economics and Econometrics}
@@ -1165,8 +1190,37 @@ There are five levels of virtualization, among which only 2 are valuable:
 \tbf{Unikernel}: combines the advantages of hypervisor and container. Don't rely on a host OS, don't need guest OS for every VM.
 High performance and start quickly.
 \fig{virtual machine architecture}{virtual machine architecture}{}
-
-
+\subsection{Hadoop and Spark}
+\lis{
+    \item \tbf{MapReduce}: is a parrallel programming model designed by Google;
+    \item \tbf{Haddop}: is a parallel programming platform (library) to implement the MapReduce model;
+    \item \tbf{Spark}: is a computing engine for big data supporting more operations than MapReduce.
+}
+\sep{MapReduce Model}
+\fig{MapReduce Model}{MapReduce Model}{50}
+Steps of MapReduce:
+\lis{
+    \item \tbf{Data Partitioning}: split the input data files into multiple \tit{blocks};
+    \item \tbf{Fork Out} the user pogram to masters (nne copy of the user program runs on the master mode);
+    \item Assign \tbf{Map Function} and \tbf{Reduce Function};
+    \item Read the partitioned data blocks into map workers;
+    \item Perform the Map Function;
+    \item \tbf{Sort and Group} intermediate key-value pairs before forwarding them to reduce workers;
+    \item Perform the reduction function using the grouped pairs;
+    \item Output the results.
+}
+\fig{Word Count Using MapReduce}{Word Count Using MapReduce}{0.4}
+For an $n\times n$ matrix multiplication, the complexity is $O(n^3)$, using $N$ clusters, the ideal speedup is $N$ and the maximum speed up is $n^2$.
+\fig{MapReduce for Parallel Matrix Multiplication}{MapReduce for Parallel Matrix Multiplication}{0.4}
+Different types of ReducForm:
+\lis{
+    \item Map-only: map() $\to$ output: document conversion, brute force searches;
+    \item Classic MapReduce: map() $\to$ reduce() $\to$ output: distributed search and sort;
+    \item Iterative MapReduce: some advanced linear algebra and machine learning.
+}
+Page Rank Algorithm with MapReduce:
+\fig{PageRank using MapReduce}{PageRank using MapReduce}{0.8}
+\sep{Apache Hadoop}
 
 \clearpage
 \section{Machine Learning}
@@ -1352,6 +1406,7 @@ The lower bound of $\epsilon$ greedy: $\overline{R}_t\geq\frac1m(\Delta_2+\cdots
 \sep{The explore-then-commit algorithm (ETC)}
 \fig{The ETC algorithm}{The ETC algorithm}{}
 This algorithm has an upper bound of $O(\Delta^2 log T)$, or $O(T^{\frac{2}{3}})$.
+\sep{The UCB algorithm}
 
 
 \clearpage
@@ -1547,7 +1602,13 @@ Model Setting:
 \item sample mean $\bar{\pi_{kt}}=1/n_{kt}\sum_{\tau=1}^{n_{kt}}\pi_{k\tau}$, a policy is defined as $p_t=\Psi(\{p_\tau,\pi_\tau|\tau=1,\ldots,t-1\})$;
 \item The regret is given by: $\mathrm{Regret}(\Psi,\{\pi(\mathfrak{p_k})\},t)=\pi^*t-\sum_{k=1}^{K}\pi(p_k)\mathbb{E}[n_{kt}]$
 }
+There are $K$ segments of consumers, each segment is denoted by $\theta_k$ and $s$, and their behaviour follows:
+\lis{
+    \item $D(p_k)_{s,t}=0$ is consistent with consumers being of type $\{\theta_1,\cdots,\theta_{k-1}\}$;
+    \item $D(p_k)_{s,t}=1$ is consistent with consumers being of type $\{\theta_k,\cdots,\theta_{K}\}$;
 }
+}
+In this paper a novel algorithm (UCB-PI) is proposed and verified that can outperform other algorithms.\\
 \cite{calvano2020artificial}
 
 \clearpage
