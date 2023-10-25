@@ -34,14 +34,14 @@
 
 \subsection{Keys of Linear Algebra}
 
-THe main contents of this subsection are notes from \cite{deisenroth2020mathematics}.
+The main contents of this subsection are notes from \cite{deisenroth2020mathematics}.
 The properties of Matrix Multiplication:
 \tab{
     \item Associativity: $(AB)C=A(BC)$;
     \item Distributivity: $A(C+D)=AC+AD$;
     \item Identity Multiplication: $I_mA=A,AI_n=A$
 }
-Only square matrix has an inverse matrix, and the inverse is unique. If a matrix has an inverse, then it's called \tbf{regular/invertible/nonsingular}.
+Only square matrixes has an inverse matrix, and the inverse is unique. If a matrix has an inverse, then it's called \tbf{regular/invertible/nonsingular}.
 The properties of inverses and transposes:
 \tab{
 \item $(AB)^{-1}=B^{-1}A^{-1}$;
@@ -106,17 +106,17 @@ If $v=\sum_{i=1}^{k}\lambda_ix_i$, then $v$ is a linear combination of $(x_1,x_2
 }
 \sep{Determinant and Trace}
 \tbf{Determinant} is used to decide whether a matrix is invertible, denoted by $del(A)$ or $|A|$, its geometric meaning is
-the signed volume. \tit{Laplace Expansian} can be used to compute the determinant for large matrix.\\
-If $det(A)=0$, then it's non-invertible. otherwise it's invertible.\\
-\tbf{Trace} is defined as $Tr(A)=\sum_{i=1}^n a_{ii}$. Both determinant and trace is applied to only the squared matrix.
+the signed volume. \tit{Laplace Expansian} can be used to compute the determinant for large matrixes.\\
+If $det(A)=0$, then it's non-invertible. otherwise, it's invertible.\\
+\tbf{Trace} is defined as $Tr(A)=\sum_{i=1}^n a_{ii}$. Both determinant and trace can only be applied to the squared matrix.
 \sep{Eigenvalue and Postive-Definiteness}
 Consider matrix $A\in \RR^{n\times n}$ as a linear mapping rather than a simple matrix, $A$ can map a n-dimensional space
 to another n-dimensional space.
 \fig{Mona-Lisa}{
     A shear mapping example
 }{0.3}
-The Mona-lisa example is a linear mapping on two-dimensional space, but during the mapping, there are some vectors (such as the blue vector)
-that are only modified in its length rather than direction. This is the idea of the eigenvector.
+The Mona Lisa example is a linear mapping of two-dimensional space, but during the mapping, there are some vectors (such as the blue vector)
+that are only modified in length rather than direction. This is the idea of the eigenvector.
 \defi{Eigenvalue and Eigenvector}{
     For a square matrix $A$, if there exists a scalar $\lambda$ and a vector $v\in \RR^n$, such that $A\cdot v=\lambda\cdot v$.
     Which would lead us to $(A-\lambda I)\cdot v=\tbf{0}$.
@@ -131,9 +131,9 @@ that are only modified in its length rather than direction. This is the idea of 
 }
 The definiteness is similar to the idea of eigenvalue. Consider $X^T MX$ as the inner product of $X$ and $MX$, where
 $MX$ can be thought as a transformed version of $X$. If $X^T MX>0$ for all $X$,
-then we can get $\cos \theta=\frac{X^T \cdot MX}{||X||\cdot ||MX||}>0$, whcih means for all vectors, the linear mapping $M$ can map
-the vector to an angle less than 90 degree.\\
-So to show whether a matrix is postive definite, calculate all the eigenvalues of the matrix. If all values are lager than 0, then it's positive definite/
+then we can get $\cos \theta=\frac{X^T \cdot MX}{||X||\cdot ||MX||}>0$, which means for all vectors, the linear mapping $M$ can map
+the vector to an angle less than 90 degrees.\\
+So to show whether a matrix is positive definite, calculate all the eigenvalues of the matrix. If all values are larger than 0, then it's positive definite/
 \re{
     \tab{
         \item $Tr(A)=\sum_i^n \lambda_i$;
@@ -546,7 +546,7 @@ The above formulation can be transformed into the following standard form:
 \eq{
     \begin{array}{rlr}\text{minimize}&c_1x_1+c_2x_2+\cdots+c_nx_n\\\text{subject to}&a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n+y_1=b_1\\&a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n+y_2=b_2\\&\vdots\quad\vdots\\&a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n+y_m=b_m\\\text{and}&x_1\geqslant0,x_2\geqslant0,\ldots,x_n\geqslant0,\\\text{and}&y_1\geqslant0,y_2\geqslant0,\ldots,y_m\geqslant0.\end{array}
 }
-Now the constraint would be modified from $\tbf{A}$ to $\tbf{[A,I]}$, and the number of unknowns is changed from $n$ to $n+m$.\\
+Now the constraint would be modified from $\tbf{A}$ to $\tbf{[A, I]}$, and the number of unknowns is changed from $n$ to $n+m$.\\
 \tbf{Surplus Variable}\\
 Similar to the slack variable, formulation like:
 \eq{
@@ -706,7 +706,7 @@ If $x^*$ is a local minimizer of $f$, then it holds that:
 \item $\mathrm{For~all~}d\in\mathbb{R}^n{:}d^\top\nabla^2f(x^*)d\geq0$ ($\nabla^2f(x^*)$ is positive semidefinite);
 }
 \defi{Saddle Point}{
-    A point satisfying FONC is a \tbf{stationary point}, a stationary point with indefinite Hessian matrix is called \tbf{saddle point}.
+    A point satisfying FONC is a \tbf{stationary point}, a stationary point with an indefinite Hessian matrix is called \tbf{saddle point}.
 }
 }
 \fig{An example of saddle point}{An example of saddle point}{}
@@ -775,7 +775,7 @@ Then $x^*$ is a \tit{strict local minimum} of $f$.
     Let $f$ be a convex function, then for any $\alpha$, the level set $\mathcal{L}_{\leq\alpha}=\{x:f(x)\leq\alpha\}$ is a convex set.\\
     Linear constraints are always convex.
 }
-\ex{Is the optimizaion probelm:
+\ex{Is the optimization problem:
     \eq{
         \begin{aligned}\mathrm{maximize}_{x,y,z}&&\mathrm{xyz}\\\mathrm{s.t.}&&x+2y+3z\leq3\\&&x,y,z\geq0\end{aligned}
     }
@@ -791,13 +791,94 @@ Then $x^*$ is a \tit{strict local minimum} of $f$.
 \subsection{Unconstrained Convex Optimization ALgorithms}
 
 \subsubsection{Single Variable Problem}
-\tbf{Bisection method} uses the idea that the local minimizer must satisfy the FONC :$f^{\prime}(x)=0.$
+\tbf{Bisection method} uses the idea that the local minimizer must satisfy the FONC: $f^{\prime}(x)=0.$
 \fig{Bisection Methods}{Bisection Method}{0.5}
 The bisection method can only help us find an approximate \tit{stationary point}. When $f$ is convex, this is an approximate global minimizer of $f$.\\
 The iteration of the bisection method takes at most $\log_2(\frac{x_r-x_\ell}\epsilon)$ steps.\\
 \tbf{Golden section method} can optimize those problems whose first derivative is difficult to obtain, but it requires us to know the range of the local optimal solution.\\
 \fig{Golden Section Method}{Golden Section Method}{0.5}
 If we set $\phi=\frac{3-\sqrt{5}}2$, then we can save one function evaluation during each iteration.
+
+\subsection{High Dimensional Search}
+Consider:
+\eq{
+\mathrm{minimize}_{x\in\mathbb{R}^n}\quad f(x).
+}
+We typically use iterative steps of the form:
+\eq{
+    x^{k+1}=x^k+\alpha_kd^k.
+}
+The $d^k\in \RR^n$ is called a \rt{descent direction} of $f$ if $\nabla f(x)^\top d<0.$ The
+\rt{step size} $\alpha_k$ may be chosen in accordance with some line search (\tit{one-dimensioanl}) rules.\\
+\fig{Abstract Descent Method}{Abstract Descent Method}{0.5}
+A popular stopping criterion is $\|\nabla f(x^k)\|\leq\text{to}1$ with \rt{tolerance} $tol>0$.
+\defi{Steepest Descent Directions}{
+    Let $f$ be convex and let $x\in \RR^n$ be given with $nabla f(x)\ne 0$. Let $d\in\RR^n$ denote
+    the solution of:
+    \eq{
+        \min_{\|\boldsymbol{d}\|=1}\nabla f(\mathbf{x})^\top\boldsymbol{d}.
+    }
+    Every vector of the form $s=\lambda d, \lambda>0$, is called \tbf{steepest descent direction}.\\
+    By Cauchy-Schwarz inequality: $|\nabla f(x)^{T}d|\leq||\nabla f(x)||\cdot||d||$, which implies
+    $\nabla f(x)^{T}d\ge -||\nabla f(x)||\cdot||d||$, thus, we can have $\nabla f(x)^{T}d\ge -||\nabla f(x)||$.
+    So $d^\star=-\nabla f(x)/\|\nabla f(x)\|.$\\
+    We can choose the descent directions $d=-\lambda \nabla f(x),\lambda>0$.
+}
+\re{
+    \tab{
+        \item The steepest descent norm depends on the chosen norm (here it is Euclidean norm);
+        \item The gradient $\nabla f(y)$ is \tit{perpendicular} to the level set and it points towards a
+        direction where $f$ is decreasing the most.
+    }
+}
+
+\subsubsection{Step Size Strategies}
+There is one simple step size strategy: \tbf{constant step size}, by which we choose $\alpha_k=\bar{\alpha}$ for all $k$.
+\sep{Exact Line Search}
+We choose $\alpha_k$ such that:
+\eq{
+    \alpha_k=\arg\min_{\alpha\geq0}f(x^k+\alpha d^k).
+}
+Golden section methods can solve $\alpha_k$. In some cases, there are analytical solutions for $\alpha_k$.
+\pro{The "zig-zag" path of ELS}{
+The directions between two consecutive steps are perpendicular:
+\eq{
+(d^{k+1})^\top d^k=0,\\
+(x^{k+2}-x^{k+1})^T(x^{k+1}-x^k)=0.
+}
+\proo{}{
+    For the $k$th iteration, the $alpha_k$ need to satisfy $\alpha_k=\arg\min_{\alpha\geq0}f(x^k+\alpha d^k)$. Denote $\phi(\alpha)=f(x^k+\alpha d^k)$,
+    so $\phi^{\prime}(\alpha)=\nabla f(x^k+\alpha d^k)^T d^k$. When $alpha=0$, $\phi^{\prime}(\alpha)=-\|\nabla f(x^k)\|^2<0$. To minimize the formula, we
+    need to set $\phi^{\prime}(\alpha)=0$, then:
+    \eq{
+        \nabla f(x^k+\alpha^k d^k)^\top d^k=0\\
+        (d^{k+1})^\top d^k=0.
+    }
+}
+}
+\sep{Backtracking Line Search}
+Let $\sigma,\gamma \in (0,1)$ be given, choose $\alpha_k$ as the largest element from $(1,\sigma,\sigma^2,\sigma^3,\cdots)$ such that:
+\eq{
+    f(x^k+\alpha_kd^k)-f(x^k)\leq\gamma\alpha_k\cdot\nabla f(x^k)^\top d^k.
+}
+This is called \tbf{\rt{Armijo condition}}.\\
+Procedure:
+\lis{
+    \item Start with $\alpha=1$ or $\alpha=s$;
+    \item If $f(x^k+\alpha d^k)\leq f(x^k)+\gamma\alpha\cdot\nabla f(x^k)^\top d^k,$ choose $\alpha_k=\alpha$, else set $\alpha=\sigma\alpha$ and repeat.
+}
+By Taylor expansion, for small $\alpha$:
+\eq{
+    f(x^k+\alpha d^k)\approx f(x^k)+\alpha\nabla f(x^k)^\top d^k<f(x^k)+\gamma\alpha\cdot\nabla f(x^k)^\top d^k.
+}
+\fig{Armijo Rule}{Armijo Rule}{0.4}
+\sep{Diminishing Step Sizes}
+Choose $\alpha_k\to0$ and $\sum_{k=0}^{\infty}\alpha_k=\infty$, this is frequently used in stochastic programming.
+
+
+\subsubsection{Gradient Descent Algorithm}
+\fig{Gradient Descent Method}{Gradient Descent Method}{0.4}
+
 
 \clearpage
 \chapter{Economics and Econometrics}
@@ -1218,9 +1299,55 @@ Different types of ReducForm:
     \item Classic MapReduce: map() $\to$ reduce() $\to$ output: distributed search and sort;
     \item Iterative MapReduce: some advanced linear algebra and machine learning.
 }
-Page Rank Algorithm with MapReduce:
+\sep{Benchmark for Distributed System}
+\tbf{1.} PageRank Algorithm with MapReduce: PageRank is an iterative algorithm used to calculate the importance of web pages. At time $0$, the PR
+score for every page is $1$ or $\frac{1}{N}$ by default. At time $t$, the score is given by:
+\eq{
+    PR(p_i;t+1)=\frac{1-d}N+d\sum_{p_j\in M(p_i)}\frac{PR(p_j;t)}{L(p_j)}.
+}
+And the matrix notation is $\mathbf{R}(t+1)=d\mathcal{M}\mathbf{R}(t)+\frac{1-d}N\mathbf{1}.$
+To use MapReduce model to solve a PageRank algorithm, we need an iterative MapReduce model, in which multiple reducers are processed.
 \fig{PageRank using MapReduce}{PageRank using MapReduce}{0.8}
+\tbf{2.} Terasort: is a standard benchmark on Hadoop. It covers the following steps:
+\lis{
+    \item Input: random data generated by TeraGen on HDFS;
+    \item Map: generate trie to ensure KV pair to be partitioned to specific reduce server;
+    \item Shuffle & sort: sort the output from mapper on local disk of each mapper server;
+    \item Reduce: local sort each reducer input and write results to HDFS;
+    \item Record performance metrics such as sorting time and throughput;
+    \item Compare the performance of different systems or configurations;
+}
+\tbf{3. } Hibench: is a benchmark toolkit that covers the following metrics: speed, HDFS bandwidth, utilization (CPU, memory, IO).
 \sep{Apache Hadoop}
+The hadoop architecture contains three components:
+\tab{
+    \item Hadoop Distributed File System (HDFS): store the data in multiple blocks;
+    \item MapReduce Engine;
+    \item YARN: process job requests and manage cluster resources.
+}
+Standing on a higher level, there is a master-slave pattern for every component, among which \tit{master} is the control node and
+\tit{slave} is the working node.
+\tab{
+    \item HDFS: NameNode - DataNode;
+    \item MapReduce: Jobtracker - Tasktracker;
+    \item YARN: ResourceManager - NodeManager.
+}
+\sep{Apache Spark}
+Two main abstractions of Spark:
+\lis{
+    \item \tbf{RDD}: Resilient Distributed Datasets, a data structure that is failure-tolerant. Two kind
+    of modification: \tit{transformation}: turn a RDD into a new RDD; \tit{action}: compute a RDD and return a result;
+    \item \tbf{DAG}: A scheduler that enables in-memory-computation.
+}
+\fig{Spark Architecture}{Spark Architecture}{0.3}
+The difference between Spark and Hadoop:
+\tab{
+    \item Speed: Spark usually has a higher speed;
+    \item Data Processing Models: Hadoop uses the MapReduce model for batch processing. Spark supports batch processing (similar to MapReduce),
+    real-time streaming processing (Spark Streaming), interactive querying (Spark SQL);
+    \item Data Caching: Spark allows data to be cached in memory, Hadoop relies on intermediate disk.
+}
+\fig{Hadoop vs Spark}{Hadoop vs Spark}{0.3}
 
 \clearpage
 \section{Machine Learning}
@@ -1233,12 +1360,12 @@ Page Rank Algorithm with MapReduce:
 
 \subsection{Foundations of Causal Inference}
 
-\cite{peters2017elements} provide a overview of causal inference from a foundamental science perspective. \cite{spirtes2010introduction}
-summarize the development of causal infernce and machine learning interfacce from a computer science perspective.\\
-There are two main causal framework: \tbf{Structural Causal Model} and \tbf{Potential Outcome Framework}.
+\cite{peters2017elements} provide an overview of causal inference from a fundamental science perspective. \cite{spirtes2010introduction}
+summarize the development of causal inference and machine learning interface from a computer science perspective.\\
+There are two main causal frameworks: \tbf{Structural Causal Model} and \tbf{Potential Outcome Framework}.
 
 \subsubsection{Structural Causal Model}
-\tbf{SCM} (Structural Causal Model) can be devided into two subgroups: \tit{causal graph} and \tit{structural euqation}.
+\tbf{SCM} (Structural Causal Model) can be divided into two subgroups: \tit{causal graph} and \tit{structural euqation}.
 
 \defi{}{}
 
@@ -1376,9 +1503,9 @@ in an action-value function sense:
 Differences between VI and PI:
 \re{
     \tab{
-        \item In each sweep, VI only updates one step evaluation and one step improvement, PI updates
-        multiple step evaluation and one step improvement;
-        \item PI takes fewer round, but takes more time within each round .
+        \item In each sweep, VI only updates one-step evaluation and one-step improvement, PI updates
+        multiple-step evaluation and one-step improvement;
+        \item PI takes fewer rounds, but takes more time within each round.
     }
 }
 \fig{Generalized Policy Iteration}{Generalized Policy Iteration}{0.3}
@@ -1421,7 +1548,7 @@ in this domain. \cite{brusco2017cluster} reviewed the clustering methods applied
     methods are employed nontrivially to meet the research goals.}
 \cite{roth2022pioneering} classified 75 papers as empirical among the top 200 cited papers in \textit{POM}, these papers are mainly from 3 topical areas:
 \lis{
-    \item Responsibility Operations: covers environmental management, sustainability, humanitarian efforts;
+    \item Responsibility Operations: covers environmental management, sustainability, and humanitarian efforts;
     \item Supply Chain Management: bullwhip effect, risk management, supply chain finance;
     \item Manufacturing Strategy and Quality Management.
 }
@@ -1563,10 +1690,10 @@ Where $X$ is the set of allowable prices.
         \emogood \rt{This proof is very similar to proving the convexity of the hyperplane}.
     }
 }
-By transforming the revenue function as a function only to $z$ is useful. Because by \tbf{Jensen's Inequality}, $\mathbb{E}[\mathcal{R}(\mathbb{Z})]\geq\mathcal{R}(\mathbb{E}[\mathbb{Z}])$.
-Their differences can be interpreted as the differnce between a dynamic pricing policy $p(Z)$ that responds to changes in $Z$ and a static policy $\mathcal{R}(\mathbb{E}[\mathbb{Z}])$,
+Transforming the revenue function as a function only to $z$ is useful. Because by \tbf{Jensen's Inequality}, $\mathbb{E}[\mathcal{R}(\mathbb{Z})]\geq\mathcal{R}(\mathbb{E}[\mathbb{Z}])$.
+Their differences can be interpreted as the difference between a dynamic pricing policy $p(Z)$ that responds to changes in $Z$ and a static policy $\mathcal{R}(\mathbb{E}[\mathbb{Z}])$,
 the larger the variance of $Z$, the larger the gap between them.
-\sep{Perspective form the Consumers}
+\sep{Perspective from the Consumers}
 To answer whether consumers are better off with pricing policy $p(Z)$ or $p(\bE(Z))$,
 we can frame this using the \tbf{utility theory} (\cite{chen2019welfare}).
 Assume that consumers purchase a non-negative vector $q=(q_1,q_2,\cdots,q_n)$ of products, their \tit{net utility} is given by:
@@ -1579,20 +1706,20 @@ where $U(q)$ us an increasing concave function. Then the \tit{optimal surplus} c
 }
 where the solution $q^{\star}=d(p)=\nabla^{-1}U(p)$. under the first-order condition. Similar to the analysis from the firm's
 perspective, we can get $\mathbb{E}[\mathcal{S}(P)]\geq\mathcal{S}(\mathbb{E}[P])$.
-And at last we can achieve:
+And at last, we can achieve:
 \eq{
 \mathbb{E}[\mathcal{S}(p(\mathbb{Z}))]\geq\mathcal{S}(\mathbb{E}[p(\mathbb{Z})])\geq\mathcal{S}(p(\mathbb{E}[Z])).
 }
 
 \subsection{Dynamic Pricing and Reinforcement Learning}
 
-\cite{misra2019dynamic} is probably the first paper that incoperates reinforcement learning (MAB) algorithm
+\cite{misra2019dynamic} is probably the first paper that incorporates reinforcement learning (MAB) algorithm
 into dynamic pricing.
 \ass{\cite{misra2019dynamic}}{
 For consumers:
 \lis{
     \item She has stable preferences $v_i$ doesn't change over time;
-    \item Her choice satisfies weak axim of revealed preference: if $v_i>p$, then she would buy it;
+    \item Her choice satisfies weak axiom of revealed preference: if $v_i>p$, then she would buy it;
     \item Heterogeneity among consumers can be separated as observable and unobservable heterogeneity: $v_i=f(\mathbb{Z}_i)+\nu_i$;
     \item There are bound for $\nu_i: \nu_{i}\in[-\delta,\delta]$；
 }
@@ -1622,7 +1749,7 @@ for the up-stream manufacturing company:
     \item The supplier shouldn't adopt the cross-licensing policy if the inferior manufacturer's cost of innovation is high;
     \item Cross-licensing may achieve a higher level of total innovation if the superior manufacturer's cost of innovation is low;
     \item The superior manufacturer can benefit from cross-licensing, if innovation is costly but the manufacturers' costs of
-    innovation are similar.
+    innovation is similar.
 }
 
 \subsection{Hotel Platform}
@@ -1638,7 +1765,7 @@ partnership with Niido apartments. During the whole process, only 2 apartments w
 \cite{zhang2022makes} studies how Airbnb property demand changed after the acquisition of \tit{verified} images. Variables description:
 \tab{
     \item Treatment variable: 212 properties had verified photos by the end of April 2017, the remaining 7,211 did not;
-    \item Property demand: purchased date, the number of days in a month in which the property was open , blocked, and booked. $\frac{booked}{open}\times 100$
+    \item Property demand: purchased date, the number of days in a month in which the property was open, blocked, and booked. $\frac{booked}{open}\times 100$
     \item Property Price: the price is endogenous because of the random demand shocks, characteristics of competing properties
     were used as IVs (The logic is that the characteristics of competing products are unlikely to be correlated with unobserved
     shocks in the demand for the focal property. However, the proximity of the characteristics of a property and its competitors influences
@@ -1671,7 +1798,7 @@ one properties on the platform simultaneously as professional players, and use a
 whether competition effects or differentiation effects is dominant.\\
 They predict 2 propositions:
 \lis{
-    \item If differentiation effects dominates, then OHOH would not affect the supply and price of non-professional hosts;
+    \item If differentiation effects dominate, then OHOH would not affect the supply and price of non-professional hosts;
     \item If competition effects dominate, then OHOH would increase the supply and price of non-professional hosts.
 }
 \eq{
