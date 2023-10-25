@@ -843,17 +843,16 @@ Golden section methods can solve $\alpha_k$. In some cases, there are analytical
 \pro{The "zig-zag" path of ELS}{
 The directions between two consecutive steps are perpendicular:
 \eq{
-(d^{k+1})^\top d^k=0,\\
 (x^{k+2}-x^{k+1})^T(x^{k+1}-x^k)=0.
 }
 \proo{}{
     For the $k$th iteration, the $alpha_k$ need to satisfy $\alpha_k=\arg\min_{\alpha\geq0}f(x^k+\alpha d^k)$. Denote $\phi(\alpha)=f(x^k+\alpha d^k)$,
-    so $\phi^{\prime}(\alpha)=\nabla f(x^k+\alpha d^k)^T d^k$. When $alpha=0$, $\phi^{\prime}(\alpha)=-\|\nabla f(x^k)\|^2<0$. To minimize the formula, we
+    so $\phi^{\prime}(\alpha)=\nabla f(x^k+\alpha d^k)^T d^k$. When $\alpha=0$, $\phi^{\prime}(\alpha)=-\|\nabla f(x^k)\|^2<0$. To minimize the formula, we
     need to set $\phi^{\prime}(\alpha)=0$, then:
     \eq{
-        \nabla f(x^k+\alpha^k d^k)^\top d^k=0\\
-        (d^{k+1})^\top d^k=0.
+        \nabla f(x^k+\alpha^k d^k)^\top d^k=0, 
     }
+    this yields $(d^{k+1})^\top d^k=0$, so $(x^{k+2}-x^{k+1})^T(x^{k+1}-x^k)=0.$
 }
 }
 \sep{Backtracking Line Search}
