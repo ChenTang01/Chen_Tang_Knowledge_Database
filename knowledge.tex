@@ -167,10 +167,45 @@ Next show that $\|x\|_p=(\sum_i|x_i|^p)^{\frac1p}\geq(\max_i|x_i|^p)^{\frac1p}=\
 }
 \sep{Taking derivatives of Norm}
 \ex{$X\in \RR^m, f(x):\RR^m\to\RR^n, g(x)=||x||_2$, what is $\nabla g(X)$?}{
-    First， $g(X)=\|f(X)\|_2=\sqrt{\sum_{i=1}^nf_i(X)^2}$;
+    First, $g(X)=\|f(X)\|_2=\sqrt{\sum_{i=1}^nf_i(X)^2}$;
     \eq{
         \nabla g(X)=\frac12\left(\sum_{i=1}^nf_i(X)^2\right)^{-\frac12}\left(\sum_{i=1}^n2f_i(X)\nabla f_i(X)\right)=\frac{J_f(X)^Tf(X)}{\|f(X)\|_2}
     }
+}
+
+\subsubsection{Matrix Norms}
+\defi{Induced Matrix Normss}{
+Let $A\in\RR^{W\times V}$ be a mapping from vector space $\cV$ to $\cW$.
+\eq{
+\|A\|_{\cV,\cW}:=\max_{x\neq0}\frac{\|Ax\|_{\cW}}{\|x\|_{\cV}}.
+}
+This measures how much the matrix $A$ can stretch an $n$ dimensional vector at most. Because norms are homogeneous with respect to scaling, we also have:
+\eq{
+\|A\|_{\mathcal{V},\mathcal{W}}=\sup_{\|v\|_{\mathcal{V}=1}}\|Av\|_{\mathcal{W}}.
+}
+Besides the 3 satisfactions listed above, there are two more properties that a matrix norm needs to satisfy:
+\tab{
+    \item \tit{Sub-multiplicative:} $\|AB\|\leq\|A\|\cdot\|B\|\text{ for all }A,B$;
+    \item \tit{Compatible with vector norm}: $\|Ax\|\leq\|A\|\cdot\|x\|\text{ for all }A \text{ and vector }x$.
+}
+\proo{Sub-multiplicative}{
+    \eq{
+        \|AB\|=\max_{\|v\|=1}\|ABv\|\le\max_{\|v\|=1}\|A\|\|Bv\|=\|A\|\|B\|.
+    }
+}
+For a matrix $A\in\RR^{m\times n}$:
+\eq{
+\|A\|_1:=\max_{j\in\{1,\ldots,n\}}\sum_{i=1}^m|a_{ij}|, \|A\|_\infty:=\max_{i\in\{1,\ldots,m\}}\sum_{j=1}^n|a_{ij}|.
+}
+The $\|\cdot\|_1$ is the \bt{maximum absolute column sum}, the $\|\cdot\|_{\infty}$ is the \bt{maximum absolute row sum}.\\
+The \tbf{spectral norm}:
+\eq{
+    \|A\|:=\|A\|_2:=\sqrt{\lambda_{\max}(A^\top A)}.
+}
+The \tbf{Frobenius Norm}:
+\eq{
+    \|A\|_F=\left(\sum_{i=1}^m\sum_{j=1}^n|a_{ij}|^2\right)^{1/2}=\sqrt{\operatorname{tr}(A^\top A)}.
+}
 }
 
 \clearpage
@@ -665,7 +700,7 @@ into a basic variable.
     \begin{cases}\bar a_{ij}'=\bar a_{ij}-\frac{\bar a_{iq}}{\bar a_{pq}}\bar a_{pj},i\neq p\\\bar a_{pj}'=\frac{\bar a_{pj}}{\bar a_{pq}}.\end{cases}
 }
 
-\subsection{Convexity}
+\subsection{Convexity and Continuity}
 \defi{Differentiability}{
     A mapping $F:\mathbb{R}^n\to\mathbb{R}^m$ is said to be \tit{differentiable} at $x$ if there is a
     function: $DF:\mathbb{R}^n\to\mathbb{R}^{m\times n}$ such that:
@@ -788,16 +823,58 @@ Then $x^*$ is a \tit{strict local minimum} of $f$.
     This problem is convex since $\log xyz = \log x +\log y+\log z$, which is a concave-preserved operation on concave functions.
 }
 
-\subsection{Unconstrained Convex Optimization ALgorithms}
+\subsubsection{Lipschitz Continuity}
+\defi{Lipschitz Continuous \& Smooth}{
+    The $\nabla f$ is called \rt{Lipschitz continuous} if:
+    \eq{
+        \|\nabla f(x)-\nabla f(y)\|\leq L\|x-y\|,\quad\forall\mathrm{~}x,y\in\mathbb{R}^n,
+    }
+    where $L$ is the \rt{Lipschitz constant} and $f$ is called \rt{Lipschitz smooth}.\\
+    \ex{Consider $f(x)=\frac12x^\top Ax+b^\top x+c$}{
+        \eq{
+            \begin{aligned}\|\nabla f(x)-\nabla f(y)\|&=\|(Ax+b)-(Ay+b)\|\\&=\|A(x-y)\|\leq\|A\|\cdot\|x-y\|.\end{aligned}
+        }
+        So $f(x)$ is Lipschitz Smooth with $L=\|A\|$.
+    }
+    \lem{Descent Lemma}{
+        Let $f$ be Lipschitz Smooth with $L$, then:
+        \eq{
+            f(y)\leq f(x)+\nabla f(x)^\top(y-x)+\frac L2\|y-x\|^2\quad\forall\left.x,y\in\mathbb{R}^n.\right.
+        }
+        The descent lemma provides a quadratic upper bound for $f$.
+        \proo{}{
+            By Taylor's Expansion, the vector $z_t = x+t(y-x)$ can be expressed by $f(y)=f(x)+\int_0^1\langle\nabla f(z_t),y-x\rangle dt$.
+            Subtracting $\langle\nabla f(z_t),y-x\rangle$ on each side, we have:
+            \eq{
+                \begin{aligned}
+                    \begin{aligned}f(y)-f(x)-\langle\nabla f(x),y-x\rangle\end{aligned}    & \begin{aligned}=\quad\int_0^1\langle\nabla f(z_t)-\nabla f(x),y-x\rangle dt\end{aligned} \\
+                    \begin{aligned}&|f(y)-f(x)-\langle\nabla f(x),y-x\rangle|\end{aligned} & =\quad\left|\int_0^1\langle\nabla f(z_t)-\nabla f(x),y-x\rangle dt\right|                \\
+                                                                                           & \leq\quad\int_0^1|\langle\nabla f(z_t)-\nabla f(x),y-x\rangle|dt                         \\
+                                                                                           & \leq\quad\int_0^1\|\nabla f(z_t)-\nabla f(x)\|_2\cdot\|y-x\|_2dt                         \\
+                                                                                           & \leq\quad L\int_0^1t\|x-y\|_2^2dt                                                        \\
+                                                                                           & =\quad\frac L2\|x-y\|_2^2.
+                \end{aligned}
+            }
+        }
+    }
+}
+\thm{Lipschitz Continuity via Hessians}{
+    Let $f$ be a twice cont. differentiable function. Then, the following two conditions are equivalent:
+    \tab{
+        \item $f$ is Lipschitz smooth with constant $L$;
+        \item $\|\nabla^2 f(x)\|\le L$ for any $x\in\RR^n$.
+    }
+}
 
-\subsubsection{Single Variable Problem}
+\subsection{Single Variable Problem}
 \tbf{Bisection method} uses the idea that the local minimizer must satisfy the FONC: $f^{\prime}(x)=0.$
 \fig{Bisection Methods}{Bisection Method}{0.5}
 The bisection method can only help us find an approximate \tit{stationary point}. When $f$ is convex, this is an approximate global minimizer of $f$.\\
 The iteration of the bisection method takes at most $\log_2(\frac{x_r-x_\ell}\epsilon)$ steps.\\
 \tbf{Golden section method} can optimize those problems whose first derivative is difficult to obtain, but it requires us to know the range of the local optimal solution.\\
 \fig{Golden Section Method}{Golden Section Method}{0.5}
-If we set $\phi=\frac{3-\sqrt{5}}2$, then we can save one function evaluation during each iteration.
+If we set $\phi=\frac{3-\sqrt{5}}2$, then we can save one function evaluation during each iteration.\\
+\tbf{Newton's Method in single dimension}
 
 \subsection{High Dimensional Search}
 Consider:
@@ -843,16 +920,17 @@ Golden section methods can solve $\alpha_k$. In some cases, there are analytical
 \pro{The "zig-zag" path of ELS}{
 The directions between two consecutive steps are perpendicular:
 \eq{
+(d^{k+1})^\top d^k=0,\\
 (x^{k+2}-x^{k+1})^T(x^{k+1}-x^k)=0.
 }
 \proo{}{
     For the $k$th iteration, the $alpha_k$ need to satisfy $\alpha_k=\arg\min_{\alpha\geq0}f(x^k+\alpha d^k)$. Denote $\phi(\alpha)=f(x^k+\alpha d^k)$,
-    so $\phi^{\prime}(\alpha)=\nabla f(x^k+\alpha d^k)^T d^k$. When $\alpha=0$, $\phi^{\prime}(\alpha)=-\|\nabla f(x^k)\|^2<0$. To minimize the formula, we
+    so $\phi^{\prime}(\alpha)=\nabla f(x^k+\alpha d^k)^T d^k$. When $alpha=0$, $\phi^{\prime}(\alpha)=-\|\nabla f(x^k)\|^2<0$. To minimize the formula, we
     need to set $\phi^{\prime}(\alpha)=0$, then:
     \eq{
-        \nabla f(x^k+\alpha^k d^k)^\top d^k=0, 
+        \nabla f(x^k+\alpha^k d^k)^\top d^k=0\\
+        (d^{k+1})^\top d^k=0.
     }
-    this yields $(d^{k+1})^\top d^k=0$, so $(x^{k+2}-x^{k+1})^T(x^{k+1}-x^k)=0.$
 }
 }
 \sep{Backtracking Line Search}
@@ -874,10 +952,114 @@ By Taylor expansion, for small $\alpha$:
 \sep{Diminishing Step Sizes}
 Choose $\alpha_k\to0$ and $\sum_{k=0}^{\infty}\alpha_k=\infty$, this is frequently used in stochastic programming.
 
-
 \subsubsection{Gradient Descent Algorithm}
-\fig{Gradient Descent Method}{Gradient Descent Method}{0.4}
-
+\fig{Gradient Descent Method}{Gradient Descent Method}{0.7}
+\defi{Accumulation Point}{
+    A point $x$ is an \tbf{accumulation point} of $\{x^k\}_k$ if for every $\epsilon>0$, there are infinitely many numbers $k$ with $x^k\in B_\varepsilon(x)$.
+    \re{
+        \tab{
+            \item If $x$ is an \tbf{accumulation point} of $\{x^k\}_k$, then there is a subsequence of $\{x^k\}_k$ that converges to $x$;
+            \item If $\{x^k\}_k$ converges to some $x\in\RR^n$, then $x$ is the unique accumulation point of $\{x^k\}_k$;
+            \item A bounded sequence has at least one accumulation point.
+        }
+    }
+}
+\defi{Global Convergence}{
+    The gradient method can find the stationary point \tbf{independent} of the chosen initial point.
+    \thm{Global Convergence}{
+        Let $f:\RR^n\to\RR$ be continuously differentiable, $\{x^k\}_k$ be the sequence generated by gradient method for:
+        \eq{
+            \min_xf(x)\quad\mathrm{s.t.}\quad x\in\mathbb{R}^n,
+        }
+        with \tit{exact line search} or \tit{Armijo rule} step size strategies, $\{f(x^k)\}_k$ has the properties:
+        \tab{
+            \item it's nonincreasing;
+            \item every accumulation point of $\{f(x^k)\}_k$ is a stationary point of $f$.
+        }
+        \re{
+            \tab{
+                \item It does not guarantee the existence of an accumulation point or convergence to a single limit point;
+                \item If $f$ is \tit{coercive} (bounded), then $\{f(x^k)\}_k$ must have an accumulation point.
+            }
+        }
+    }
+}
+\thm{Convergence under Lipschitz Continuity}{
+Let $f:\RR^n\to\RR$ be Lipschitz Smooth, $\{x^k\}_k$ be the sequence generated by gradient method for:
+\eq{
+    \min_xf(x)\quad\mathrm{s.t.}\quad x\in\mathbb{R}^n,
+}
+with \tit{constant step size} $\bar{\alpha}\in(0,\frac{2}{L})$, \tit{exact line search}, \tit{diminishing} step size
+or \tit{Armijo rule} step size strategies, $\{f(x^k)\}_k$ either:
+\tab{
+    \item converge to $-\infty$;
+    \item or converge to a finite value that $\|\nabla f(x^k)\|\to0.$
+}
+\co{Complexity Bounds}{
+Complexity bounds characterize the behavior and progress of an algorithm during the very first iterations.\\
+If $f$ is Lipschitz smooth with $L$ and lower bounded by $\bar{f}$, then it holds:
+\eq{
+    \min_{i\to0,\ldots,T\to1}\|\nabla f(x^{i})\|\leq\frac{f(x^{o})-\overline{f}}{\sqrt{\beta T}}=\mathcal{O}(1/\sqrt{T})\quad\forall T.
+}
+here $\{x^k\}$ are generated by constant step size and $\bar{beta}=\bar{\alpha}(1-\frac{L\bar{\alpha}}{2})$.
+\re{
+    \tab{
+        \item We need to perform the gradient method for $T>\frac{1}{tol^2}$ iterations to ensure $\min_{i\to0,\ldots,T\to1}\|\nabla f(x^{i})\|\le tol$;
+        \item If $f$ is convex and the problem has a solution, then the whole sequence converge to a global minimum;
+        \item Convergence can be ensured if the stationary points are \gt{isolated};
+        \item This works for backtracking, constant \& diminishing step sizes.
+    }
+}
+\proo{}{
+Recall the descent lemma:
+\eq{
+    f(y)\leq f(x)+\nabla f(x)^\top(y-x)+\frac L2\|y-x\|^2\quad\forall\left.x,y\in\mathbb{R}^n.\right.
+}
+Set $y=x^{k+1}$ and $x=x^k$, so $x^{k+1}-x^k=-\bar{\alpha}\nabla f(x^k)$, reducing the descent lemma to:
+\eq{
+    f(x^{k+1})\le f(x^k)-(1-\frac{L\bar{\alpha}}{2}\bar{\alpha}\cdot \|\nabla f(x^k)\|^2).
+}
+Denote $\bar{beta}=\bar{\alpha}(1-\frac{L\bar{\alpha}}{2})$, we have $\bar{\beta}\|\nabla f(x^k)\|^2\le f(x^{k})-f(x^{k+1})$. Then sum this for $k=0,\cdots,T-1$:
+\eq{
+    \bar{beta}\cdot \sum_{k=0}^{T-1}\|\nabla f(x^k)\|^2 \le f(x^0)-f(x^T)\le f(x^0)-\bar{f}.
+}
+For the left part:
+\eq{
+    \bar{beta}\cdot \sum_{k=0}^{T-1}\|\nabla f(x^k)\|^2 \ge \bar{beta}\cdot \sum_{k=0}^{T-1}\min_{i=0,\cdots,T-1}\|\nabla f(x^k)\|^2=T\cdot \min_{i=0,\cdots,T-1}\|\nabla f(x^k)\|^2.
+}
+Finally, we have:
+\eq{
+    \min_{i\to0,\ldots,T\to1}\|\nabla f(x^{i})\|\leq\frac{f(x^{o})-\overline{f}}{\sqrt{\beta T}}=\mathcal{O}(1/\sqrt{T})\quad\forall T.
+}
+}
+}
+}
+\defi{Linear Convergence}{
+$\{x^k\}_k$ converges linear with rate $\eta\in(0,1)$ to $x^\star \in \RR^n$ if there is $\cL > 0$ such that:
+\eq{
+\|x^{k+1}-x^\star\|\le \eta\cdot\|x^k-x^\star\|, \forall k\g\cL
+}
+\re{
+    \tab{
+        \item linear convergence with $\cL=0$ implies that $\|x^k-x^\star$\| \le \eta^k \|x^0-x^\star\|.
+    }
+}
+\thm{Rates for Strongly Convex Problems}{
+Let $f$ be Lipschitz smooth with $L$ and suppose there is $\mu>0$ such that:
+\eq{
+    \mu\|\boldsymbol{h}\|^2\le\boldsymbol{h}^\top\nabla^2f(\boldsymbol{x})\boldsymbol{h}(\le\|\boldsymbol{h}\|^2)\forall\boldsymbol{h},\forall\boldsymbol{x}.
+}
+Then $\{x^k\}_k$ converges linearly to $x^\star$ if it's generated by the gradient method. Further, for $\eta=1-2M_{\mu}$, it follows:
+\eq{
+    f(x^k)-f(x^*)\leq\eta^k\cdot[f(x^0)-f(x^*)].
+}
+, where
+\eq{
+    M=\begin{cases}\tilde\alpha(1-\frac{L\bar\alpha}2)&\text{constant step size:}\bar\alpha\in(0,\frac2L),\\\frac1{2L}&\text{exact line search},\\\gamma\min\{1,\frac{2\sigma(1-\gamma)}L\}&\text{Armijo line search}.\end{cases}
+}
+The optimal rate can be $\eta=1-\frac\mu L=1-\frac1\kappa, \kappa=\frac{L}{\mu}$. The larger $\kappa$, the lower the convergence rate.
+}
+}
 
 \clearpage
 \chapter{Economics and Econometrics}
@@ -1080,8 +1262,8 @@ thus $Cov(Y_i,\tilde{x_{ki}}=\beta_k x_{ki})$.
             \end{aligned}
         }}
     \co{}{\tab{
-            \item For saturated model, the population linear regression is the CEF;
-            \item For single dummy variable, the coefficient is the mean probability of receiving treatment;
+            \item For the saturated model, the population linear regression is the CEF;
+            \item For the single dummy variable, the coefficient is the mean probability of receiving treatment;
         }
 
     }
@@ -1102,14 +1284,14 @@ years of education.
     \ln Y_i = \alpha+\rho S_i+\beta_1 X_i +\beta_2 X_i^2+e_i,
 }
 where $X_i=Age_i-S_i-6$, defined as the \tit{potential experience}, and $S_i$ is the year of education. The result shows that one-year more eduction would bring 10.7\% more earnings.\\
-This result may be biased because it doesn't consider individual's ability, which is correlated both with the earnings and the education.\\
-To handle ability bias, \cite{griliches1977estimating} includes IQ as a control variable to eliminate the influence of personal
+This result may be biased because it doesn't consider an individual's ability, which is correlated both with earnings and education.\\
+To handle the ability bias, \cite{griliches1977estimating} includes IQ as a control variable to eliminate the influence of personal
 ability, the new $\rho$ estimated is 5.9\%, which is smaller as expected.\\
-In the process of handling ability bias, be aware of the bad control: which is controling the occupation. This is because the occupation
-is a variable \tit{after} the eduction years, and some effect of the eduction is through occupation, controling occupation would
+In the process of handling ability bias, be aware of the bad control: which is controlling the occupation. This is because the occupation
+is a variable \tit{after} the education years, and some effect of the education is through occupation, controlling occupation would
 underestimate the effect. \\
 The above regressions don't consider other variables, one approach to handle this is by comparing the twins
-(\cite{ashenfelter1994estimates}, \cite{ashenfelter1998income}), since each person of twins are almost identical in IQ,
+(\cite{ashenfelter1994estimates}, \cite{ashenfelter1998income}), since each person of twins is almost identical in IQ,
 family background, etc. The long regression is written as:
 \eq{
 \ln Y_{i,f} = \alpha+\rho S_{i,f}+\lambda A_{i,f}+e_{i,f},
@@ -1533,7 +1715,48 @@ The lower bound of $\epsilon$ greedy: $\overline{R}_t\geq\frac1m(\Delta_2+\cdots
 \fig{The ETC algorithm}{The ETC algorithm}{}
 This algorithm has an upper bound of $O(\Delta^2 log T)$, or $O(T^{\frac{2}{3}})$.
 \sep{The UCB algorithm}
+\fig{UCB Algorithm}{UCB Algorithm}{0.5}
+The UCB is based on the principle of optimism in the face of uncertainty, which states that:
+\begin{center}
+    \tbf{One should act as if the environment is as nice as plausibly possible.}
+\end{center}
+The UCB estimate for each arm is an over-estimate compared with the empirical mean $\hat{\mu}_{i,t-1}=\frac{1}{N_{i,t-1}}\sum_{t'\le t-1}r_{t'}\mathbb{1}\{a_{t'}=i\},$ recall the Chernoff-Hoeffding bound:
+\eq{
+    \mathbb{P}(\overline{X}-\mathbb{E}[\overline{X}]\leq z)\geq1-\exp(-nz^2/2).
+}
+Repalcing $z$ to $\sqrt{\frac{2\log(1/\delta)}{N_{i,t-1}}}$, we would get:
+\eq{
+    \mathbb{P}(\mu_i\geq\hat{\mu}_{i,t-1}+\sqrt{\frac{2\log(1/\delta)}{N_{i,t-1}}})\leq\delta.
+}
+\sep{Thompson Sampling Algorithm}
+Assume that the reward distributions of different arms belong to the same family with respective parameters:
+\eq{
+    r(i)\sim p(x\mid\theta_i).
+}
+When estimating $\theta$, the posterior is:
+\eq{
+    p(\theta\mid x)=\frac{p(x\mid\theta)p(\theta)}{\int_{\theta'}p(x\mid\theta')p(\theta')d\theta'}.
+}
+If the posterior $p(\theta|x)$ is in the same probability distribution family as the prior $p(\theta)$, then they are called conjugate distributions.
+The Bernoulli-Beta is important for Bernoulli Bandits, for $\theta=\{\alpha,\beta\}$:
+\eq{
+p(\theta)=\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}x^{\alpha-1}(1-x)^{\beta-1},
+}
+where $\Gamma(z)=\int_{0}^{\infty}x^{z-1}\exp(-x)dx$ is the Gamma function. So when $p(\theta)\sim\mathrm{Beta}(\alpha_{0},\beta_{0})$ and
+observing $x_1,\ldots,x_{\alpha^{\prime}+\beta^{\prime}}\sim x\mathrm{~i.i.d.}$, with $\alpha^\prime$ ones and $\beta^\prime$ zeros.
+\eq{
+    \begin{aligned}
+        p(\theta\mid x_{1},\ldots,x_{\alpha^{\prime}+\beta^{\prime}}) & =\frac{p(x_1,\ldots,x_{\alpha^{\prime}+\beta^{\prime}}\mid\theta)p(\theta)}{\int_{\theta^{\prime}}p(x_1,\ldots,x_{\alpha^{\prime}+\beta^{\prime}}\mid\theta^{\prime})p(\theta^{\prime})d\theta^{\prime}}                                                 \\
+                                                                      & =\frac{\binom{\alpha'+\beta'}{\alpha'}\theta^{\alpha'}(1-\theta)^{\beta'}\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}\theta^{\alpha_0-1}(1-\theta)^{\beta_0-1}}{\int_{\theta'}p(x_1,\ldots,x_{\alpha'+\beta'}\mid\theta')p(\theta')d\theta'} \\
+                                                                      & =\frac{\binom{\alpha'+\beta'}{\alpha'}\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}}{\int_{\theta'}p(x_1,\ldots,x_{\alpha'+\beta'}\mid\theta')p(\theta')d\theta'}\theta^{\alpha_0+\alpha'-1}(1-\theta)^{\beta_0+\alpha'-1}                    \\
+                                                                      & \sim\mathrm{Beta}(\alpha_0+\alpha^{\prime},\beta_0+\beta^{\prime}).
+    \end{aligned}
+}
+\fig{Thompson sampling for Bernoulli bandits}{Thompson sampling for Bernoulli bandits}{0.5}
+TS algorithm can work on any conjugate distributions.
+\fig{General Thompson Sampling}{General Thompson Sampling}{0.5}
 
+\subsubsection{Analysis of Bandit Algorithms}
 
 \clearpage
 \chapter{Operations Management}
