@@ -555,7 +555,7 @@ where $\varepsilon(n)$ and $\delta(n)$ converge to $0$ when $n\to\infty$.
 }
 \lem{Chernoff Method}{
 \emocool This trick is extremely important.\\
-Assume the mgf for $X$ is finite for all $|t|\le b,b>0$. Then we can use mgf to produce a tail bound:
+Assume the mgf for $X$ is finite for all $|t|\le b,b>0$. Then we can use mgf to produce a tail bound by Markov inequality:
 \eq{
 \mathbb{P}((X-\mu)\geq u)=\mathbb{P}(\exp(t(X))\geq\exp(t(u+\mu)))\leq\frac{\mathbb{E}[\exp(tX)]}{\exp(t(u+\mu))}
 }
@@ -563,7 +563,17 @@ Now consider $t$ as a parameter, to achieve the tightest bound, we can tune $t$ 
 \eq{
     \mathbb{P}((X-\mu)\geq u)\leq\inf_{0\leq t\leq b}\exp(-t(u+\mu))\mathbb{E}[\exp(tX)].
     }
-    This is called the \tbf{Chernoff Bound}.
+    This is called the \tbf{Chernoff Bound}. The Chernoff bound "plays" nicely with summations, assume $X_i$ are independent:
+    \eq{
+    M_{X_1+\cdotp\cdotp\cdotp+X_n}(\lambda)=\prod_{i=1}^n M_{X_i}(\lambda),
+    }
+    this means that when we calculate a Chernoff bound of a sum of i.i.d. variables, we need  need only calculate the moment generating function for \tit{one} of them, assume $n$ zero-mean independent variables:
+    \eq{
+    \begin{aligned}
+\mathbb{P}\bigg(\sum_{i=1}^nX_i\geq t\bigg)& \leq\frac{\prod_{i=1}^n\mathbb{E}\left[\exp(\lambda X_i)\right]}{e^{\lambda t}}  \\
+&=(\mathbb{E}[e^{\lambda X_1}])^ne^{-\lambda t},
+\end{aligned}
+    }
 }
 \thm{Gaussisn Tail Bound}{
     Suppose $X\sim N(\mu,\sigma^2)$, the mgf is $M_X(t)=\mathbb{E}[\exp(tX)]=\exp(t\mu+t^2\sigma^2/2)$, to apply the Chernoff bound we can compute:
@@ -591,55 +601,33 @@ Now consider $t$ as a parameter, to achieve the tightest bound, we can tune $t$ 
     }
 }
 \thm{Bounded RVs: Hoeffding's inequality}{
-If $a\le X\le b$, and let $X^\prime$ be an \tit{independent} copy of $X$, then we have:
+\lem{Hoeffding's Lemma}{
+Let $X$ be a random variable bounded in $[a,b]$, let $X^\prime$ to be an independent copy of $X$, then:
 \eq{
-\mathbb{E}_X[\exp(tX)]=\mathbb{E}_X[\exp(t(X-\mathbb{E}[X']))]\leq\mathbb{E}_{X,X'}[\exp(t(X-X'))],
+\mathbb{E}_X[\exp(\lambda(X-\mathbb{E}_X[X]))]=\mathbb{E}_X[\exp(\lambda(X-\mathbb{E}_{X^{\prime}}[X^{\prime}]))]\overset{(i)}{\operatorname*{\leq}}\mathbb{E}_X[\mathbb{E}_{X^{\prime}}\exp(\lambda(X-X^{\prime}))],
 }
-using Jensen's inequality on $g(x)=exp(x)$, we can obtain:
+where $i$ follows Jensen's inequality. Let $S\in\{-1,1\}$ to be a random sign variable, then $S(X-X^\prime$ has the same distribution as $X-X^\prime$:
 \eq{
-    \begin{aligned}
-        \mathbb{E}_{X,X^{\prime}}[\exp(t(X-X^{\prime}))] & =\mathbb{E}_{X,X^{\prime}}[\mathbb{E}_{\epsilon}[\exp(t\epsilon(X-X^{\prime}))]] \\
-                                                         & \leq\mathbb{E}_{X,X^{\prime}}[\exp(t^{2})(X-X^{\prime})^{2}/2],
-    \end{aligned}
+\begin{aligned}
+\begin{aligned}\mathbb{E}_{X,X'}[\exp(\lambda(X-X'))]\end{aligned}& =\mathbb{E}_{X,X^\prime,S}[\exp(\lambda S(X-X^\prime))]  \\
+&=\mathbb{E}_{X,X^{\prime}}\left[\mathbb{E}_S\left[\exp(\lambda S(X-X^{\prime}))\mid X,X^{\prime}]\right].\right \\
+&\le \exp{\frac{\lambda^2(X-X^\prime)^2}{2}}\\
+&\le \exp{\frac{\lambda^2(b-a)^2}{2}}
+\end{aligned}
 }
 }
-\thm{tep}{
+Now use the Chernoff bound and Hoeffding's lemma to show:
 \eq{
-    \mathbb{P}(\overline{X}-\mathbb{E}[\overline{X}]\leq z)\geq1-\exp(-\frac{2nz^2}{c^2})
+\begin{aligned}
+\begin{aligned}\mathbb{P}\left(\frac{1}{n}\sum_{i=1}^n(X_i-\mathbb{E}[X_i])\geq t\right)\end{aligned}& \begin{aligned}=\mathbb{P}\left(\sum_{i=1}^n(X_i-\mathbb{E}[X_i])\geq nt\right)\end{aligned}  \\
+&\leq\mathbb{E}\left[\exp\left(\lambda\sum_{i=1}^n(X_i-\mathbb{E}[X_i])\right)\right]e^{-\lambda nt} \\
+&=\left(\prod_{i=1}^n\mathbb{E}[e^{\lambda(X_i-\mathbb{E}[X_i])}]\right)e^{-\lambda nt}{\operatorname*{\leq}}\left(\prod_{i=1}^ne^{\frac{\lambda^2(b-a)^2}8}\right)e^{-\lambda nt}
+\end{aligned}
 }
-\re{
-A convenient assignment of $\begin{aligned}z&=c\sqrt{\frac{\alpha\log t}{n}}\end{aligned}, \alpha>0, t>1$, which yields:
+Rewriting this and minimize over $\lambda\ge 0$, we have
 \eq{
-\mathbb{P}(|\overline{X}-E[\overline{X}]|\leq c\sqrt{\frac{\alpha\log t}n})\geq1-2t^{-2\alpha}
+\begin{aligned}\mathbb{P}\left(\frac1n\sum_{i=1}^n(X_i-\mathbb{E}[X_i])\geq t\right)\leq\min_{\lambda\geq0}\exp\left(\frac{n\lambda^2(b-a)^2}8-\lambda nt\right)=\exp\left(-\frac{2nt^2}{(b-a)^2}\right)\end{aligned}
 }
-If $X_i\in\{0,1\}\mathrm{i.i.d.}$, and let $z=\sqrt{\frac{\log n}n}$, then we can have:
-\eq{
-    \mathbb{P}(|\overline{X}-p|\leq\sqrt{\frac{\log n}n})\geq1-\frac1{n^2}
-}
-}
-}
-\lem{The Chernoff-Hoeffding inequality}{
-If $X_i\sim\mathcal{N}(0,1)$, then:
-\eq{
-\mathbb{P}(|\overline{X}-E[\overline{X}]|\leq\sqrt{\frac{\alpha\log t}n})\geq1-2t^{-\alpha/2}
-}
-}
-
-\thm{Gaussian Tail Bounds}{
-    If $X\sim\mathcal{N}(0,1)$, then for $x>0$:
-    \eq{
-        \frac1{\sqrt{2\pi}}(\frac1x-\frac1{x^3})\exp(-\frac{x^2}2)\leq\mathbb{P}(X\geq x)\leq\frac1{\sqrt{2\pi}x}\exp(-\frac{x^2}2)
-    }
-    \defi{Sub-Gaussian RV}{
-        A random variable $X$ with mean $\mu=\mathbb{E}(X)$ is \tbf{sub-Gaussian} if there exists a positive number $\sigma$, such that:
-        \eq{
-            \mathbb{E}\left[e^{\lambda(X-\mu)}\right]\leq e^{\sigma^2\lambda^2/2}\quad\forall\lambda\in\mathbb{R}.
-        }
-    }
-    For $\sigma^2$-sub-gaussian random variable $X$, for $z>0$:
-    \eq{
-        \mathbb{P}(X-\mathbb{E}[X]\leq z)\geq1-\exp(-\frac{z^2}{2\sigma^2})
-    }
 }
 
 \subsection{Convergence}
@@ -1085,7 +1073,7 @@ or \tit{Armijo rule} step size strategies, $\{f(x^k)\}_k$ either:
 Complexity bounds characterize the behavior and progress of an algorithm during the very first iterations.\\
 If $f$ is Lipschitz smooth with $L$ and lower bounded by $\bar{f}$, then it holds:
 \eq{
-    \min_{i\to0,\ldots,T\to1}\|\nabla f(x^{i})\|\leq\frac{f(x^{o})-\overline{f}}{\sqrt{\beta T}}=\mathcal{O}(1/\sqrt{T})\quad\forall T.
+    \min_{i\to0,\ldots,\to1}\|\nabla f(x^{i})\|\leq\frac{f(x^{o})-\overline{f}}{\sqrt{\beta T}}=\mathcal{O}(1/\sqrt{T})\quad\forall T.
 }
 here $\{x^k\}$ are generated by constant step size and $\bar{beta}=\bar{\alpha}(1-\frac{L\bar{\alpha}}{2})$.
 \re{
