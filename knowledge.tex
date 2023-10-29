@@ -505,21 +505,105 @@ $T(\bold{X})$ partition the sapmle sapce $\cX$ into sets $A_t=\{\mathbf{x}:T(\ma
     $A_1(\bold{x})=((1,0),(0,1))$, $A_2(\bold{x})=(1,1)$, $A_0(\bold{x})=(0,0)$.
 }
 
-\subsection{Concentrtion Inequality}
-
-\emogood General form of concentration inequality:
+\subsection{Moment Generating Function}
+The \tbf{Moment Genarating Function} (mgf) is:
 \eq{
-    \mathbb{P}(|\overline{X}-\mathbb{E}[\overline{X}]|\leq\varepsilon(n))\geq1-\delta(n)
+    M_X(t)=\mathbb{E}\left(e^{tX}\right).
+}
+If taking the $n$ order derivatives of the mgf by $t$, and let $t=0$, then:
+\eq{
+M_X^{(n)}(t)|_{t=0}=\mathbb{E}\left(X^n\right).
+}
+
+\subsection{Concentrtion Inequality}
+\begin{center}
+    \rt{\tit{Averages of independent random variables concentrate around their expectations.}}
+\end{center}
+\emogood Denote $\overline{X}=\frac{1}{n}\sum_{i=1}^{n}X_i$, where $X_1,\cdots,X_n$ are generated \tit{i.i.d.}, the general form of concentration inequality:
+\eq{
+    \mathbb{P}(|\overline{X}-\mathbb{E}[\overline{X}]|\geq\varepsilon(n))\leq1-\delta(n)
 }
 where $\varepsilon(n)$ and $\delta(n)$ converge to $0$ when $n\to\infty$.
-\lem{Chebyshev's inequality}{
-    Let $X_1,\cdots,X_n$ be \tit{i.i.d}, then:
+\thm{Markov Inequality}{
+    For a positive random variable $X$:
     \eq{
-        \mathbb{P}(|\overline{X}-\mathbb{E}[\overline{X}]|\leq z)\geq1-\frac{\sigma^2}{nz^2}
+        \mathbb{P}(X\geq t)\leq\frac{\mathbb{E}[X]}{t}=O\left(\frac{1}{t}\right).
+    }
+    \proo{}{
+        \eq{
+            \mathbb{E}[X]=\int_0^\infty xp(x)dx\geq\int_t^\infty xp(x)dx\geq t\int_t^\infty p(x)dx=t\mathbb{P}(X\geq t).
+        }
     }
 }
-\lem{Hoeffding's inequality}{
-If $0\le X_i\le c$, then:
+\thm{Chebyshev's inequality}{
+    Let $Var(X)=\sigma^2$, then:
+    \eq{
+        \mathbb{P}\Big(|X-\mathbb{E}[X]|\geq t\sigma\Big)\leq\frac{1}{t^2}=O\left(\frac{1}{t^2}\right).
+    }
+    \proo{}{
+        \begin{aligned}
+            \mathbb{P}(|X-\mathbb{E}[X]|\geq t\sigma) & =\mathbb{P}(|X-\mathbb{E}[X]|^{2}\geq t^{2}\sigma^{2})               \\
+                                                      & \leq\frac{\mathbb{E}(|X-\mathbb{E}[X]|^2)}{t^2\sigma^2}=\frac1{t^2}.
+        \end{aligned}
+    }
+    \co{}{
+        If we consider $\widehat{\mu}_n=\frac{1}{n}\sum_{i=1}^nX_i$ with variance $\frac{\sigma^2}{n}$, applying the Chebyshev's inequality would get:
+        \eq{
+            \mathbb{P}\left(|\widehat{\mu}_n-\mu|\geq\frac{t\sigma}{\sqrt{n}}\right)\leq\frac{1}{t^2}.
+        }
+    }
+}
+\lem{Chernoff Method}{
+\emocool This trick is extremely important.\\
+Assume the mgf for $X$ is finite for all $|t|\le b,b>0$. Then we can use mgf to produce a tail bound:
+\eq{
+\mathbb{P}((X-\mu)\geq u)=\mathbb{P}(\exp(t(X))\geq\exp(t(u+\mu)))\leq\frac{\mathbb{E}[\exp(tX)]}{\exp(t(u+\mu))}
+}
+Now consider $t$ as a parameter, to achieve the tightest bound, we can tune $t$ that satisfies:
+\eq{
+    \mathbb{P}((X-\mu)\geq u)\leq\inf_{0\leq t\leq b}\exp(-t(u+\mu))\mathbb{E}[\exp(tX)].
+    }
+    This is called the \tbf{Chernoff Bound}.
+}
+\thm{Gaussisn Tail Bound}{
+    Suppose $X\sim N(\mu,\sigma^2)$, the mgf is $M_X(t)=\mathbb{E}[\exp(tX)]=\exp(t\mu+t^2\sigma^2/2)$, to apply the Chernoff bound we can compute:
+    \eq{
+        \inf\limits_{t\ge0}\exp(-t(u+\mu))\exp(t\mu+t^2\sigma^2/2)=\inf\limits_{t\ge0}\exp(-tu+t^2\sigma^2/2),
+    }
+    when $t=\frac{u}{\sigma^2}$, we can obtain:
+    \eq{
+        \mathbb{P}(X-\mu\geq u)\leq\exp(-u^2/(2\sigma^2)).
+    }
+    This is just the right side of the distribution, taking the absolute value:
+    \eq{
+        \mathbb{P}(|X-\mu|\geq u)\leq2\exp(-u^2/(2\sigma^2)).
+    }
+    Now consider $\overline{X}$, we can obtain:
+    \eq{
+        \mathbb{P}(|\widehat{\mu}-\mu|\geq t\sigma/\sqrt{n})\leq2\exp(-t^2/2).
+    }
+    \re{
+        Comparing the Gaussian tail bound with the corollary of Chebyshev's inequality, we can find with probability $1-\delta$:
+        \tab{
+            \item Chebyshev tells that $|\widehat{\mu}-\mu|\leq\frac{\sigma}{\sqrt{n\delta}}$;
+            \item Gaussian tells that $|\widehat{\mu}-\mu|\leq\sigma\sqrt{\frac{2\ln(2/\delta)}{n}}$, which decrease faster when $n\to\infty$.
+        }
+    }
+}
+\thm{Bounded RVs: Hoeffding's inequality}{
+If $a\le X\le b$, and let $X^\prime$ be an \tit{independent} copy of $X$, then we have:
+\eq{
+\mathbb{E}_X[\exp(tX)]=\mathbb{E}_X[\exp(t(X-\mathbb{E}[X']))]\leq\mathbb{E}_{X,X'}[\exp(t(X-X'))],
+}
+using Jensen's inequality on $g(x)=exp(x)$, we can obtain:
+\eq{
+    \begin{aligned}
+        \mathbb{E}_{X,X^{\prime}}[\exp(t(X-X^{\prime}))] & =\mathbb{E}_{X,X^{\prime}}[\mathbb{E}_{\epsilon}[\exp(t\epsilon(X-X^{\prime}))]] \\
+                                                         & \leq\mathbb{E}_{X,X^{\prime}}[\exp(t^{2})(X-X^{\prime})^{2}/2],
+    \end{aligned}
+}
+}
+\thm{tep}{
 \eq{
     \mathbb{P}(\overline{X}-\mathbb{E}[\overline{X}]\leq z)\geq1-\exp(-\frac{2nz^2}{c^2})
 }
@@ -557,6 +641,8 @@ If $X_i\sim\mathcal{N}(0,1)$, then:
         \mathbb{P}(X-\mathbb{E}[X]\leq z)\geq1-\exp(-\frac{z^2}{2\sigma^2})
     }
 }
+
+\subsection{Convergence}
 
 \clearpage
 \section{Convex Optimization}
@@ -1587,17 +1673,20 @@ $(\cS,\cA,\cT,\cR,\rho_0,\gamma)$:
     \item $\rho_0\in\Delta(\cS)$: the initial state distribution;
     \item $\gamma \in [0,1]$ is the discount factor.
 }
-
+The goal is to optimize:
+\eq{
+    \mathbb{E}_{s_t,a_t,r_t,t\geq0}\left[R_0\right]=\mathbb{E}_{s_t,a_t,r_t,t\geq0}\big[\sum_{t=0}^{\infty}\gamma^tr_t\big]
+}
 \re{
     \tab{
-        \item The $\Delta(\dot)$ may not be deterministic, but some random distribution;
+        \item The $\Delta(\cdot)$ may not be deterministic, but some random distribution;
         \item Among the above tuple, $\cS,\cT,\cR,\rho_0$ can not be modified by the agent, to train a good policy, $\cA,\gamma$ is the key;
         \item RL is more like infants rather than adults;
         \item The reward function is the way of communicating with the agent \tit{what} to do, not \tit{how} to do;
         \item The \tit{trajectory} of the MDP sequence: $S_0,A_0,R_1,S_1,A_1,\cdots$.
     }
 }
-\fig{agent–environment interaction}{The agent–environment interaction in a Markov decision process}{0.3}
+\fig{agent-environment interaction}{The agent-environment interaction in a Markov decision process}{0.3}
 \thm{Dynamics of MDP}{\eq{
 p(s',r|s,a)\doteq\Pr\{S_t=s',R_t=r\mid S_{t-1}=s,A_{t-1}=a\}\\
 \sum_{s^{\prime}\in\mathcal{S}}\sum_{r\in\mathcal{R}}p(s^{\prime},r|s,a)=1,\text{ for all }s\in\mathcal{S},a\in\mathcal{A}(s)
@@ -1623,7 +1712,7 @@ r(s,a,s')~\doteq~\mathbb{E}[R_t\mid S_{t-1}=s,A_{t-1}=a,S_t=s']~=~\sum_{r\in\mat
     The temporal-difference error:
     \eq{\delta_t=r_t+\gamma V(s_{t+1})-V(s_t)}
 }
-If we denote $G_t=R_{t+1}+\gammaG_{t+1}$, then we have:
+If we denote $G_t=R_{t+1}+\gamma G_{t+1}$, then we have:
 \thm{Bellman Equation}{
     \eq{
         \begin{aligned}
@@ -1636,7 +1725,7 @@ If we denote $G_t=R_{t+1}+\gammaG_{t+1}$, then we have:
 }
 A policy $\pi$ is better $\pi'$ if and only if $v_{\pi}(s)\le v_{\pi'}(S) \text{for all } s \in \cS$. There is always at list one
 \tit{optimal policy} denoted by $\pi_*$ (doesn't hold for partially observed MDP). They share the same state-value function, called the \tit{optimal state-value function}:
-$v_*(s)\doteq\max_\pi v_\pi(s)$. Optimal policy also shares the same \tit{optimal action-value function}:
+$v_*(s)\doteq\max_\pi v_\pi(s)$. The optimal policy also shares the same \tit{optimal action-value function}:
 $q_*(s,a)\doteq\max_{\pi}q_\pi(s,a)=\mathbb{E}[R_{t+1}+\gamma v_*(S_{t+1})\mid S_t=s,A_t=a]$. Then we can get the \tbf{Bellman optimality function}
 in an action-value function sense:
 \thm{Bellman optimality function}{
@@ -1757,6 +1846,28 @@ TS algorithm can work on any conjugate distributions.
 \fig{General Thompson Sampling}{General Thompson Sampling}{0.5}
 
 \subsubsection{Analysis of Bandit Algorithms}
+\sep{Bandit Lower Bounds}
+
+\sep{Recap of Different Algorithms}
+\re{
+For $\epsilon$-greedy, by choosing $\varepsilon_{t}=\min\{1,Ct^{-1}\Delta_{\mathrm{min}}^{-2}m\}$:
+\eq{
+    \overline{R}_T\le C'\sum_{i\ge2}\left(\Delta_i+\frac{\Delta_i}{\Delta_{\text{min}}^2}\log\max\left\{e,\frac{T\Delta_{\text{min}}^2}{m}\right\}\right)
+}
+For ETC under 2-armed bandits, when $T\geq4\sqrt{2\pi e}/\Delta^{2}$, by choosing $k=\lceil\frac{2}{\Delta^{2}}W(\frac{T^{2}\Delta^{4}}{32\pi})\rceil,$
+\eq{
+    \overline{R}_T\leq O(\frac{1}{\Delta}\log T\Delta^2)+o(\log T)+\Delta。
+}
+For the two algorithms listed above, to achieve the optimal regret. the information about $\Delta$ is necessary. UCB and TS don't require knowing $\Delta$.\\
+For UCB algorithm, by setting $\delta=T^{-2}$,
+\eq{
+    \overline{R}_{T}\leq3\sum_{i=1}^{m}\Delta_{i}+\sum_{i:\Delta_{i}>0}\frac{16\log T}{\Delta_{i}}.
+}
+For TS (Bernoulli bandits):
+\eq{
+    \overline{R}_{T}\le\sum_{i:\Delta_{i}>0}\frac{\mu_{1}-\mu_{i}}{d_{\mathrm{KL}}(\mu_{1}\parallel\mu_{i})}\log T+o(\log T).
+}
+}
 
 \clearpage
 \chapter{Operations Management}
