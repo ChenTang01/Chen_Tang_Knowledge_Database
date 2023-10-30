@@ -565,14 +565,14 @@ Now consider $t$ as a parameter, to achieve the tightest bound, we can tune $t$ 
     }
     This is called the \tbf{Chernoff Bound}. The Chernoff bound "plays" nicely with summations, assume $X_i$ are independent:
     \eq{
-    M_{X_1+\cdotp\cdotp\cdotp+X_n}(\lambda)=\prod_{i=1}^n M_{X_i}(\lambda),
+        M_{X_1+\cdotp\cdotp\cdotp+X_n}(\lambda)=\prod_{i=1}^n M_{X_i}(\lambda),
     }
     this means that when we calculate a Chernoff bound of a sum of i.i.d. variables, we need  need only calculate the moment generating function for \tit{one} of them, assume $n$ zero-mean independent variables:
     \eq{
-    \begin{aligned}
-\mathbb{P}\bigg(\sum_{i=1}^nX_i\geq t\bigg)& \leq\frac{\prod_{i=1}^n\mathbb{E}\left[\exp(\lambda X_i)\right]}{e^{\lambda t}}  \\
-&=(\mathbb{E}[e^{\lambda X_1}])^ne^{-\lambda t},
-\end{aligned}
+        \begin{aligned}
+            \mathbb{P}\bigg(\sum_{i=1}^nX_i\geq t\bigg) & \leq\frac{\prod_{i=1}^n\mathbb{E}\left[\exp(\lambda X_i)\right]}{e^{\lambda t}} \\
+                                                        & =(\mathbb{E}[e^{\lambda X_1}])^ne^{-\lambda t},
+        \end{aligned}
     }
 }
 \thm{Gaussisn Tail Bound}{
@@ -606,27 +606,27 @@ Let $X$ be a random variable bounded in $[a,b]$, let $X^\prime$ to be an indepen
 \eq{
 \mathbb{E}_X[\exp(\lambda(X-\mathbb{E}_X[X]))]=\mathbb{E}_X[\exp(\lambda(X-\mathbb{E}_{X^{\prime}}[X^{\prime}]))]\overset{(i)}{\operatorname*{\leq}}\mathbb{E}_X[\mathbb{E}_{X^{\prime}}\exp(\lambda(X-X^{\prime}))],
 }
-where $i$ follows Jensen's inequality. Let $S\in\{-1,1\}$ to be a random sign variable, then $S(X-X^\prime$ has the same distribution as $X-X^\prime$:
+where $i$ follows Jensen's inequality. Let $S\in\{-1,1\}$ to be a random sign variable, then $S(X-X^\prime)$ has the same distribution as $X-X^\prime$:
 \eq{
-\begin{aligned}
-\begin{aligned}\mathbb{E}_{X,X'}[\exp(\lambda(X-X'))]\end{aligned}& =\mathbb{E}_{X,X^\prime,S}[\exp(\lambda S(X-X^\prime))]  \\
-&=\mathbb{E}_{X,X^{\prime}}\left[\mathbb{E}_S\left[\exp(\lambda S(X-X^{\prime}))\mid X,X^{\prime}]\right].\right \\
-&\le \exp{\frac{\lambda^2(X-X^\prime)^2}{2}}\\
-&\le \exp{\frac{\lambda^2(b-a)^2}{2}}
-\end{aligned}
+    \begin{aligned}
+        \begin{aligned}\mathbb{E}_{X,X'}[\exp(\lambda(X-X'))]\end{aligned} & =\mathbb{E}_{X,X^\prime,S}[\exp(\lambda S(X-X^\prime))]                                         \\
+                                                                           & =\mathbb{E}_{X,X^{\prime}}[\mathbb{E}_S[\exp(\lambda S(X-X^{\prime}))\mid X,X^{\prime}]].\right \\
+                                                                           & \le \exp{\frac{\lambda^2(X-X^\prime)^2}{2}}                                                     \\
+                                                                           & \le \exp{\frac{\lambda^2(b-a)^2}{2}}
+    \end{aligned}
 }
 }
 Now use the Chernoff bound and Hoeffding's lemma to show:
 \eq{
-\begin{aligned}
-\begin{aligned}\mathbb{P}\left(\frac{1}{n}\sum_{i=1}^n(X_i-\mathbb{E}[X_i])\geq t\right)\end{aligned}& \begin{aligned}=\mathbb{P}\left(\sum_{i=1}^n(X_i-\mathbb{E}[X_i])\geq nt\right)\end{aligned}  \\
-&\leq\mathbb{E}\left[\exp\left(\lambda\sum_{i=1}^n(X_i-\mathbb{E}[X_i])\right)\right]e^{-\lambda nt} \\
-&=\left(\prod_{i=1}^n\mathbb{E}[e^{\lambda(X_i-\mathbb{E}[X_i])}]\right)e^{-\lambda nt}{\operatorname*{\leq}}\left(\prod_{i=1}^ne^{\frac{\lambda^2(b-a)^2}8}\right)e^{-\lambda nt}
-\end{aligned}
+    \begin{aligned}
+        \begin{aligned}\mathbb{P}\left(\frac{1}{n}\sum_{i=1}^n(X_i-\mathbb{E}[X_i])\geq t\right)\end{aligned} & \begin{aligned}=\mathbb{P}\left(\sum_{i=1}^n(X_i-\mathbb{E}[X_i])\geq nt\right)\end{aligned}                                                                                      \\
+                                                                                                              & \leq\mathbb{E}\left[\exp\left(\lambda\sum_{i=1}^n(X_i-\mathbb{E}[X_i])\right)\right]e^{-\lambda nt}                                                                               \\
+                                                                                                              & =\left(\prod_{i=1}^n\mathbb{E}[e^{\lambda(X_i-\mathbb{E}[X_i])}]\right)e^{-\lambda nt}{\operatorname*{\leq}}\left(\prod_{i=1}^ne^{\frac{\lambda^2(b-a)^2}8}\right)e^{-\lambda nt}
+    \end{aligned}
 }
 Rewriting this and minimize over $\lambda\ge 0$, we have
 \eq{
-\begin{aligned}\mathbb{P}\left(\frac1n\sum_{i=1}^n(X_i-\mathbb{E}[X_i])\geq t\right)\leq\min_{\lambda\geq0}\exp\left(\frac{n\lambda^2(b-a)^2}8-\lambda nt\right)=\exp\left(-\frac{2nt^2}{(b-a)^2}\right)\end{aligned}
+    \begin{aligned}\mathbb{P}\left(\frac1n\sum_{i=1}^n(X_i-\mathbb{E}[X_i])\geq t\right)\leq\min_{\lambda\geq0}\exp\left(\frac{n\lambda^2(b-a)^2}8-\lambda nt\right)=\exp\left(-\frac{2nt^2}{(b-a)^2}\right)\end{aligned}
 }
 }
 
@@ -1835,7 +1835,55 @@ TS algorithm can work on any conjugate distributions.
 
 \subsubsection{Analysis of Bandit Algorithms}
 \sep{Bandit Lower Bounds}
-
+\sep{ETC Algorithm}
+\thm{ETC Regret}{
+    Assume $r(i)$ is \tit{1-sub-Gaussian} for each $i$, the regret satisfies:
+    \eq{
+        \overline{R}_T\leq k\sum_{i\in[m]}\Delta_i+(T-mk)\sum_{i\in[m]}\Delta_i\exp\left(-\frac{k\Delta_i^2}{4}\right).
+    }
+    When $m=2$, taking $k=\lceil\operatorname*{max}\begin{Bmatrix}1,4\Delta_{2}^{-2}\log(T\Delta_{2}^{2}/4)\end{Bmatrix}\rceil$ yields:
+    \eq{
+        k=\lceil\operatorname*{max}\begin{Bmatrix}1,4\Delta_{2}^{-2}\log(T\Delta_{2}^{2}/4)\end{Bmatrix}\rceil
+    }
+    \proo{}{
+        \eq{
+            \begin{aligned}
+                \mathbb{E}\left[N_{T,i}\right] & =k+(T-mk)\mathbb{P}\big(i=\underset{i'}{\operatorname*{\arg\max}}\hat{\mu}_{mk-1,i^{\prime}}\big)           \\
+                                               & \leq k+(T-mk)\mathbb{P}(\hat{\mu}_{mk-1,i}\geq\hat{\mu}_{mk-1,1})                                           \\
+                                               & =k+(T-mk)\mathbb{P}\big(\hat{\mu}_{mk-1,i}-\mu_{i}-\big(\hat{\mu}_{mk-1,1}-\mu_{1}\big)\geq\Delta_{i}\big).
+            \end{aligned}
+        }
+        By the sub-Gaussian tail bound:
+        \eq{
+            \mathbb{P}\left(\hat{\mu}_{mk-1,i}-\mu_i-(\hat{\mu}_{mk-1,1}-\mu_1)\geq\Delta_i\right)\leq\exp\left(-\frac{k\Delta_i^2}{4}\right).
+        }
+        Therefore,
+        \eq{
+            \begin{aligned}
+                \overline{R}_{T} & =\sum_{i=1}^{m}\mathbb{E}\left[N_{T,i}\right]\Delta_{i}                                                                                                                      \\
+                                 & \begin{aligned}&\leq\sum_{i=1}^{m}\Delta_{i}\left(k+(T-mk)\right.\mathbb{P}\big(\hat{\mu}_{mk-1,i}-\mu_{i}-(\hat{\mu}_{mk-1,1}-\mu_{1})\geq\Delta_{i}\big)\big)\end{aligned} \\
+                                 & \leq\sum_{i=1}^{m}\Delta_{i}\left(k+(T-mk)\exp\left(-\frac{k\Delta_{i}^{2}}{4}\right)\right).
+            \end{aligned}
+        }
+        By setting $m=2$, we can derive:
+        \eq{
+            \begin{aligned}
+                \overline{R}_{T} & \leq  \Delta_{2}\left(k+(T-mk)\exp\left(-\frac{k\Delta_{2}^{2}}{4}\right)\right) \\
+                                 & \leq \Delta_{2}\left(k+T\exp\left(-\frac{k\Delta_{2}^{2}}{4}\right)\right).
+            \end{aligned}
+        }
+        To minimize the regret, take a derivative on $k$ and use the first-order condition. When $k=\lceil\operatorname*{max}\left\{1,4\Delta_{2}^{-2}\log(T\Delta_{2}^{2}/4)\right\}\rceil $:
+        \eq{
+            \begin{aligned}
+                \overline{R}_{T} & \leq\Delta_{2}\left(k+T\exp\left(-\frac{k\Delta_{2}^{2}}{4}\right)\right)                                                                                                                                               \\
+                                 & \leq\Delta_{2}\left(k_{0}+1+T\exp\left(-\frac{k_{0}\Delta_{2}^{2}}{4}\right)\right)                                                                                                                                     \\
+                                 & \leq\Delta_{2}\left(\frac{4}{\Delta_{2}^{2}}\log\left(\frac{T\Delta_{2}^{2}}{4}\right)+1+T\exp\left(-\frac{\Delta_{2}^{2}}{4}\cdot\frac{4}{\Delta_{2}^{2}}\cdot\log\left(\frac{T\Delta_{2}^{2}}{4}\right)\right)\right) \\
+                                 & \leq\Delta_{2}\left(\frac{4}{\Delta_{2}^{2}}\log\left(\frac{T\Delta_{2}^{2}}{4}\right)+1+T\cdot\frac{4}{T\Delta_{2}^{2}}\right)                                                                                         \\
+                                 & \leq\Delta_2+\frac{4}{\Delta_2}+\frac{4}{\Delta_2}\log\left(\frac{T\Delta_2^2}{4}\right).
+            \end{aligned}
+        }
+    }
+}
 \sep{Recap of Different Algorithms}
 \re{
 For $\epsilon$-greedy, by choosing $\varepsilon_{t}=\min\{1,Ct^{-1}\Delta_{\mathrm{min}}^{-2}m\}$:
