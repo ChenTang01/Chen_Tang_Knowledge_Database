@@ -41,7 +41,7 @@ The properties of Matrix Multiplication:
     \item Distributivity: $A(C+D)=AC+AD$;
     \item Identity Multiplication: $I_mA=A,AI_n=A$
 }
-Only square matrixes has an inverse matrix, and the inverse is unique. If a matrix has an inverse, then it's called \tbf{regular/invertible/nonsingular}.
+Only square matrixes ha an inverse matrix, and the inverse is unique. If a matrix has an inverse, then it's called \tbf{regular/invertible/nonsingular}.
 The properties of inverses and transposes:
 \tab{
 \item $(AB)^{-1}=B^{-1}A^{-1}$;
@@ -173,13 +173,14 @@ Next show that $\|x\|_p=(\sum_i|x_i|^p)^{\frac1p}\geq(\max_i|x_i|^p)^{\frac1p}=\
     }
 }
 
+
 \subsubsection{Matrix Norms}
 \defi{Induced Matrix Normss}{
 Let $A\in\RR^{W\times V}$ be a mapping from vector space $\cV$ to $\cW$.
 \eq{
 \|A\|_{\cV,\cW}:=\max_{x\neq0}\frac{\|Ax\|_{\cW}}{\|x\|_{\cV}}.
 }
-This measures how much the matrix $A$ can stretch an $n$ dimensional vector at most. Because norms are homogeneous with respect to scaling, we also have:
+This measures how much the matrix $A$ can stretch an $n$ dimensional vector at most. Because norms are homogeneous to scaling, we also have:
 \eq{
 \|A\|_{\mathcal{V},\mathcal{W}}=\sup_{\|v\|_{\mathcal{V}=1}}\|Av\|_{\mathcal{W}}.
 }
@@ -804,7 +805,8 @@ into a basic variable.
         \end{align}
 
     }
-    Thus $\nabla f(x)=Ax+b$}
+    Thus $\nabla f(x)=Ax+b$.\\
+    If $A$ is not symmetric, then $\nabla f(x)=\frac{A^T+A}{2}x+b$.}
 \re{
     \tbf{FONC (First-Order Necessary Conditions)}\\
     If $x^{\star}$ is a local minimizer of the unconstrained problem, then we must have $\nabla f(x^*)=0.$}
@@ -853,16 +855,23 @@ Then $x^*$ is a \tit{strict local minimum} of $f$.
     }
     Examples are The Euclidean norm $f(x)=\|x\|=\sqrt{x^\top x}$ and affine-linear functions $f(x)=a^\top x+b$.\\
     If a function $f$ has the property $f(\lambda\mathbf{x}+(1-\lambda)\mathbf{y})<\lambda f(\mathbf{x})+(1-\lambda)f(\mathbf{y})$,
-    then it's said to be \tbf{strongly convex}.\\
+    then it's said to be \tbf{strictly convex}.\\
     \tbf{Strongly Convex} (with parameter $\mu$)\\
     \eq{
         f(\lambda x+(1-\lambda)y)+\frac{\mu\lambda(1-\lambda)}2\|y-x\|^2\leq\lambda f(x)+(1-\lambda)f(y)
     }
-    This is equivalent to $f-\frac{\mu}{2}\lVert \dot \rVert^2$.
+    This is equivalent to $f-\frac{\mu}{2}\lVert \cdot \rVert^2$.
     \lem{General Composition}{
         Let $h:X\to \RR$ be \tit{convex} and $g:Y\to \RR$ be \tit{convex} and \tbf{non-decreasing}. Then $f(x)=g(h(x))$ is convex.
     }
 }
+\re{Operations that preserve convexity
+    \tab{
+        \item Nonnegative weighted sums;
+        \item Pointwise maximum;
+        \item Composition of non-decreasing functions;
+        \item power of non-negative function.
+    }}
 \thm{Convexity and Differentiability}{
     $f$ is convex \tbf{if and only if}:
     \eq{
@@ -1858,66 +1867,8 @@ in an action-value function sense:
         }
     }}
 
-\subsection{Model-Based RL}
-
-There are two streams of reinforcement learning algorithms, \tit{model-based} v.s. \tit{model-free} methods. Model-based algorithms require the knowledge on the
-environment(transition matrix $P$ and reward function $r$), or need to estimate $P,r$ during the computations. Model-free algorithms don't rely the estimation
-of the environment.
-\tbf{Policy Evaluation (Prediction)}\\
-\eq{
-    \begin{aligned}v_{k+1}(s)\quad&\doteq\quad\mathbb{E}_\pi[R_{t+1}+\gamma v_k(S_{t+1})\mid S_t=s]\\&=\quad\sum_a\pi(a|s)\sum_{s',r}p(s',r|s,a)\Big[r+\gamma v_k(s')\Big]\end{aligned}
-}
-\fig{Iterative Policy Evaluation}{Iterative Policy Evaluation}{0.5}
-The policy evaluation would terminate after finite steps. For any $\epsilon\in(0,\frac{1}{1-\gamma})$, after at least $N\ge\frac{\gamma}{(1-\gamma)^4}\frac{n^2m\log(cnm/\delta)}{\varepsilon^2}$
-steps, with at least probability $1-\delta$:
-\eq{
-    \|P(\cdot\mid s,a)-\hat{P}(\cdot\mid s,a)\|_1\leq(1-\gamma)^2\varepsilon.
-}
-\thm{Policy Improvement Theorem}{
-    For all $s\in\cS$, if:
-    \eq{q_\pi(s,\pi^{\prime}(s))\geq v_\pi(s)}
-    Then the policy $\pi^{\prime}$ must be better than policy $\pi$.
-}
-\tbf{Policy Improvement}
-\eq{
-    \begin{aligned}
-        \pi^{\prime}(s) & \begin{aligned}\dot{=}\quad\arg\max_aq_\pi(s,a)\end{aligned}                                                                                        \\
-                        & \begin{aligned}=\quad\underset{a}{\operatorname*{argmax}}\mathbb{E}[R_{t+1}+\gamma v_{\pi}(S_{t+1})\mid S_{t}=s,A_{t}=a]\end{aligned}              \\
-                        & \begin{aligned}=\quad\arg\max_a\sum_{s^{\prime},r}p(s^{\prime},r|s,a)\Big[r+\gamma v_\pi(s^{\prime})\Big],\end{aligned}
-    \end{aligned}
-}
-\sep{Policy Iteration and Value Iteration}
-\fig{Policy Iteration}{Policy Iteration}{0.5}
-\fig{Value Iteration}{Value Iteration}{0.5}
-Differences between VI and PI:
-\re{
-    \tab{
-        \item In each sweep, VI only updates one-step evaluation and one-step improvement, PI updates
-        multiple-step evaluation and one-step improvement;
-        \item PI takes fewer rounds but takes more time within each round.
-    }
-}
-\fig{Generalized Policy Iteration}{Generalized Policy Iteration}{0.25}
-\sep{Episodic Discrete MDP}
-In the episodic setting, in every episode, the learner acts for $H$ steps, starting from a fixed starting state $s_0\sim\rhp_0$, and the process repeats for $K$ episodes.
-The agent's goal is to minimize the expected regret:
-\eq{
-    \overline{R}_K=\mathbb{E}\left[KV^*(s_0)-\sum_{k=0}^{K-1}\sum_{h=0}^{H-1}r(s_h^k,a_h^k)\right].
-}
-
-\subsubsection{UCVI: Upper Confidence bound Value Iteration}
-In MDP, the exploration is more difficult compared to bandit games, because we can only decide the action rather than navigate to a
-particular state which is barely reached before. Using the ideas in UCB from bandit games, we can give an overestimation of value functions
-for those states that were barely reached before. By value iteration and policy iteration, this overestimation can navigate the
-agent to explore the strange states.
-\fig{UCVI}{UCVI}{0.9}
-UCVI is an extremely important algorithm. Taking confidence level $\delta=1/KH$, the regrest can achieve a performance of $\overline{R}_T\leq10\sqrt{n^2mH^4K\log(nmH^2K^2)}.$
-
-\subsubsection{PSRL: Posterior Sampling for Reinforcement Learning}
-\fig{PSRL}{PSRL}{0.4}
-The regret of PSRL: $\overline{R}_T\leq\sqrt{30n^2mH^3K\log(nmHK)}.$
-
 \subsection{Bandit Algorithms}
+
 The regret for bandit games is defined as :
 \eq{
     \overline{R}_t=\sum_{i=1}^m\mathbb{E}[N_{t,i}]\Delta_i
@@ -2052,6 +2003,287 @@ For TS (Bernoulli bandits):
     \overline{R}_{T}\le\sum_{i:\Delta_{i}>0}\frac{\mu_{1}-\mu_{i}}{d_{\mathrm{KL}}(\mu_{1}\parallel\mu_{i})}\log T+o(\log T).
 }
 }
+
+\subsection{Model-Based RL}
+
+There are two streams of reinforcement learning algorithms, \tit{model-based} v.s. \tit{model-free} methods. Model-based algorithms require the knowledge on the
+environment(transition matrix $P$ and reward function $r$), or need to estimate $P,r$ during the computations. Model-free algorithms don't rely the estimation
+of the environment.
+\tbf{Policy Evaluation (Prediction)}\\
+\eq{
+    \begin{aligned}v_{k+1}(s)\quad&\doteq\quad\mathbb{E}_\pi[R_{t+1}+\gamma v_k(S_{t+1})\mid S_t=s]\\&=\quad\sum_a\pi(a|s)\sum_{s',r}p(s',r|s,a)\Big[r+\gamma v_k(s')\Big]\end{aligned}
+}
+\fig{Iterative Policy Evaluation}{Iterative Policy Evaluation}{0.5}
+The policy evaluation would terminate after finite steps. For any $\epsilon\in(0,\frac{1}{1-\gamma})$, after at least $N\ge\frac{\gamma}{(1-\gamma)^4}\frac{n^2m\log(cnm/\delta)}{\varepsilon^2}$
+steps, with at least probability $1-\delta$:
+\eq{
+    \|P(\cdot\mid s,a)-\hat{P}(\cdot\mid s,a)\|_1\leq(1-\gamma)^2\varepsilon.
+}
+\thm{Policy Improvement Theorem}{
+    For all $s\in\cS$, if:
+    \eq{q_\pi(s,\pi^{\prime}(s))\geq v_\pi(s)}
+    Then the policy $\pi^{\prime}$ must be better than policy $\pi$.
+}
+\tbf{Policy Improvement}
+\eq{
+    \begin{aligned}
+        \pi^{\prime}(s) & \begin{aligned}\dot{=}\quad\arg\max_aq_\pi(s,a)\end{aligned}                                                                                        \\
+                        & \begin{aligned}=\quad\underset{a}{\operatorname*{argmax}}\mathbb{E}[R_{t+1}+\gamma v_{\pi}(S_{t+1})\mid S_{t}=s,A_{t}=a]\end{aligned}              \\
+                        & \begin{aligned}=\quad\arg\max_a\sum_{s^{\prime},r}p(s^{\prime},r|s,a)\Big[r+\gamma v_\pi(s^{\prime})\Big],\end{aligned}
+    \end{aligned}
+}
+\sep{Policy Iteration and Value Iteration}
+\fig{Policy Iteration}{Policy Iteration}{0.5}
+\fig{Value Iteration}{Value Iteration}{0.5}
+Differences between VI and PI:
+\re{
+    \tab{
+        \item In each sweep, VI only updates one-step evaluation and one-step improvement, PI updates
+        multiple-step evaluation and one-step improvement;
+        \item PI takes fewer rounds but takes more time within each round.
+    }
+}
+\fig{Generalized Policy Iteration}{Generalized Policy Iteration}{0.25}
+\sep{Episodic Discrete MDP}
+In the episodic setting, in every episode, the learner acts for $H$ steps, starting from a fixed starting state $s_0\sim\rhp_0$, and the process repeats for $K$ episodes.
+The agent's goal is to minimize the expected regret:
+\eq{
+    \overline{R}_K=\mathbb{E}\left[KV^*(s_0)-\sum_{k=0}^{K-1}\sum_{h=0}^{H-1}r(s_h^k,a_h^k)\right].
+}
+
+\subsubsection{UCVI: Upper Confidence bound Value Iteration}
+In MDP, the exploration is more difficult compared to bandit games, because we can only decide the action rather than navigate to a
+particular state which is barely reached before. Using the ideas in UCB from bandit games, we can give an overestimation of value functions
+for those states that were barely reached before. By value iteration and policy iteration, this overestimation can navigate the
+agent to explore the strange states.
+\fig{UCVI}{UCVI}{0.9}
+UCVI is an extremely important algorithm. Taking confidence level $\delta=1/KH$, the regrest can achieve a performance of $\overline{R}_T\leq10\sqrt{n^2mH^4K\log(nmH^2K^2)}.$
+
+\subsubsection{PSRL: Posterior Sampling for Reinforcement Learning}
+\fig{PSRL}{PSRL}{0.4}
+The regret of PSRL: $\overline{R}_T\leq\sqrt{30n^2mH^3K\log(nmHK)}.$
+
+\subsection{Model-free RL}
+
+The model-free framework is important in two types of domains:
+\lis{
+    \item When the MDP model is unknown, but we can sample trajectories from the MDP;
+    \item When the MDP model is known but computing the value function via our model-based control methods is infeasible due to the size of the domain.
+}
+\subsubsection{Q-Learning}
+Recall the model-based value iteration, the model appears in two places. One for the computation of the action value function,
+and one for computing all the optimal policies $\max_{a\in A}\left[R(s,a)+\gamma\sum_{s'\in S}P(s'\mid s,a)V(s')\right]$. Both
+places could remove the dependency on $P$ by using Q-function $Q(s,a)$ directly.\\
+Another feature of Q-learning is the \tit{step size} $\alpha$. In Q-learning, instead of utilizing the Bellman optimality equation directly,
+the update only takes $\alpha$ portion of the action value.
+\fig{Q-learning}{Q-learning}{0.5}
+Where $\delta_t=r+\gamma\max_{a\in\mathcal{A}}Q(s',a')-Q(s,a)$ is known as the \tbf{temporal difference} error (TD).\\
+One problem with Q-learning is that the trajectory sampled is subject to the current policy, which lacks exploration. One simple approach is
+using $\epsilon$ greedy exploration.
+\fig{Q-learning with greedy exploration}{Q-learning with $\epsilon$-greedy exploration}{0.45}
+In reinforcement learning algorithms, we tend to overestimate the value function of the states, this problem comes from the fact that we are using our estimate to both choose the
+better coin and estimate its value. Consider the state $s$ with two possible actions $a_1, a_2$, and $Q(s,a_1),Q(s,a_2)=0$. Then we have:
+\eq{
+    \begin{aligned}
+        \hat{V}(s) & =\mathbb{E}[\max(\hat{Q}(s,a_1),\hat{Q}(s,a_2))]                \\
+                   & \geq\max(\mathbb{E}[\hat{Q}(s,a_1)],\mathbb{E}[\hat{Q}(s,a_2)]) \\
+                   & =\max(0,0)                                                      \\
+                   & =0=V^{*}(s)\:.
+    \end{aligned}
+}
+Where the inequality is followed by Jensen's inequality.\\
+In double Q-learning, we can maintain two independent unbiased estimates, $Q_1$ and $Q_2$ and when we use one to select the maximum, we can use the other to get an estimate of the value of this maximum.
+\fig{Double Q-Learning}{Double Q-Learning}{0.5}
+
+\subsubsection{Monte-Carlo Policy Evaluation}
+The idea of Monte-Carlo is quite simple, run the game with the policy $\pi$ for many iterations, and average all the rewards to approximate
+the value function.
+\fig{Monte-Carlo policy evaluation}{Monte-Carlo policy evaluation}{0.5}
+Some variations of Monte-Carlo policy evaluation:
+\tab{
+\item The body of the algorithm can remove $S$ by using $V^{\pi}(s_{j,t})\leftarrow V^{\pi}(s_{j,t})+\frac{1}{N(s_{j,t})}(G_{j,t}-V^{\pi}(s_{j,t})).$;
+\item The algorithm only counts the first visit in every episode, there is another \tit{every-visit} version that doesn't use this condition;
+\item Similar to Q-learning, there is another incremental updating scheme $V^{\pi}(s_{j,t})\leftarrow V^{\pi}(s)+\alpha(G_{j,t}-V^{\pi}(s))$.
+}
+\sep{Importance Sampling: Off-Policy Policy Evaluation}
+The goal of importance sampling is to estimate the expected value of a function $f(x)$ when $x$ is drawn from the distribution $q$ using only the data $f(x_1)\cdots f(x_n)$,
+where $x_i$ are drawn from a different distribution $p$. To estimate $\mathbb{E}_{x\sim q}[f(x)]$:
+\eq{
+    \begin{aligned}
+        \mathbb{E}_{x\sim q}[f(x)] & \begin{aligned}=\int_xq(x)f(x)dx\end{aligned}                \\
+                                   & =\int_xp(x)\left[\frac{q(x)}{p(x)}f(x)\right]dx              \\
+                                   & =\mathbb{E}_{x\sim p}\left[\frac{q(x)}{p(x)}f(x)\right]      \\
+                                   & \approx\sum_{i=1}^n\left[\frac{q(x_i)}{p(x_i)}f(x_i)\right].
+    \end{aligned}
+}
+Now we bring the context back to reinforcement learning. To estimate $V^{\pi_1}(s)=\mathbb{E}[G_t\mid s_t=s]$,
+using $n$ trajectories $h_1,\cdots,h_n$ generated by $\pi_2$, the importance sampling estimate can give us:
+\eq{
+    V^{\pi_1}\left(s\right)\approx\frac1n\sum_{j=1}^n\frac{\mathbb{P}(h_j\mid\pi_1,s)}{\mathbb{P}(h_j\mid\pi_2,s)}G(h_j),
+}
+where $G(h_j)=\sum_{t=1}^{L_j-1}\gamma^{t-1}r_{j,t}$ is the total discounted reward for each trajectory. We have:
+\eq{
+    \begin{aligned}
+        \begin{aligned}\mathbb{P}(h_j\mid\pi,s=s_{j,1})\end{aligned} & \begin{aligned}&=\prod_{t=1}^{L_j-1}\mathbb{P}(a_{j,t}\mid s_{j,t})\mathbb{P}(r_{j,t}\mid s_{j,t},a_{j,t})\mathbb{P}(s_{j,t+1}\mid s_{j,t},a_{j,t})\end{aligned} \\
+                                                                     & \begin{aligned}&=\prod_{t=1}^{L_j-1}\pi(a_{j,t}\mid s_{j,t})\mathbb{P}(r_{j,t}\mid s_{j,t},a_{j,t})\mathbb{P}(s_{j,t+1}\mid s_{j,t},a_{j,t}),\end{aligned}
+    \end{aligned}
+}
+This equation needs information of the model ($P,r$), but by the operation of division, we have:
+\eq{
+    \begin{aligned}
+        V^{\pi_1}(s) & \begin{aligned}&\approx\frac1n\sum_{j=1}^n\frac{\mathbb{P}(h_j\mid\pi_1,s)}{\mathbb{P}(h_j\mid\pi_2,s)}G(h_j)\end{aligned}                                                                                                                                     \\
+                     & \begin{aligned}&=\frac1n\sum_{j=1}^n\frac{\prod_{t=1}^{L_j-1}\pi_1(a_{j,t}\mid s_{j,t})\mathbb{P}(r_{j,t}\mid s_{j,t},a_{j,t})\mathbb{P}(s_{j,t+1}\mid s_{j,t},a_{j,t})}{\prod_{t=1}^{L_j-1}\pi_2(a_{j,t}\mid s_{j,t})\mathbb{P}(r_{j,t}\mid s_{j,t},a_{j,t})\mathbb{P}(s_{j,t+1}\mid s_{j,t},a_{j,t})}G(h_j)\end{aligned} \\
+                     & =\frac1n\sum_{j=1}^nG(h_j)\prod_{t=1}^{L_j-1}\frac{\pi_1(a_{j,t}\mid s_{j,t})}{\pi_2(a_{j,t}\mid s_{j,t})}.
+    \end{aligned}
+}
+Which maintains the off-policy policy evaluation as a model-free technique.
+\sep{Temporal Difference Learning}
+Replace the $G_t$ in incremental Monte-Carlo policy evaluation with $r_t+\gamma V^{\pi}\left(s_{t+1}\right),$ and we can get:
+\fig{TD Learning}{TD Learning}{0.45}
+where the term $\delta_t=r_t+\gamma V^\pi(s_{t+1})-V^\pi(s_t)$ is called \tit{temporal difference}.
+
+\subsubsection{Monte-Carlo Control}
+\defi{GLIE: Greedy in the limit of infinite exploration}{
+    A policy $\pi$ is \tit{greedy in the limit of infinite exploration} if:
+    \lis{
+        \item $\lim\limits_{k\to\infty}N_k(s,a)\to\infty\text{with probability}1$;
+        \item $\lim\limits_{k\to\infty}\pi_k(a\mid s)=\arg\max\limits_aQ(s,a)\text{with probability}1.$
+    }
+    One example of GLIE is an $\epsilon$-greedy policy where $\epsilon\to 0$.
+}
+\fig{Online Monte-Carlo control}{Online Monte-Carlo control}{0.4}
+\fig{SARSA}{SARSA}{0.4}
+SARSA is short for \tit{state action reward state action}. The difference between SARSA and Q-learning is that SARSA is
+an on-policy algorithm, updating the Q-function using the current strategy, while Q-learning is an off-policy learning algorithm.
+
+\subsection{Value Function Approximation}
+
+The methodologies above try to estimate the value function or Q-function for every state and action, but these methods might not apply to those
+scenarios with very large state and action spaces. A popular approach for this issue is via \tbf{value function approximation}(VFA).
+\eq{
+    V^{\pi}(s)\approx\hat{V}(s,\mathbf{w})\quad\mathrm{or}\quad Q^{\pi}(s,a)\approx\hat{Q}(s,a,\mathbf{w}),
+}
+where $\mathbf{w}$ refers to parameter or wights. Some function approximations are listed below:
+\lis{
+    \item Linear combinations of features;
+    \item Neural networks;
+    \item Decision trees.
+}
+
+\subsubsection{Linear feature representations}
+In linear function representations, we use a feature vector to represent a state:
+\eq{
+    x(s)=(x_1(s),x_2(s),\ldots,x_d(s))^T,
+}
+where $d$ is the dimensionality of the feature space, the approximation can be expressed by:
+\eq{
+    \hat{V}(s,\mathbf{w})=x(s)^T\mathbf{w}=\sum_{j=1}^dx_j(s)\mathbf{w}_j.
+}
+Then we can define the loss function:
+\meq{
+J(\mathbf{w})=\mathbb{E}_{s\sim\rho^{\pi}(s)}\left[(V^{\pi}(s)-\hat{V}(s,\mathbf{w}))^2\right];\\
+\rho^\pi(s)=\lim_{T\to\infty}\frac{\sum_{t=0}^T\gamma^t\mathbb{P}(s_t=s\mid\pi)}{\sum_{t=0}^T\gamma^t}.
+}
+where $\rho^\pi(s)$ denotes the cumulative probability under the policy $\pi$. There are several ways to solve this optimization problem:
+\lis{
+    \item Gradient Descent (SGD);
+    \item Policy evaluation with linear VFA;
+}
+\fig{Monte-Carlo policy evaluation with linear VFA}{Monte-Carlo policy evaluation with linear VFA}{0.45}
+The updating formula $\mathbf{w}\leftarrow\mathbf{w}+\alpha(\arg(R(s_t))-\hat{V}(s_t,\mathbf{w}))x(s_t)$ is derived by taking derivative
+of $\mathbf{w}$ on $J(\mathbf{w})$:
+\eq{
+    \begin{aligned}
+        \nabla J(\mathbf{w}) & = 2(V^{\pi}(s)-\hat{V}(s,\mathbf{w}))\frac{\partial (V^{\pi}(s)-\hat{V}(s,\mathbf{w}))}{\partial \mathbf{w}} \\
+                             & = 2(V^{\pi}(s)-\hat{V}(s,\mathbf{w}))\cdot x(s).
+    \end{aligned}
+}
+In different policy evaluation settings the term $V^{\pi}(s)-\hat{V}(s,\mathbf{w})$ could be replaced by different styles:
+\tab{
+\item Monte-Carlo: $\sum_{j=t}^{H_k}r_{k,j}-\hat{V}(s,\mathbf{w})$;
+\item Temporal-difference: $r+\gamma\hat{V}^{\pi}(s^{\prime},\mathbf{w})-\hat{V}^{\pi}(s,\mathbf{w})$;
+\item Q-learning (maximum TD(0)): $r+\gamma\operatorname*{max}_{a^{\prime}}\hat{Q}(s^{\prime},a^{\prime},\mathbf{w})-\hat{Q}(s,a,\mathbf{w})$.
+}
+One thing about VFA is that these algorithms may not converge or converge to a suboptimal solution.
+
+\subsubsection{Deep Q-Learing}
+This part would introduce Deep Q-learning (\cite{mnih2015human}), Double DQN (\cite{van2016deep}) and Dueling DQN (\cite{wang2016dueling}).\\
+\sep{DQN}
+The DQN is designed to estimate the state-action function $\hat{Q}(s,a,\mathbf{w})$.
+\fig{DQN architecture}{DQN Architecture}{0.45}
+The DQN architecture takes inputs consisting of an $84\times 84\times 4$ image, which denotes the state. But the original size of the
+Atari game is $210\times160\times3$, so it needs some pre-processing:
+\tab{
+    \item \tit{Single frame encoding}:
+    \item \tit{Dimensionality reduction}:
+}
+The loss function is given by:
+\meq{
+J(\mathbf{w})=\mathbb{E}_{(s_t,a_t,r_t,s_{t+1})}[(y_t^{DQN}-\hat{Q}(s_t,a_t,\mathbf{w}))^2],\\
+y_t^{DQN}=r_t+\gamma\max_{a'}\hat{Q}(s_{t+1},a',\mathbf{w}^-).
+}
+Where $\mathbf{w}^-$ represents the parameters of the target network, and $\mathbf{w}$ is the online network after the update.\\
+\tbf{Experience Replay}: The Q-network is updated by SGD with sampled gradients from minibatch data: $(s,a,r,s^{\prime})\sim\mathrm{Uniform}(D).$
+$D$ is called the \tit{replay buffer}. This setting has some advantages and limitations:
+\tab{
+    \item \tit{Greater data efficiency}: Each step of experience can be potentially used for many updates, which improves data efficiency;
+    \item \tit{Remove sample correlations}: Randomizing the transition experiences reduces the correlations between consecutive samples and therefore reduces the variance of updates
+    and stabilizes the learning;
+    \item \tit{Avoiding oscillations or divergence};
+    \item \tit{Limitations}: Both the replay buffer and the uniform sampling don't t differentiate important transitions or informative transitions.
+    A more sophisticated replay strategy is \tit{Prioritized Replay} by \cite{schaul2015prioritized}.
+}
+\tbf{Target Network} is used to improve the stability of learning and deal with the nonstationary learning targets.
+For every $C=10000$ update steps the target network $\hat{Q}(s,a,\mathbf{w}^{-})$ is updated by copying the parameters' values $(\mathbf{w}^{-}=\mathbf{w})$
+from the online network $\hat{Q}(s,a,\mathbf{w})$.
+\fig{Deep Q-learning}{Deep Q-learning}{0.8}
+\sep{DDQN}
+Similar to the idea used in double Q-learning, DDQN uses two different networks to perform action selection and value function approximation.
+However, DDQN doesn't maintain two independent networks but utilizes the target network by:
+\eq{
+y_t^{DDQN}=r_t+\gamma\hat{Q}(s_{t+1},\arg\max_{a'}\hat{Q}(s_{t+1},a',\mathbf{w}),\mathbf{w}^-).
+}
+\sep{Dueling DQN}
+Recall the \tit{advantage function}:
+\eq{
+    A^\pi(s,a)=Q^\pi(s,a)-V^\pi(s).
+}
+We have $\mathbb{E}_{a\sim\pi(s)}[A^{\pi}(s,a)]=0.$ Like in DQN, the dueling network is also a neural network function approximator for
+learning the Q-function. Differently, it approximates the Q function by decoupling the value function and the advantage function.
+\fig{Dueling DQN v.s. DQN}{Dueling DQN v.s. DQN}{0.5}
+Where the green layer conducts the following operations:
+\meq{
+    \hat{Q}(s,a,\mathbf{w},\mathbf{w_A},\mathbf{w_V})=\hat{V}(s,\mathbf{w},\mathbf{w_V})+\left(A(s,a,\mathbf{w},\mathbf{w_A})-\max_{a'\in A}A(s,a',\mathbf{w},\mathbf{w_A})\right);\\
+    \hat{Q}(s,a,\mathbf{w},\mathbf{w_A},\mathbf{w_V})=\hat{V}(s,\mathbf{w},\mathbf{w_V})+\left(A(s,a,\mathbf{w},\mathbf{w_A})-\frac{1}{|\mathcal{A}|}\sum_{a'}A(s,a',\mathbf{w},\mathbf{w_A})\right).
+}
+in which \mathbf{w_V} is the parameter of the FC layer to predict the value functions, and \mathbf{w_A} is the parameter of the FC layer to predict the advantage functions.
+
+\subsection{Policy-Based Algorithms}
+
+In most RL algorithms, the policy y does not exist without the action value estimates $Q(s,a)$, these are called \tbf{value-based} algorithms.
+These algorithms have several limitations:
+\lis{
+    \item Can only address discrete action spaces due to the $\arg\max_{a\in A}$ operation;
+    \item Computing $Q(s,a)$ for all state-action pairs is costly;
+    \item Can only improve the policy indirectly by improving the estimates of the value function.
+}
+\tbf{Policy-based} method directly parameterizes the policy function $\pi_\theta(s)$ without calculating the value functions.
+A value function may still be used to learn the policy parameters, but is not required for action selection. To implement the policy-based methods,
+an important step is to approximate policies with parametrization. In discrete case, we can use softmax and \gt{state-action preferences}
+$h(s,a,\theta)$ to parameterize a policy:
+\eq{
+    \pi(a\mid s,\boldsymbol{\theta})=\frac{\exp(h(a,s,\boldsymbol{\theta}))}{\sum_{a'}\exp(h(a',s,\boldsymbol{\theta}))}.
+}
+In continuous cases, we can use the following functions to parameterize a policy:
+\meq{
+\pi(a\mid s,\boldsymbol{\theta_\mu},\boldsymbol{\theta_\sigma})=\frac{1}{\sigma(s,\theta_{\sigma})\sqrt{2\pi}}\exp(-\frac{(a-\mu(s,\theta_{\mu}))^2}{2\sigma(s,\theta_{\sigma})^2});\\
+\mu(s,\boldsymbol{\theta})=\boldsymbol{\theta}_{\boldsymbol{\mu}}^T\boldsymbol{x}_{\boldsymbol{\mu}}(s),\quad\sigma(s,\boldsymbol{\theta})=\exp(\boldsymbol{\theta}_{\boldsymbol{\sigma}}^T\boldsymbol{x}_{\boldsymbol{\sigma}}(s)),
+}
+
+\subsubsection{Policy Gradient}
+
+
+\subsubsection{Actor-Critic}
 
 \clearpage
 \chapter{Operations Management}
