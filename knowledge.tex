@@ -2281,7 +2281,91 @@ In continuous cases, we can use the following functions to parameterize a policy
 }
 
 \subsubsection{Policy Gradient}
-
+In the settings where the episode terminates at some terminal state set, we can define the objective function as:
+\eq{
+\boldsymbol{J}(\boldsymbol{\theta})=V^{\pi_\theta}(s_0)=\sum_{s\in\mathcal{S}}\rho^{\pi_\theta}(s\mid s_0)r(s),
+}
+where $r(s)=\mathbb{E}_{a\operatorname*{\sim}_{T}}[\mathcal{R}(s,a)]$ and $\rho^{\pi_\theta}(s\mid s_0)=\frac{1}{T}\sum_{t=0}^T\mathbb{P}(s_t=s\mid s_0,\pi_\theta)$.
+In the continuous setting where the process continues infinitely, we can define:
+\eq{
+    \begin{aligned}
+        \boldsymbol{J}(\boldsymbol{\theta}) & =\lim_{T\to\infty}\frac1T\sum_{t=1}^T\mathbb{E}[r_t\mid s_0,\pi_\theta] \\
+                                            & =\lim_{t\to\infty}\mathbb{E}[r_t\mid s_0,\pi_\theta]                    \\
+                                            & =\sum_s\rho^{\pi_\theta}(s\mid s_0)r(s)                                 \\
+                                            & =V^{\pi\theta}\left(s_0\right).
+    \end{aligned}
+}
+\thm{Policy Gradient Theorem}{
+    \eq{
+        \begin{gathered}
+            \nabla_\theta J(\theta) \propto\sum_{s\in\mathcal{S}}\rho^{\pi_\theta}(s\mid s_0)\sum_{a\in\mathcal{A}}Q^{\pi_\theta}(s,a)\nabla_\theta\pi_\theta(a\mid s) \\
+            =\mathbb{E}_\pi\left[Q^{\pi_\theta}(s,a)\nabla_\theta\log\pi_\theta(a\mid s)\right].
+        \end{gathered}
+    }
+    \proo{}{
+        Here we only prove the episodic case.
+        \eq{
+            \begin{aligned}
+                \nabla_\theta V^\pi(s)
+                 & =\nabla_\theta\Big(\sum_{a\in\mathcal{A}}\pi_\theta(a\mid s)Q^\pi(s,a)\Big)                                                                                                                                                                                    \\
+                 & =\sum_{a\in\mathcal{A}}\left(\nabla_\theta\pi_\theta(a\mid s)Q^\pi(s,a)+\pi_\theta(a\mid s)\nabla_\theta Q^\pi(s,a)\right)                                                                                                                                     \\
+                 & =\sum_{a\in\mathcal{A}}\left(\nabla_\theta\pi_\theta(a\mid s)Q^\pi(s,a)+\pi_\theta(a\mid s)\nabla_\theta\sum_{s^{\prime},r}\mathbb{P}(s^{\prime},r\mid s,a)(r+V^\pi(s^{\prime}))\right)                                                                        \\
+                 & =\sum_{a\in\mathcal{A}}\left(\nabla_\theta\pi_\theta(a\mid s)Q^\pi(s,a)+\pi_\theta(a\mid s)\sum_{s^{\prime},r}\mathbb{P}(s^{\prime},r\mid s,a)\nabla_\theta V^\pi(s^{\prime})\right)                                                                           \\
+                 & \begin{aligned}=\sum_{a\in\mathcal{A}}\left(\nabla_\theta\pi_\theta(a\mid s)Q^\pi(s,a)+\pi_\theta(a\mid s)\sum_{s'}\mathbb{P}(s'\mid s,a)\nabla_\theta V^\pi(s')\right)\end{aligned}
+            \end{aligned}
+        }
+        The above equation can be written as:
+        \eq{
+            \color{red}{\nabla_\theta V^\pi(s)}=\sum_{\alpha\in\mathcal{A}}\left(\nabla_\theta\pi_\theta(a\mid s)Q^\pi(s,a)+\pi_\theta(a\mid s)\sum_{s^{\prime}}\mathbb{P}(s^{\prime}\mid s,a)\color{red}{\nabla_\theta V^\pi(s^{\prime})}\right).
+        }
+        This equation has a nice recursive form (see the red parts!). To unroll the recursion of $\nabla_\theta V^\pi(s^{\prime})$, denote
+        \meq{
+            \phi(s)=\sum_{a\in\mathcal{A}}\nabla_\theta\pi_\theta(a\mid s)Q^\pi(s,a)\\
+            \eta(s){=}\sum_{k=0}^\infty\rho^\pi(s_0{\to}s,k)
+        }
+        for simplicity, and denote $\rho^\pi(s\to s^\prime,k)$ as the probability of transitioning from $s$ to $s^\prime$ with policy $\pi$ after $k$ steps. We have:
+        \eq{
+            \begin{aligned}
+                \nabla_\theta J(\theta) =\nabla_\theta V^\pi(s_0) & = \phi(s_0)+\sum_a\pi_\theta(a\mid s)\sum_{s'}\mathbb{P}(s'\mid s_0,a)\nabla_\theta V^\pi(s')                                      \\
+                                                                  & = \phi(s_0)+\sum\rho^{\pi}(s_0\rightarrow s^{\prime},1)\nabla_{\theta}V^{\pi}(s^{\prime})                                          \\
+                                                                  & = \phi(s_0)+\sum_{s'}\rho^{\pi}(s_0\rightarrow s',1)\phi(s')+\sum_{c''}\rho^{\pi}(s_0\rightarrow s'',2)\nabla_{\theta}V^{\pi}(s'') \\
+                                                                  & = \sum_s\sum_{k=0}^\infty\rho^\pi(s_0\to s,k)\phi(s) = \sum_s\eta(s)\phi(s)                                                        \\
+                                                                  & = \propto\sum_s\frac{\eta(s)}{\sum_s\eta(s)}\phi(s)=\sum_s\rho^\pi(s\mid s_0)\sum_a\nabla_\theta\pi_\theta(a|s)Q^\pi(s,a).
+            \end{aligned}
+        }
+        Further, the policy gradient can be written as:
+        \eq{
+            \begin{aligned}
+                \nabla_\theta J(\theta) & \propto\sum_{s\in\mathcal{S}}\rho^\pi(s\mid s_0)\sum_{a\in\mathcal{A}}Q^\pi(s,a)\nabla_\theta\pi_\theta(a\mid s)                                          \\
+                                        & =\sum_{s\in\mathcal{S}}\rho^\pi(s\mid s_0)\sum_{a\in\mathcal{A}}Q^\pi(s,a)\pi_\theta(a\mid s)\frac{\nabla_\theta\pi_\theta(a\mid s)}{\pi_\theta(a\mid s)} \\
+                                        & =\sum_{s\in\mathcal{S}}\rho^\pi(s\mid s_0)\sum_{a\in\mathcal{A}}\pi_\theta(a\mid s)Q^\pi(s,a)\frac{\nabla_\theta\pi_\theta(a\mid s)}{\pi_\theta(a\mid s)} \\
+                                        & =\mathbb{E}_\pi[Q^\pi(s,a)\nabla_\theta\log\pi_\theta(a\mid s)],
+            \end{aligned}
+        }
+    }
+}
+\fig{REINFORCE}{REINFORCE}{0.7}
+For $Q^\pi(s,a)$, we can use $G_t=\sum\gamma^tr_t$ to estimate. For $\nabla_\theta\log\pi_\theta(a\mid s)$, it depends on its form.
+Policy gradient suffers from \rt{high variance}, one solution is by subtracting a baseline $b(s)$ independent of $\theta$:
+\eq{
+\nabla_\theta J(\theta)\propto\sum_{s\in\mathcal{S}}\rho^\pi(s\mid s_0)\sum_{a\in\mathcal{A}}(Q^\pi(s,a)-b(s))\nabla\pi_\theta(a\mid s).
+}
+We can see that:
+\eq{
+    \sum_ab(s)\nabla\pi(a\mid s,\theta)=b(s)\nabla\sum_a\pi(a\mid s,\theta)=b(s)\nabla1=0,
+}
+which means the expectation value does not change. A natural choice for the baseline is an estimate of the state value $\hat{V}(s,\boldsymbol{w})$.
+\fig{REINFORCE with baseline}{REINFORCE with baseline}{0.7}
+\re{
+    Why the introduction of baseline reduces the variance:\\
+    Assume $b(s)$ is an unbiased estimator of $V^\pi(s)$, then the term $R_t(\tau)-b(s_t)$ has a mean $0$. Thus,
+    \eq{
+        \begin{aligned}
+            \mathrm{Var}\left(\sum_{t=0}^{T-1}\nabla_\theta\log\pi_\theta(a_t|s_t)(R_t(\tau)-b(s_t))\right) & \approx\sum_{t=0}^{T-1}\mathbb{E}\tau\left[\left(\nabla_\theta\log\pi_\theta(a_t|s_t)(R_t(\tau)-b(s_t))\right)^2\right]                                 \\
+                                                                                                            & \approx \sum_{t=0}^{T-1}\mathbb{E}_\tau\left[\left(\nabla_\theta\log\pi_\theta(a_t|s_t)\right)^2\right]\mathbb{E}_\tau\left[(R_t(\tau)-b(s_t))^2\right]
+        \end{aligned}
+    }
+}
 
 \subsubsection{Actor-Critic}
 
