@@ -1230,6 +1230,26 @@ This is called \tbf{\rt{TV-Huber problem}}.
     \item Newton's method can not be applied to this problem (Huber norm is not twice continuously differentiable).
 }
 
+\section{Simulation}
+
+\subsection{Variance Reduction Technique}
+
+\subsubsection{Control Variates}
+Suppose we want to estimate a parameter with mean $\mu$, and we have an unbiased statistic $X$. Suppose we have another similar pair $Y,\eta$,
+then $X^{\prime}=X+c(Y-\eta)$ is also an unbiased estimater.
+\eq{
+    \begin{aligned}
+        \mathbb{V}[X^{\prime}] & =\mathbb{V}[X+c(Y-\eta)]                                    \\
+                               & =\mathbb{V}[X]+c^2\mathbb{V}[Y-\eta]+2c\text{Cov}(X,Y-\eta) \\
+                               & =\mathbb{V}[Y-\eta]c^2+2\mathrm{Cov}(X,Y)c+\mathbb{V}[X].
+    \end{aligned}
+}
+To minimize this objective function, set $c=-\frac{\operatorname{Cov}(X,Y)}{\operatorname{V}[Y]}\mathrm{~,}$ we can get:
+\eq{
+    \mathbb{V}[X^{\prime}]=\left(1-\mathrm{Corr}(\mathrm{X},\mathrm{~Y})\right)\mathbb{V}[X],
+}
+which reduces the original variance.
+
 \clearpage
 \chapter{Economics and Econometrics}
 
@@ -2258,7 +2278,7 @@ Where the green layer conducts the following operations:
 }
 in which \mathbf{w_V} is the parameter of the FC layer to predict the value functions, and \mathbf{w_A} is the parameter of the FC layer to predict the advantage functions.
 
-\subsection{Policy-Based Algorithms}
+\subsection{Policy Gradient Algorithms}
 
 In most RL algorithms, the policy y does not exist without the action value estimates $Q(s,a)$, these are called \tbf{value-based} algorithms.
 These algorithms have several limitations:
@@ -2279,8 +2299,6 @@ In continuous cases, we can use the following functions to parameterize a policy
 \pi(a\mid s,\boldsymbol{\theta_\mu},\boldsymbol{\theta_\sigma})=\frac{1}{\sigma(s,\theta_{\sigma})\sqrt{2\pi}}\exp(-\frac{(a-\mu(s,\theta_{\mu}))^2}{2\sigma(s,\theta_{\sigma})^2});\\
 \mu(s,\boldsymbol{\theta})=\boldsymbol{\theta}_{\boldsymbol{\mu}}^T\boldsymbol{x}_{\boldsymbol{\mu}}(s),\quad\sigma(s,\boldsymbol{\theta})=\exp(\boldsymbol{\theta}_{\boldsymbol{\sigma}}^T\boldsymbol{x}_{\boldsymbol{\sigma}}(s)),
 }
-
-\subsubsection{Policy Gradient}
 In the settings where the episode terminates at some terminal state set, we can define the objective function as:
 \eq{
 \boldsymbol{J}(\boldsymbol{\theta})=V^{\pi_\theta}(s_0)=\sum_{s\in\mathcal{S}}\rho^{\pi_\theta}(s\mid s_0)r(s),
@@ -2302,44 +2320,44 @@ In the continuous setting where the process continues infinitely, we can define:
             =\mathbb{E}_\pi\left[Q^{\pi_\theta}(s,a)\nabla_\theta\log\pi_\theta(a\mid s)\right].
         \end{gathered}
     }
-    }
+}
 \proo{Policy Gradient Theorem}{
-        Here we only prove the episodic case.
-        \eq{
-            \begin{aligned}
-                \nabla_\theta V^\pi(s)
-                 & =\nabla_\theta\Big(\sum_{a\in\mathcal{A}}\pi_\theta(a\mid s)Q^\pi(s,a)\Big)                                                                                                                                                                                    \\
-                 & =\sum_{a\in\mathcal{A}}\left(\nabla_\theta\pi_\theta(a\mid s)Q^\pi(s,a)+\pi_\theta(a\mid s)\nabla_\theta Q^\pi(s,a)\right)                                                                                                                                     \\
-                 & =\sum_{a\in\mathcal{A}}\left(\nabla_\theta\pi_\theta(a\mid s)Q^\pi(s,a)+\pi_\theta(a\mid s)\nabla_\theta\sum_{s^{\prime},r}\mathbb{P}(s^{\prime},r\mid s,a)(r+V^\pi(s^{\prime}))\right)                                                                        \\
-                 & =\sum_{a\in\mathcal{A}}\left(\nabla_\theta\pi_\theta(a\mid s)Q^\pi(s,a)+\pi_\theta(a\mid s)\sum_{s^{\prime},r}\mathbb{P}(s^{\prime},r\mid s,a)\nabla_\theta V^\pi(s^{\prime})\right)                                                                           \\
-                 & \begin{aligned}=\sum_{a\in\mathcal{A}}\left(\nabla_\theta\pi_\theta(a\mid s)Q^\pi(s,a)+\pi_\theta(a\mid s)\sum_{s'}\mathbb{P}(s'\mid s,a)\nabla_\theta V^\pi(s')\right)\end{aligned}
-            \end{aligned}
-        }
-        This equation has a nice recursive form, to unroll the recursion of $\nabla_\theta V^\pi(s^{\prime})$, denote
-        \meq{
-            \phi(s)=\sum_{a\in\mathcal{A}}\nabla_\theta\pi_\theta(a\mid s)Q^\pi(s,a)\\
-            \eta(s){=}\sum_{k=0}^\infty\rho^\pi(s_0{\to}s,k)
-        }
-        for simplicity, and denote $\rho^\pi(s\to s^\prime,k)$ as the probability of transitioning from $s$ to $s^\prime$ with policy $\pi$ after $k$ steps. We have:
-        \eq{
-            \begin{aligned}
-                \nabla_\theta J(\theta) =\nabla_\theta V^\pi(s_0) & = \phi(s_0)+\sum_a\pi_\theta(a\mid s)\sum_{s'}\mathbb{P}(s'\mid s_0,a)\nabla_\theta V^\pi(s')                                      \\
-                                                                  & = \phi(s_0)+\sum\rho^{\pi}(s_0\rightarrow s^{\prime},1)\nabla_{\theta}V^{\pi}(s^{\prime})                                          \\
-                                                                  & = \phi(s_0)+\sum_{s'}\rho^{\pi}(s_0\rightarrow s',1)\phi(s')+\sum_{c''}\rho^{\pi}(s_0\rightarrow s'',2)\nabla_{\theta}V^{\pi}(s'') \\
-                                                                  & = \sum_s\sum_{k=0}^\infty\rho^\pi(s_0\to s,k)\phi(s) = (\sum_s\eta(s))\sum_s\eta(s)\phi(s)                                                        \\
-                                                                  & \propto\sum_s\frac{\eta(s)}{\sum_s\eta(s)}\phi(s)=\sum_s\rho^\pi(s\mid s_0)\sum_a\nabla_\theta\pi_\theta(a|s)Q^\pi(s,a).
-            \end{aligned}
-        }
-        Further, the policy gradient can be written as:
-        \eq{
-            \begin{aligned}
-                \nabla_\theta J(\theta) & \propto\sum_{s\in\mathcal{S}}\rho^\pi(s\mid s_0)\sum_{a\in\mathcal{A}}Q^\pi(s,a)\nabla_\theta\pi_\theta(a\mid s)                                          \\
-                                        & =\sum_{s\in\mathcal{S}}\rho^\pi(s\mid s_0)\sum_{a\in\mathcal{A}}Q^\pi(s,a)\pi_\theta(a\mid s)\frac{\nabla_\theta\pi_\theta(a\mid s)}{\pi_\theta(a\mid s)} \\
-                                        & =\sum_{s\in\mathcal{S}}\rho^\pi(s\mid s_0)\sum_{a\in\mathcal{A}}\pi_\theta(a\mid s)Q^\pi(s,a)\frac{\nabla_\theta\pi_\theta(a\mid s)}{\pi_\theta(a\mid s)} \\
-                                        & =\mathbb{E}_\pi[Q^\pi(s,a)\nabla_\theta\log\pi_\theta(a\mid s)],
-            \end{aligned}
-        }
+    Here we only prove the episodic case.
+    \eq{
+        \begin{aligned}
+            \nabla_\theta V^\pi(s)
+             & =\nabla_\theta\Big(\sum_{a\in\mathcal{A}}\pi_\theta(a\mid s)Q^\pi(s,a)\Big)                                                                                                                                                                                    \\
+             & =\sum_{a\in\mathcal{A}}\left(\nabla_\theta\pi_\theta(a\mid s)Q^\pi(s,a)+\pi_\theta(a\mid s)\nabla_\theta Q^\pi(s,a)\right)                                                                                                                                     \\
+             & =\sum_{a\in\mathcal{A}}\left(\nabla_\theta\pi_\theta(a\mid s)Q^\pi(s,a)+\pi_\theta(a\mid s)\nabla_\theta\sum_{s^{\prime},r}\mathbb{P}(s^{\prime},r\mid s,a)(r+V^\pi(s^{\prime}))\right)                                                                        \\
+             & =\sum_{a\in\mathcal{A}}\left(\nabla_\theta\pi_\theta(a\mid s)Q^\pi(s,a)+\pi_\theta(a\mid s)\sum_{s^{\prime},r}\mathbb{P}(s^{\prime},r\mid s,a)\nabla_\theta V^\pi(s^{\prime})\right)                                                                           \\
+             & \begin{aligned}=\sum_{a\in\mathcal{A}}\left(\nabla_\theta\pi_\theta(a\mid s)Q^\pi(s,a)+\pi_\theta(a\mid s)\sum_{s'}\mathbb{P}(s'\mid s,a)\nabla_\theta V^\pi(s')\right)\end{aligned}
+        \end{aligned}
     }
+    This equation has a nice recursive form, to unroll the recursion of $\nabla_\theta V^\pi(s^{\prime})$, denote
+    \meq{
+        \phi(s)=\sum_{a\in\mathcal{A}}\nabla_\theta\pi_\theta(a\mid s)Q^\pi(s,a)\\
+        \eta(s){=}\sum_{k=0}^\infty\rho^\pi(s_0{\to}s,k)
+    }
+    for simplicity, and denote $\rho^\pi(s\to s^\prime,k)$ as the probability of transitioning from $s$ to $s^\prime$ with policy $\pi$ after $k$ steps. We have:
+    \eq{
+        \begin{aligned}
+            \nabla_\theta J(\theta) =\nabla_\theta V^\pi(s_0) & = \phi(s_0)+\sum_a\pi_\theta(a\mid s)\sum_{s'}\mathbb{P}(s'\mid s_0,a)\nabla_\theta V^\pi(s')                                      \\
+                                                              & = \phi(s_0)+\sum\rho^{\pi}(s_0\rightarrow s^{\prime},1)\nabla_{\theta}V^{\pi}(s^{\prime})                                          \\
+                                                              & = \phi(s_0)+\sum_{s'}\rho^{\pi}(s_0\rightarrow s',1)\phi(s')+\sum_{c''}\rho^{\pi}(s_0\rightarrow s'',2)\nabla_{\theta}V^{\pi}(s'') \\
+                                                              & = \sum_s\sum_{k=0}^\infty\rho^\pi(s_0\to s,k)\phi(s) = (\sum_s\eta(s))\sum_s\eta(s)\phi(s)                                         \\
+                                                              & \propto\sum_s\frac{\eta(s)}{\sum_s\eta(s)}\phi(s)=\sum_s\rho^\pi(s\mid s_0)\sum_a\nabla_\theta\pi_\theta(a|s)Q^\pi(s,a).
+        \end{aligned}
+    }
+    Further, the policy gradient can be written as:
+    \eq{
+        \begin{aligned}
+            \nabla_\theta J(\theta) & \propto\sum_{s\in\mathcal{S}}\rho^\pi(s\mid s_0)\sum_{a\in\mathcal{A}}Q^\pi(s,a)\nabla_\theta\pi_\theta(a\mid s)                                          \\
+                                    & =\sum_{s\in\mathcal{S}}\rho^\pi(s\mid s_0)\sum_{a\in\mathcal{A}}Q^\pi(s,a)\pi_\theta(a\mid s)\frac{\nabla_\theta\pi_\theta(a\mid s)}{\pi_\theta(a\mid s)} \\
+                                    & =\sum_{s\in\mathcal{S}}\rho^\pi(s\mid s_0)\sum_{a\in\mathcal{A}}\pi_\theta(a\mid s)Q^\pi(s,a)\frac{\nabla_\theta\pi_\theta(a\mid s)}{\pi_\theta(a\mid s)} \\
+                                    & =\mathbb{E}_\pi[Q^\pi(s,a)\nabla_\theta\log\pi_\theta(a\mid s)],
+        \end{aligned}
+    }
+}
 \fig{REINFORCE}{REINFORCE}{0.7}
 For $Q^\pi(s,a)$, we can use $G_t=\sum\gamma^tr_t$ to estimate. For $\nabla_\theta\log\pi_\theta(a\mid s)$, it depends on its form.
 Policy gradient suffers from \rt{high variance}, one solution is by subtracting a baseline $b(s)$ independent of $\theta$:
@@ -2362,8 +2380,115 @@ which means the expectation value does not change. A natural choice for the base
         \end{aligned}
     }
 }
+\re{
+The general form of \tit{policy gradient}:
+\eq{
+    g=\mathbb{E}\left[\sum_{t=0}^{\infty}\Psi_t\nabla_\theta\log\pi_\theta\left(a_t\mid s_t\right)\right]
+}
+The $\Psi_t$ could be the following form:
+\tab{
+\item $\sum_{t=0}^\infty r_t$: : the total reward of the trajectory;
+\item $Q^\pi(s_t,a_t)$: the action value function;
+\item $\sum_{t^\prime}^\infty$: the reward following action $a_t$;
+\item $\sum_{t'=t}^{\infty}r_{t'}-b\left(s_{t}\right)$:  the reward following action $a_t$ with a baseline;
+\item $A^\pi(s_t,a_t)$: the advantage function;
+\item $r_t+V^\pi(s_{t+1})-V^\pi(s_t)$: the TD residual.
+}
+}
 
 \subsubsection{Actor-Critic}
+In practice, most of the variance is from the Monte-Carlo estimation $G_t$ of $Q(s_t,a_t)$. If we use the parameterized temporal-difference method to
+estimate the state-action function, then we can get \tbf{actor-critic} algorithm. Actor-critic methods consist of two models;
+\lis{
+    \item The critic updates the value function parameters $w$;
+    \item The actor updates the policy parameters $\theta$ in the direction suggested by the critic.
+}
+\fig{One-step actor-critic}{One-step actor-critic}{0.7}
+\subsubsection{Trust Region Policy Optimization: TRPO}
+If the noise of the gradient is large, choosing the best step size using the exact line search could be analogous to choosing the optimum among the random signals.
+One way to solve this is the \tbf{trust region} method (\cite{schulman2015trust}). Let $c(s_t)$ be the cost function, and denote
+\eq{
+    \begin{aligned}&\eta(\pi)=\mathbb{E}_{s_0,a_0,...}\left[\sum_{t=0}^\infty\gamma^tc(s_t)\right],\text{ where}\\&s_0\sim\rho_0(s_0),a_t\sim\pi(a_t|s_t),s_{t+1}\sim P(s_{t+1}|s_t,a_t).\end{aligned}
+}
+Recall the advantage function $A_\pi(s,a)=Q_\pi(s,a)-V_\pi(s)$, so for another policy $\tilde{\pi}$, we have the improvement formula:
+\eq{
+    \eta(\tilde{\pi})=\eta(\pi)+\mathbb{E}_{s_0,a_0,s_1,a_1,...}\left[\sum_{t=0}^\infty\gamma^tA_\pi(s_t,a_t)\right]
+}
+This is accumulated over timesteps. If we denote $\rho_{\pi}(s)=(P(s_0=s)+\gamma P(s_1=s)+\gamma^2P(s_2=s)+\ldots)$, then we can rewrite this in accumulation over states:
+\eq{
+    \eta(\tilde{\pi})=\eta(\pi)+\sum_s\rho_{\tilde{\pi}}(s)\sum_a\tilde{\pi}(a|s)A_\pi(s,a).
+}
+Optimizing the right side directly is difficult since we can not take the derivative of $\rho_{\tilde{\pi}}(s)$. So we introduce a local approximation:
+\eq{
+    L_\pi(\tilde{\pi})=\eta(\pi)+\sum_s\rho_\pi(s)\sum_a\tilde{\pi}(a|s)A_\pi(s,a),
+}
+where we approximate $\rho_{\tilde{\pi}}(s)$ using $\rho_{\pi}(s)$. Now we can optimize the right side directly, it is proved that:
+\lem{\cite{kakade2002approximately}}{
+\eq{
+    \eta(\pi_{\mathrm{new}})\leq L_{\pi_{\mathrm{old}}}(\pi_{\mathrm{new}})+\frac{2\epsilon\gamma}{(1-\gamma(1-\alpha))(1-\gamma)}\alpha^2,
+}
+where the term is given by:
+\meq{
+\pi^{\prime}=\arg\min_{\pi^{\prime}}L_{\pi_{\mathrm{old}}}(\pi^{\prime});\\
+\pi_{\mathrm{new}}(a|s)=(1-\alpha)\pi_{\mathrm{old}}(a|s)+\alpha\pi'(a|s);\\
+\epsilon=\max_s\lvert\mathbb{E}_{a\sim\pi^{\prime}(a|s)}\left[A_\pi(s,a)\right]\rvert.
+}
+Since $\alpha,\gamma\in[0,1]$, we can get a tighter bound:
+\eq{
+    \eta(\pi_{\mathrm{new}})\leq L_{\pi_{\mathrm{old}}}(\pi_{\mathrm{new}})+\frac{2\epsilon\gamma}{(1-\gamma)^2}\alpha^2.
+}\label{eq:kakade2002}
+}
+Now we can generalize this lemma to:
+\thm{Monotonic Improvement Guarantee for General Stochastic Policies}{
+By replacing $\alpha$ with a distance measure between $\pi$ and $\tilde{\pi}$, we can generate a bound similar to equation \ref{eq:kakade2002}. More specifically,
+if we let $\alpha=D_{\mathrm{TV}}^{\max}(\pi_{\mathrm{old}},\pi_{\mathrm{new}})=\operatorname*{max}_{s}D_{TV}(\pi(\cdot|s)\parallel\tilde{\pi}(\cdot|s))$, where $D_{TV}(p\parallel q)=\frac{1}{2}\sum_i\lvert p_i-q_i\rvert$
+is the \tit{total variation divergence}, and $\epsilon=\max_s|\mathbb{E}_{a\sim\pi^{\prime}(a|s)}[A_\pi(s,a)]|$. Then equation \ref(eq:kakade2002) holds.\\
+Note the relationship between the total variation divergence and the \tbf{KL divergence}: $D_{TV}(p\parallel q)^{2}\le D_{\mathrm{KL}}(p\parallel q)$, we can get the following bound:
+\eq{
+\eta(\tilde{\pi})\leq L_\pi(\tilde{\pi})+CD_{\mathrm{KL}}^{\max}(\pi,\tilde{\pi}), C=\frac{2\epsilon\gamma}{(1-\gamma)^2}.
+}
+Where $D_{\mathrm{KL}}^{\max}(\pi,\tilde{\pi})=\max_{s}D_{\mathrm{KL}}(\pi(\cdot|s)\parallel\tilde{\pi}(\cdot|s)).$.
+}
+From this theorem we can propose an algorithm:
+\fig{TRPO Prior}{Approximate policy iteration algorithm guaranteeing non-increasing expected cost $\eta$}{0.8}
+\tbf{Trust region policy optimization} is an approximation to the algorithm above. When we parameterize the policy $\pi$ using $\theta$, we can solve:
+\eq{
+\mathrm{minimize}\left[L_{\theta_{\mathrm{old}}}(\theta)+CD_{\mathrm{KL}}^{\mathrm{max}}(\theta_{\mathrm{old}},\theta)\right]
+}
+to improve the real $eta$. But if we use $C$ derived from theory, the step size would be very small. So we use a constraint on the KL divergence to
+keep the optimal solution within a \tbf{trust region}:
+\eq{
+    D_{\mathrm{KL}}^{\max}(\theta_{\mathrm{old}},\theta)\leq\delta.
+}
+What's more, this new constraint constrains the KL divergence in every state. We relax this by transforming the optimization to:
+\meq{
+\min_\theta L_{\theta_{\mathrm{old}}}(\theta)\\
+\text{subject to }\overline{D}_{\mathrm{KL}}^{\rho\theta_{old}}(\theta_{\mathrm{old}},\theta)\leq\delta.
+}
+where $\overline{D}_{\mathrm{KL}}^{\rho\theta_{old}}(\theta_{old},\theta):=\mathbb{E}_{s\sim\rho\theta_{old}}\left[D_{\mathrm{KL}}(\pi_{\theta_{old}}(\cdot|s)\parallel\pi_{\theta}(\cdot|s))\right].$
+In practice, we can estimate the objective and constraint based on the sample:
+\eq{
+    \begin{aligned}
+        \operatorname*{minimize}_{\theta}\mathbb{E}_{s\sim\rho_{\theta_{\mathrm{old}}}} & \left[\frac{\pi_{\theta}(a|s)}{\pi_{\theta_{old}}(a|s)}Q_{\theta_{\mathrm{old}}}(s,a)\right]     \\
+        \mathrm{subject~to~\mathbb{E}_{s\sim\rho_{\theta_{\mathrm{old}}}}}              & [D_{\mathrm{KL}}(\pi_{\theta_{\mathrm{old}}}(\cdot|s)\parallel\pi_{\theta}(\cdot|s))]\leq\delta.
+    \end{aligned}
+}
+\subsubsection{Proximal Policy Optimization: PPO}
+PPO, designed by \cite{schulman2017proximal}, has some of the benefits of TRPO, but is much simpler to implement. TRPO algorithm can fluctuate greatly when
+$\rho_t(\theta)~=~\frac{\pi_\theta(a_t|s_t)}{\pi_{\theta_\mathrm{old}}(a_t|s_t)}$ changes too quickly, so PPO proposes the \tit{clip surrogate loss}:
+\eq{
+    L^{CLIP}(\theta)=\hat{\mathbb{E}}_t\Big[\min(\rho_t(\theta)\hat{A}_t,\operatorname{clip}(\rho_t(\theta),1-\epsilon,1+\epsilon)\hat{A}_t)\Big]
+}
+There is another surrogate loss in the penalty style:
+\eq{
+    L^{KLPEN}(\theta)=\hat{\mathbb{E}}_t\bigg[\frac{\pi_\theta(a_t\mid s_t)}{\pi_{\theta_\mathrm{old}}(a_t\mid s_t)}\hat{A}_t-\beta\operatorname{KL}[\pi_{\theta_\mathrm{old}}(\cdot\mid s_t),\pi_\theta(\cdot\mid s_t)]\bigg]
+}
+In practice, there is a simple way to adjust the hyperparameter $\beta$, compute $d=\hat{\mathbb{E}}_t[\mathrm{KL}[\pi_{\theta_\mathrm{old}}(\cdot\mid s_t),\pi_\theta(\cdot\mid s_t)]]$:
+\tab{
+    \item If $d<d_{\mathrm{targ}}/1.5,\beta\leftarrow\beta/2$;
+    \item $d>d_{\mathrm{targ}}\times1.5,\beta\leftarrow\beta\times2$.
+}
+\fig{PPOAC}{PPO, Actor-Critic Style}{0.8}
 
 \clearpage
 \chapter{Operations Management}
