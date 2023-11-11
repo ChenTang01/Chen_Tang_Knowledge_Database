@@ -1747,7 +1747,7 @@ The difference between Spark and Hadoop:
     \item Speed: Spark usually has a higher speed;
     \item Data Processing Models: Hadoop uses the MapReduce model for batch processing. Spark supports batch processing (similar to MapReduce),
     real-time streaming processing (Spark Streaming), interactive querying (Spark SQL);
-    \item Data Caching: Spark allows data to be cached in memory, Hadoop relies on intermediate disk.
+    \item Data Caching: Spark allows data to be cached in memory, and Hadoop relies on an intermediate disk.
 }
 \fig{Hadoop vs Spark}{Hadoop vs Spark}{0.3}
 
@@ -1756,6 +1756,16 @@ The difference between Spark and Hadoop:
 
 \subsection{Imitation Learning}
 
+\sep{DAGGER}
+Imitation learning, which learns from the demonstration, is a kind of supervised learning. Generally, experts provide a set of demonstration trajectories, which are sequences of states
+and actions. Assume we know:
+\tab{
+    \item State space and action space;
+    \item Access to transition oracle $\mathbb{P}(s^{\prime}\mid s,a)$;
+    \item Set of one or more teacher demonstrations $(s_0,a_0,s_1,a_1,\ldots)$ where actions are drawn from the teacher's policy $\pi^\star$.
+}
+\fig{DAGGER}{DAGGER}{0.7}
+The $\pi_i$ (suboptimal policy) trick is designed to bootstrap more data, generalizing the learning outcome.
 
 \clearpage
 \section{Deep Learning}
@@ -1771,9 +1781,6 @@ There are two main causal frameworks: \tbf{Structural Causal Model} and \tbf{Pot
 
 \subsubsection{Structural Causal Model}
 \tbf{SCM} (Structural Causal Model) can be divided into two subgroups: \tit{causal graph} and \tit{structural euqation}.
-
-\defi{}{}
-
 
 \clearpage
 \section{Reinforcement Learning}
