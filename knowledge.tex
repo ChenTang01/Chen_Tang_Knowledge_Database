@@ -1200,6 +1200,7 @@ In addition, if $\|x^0-x^*\|\leq\frac{\mu\min\{1,\varepsilon\}}L$:
 \subsection{Large-Scale Optimization}
 
 \subsubsection{Inpainting}
+\sep{TV-Huber problem}
 Assume we have access to a binary mask matrix $\in \RR^{m\times n}$ with:
 \eq{
     \text{Mask}_{ij}=\begin{cases}1&\text{the pixel }(i,j)\text{is not damaged},\\0&\text{the pixel }(i,j)\text{is damaged}.&\end{cases}
@@ -1229,6 +1230,34 @@ This is called \tbf{\rt{TV-Huber problem}}.
     \item TV-Huber problem is convex;
     \item Newton's method can not be applied to this problem (Huber norm is not twice continuously differentiable).
 }
+\sep{Reconstructing Sparse Signals}
+Given $(A,b)$ and an appropriate basis $\Psi$, which can transform $\Psi x$ into a sparse matrix. To recover the original image $x$,
+we can model it to a $\cL_0$ problem:
+\eq{
+    \min_x\quad\|\Psi x\|_0\quad\mathrm{s.t.}\quad Ax=b
+}
+This is a combinatorial problem, we can transform it into a convex problem:
+\eq{
+    \min_x\quad\|\Psi x\|_1\quad\mathrm{s.t.}\quad Ax=b
+}
+But it's still undifferentiable. We can use \tit{compressed sensing} to transform it into:
+\eq{
+    \min_x\quad\frac12\|A\Psi^{-1}x-b\|_2^2+\mu\cdot\varphi(x),\quad\mu>0.
+}
+Where $\varphi$ is a smooth and non-convex alternative to the $\cL_1$ norm:
+\eq{
+    \varphi(x)=\sum_{i=1}^{mn}\log\left(1+\frac{x_i^2}\nu\right),\quad\nu>0.
+}
+
+\subsection{Optimization Acceleration}
+
+\subsubsection{Nosterov's Extrapolation}
+The principle idea of many acceleration techniques is to perform an \rt{extrapolation step}:
+\eq{
+    y^{k+1}=x^k+\beta_k(x^k-x^{k-1}),\quad\beta_k>0
+}
+to approximate the next iteration $y^{k+1}\approx x^{k+1}.$
+\fig{AGM}{Abstract Accelerated Gradient Method}{0.7}
 
 \section{Simulation}
 
