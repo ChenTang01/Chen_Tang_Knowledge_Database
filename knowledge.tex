@@ -1754,6 +1754,9 @@ The difference between Spark and Hadoop:
 \clearpage
 \section{Machine Learning}
 
+\subsection{Imitation Learning}
+
+
 \clearpage
 \section{Deep Learning}
 
@@ -1776,6 +1779,7 @@ There are two main causal frameworks: \tbf{Structural Causal Model} and \tbf{Pot
 \section{Reinforcement Learning}
 
 This section is mainly the notes of \cite{thrun2000reinforcement} and \cite{agarwal2019reinforcement}.
+\fig{A Taxonomy of RL Algorithms}{A Taxonomy of RL Algorithms}{1}
 
 \subsection{Introduction and MDP}
 
@@ -2210,7 +2214,7 @@ where $\rho^\pi(s)$ denotes the cumulative probability under the policy $\pi$. T
     \item Policy evaluation with linear VFA;
 }
 \fig{Monte-Carlo policy evaluation with linear VFA}{Monte-Carlo policy evaluation with linear VFA}{0.45}
-The updating formula $\mathbf{w}\leftarrow\mathbf{w}+\alpha(\arg(R(s_t))-\hat{V}(s_t,\mathbf{w}))x(s_t)$ is derived by taking derivative
+The updating formula $\mathbf{w}\leftarrow\mathbf{w}+\alpha(avg (R(s_t))-\hat{V}(s_t,\mathbf{w}))x(s_t)$ is derived by taking derivative
 of $\mathbf{w}$ on $J(\mathbf{w})$:
 \eq{
     \begin{aligned}
@@ -2369,6 +2373,15 @@ We can see that:
     \sum_ab(s)\nabla\pi(a\mid s,\theta)=b(s)\nabla\sum_a\pi(a\mid s,\theta)=b(s)\nabla1=0,
 }
 which means the expectation value does not change. A natural choice for the baseline is an estimate of the state value $\hat{V}(s,\boldsymbol{w})$.
+\re{
+    This equation can be generalized to:
+    \lem{Stein's identity}{
+        \eq{
+            \mathbb{E}_\pi[\nabla_a\log\pi(a\mid s)\phi(s,a)+\nabla_a\phi(s,a)]=0,
+        }
+        where $\phi(s,a)$ is an arbitrary state-action function.
+    }
+}
 \fig{REINFORCE with baseline}{REINFORCE with baseline}{0.7}
 \re{
     Why the introduction of baseline reduces the variance:\\
@@ -2379,6 +2392,7 @@ which means the expectation value does not change. A natural choice for the base
                                                                                                             & \approx \sum_{t=0}^{T-1}\mathbb{E}_\tau\left[\left(\nabla_\theta\log\pi_\theta(a_t|s_t)\right)^2\right]\mathbb{E}_\tau\left[(R_t(\tau)-b(s_t))^2\right]
         \end{aligned}
     }
+    The above equation does not necessarily show that adding a baseline would reduce the variance, this only provides an intuitive understanding.
 }
 \re{
 The general form of \tit{policy gradient}:
@@ -2404,6 +2418,21 @@ estimate the state-action function, then we can get \tbf{actor-critic} algorithm
     \item The actor updates the policy parameters $\theta$ in the direction suggested by the critic.
 }
 \fig{One-step actor-critic}{One-step actor-critic}{0.7}
+\sep{Deep Deterministic Policy Gradient: DDPG}
+DDPG is an algorithm similar to DQN, it utilizes the trick of \tit{replay buffer} and \tit{target netwrok}. However,
+DDPG maintains two networks at the same time: one to approximate the Q-function (critic), and another to choose the action (actor).
+Because the approximated Q-function can be differentiable, DDPG can be applied for continuous action spaces.
+\fig{DDPG}{Deep Deterministic Policy Gradient}{0.7}
+where $d=1$ if it's the terminal state, otherwise $d=0$.
+\sep{Soft Actor-Critic: SAC}
+This algorithm is proposed by \cite{haarnoja2018soft}. SAC is an algorithm that optimizes a stochastic policy in an off-policy way, a key feature
+of SAC is \tbf{entropy regularization}, which is designed to maximize the trade-off between the expected return and the randomness in the policy. (exploitation v.s. exploration)
+The objective function is given by:
+\eq{
+\pi^{*}=\arg\max_{\pi}\mathop{\mathrm{E}}_{\tau\sim\pi}\left[\sum_{t=0}^{\infty}\gamma^{t}\bigg(R(s_{t},a_{t},s_{t+1})+\alpha H\left(\pi(\cdot|s_{t})\right)\bigg)\right],
+}
+where $H(P)=\operatorname*{E}_{x\sim P}\left[-\log P(x)\right]$ is the \tbf{entropy}, SAC concurrently learns a policy $\pi_\theta$ and two Q-functions $Q_{\phi_1},Q_{\phi_2}$:
+\fig{SAC}{Soft Actor-Critic}{0.8}
 \subsubsection{Trust Region Policy Optimization: TRPO}
 If the noise of the gradient is large, choosing the best step size using the exact line search could be analogous to choosing the optimum among the random signals.
 One way to solve this is the \tbf{trust region} method (\cite{schulman2015trust}). Let $c(s_t)$ be the cost function, and denote
@@ -2442,7 +2471,7 @@ Now we can generalize this lemma to:
 \thm{Monotonic Improvement Guarantee for General Stochastic Policies}{
 By replacing $\alpha$ with a distance measure between $\pi$ and $\tilde{\pi}$, we can generate a bound similar to equation \ref{eq:kakade2002}. More specifically,
 if we let $\alpha=D_{\mathrm{TV}}^{\max}(\pi_{\mathrm{old}},\pi_{\mathrm{new}})=\operatorname*{max}_{s}D_{TV}(\pi(\cdot|s)\parallel\tilde{\pi}(\cdot|s))$, where $D_{TV}(p\parallel q)=\frac{1}{2}\sum_i\lvert p_i-q_i\rvert$
-is the \tit{total variation divergence}, and $\epsilon=\max_s|\mathbb{E}_{a\sim\pi^{\prime}(a|s)}[A_\pi(s,a)]|$. Then equation \ref(eq:kakade2002) holds.\\
+is the \tit{total variation divergence}, and $\epsilon=\max_s|\mathbb{E}_{a\sim\pi^{\prime}(a|s)}[A_\pi(s,a)]|$. Then equation \ref{eq:kakade2002} holds.\\
 Note the relationship between the total variation divergence and the \tbf{KL divergence}: $D_{TV}(p\parallel q)^{2}\le D_{\mathrm{KL}}(p\parallel q)$, we can get the following bound:
 \eq{
 \eta(\tilde{\pi})\leq L_\pi(\tilde{\pi})+CD_{\mathrm{KL}}^{\max}(\pi,\tilde{\pi}), C=\frac{2\epsilon\gamma}{(1-\gamma)^2}.
