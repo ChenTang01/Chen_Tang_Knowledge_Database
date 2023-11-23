@@ -1161,6 +1161,84 @@ The optimal rate can be $\eta=1-\frac\mu L=1-\frac1\kappa, \kappa=\frac{L}{\mu}$
 }
 }
 
+\subsubsection{Conjugate Gradient Method}
+The \rt{conjugate gradient method} (CG-method)  is an iterative approach for solving quadratic optimization and linear equations $Ax=b$, where $A$ is symmetric and PD.
+This problem can be treated as a minimization problem:
+eq{
+        \min_{x\in\mathbb{R}^n}\phi(x)=\frac12x^\top Ax-b^\top x.
+    }
+These two problems are equivalent because of $\nabla \pho(x)=Ax-b$. We are interested in the convergence of the residuals:
+\eq{
+    r^k:=Ax^k-b=\nabla\phi(x^k)\quad\text{at the k-th iter.}
+}
+\defi{Q-conjugate Directions}{
+    Let $Q$ be a symmetric matrix. $\{d_1,d_2,\ldots,d_k\}$ vectors $d_i\in \RR^n, \d_i\ne0$ are Q-conjugate w.r.t. $Q$ if:
+    \eq{
+        d_i^TQd_j=0\text{,}\forall i\neq j
+    }
+}
+\lem{Linear Independence for Q-conjugate Directions}{
+    If $Q$ is PD, then directions $\{d_1,d_2,\ldots,d_k\}$ are linearly independent.
+    \proo{}{
+        Proof by contradiction. If $\begin{aligned}d_k=\alpha_1d_1+\ldots+\alpha_{k-1}d_{k-1}\end{aligned}$, then:
+        \eq{
+            \begin{aligned}
+                0<d_k^TQd_k & \begin{aligned}=d_k^TQ(\alpha_1d_1+\ldots+\alpha_{k-1}d_{k-1})\end{aligned} \\
+                            & =\alpha_{1}d_{k}^{T}Qd_{1}+\ldots+\alpha_{k-1}d_{k}^{T}Qd_{k-1}=0
+            \end{aligned}
+        }
+    }
+}
+Now, reconsider the quadratic minimization problem, let $x^*$ denote the solution. Since the linear Independence lemma:
+\eq{
+x^*=\alpha_0d_0+\ldots+\alpha_{n-1}d_{n-1}
+}
+Therefore,
+\meq{
+d_{i}^{T}Qx^{*}=d_{i}^{T}Q(\alpha_{0}d_{0}+\ldots+\alpha_{n-1}d_{n-1})=\alpha_{i}d_{i}^{T}Qd_{i}\\
+\alpha_i=\frac{d_i^TQx^*}{d_i^TQd_i}=\frac{d_i^Tb}{d_i^TQd_i}
+}
+Which can lead to the solution of $x^*$ without the matrix inversion:
+\eq{
+    x^*=\sum\limits_{i=0}^{n-1}\alpha_id_i=\sum\limits_{i=0}^{n-1}\frac{d_i^Tb}{d_i^TQd_i}d_i
+}
+\thm{Conjugate Direction}{
+Let $\{d_0,d_1,\ldots,d_{n-1}\}$ be Q-conjugate, $x_0$ be an arbitrary starting point. By updating:
+\meq{
+    x_{k+1}=x_k+\alpha_kd_k\\
+    g_k=Qx_k-b\\
+    \alpha_k=-\frac{g_k^Td_k}{d_k^TQd_k}=-\frac{(Qx_k-b)^Td_k}{d_k^TQd_k}
+}
+After $n$ steps, $x_n=x^*$.
+\proo{}{
+To prove the theorem above, we only need to prove why we have the form $\alpha_k=-\frac{(Qx_k-b)^Td_k}{d_k^TQd_k}$.\\
+We have:
+\eq{
+    \begin{aligned}
+        d_k^TQ(x^*-x_0) & =d_k^TQ(\alpha_0d_0+\ldots+\alpha_{n-1}d_{n-1})=\alpha_kd_k^TQd_k \\
+                        & \Rightarrow\alpha_k=\frac{d_k^TQ(x^*-x_0)}{d_k^TQd_k}             \\
+        d_k^TQ(x_k-x_0) & =d_k^TQ(\alpha_0d_0+\alpha_1d_1+\ldots+\alpha_{k-1}d_{k-1})=0     \\
+        d_k^TQ(x^*-x_0) & =d_k^TQ(x^*-x_k+x_k-x_0)=d_k^TQ(x^*-x_k)
+    \end{aligned}
+}
+So,
+\eq{
+\alpha_{k}=\frac{d_{k}^{T}Q(x^{*}-x_{0})}{d_{k}^{T}Qd_{k}}=\frac{d_{k}^{T}Q(x^{*}-x_{k})}{d_{k}^{T}Qd_{k}}=-\frac{d_{k}^{T}g_{k}}{d_{k}^{T}Qd_{k}}
+}
+}
+}
+The CG-method is a \tit{special}  conjugate direction method that iteratively generates the conjugate vectors. $d^k$ is chosen as a linear
+combination of the previous $d^{k-1}$ and the gradient $g(d^k)$:
+\eq{
+    p^k=-g^k_\beta_kp^{k-1}
+}
+To satisfy $(d^{k-1})^{T}Qd^k=0$, we obtain:
+\eq{
+\beta_k=\frac{(g^k)^{T}Qd^{k-1}}{(d^{k-1})^TQd^{k-1}}
+}
+\fig{The CG Method}{The CG Method}{0.7}
+The CG-method generates a set of conjugate directions and stops after at most $n$ steps returning a solution of the linear system.
+
 \subsection{Newton's Method}
 To solve $\min_{x\in\mathbb{R}^n}f(x)\mathrm{~with~}f:\mathbb{R}^n\to\mathbb{R}$ using Newton's method, we approximate the function by its second-order Taylor
 expansion at $x^k$:
@@ -1194,6 +1272,86 @@ In addition, if $\|x^0-x^*\|\leq\frac{\mu\min\{1,\varepsilon\}}L$:
     \tab{
         \item Newton takes fewer steps of iterations, but each iteration is more expensive;
         \item Newton requires more memory to store the Hessian matrix
+    }
+}
+
+\subsubsection{Inexact Newton Steps}
+The idea of \tit{inexact Newton methods} is to solve the linear system:
+\eq{
+    \nabla^2f(x^k)\cdot d^k=-\nabla f(x^k)
+}
+only approximately to get a cheaper Newton step. In practice, the strategy aims to find an approximate direction $d^k$ such that:
+\eq{
+    \|\nabla^2f(x^k)d^k+\nabla f(x^k)\|\leq\text{to}1,\quad\mathrm{to}1\geq0.
+}
+When $tol=0$, then $\nabla^2f(x^k)\cdot d^k=-\nabla f(x^k)$, which is the original Newton step.
+\proo{Inexact Newton Methods Can Work}{
+\eq{
+    \begin{aligned}
+        \|x^{k+1}-x^*\| & = \| x^k+d^k-x^{*}\|                                                                 \\
+                        & = \| \nabla^2f(x^k)^{-1}\cdot[\nabla^2f(x^k)(x^k-x^{*})+\nabla^2f(x^k)d^k]\|         \\
+                        & \le \|\nabla^2f(x^k)^{-1}\|\cdot \|[\nabla^2f(x^k)(x^k-x^{*})]+[\nabla^2f(x^k)d^k]\| \\
+                        & = C_H\cdot (tol+o(\|x^k-x^*\|))
+    \end{aligned}
+}
+If $tol_k$ satisfy $tol_k=o(\|x^k-x^*\|)$, then we can ensure $\|x^{k+1}-x^*\|=o(\|x^k-x^*\|)$. One popular example is to set $tol_k=\rho_k\cdot \|\nabla f(x^k)\|$, and $\rho_k\to 0$.
+}
+When $\nabla^2f(x^k)$ is singular, we can regularize the optimization problem to:
+\eq{
+\|[\nabla^2f(x^k)+\delta_kI]d^k+\nabla f(x^k)\|\leq\text{to}1_k, \delta_k\ge 0.
+}
+To implement the inexact Newton method, we can combine it with the CG-method:
+\fig{The Full Newton-CG Method}{The Full Newton-CG Method}{0.8}
+
+\subsubsection{Quasi-Newton Methods}
+The principle idea of quasi-Newton methods is similar to inexact Newton-type methods. Computing the Hessian is expensive, We consider an approximation
+to the Taylor expansion:
+\eq{
+    f(x^k+d)\approx q_k(d)=f(x^k)+\nabla f(x^k)^\top d+\frac12d^\top B_kd.
+}
+If $B_k$ is PD, then we can yield the step $x^{k+1}=x^k+d=x^k-B_k^{-1}\nabla f(x^k)$. The idea of the quasi-Newton methods is that the gradient of $q_{k+1}$ matches
+$\nabla f$ at point $x^k$ and $x^{k+1}$. This is called the \bt{\tbf{Secant Condition}}:
+\eq{
+\nabla f(x^{k+1})-\nabla f(x^k)=B_{k+1}(x^{k+1}-x^k).
+}
+Quasi-Newton methods generate a sequence of $B_k$ based on this rule. However, the $B_k$ generated by the secant condition may not be PSD, which may point to an ascent direction.
+\sep{SR-1 Update}
+Let's denote $s^k=x^{k+1}-x^k$, and $y^k=\nabla f(x^{k+1})-\nabla f(x^k)$, the \tbf{symmetric rank-1} updating rule uses a simple idea to update $B_k$ by a \tit{rank-1 update}:
+\eq{
+    B_{k+1}=B_k+\rho\boldsymbol{u}\boldsymbol{u}^\top,\quad\rho\in\{+1,-1\},\quad\boldsymbol{u}\in\mathbb{R}^n.
+}
+Here, $\boldsymbol{u}\boldsymbol{u}^\top$ is a rank-1 matrix. Incorporating it into the Secant condition, we can get the formal SR-1 updating rule:
+\eq{
+    B_{k+1}^{SR-1}=B_k+\frac{(y^k-B_ks^k)(y^k-B_ks^k)^\top}{(s^k)^\top(y^k-B_ks^k)}.
+}
+\lem{Sherman-Morrison-Woodbury Formula}{
+Suppose $A\in\RR^{n\times n}$ is invertible, and let $u,v\in\RR^n$ be given, then $A+uv^T$ is invertible if and only if $1+v^\top A^{-1}\boldsymbol{u}\neq0$, or say:
+\eq{
+(A+uv^\top)^{-1}=A^{-1}-\frac{A^{-1}uv^\top A^{-1}}{1+v^\top A^{-1}u}
+}
+}
+Using the SMW formula, we can calculate the inverse of the SR-1 update explicitly. (Because to implement the Newton method using the approximation $B_k$, we need the inverse of $B_k$ to update every step).
+\eq{
+    H_{k+1}^{\mathrm{SR-1}}=H_k+\frac{(s^k-H_ky^k)(s^k-H_ky^k)^\top}{(s^k-H_ky^k)^\top y^k}.
+}
+\re{The SR-1 update doesn't maintain the PD of $H_k$, which means $d^k=-H_k\nabla f(x^k)$ is not necessarily a descent direction.}
+\sep{SR-2: BFGS}
+This is the most successful quasi-Newton method, updated by:
+\eq{
+    B_{k+1}=B_k+\gamma\text{ии}^\top+\delta vv^\top.
+}
+We use the \tbf{Broyden-Fletcher-Goldfarb-Shanno-update} (BFGS) to update $H_k$:
+\eq{
+    H_{k+1}^{\mathrm{BFGS}}=H_k+\frac{w^k(s^k)^\top+s^k(w^k)^\top}{(s^k)^\top y^k}-\frac{(w^k)^\top y^k}{((s^k)^\top y^k)^2}\cdot s^k(s^k)^\top,
+}
+where $w^k=s^k-H_ky^k$。
+\fig{Globalized BFGS-Method}{Globalized BFGS-Method}{0.8}
+\re{
+    \tab{
+        \item If $B_k$ is PD, then $B_{k+1}^{BFGS}$ is also PD;
+        \item To compute $d^k$, the Hessian is not required, and no linear system needs to be solved;
+        \item Only matrix-vector multiplication is required, which is much faster than solving a linear system;
+        \item If $f$ is strongly convex, then fast local convergence can be shown.
     }
 }
 
@@ -1251,13 +1409,55 @@ Where $\varphi$ is a smooth and non-convex alternative to the $\cL_1$ norm:
 
 \subsection{Optimization Acceleration}
 
-\subsubsection{Nosterov's Extrapolation}
+\subsubsection{Nosterov's Extrapolation: AGM}
 The principle idea of many acceleration techniques is to perform an \rt{extrapolation step}:
 \eq{
     y^{k+1}=x^k+\beta_k(x^k-x^{k-1}),\quad\beta_k>0
 }
 to approximate the next iteration $y^{k+1}\approx x^{k+1}.$
 \fig{AGM}{Abstract Accelerated Gradient Method}{0.7}
+To see a graphical illustration:
+\fig{AGM illustration}{AGM illustration}{0.6}
+The challenge here is to decide the parameter $\beta_k$ to guarantee faster convergence.
+\re{
+    A good selection of $\beta_k$ should satisfy:
+    \lis{
+        \item $\beta_k=\frac{\theta_k(1-\theta_{k-1})}{\theta_{k-1}}=\frac{\theta_k}{\theta_{k-1}}-\theta_k$;
+        \item $\theta_{-1}=\theta_0=1$;
+        \item $0\leq\theta_k\leq\frac2{k+2}$;
+        \item $\frac{1-\theta_{k+1}}{\theta_{k+1}^2}\leq\frac1{\theta_k^2}$.
+    }
+    A popular choice is $\beta_k=\frac{k-2}{k+1}$.
+}
+\thm{Improved Complexity of the Acceleration}{
+    Let $f$ be convex and Lipschitz smooth with $L$, and assume the solution to $\min_x f(x)$ is non-empty. Let $\{x^k\}_k,\{\alpha_k\}_k,\{\beta_k\}_k$ be
+    generated by the accelerated gradient method with $\alpha_k=\bar{\alpha}\in(0,\frac1L]$, and $\beta_k$ satisfies the condition listed above. Then we have:
+    \eq{
+        $f(x^k)-f(x^*)\leq\frac{2\|x^0-x^*\|^2}{\bar{\alpha}(k+1)^2}\quad\forall\mathrm{~}k\in\mathbb{N}.$
+    }
+    \re{
+        Only $\mathcal{O}(\varepsilon^{-\frac12})$ steps s are required to ensure $f(x^k)-f(x^*)\leq\varepsilon $!
+    }
+}
+Sometimes the  Lipschitz constant $L$ is unknown, then we can determine $\apha_k$ through:
+\tab{
+\item Choose $\sigma\in(0,1)$;
+\item Set $\alpha_k=\alpha_{k-1}$ and $x^{k+1}=y^{k+1}-\alpha_k\nabla f(y^{k+1})$;
+\item While $f(x^{k+1})>f(y^{k+1})-\frac{\alpha_k}2\|\nabla f(y^{k+1})\|^2$: set $\alpha_k=\sigma\alpha_k$ and repeat.
+}
+These steps work because of the descent lemma. If $f$ is Lipschitz smooth, $\alpha_k$ can be found after finite iterations.
+
+\subsubsection{Momentum and IGM}
+The momentum trick (or the inertial gradient method: IGM) considers the same extrapolation step:
+\eq{
+    y^{k+1}=x^k+\beta_k(x^k-x^{k-1}),\quad\beta_k>0
+}
+But the new iterate $x^{k+1}$ follows:
+\eq{
+x^{k+1}=y^{k+1}-\alpha_k\nabla f(x^k)=x^k-\alpha_k\nabla f(x^k)+\beta_k(x^k-x^{k-1}).
+}
+The gradient is now evaluated at $x_k$ and not at $y_{k+1}$! The updating formula contains the term $\beta_k(x^k-x^{k-1})$, is called
+the \rt{momentum}. Compared to AGM, IGM doesn't enjoy the same convergence guarantee, but it's still popular, especially in non-convex scenarios.
 
 \section{Simulation}
 
@@ -2678,6 +2878,9 @@ Solution: add penalty to save more seats for the high fare consumers:
 \clearpage
 \section{Dynamic Pricing}
 
+\cite{den2015dynamic} reviews the literature studying dynamic pricing and learning - the study of optimal dynamic pricing in an uncertain environment where characteristics of consumer behavior can be learned from accumulating sales data -
+by 2014. There are two main streams of research in dynamic pricing: one assumes the demand function is changing respect to time, another assumes static demand but finite inventory.
+
 \subsection{Basic Pricing Theory}
 
 This subsection summarizes the basic pricing theory for \tbf{multi-product momnpoly} firms.\\
@@ -2687,7 +2890,7 @@ The firm's profit function is given by:
     R(p,z):=(p-z)^{\prime}d(p)=\sum_{i=1}^n(p_i-z_i)d_i(p_1,\ldots,p_n),
 }
 Where $z=(z_1,\cdots,z_n)$ is the variable cost vector, $p=(p_1,\cdots,p_n)$ is the price vector, $d(p)$ is the demands.
-Currently it's popular to set $p_i \in [0,\infty]$, where by setting $p_i=\infty$ is equivalent to not offering product $i$.\\
+Currently it's popular to set $p_i \in [0,\infty]$, whereby setting $p_i=\infty$ is equivalent to not offering product $i$.\\
 Consider the revenue as a function only of $z$, given by:
 \eq{\mathcal{R}(z):=\max_{p\in X}R(p,z),}
 Where $X$ is the set of allowable prices.
@@ -2755,7 +2958,69 @@ There are $K$ segments of consumers, each segment is denoted by $\theta_k$ and $
 }
 }
 In this paper a novel algorithm (UCB-PI) is proposed and verified that can outperform other algorithms.\\
-\cite{calvano2020artificial}
+
+\subsection{Multi-agent Dynamic Pricing}
+
+\subsubsection{Algorithmic Collusion using Reinforcement Learning}
+\cite{calvano2020artificial} is the first top paper that studies the algorithmic collusion of RL algorithm in a Non-monopoly market.
+In this paper, the demand function is assumed as
+\eq{
+q_{i,t}=\frac{e^{\frac{a_i-p_{i,t}}\mu}}{\sum_{j=1}^ne^{\frac{a_j-p_{j,t}}\mu}+e^{\frac{a_0}\mu}}.
+}
+Where the parameters $a_i$ indicate the vertical differentiation and $a_0$ is an inverse index of aggregated demand. $\mu$ indicates the
+horizontal differentiation. Each firm's objective is to maximize the profit: $\pi_{i,t}=\left(p_{i,t}-c_{i}\right)q_{i,t}$, where $c_i$ is the cost.
+For a set of given parameters, we can compute both the Bertrand-Nash equilibrium of the one-shot game and the monopoly prices for each firm, denoted by $P^N$ and $P^M$.
+The action space for each firm is given by $\left[\mathbf{p}^N-\xi(\mathbf{p}^M-\mathbf{p}^N),\mathbf{p}^M+\xi(\mathbf{p}^M-\mathbf{p}^N)\right], \xi>0$.
+To ensure the state space is finite, the state space is defined as $s_t=\{\mathbf{p}_{t-1},\ldots,\mathbf{p}_{t-k}\}$. So for each player $i$, we have $|A|=m$ and $|S|=m^{nk}$. \\
+This paper assumes each firm utilizes the Q-learning algorithm with $\epsilon$ exploration:
+\meq{
+Q_{t+1}(s,a)=\big(1-\alpha\big)Q_t\big(s,a\big)+\alpha\big[\pi_t+\delta\max_{a\in A}Q_t\big(s',a\big)\big]\\
+\epsilon_t=e^{-\beta t}.
+}
+To test the final results, the authors further define the \tbf{average profit gain} $\Delta$:
+\eq{
+    \Delta\equiv\frac{\bar{\pi}-\pi^N}{\pi^M-\pi^N}
+}
+$\Delta=0$ corresponds to the competitive outcome and $\Delta=1$ corresponds to the perfectly collusive outcome. Their simulation shows that Q-learning pricing
+algorithms systematically learn to collude. The collusion is typically partial and is enforced by punishment in case of deviation. The article has no analytical proof.\\
+\cite{hansen2021frontiers} follows the research and verifies whether the UCB algorithm would lead to collusion in the duopoly market. They assume a symmetric linear demand:
+\eq{
+d_j^*(p_j,p_{-j})=\alpha-\beta p_j+\gamma p_{-j}.
+}
+The competitive price and the joint monopoly (supra-competitive) price can be calculated:
+\eq{
+    p^D = \frac{\alpha}{2\beta-\gamma}, p^M=\frac{\alpha}{2(\beta-\gamma)}.
+}
+In the experiment, a firm observes a noisy outcome:
+\eq{
+\pi_{t}(p_{j},p_{-j})=p_{j}d_{j}^{*}(p_{j},p_{-j})+\varepsilon_{j,t},
+}
+where $\varepsilon_{j,t}\sim U[-\frac{1}{\delta},\frac{1}{\delta}]$, and $\delta$ is the Signal-to-Noise-Ratio (SNR). The two firms use
+UCB-tuned algorithm to dynamically price their products:
+\eq{
+    \begin{aligned}
+        \mathrm{V}_{k,t}         & =\overline{\pi_{k,t}^{2}}-\bar{\pi}_{k,t}^{2}+\sqrt{\frac{2\log t}{n_{k,t}}},                    \\
+        \mathrm{UCB-tuned}_{k,t} & =\bar{\pi}_{k,t}+\sqrt{\frac{\log t}{n_{k,t}}\mathrm{min}\left(\frac14,\mathrm{V}_{k,t}\right),}
+    \end{aligned}
+}
+The simulation results show that the higher the SNR, the higher the chance of converging to the collusive outcome. (A simple $\epsilon$ greedy algorithm would converge to Nash-equilibrium).
+\thm{\cite{hansen2021frontiers}}{
+    Suppose the true demand function is deterministic, and both firms use independent UCB algorithms. Then,
+    \lis{
+        \item The prices are always exactly correlated from the third period onward;
+        \item The fraction of times in the first $t$ periods that \tit{either} seller charges $p_L$ converges to zero as $t\to \infty$.
+    }
+}
+\proo{}{
+    Assume for each firm there are only two prices that can be chosen: $p_L, p_H$, where $p_L$ can be thought as the competitive price and $p_H$ is the supra-competitive price.
+    After the first two rounds, there can only be two cases:
+    \lis{
+        \item Matched prices, that is, $(p_H, p_H)$ in one round and $(p_L, p_L)$ in the other;
+        \item Mismatched prices.
+    }
+    Under \tbf{case 1}:\\
+
+}
 
 \clearpage
 \section{Platform Operations Management}
@@ -2834,7 +3099,7 @@ Their results show that the competition effects dominate the role of professiona
 \cite{chen2023price} is the first paper considering the asymmetric information between the platform owner and the third-party sellers, and the effects of the information disadvantage
 on consumer's welfare. They assemble data from Amazon: 122000 products, each with two sellers offering the same product. \tit{The information asymmetry}: when Amazon’s competitors make sales,
 Amazon adjusts its prices accordingly; conversely, third-party sellers do not react to their competitors’ sales.\\
-After observing the empirical evidence of the information asymmetry, they design a theoretical model and itentify the parameters. Using the structural regression, they find that by giving
+After observing the empirical evidence of the information asymmetry, they design a theoretical model and identify the parameters. Using the structural regression, they find that by giving
 information to third-party sellers. Both the Amazon, third-party sellers and the consumers' welfare would be increased.
 
 \cite{zhu2018competing} surveys empirical studies that examine the direct entry of platform owners
