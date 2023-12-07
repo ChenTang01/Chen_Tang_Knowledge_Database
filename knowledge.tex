@@ -1459,6 +1459,212 @@ x^{k+1}=y^{k+1}-\alpha_k\nabla f(x^k)=x^k-\alpha_k\nabla f(x^k)+\beta_k(x^k-x^{k
 The gradient is now evaluated at $x_k$ and not at $y_{k+1}$! The updating formula contains the term $\beta_k(x^k-x^{k-1})$, is called
 the \rt{momentum}. Compared to AGM, IGM doesn't enjoy the same convergence guarantee, but it's still popular, especially in non-convex scenarios.
 
+\clearpage
+\section{Constrained Optimization}
+
+\tbf{General nonlinear optimization problem}:
+\eq{
+    \begin{aligned}\mathrm{minimize}_{\mathbf{x}\in\mathbb{R}^n}&&f(\mathbf{x})\\\mathrm{subject~to}&&g_i(\mathbf{x})\leq0,&&\forall\mathrm{~}i=1,\ldots,m,\\&&h_j(\mathbf{x})=0,&&\forall\mathrm{~}j=1,\ldots,p.\end{aligned}
+}
+The goal is to \tit{derive optimality conditions} for this more general class of problems.
+\re{
+    Some subclasses of optimization:
+    \lis{
+        \item When all functions are affine-linear: \yt{linear optimization problem};
+        \item If $f(x)=\frac12x^\top Cx+c^\top x$, and $C\in\RR^{n\times n}$ is symmetric: \yt{quadratic
+            optimization problem};
+    }
+}
+
+\subsubsection{FONC for Constrained Optimization}
+\defi{Feasible Direction}{
+    Given $x\in X$, we call $d$ a \tbf{feasible direction} at $x$ if exists $\bar{t}>0$ such that
+    $x+td\in X$ for all $0\le t \le \bar{t}$.
+    \re{
+        For example, if $\mathcal{X}=\{x:Ax=b\}$, then all feasible directions at $x$ are given by $\{d: Ad=0\}$.
+    }
+}
+\thm{FONC for Constrained Problems}{
+    Let $x^*$ be a local minimum of $\min_{x\in X}f(x)$. Then for \tit{any} feasible direction $d$ at $x^*$,
+    we must have $\nabla f(x^*)^\top d\geq0.$\\
+    When $x^*$ lies in the \tit{interior} of $X$, or the unconstrained case, it can be reduced to $\nabla f(x^*)=0$.
+}
+More than the FONC, we want to generalize the optimality conditions for the general nonlinear problems.
+\defi{Active and Inactive Constraint}{
+    Reconsidering the general nonlinear optimization problem, at point $x\in X$, the set $\mathcal{A}(x):=\{i:g_i(x)=0\}$
+    denotes the set of \tbf{active constraints}. $\mathcal{I}(x):=\{i:g_i(x)<0\}$ denotes \tbf{inactive constraints}.
+}
+\lem{Farkas' Lemma}{
+    Let $A\in \RR^{m\times n}$, $B\in \RR^{p\times n}$, and $c\in\RR^n$ be \tbf{given}. The following two
+    statements are equivalent:
+    \lis{
+        \item For all $d \in \RR^n$ with $Ad<0$ and $Bd=0$ we have $c^T d\le 0$;
+        \item There exists $Uin\RR^m, u\ge 0$, and $v\in \RR^p$ with $c=A^T u +B^Tv$.
+    }
+    These results remain valid in the cases $m=0$ and $p=0$.
+}
+\thm{FONC for Linearly Inequality Constrained Problems}{
+    If $x^\star$ is a local minimum of:
+    \eq{
+        \mathrm{minimize}_xf(x)\quad\mathrm{s.t.}\quad Ax\leq b,
+    }
+    then there exists some $y\ge 0$ with:
+    \eq{
+        \begin{aligned}&\nabla f(x^*)+A^\top y=0\\&y_i\cdot(a_i^\top x^*-b_i)=0\quad\forall\mathrm{~}i,\end{aligned}
+    }
+    where $a_i^T$ is the $i$-th row of $A$.
+    \proo{}{
+        Since $x^*$ is a local minimum, so $\nabla f(x^*) d\ge0$ for every feasible direction $d$ at $x^*$.\\
+        Now considering $d$, $d$ is feasible if $a_i^Td\le0$ for all $i$ with $a_i^Tx^*=b_i$, which are active constraints $\cA$. Let's define:
+        \eq{
+            \tilde{A}=(a_i^T)_{i\in \cA(x^*)}\in \RR^{|\cA|\times n}
+        }
+        Now we can refine the optimality condition as: for all $d$ with $\tilde{A}d\le0$, we have $-\nabla f(x^*) d \le 0$. By applying the Farkas' lemma, 
+        by setting $A=\tilde{A}, B=0, c=-\nabla(x^*)$, we can transform the optimality condition to:\\
+        \begin{center}
+            $\exists u \in \RR^{|\cA|} \ge 0$, with $-\nabla f(x^*)=\tilde{A}^Tu$.
+        \end{center}
+        Now we can define $y\in\RR^m$ with $y_\cA(X^*):=u$ and $y_\cI(X^*):=0$.
+    }
+}
+\thm{FONC for Linearly Equality Constrained Problems}{
+    The FONC condition for equality constraint is easier than the inequality constraint case. If $x^*$ is 
+    a local minimum for $\mathrm{minimize}_xf(x)\quad\mathrm{s.t.}\quad Ax = b,$ the FONC is:
+    \begin{center}
+        $\exists y$ that \nabla f(x^*)+A^\top y=0.
+    \end{center}
+    Compared to the FONC for inequality problems, the condition reduces the term $y_i\cdot(a_i^\top x^*-b_i)=0$. 
+    This is easy to understand since every constraint is active so $a_i^\top x^*-b_i=0$.\\
+    Another difference is that $y$ doesn't need to be greater than 0. 
+}
+
+\subsubsection{The KKT Conditions}
+Now, we can extend the FONC for the general nonlinear optimization problem, this is called the \tbf{\rt{KKT}} 
+condition, named by \tit{H. Kuhn}, \tit{A. Tucker} and \tit{W.Karush}. The first step is to construct the \tbf{\bt{Lagrangian multiplier}}: 
+$g_i(x)\leq0 \cdots \lambda_i$, $h_j(x) =0 \cdots&\mu_j$. Then we define the \tbf{\bt{Lagrangian}} of the problem:
+\eq{
+    L(x,\lambda,\mu):=f(x)+\sum_{i=1}^m\lambda_ig_i(x)+\sum_{j=1}^p\mu_jh_j(x)
+}.
+We require "$\lambda_i\ge0$, $\mu_i$ free". These conditions are called \tbf{\bt{dual feasibility}} conditions. 
+Taking the derivative with respect to $x$ and setting it to zero, forms the \rt{main condition} of KKT conditions. Besides, 
+we have a set of \rt{complementary conditions}: $\lambda_i\cdot g_i(x)=0, \forall i$.
+\fig{KKT Conditions}{KKT Conditions}{0.7}
+\re{
+    \tbf{Linearly Independent Constraint Qualification}\\
+    We require the collection of gradients:
+    \eq{
+        \{\nabla g_i(x^*):i\in\mathcal{A}(x^*)\}\cup\{\nabla h_j(x^*):j=1,\ldots,p\}
+    }
+    to be \tbf{linearly independent} (full rank). A feasible point satisfying the LICQ is called \tit{regular}.
+}
+\re{
+    A (feasible) point satisfying the KKT conditions is called a \rt{KKT point}. 
+    The KKT conditions are only necessary conditions, meaning the KKT points are only candidates for 
+    local optimal solutions — just like stationary points
+}
+\pro{Convexity and KKT Conditions}{
+    We can the problem $\min_{x\in\mathbb{R}^n}f(x)\quad\mathrm{s.t.}\quad g(x)\leq0,\quad h(x)=0$ convex 
+    if $f, g_i$ are convex and $h$ is an affine-linear mapping. If a problem is convex, we have the following 
+    propositions:
+    \tab{
+        \item Every local solution is a global solution;
+        \item If $x^*\in X$ is the global solution and assume LICQ holds, then the KKT-conditions are satisfied;
+        \item If $x^*$ is a KKT point, then $x^*$ is a global solution.
+    }
+}
+\defi{Slater's Condition}{
+    If a problem's constraints are convex (affine-linear), we say that \gt{Slater's condition} holds if:
+    \eq{
+        \exists\hat{x}:\quad g_i(\hat{x})<0,\quad i=1,\ldots,m,\quad h(\hat{x})=0.
+    }
+    Then proposition 2 above can be reduced to:
+    \tab{
+        \item Every global solution $x^*\in X$ satisfies the KKT conditions.
+    }
+}
+
+\subsubsection{SOC for Constrained Optimization}
+If we assume that $f, g_i, h_j$ are twice continuously differentiable, the Hessian of the Lagrangian is given by:
+\eq{
+    \nabla_{xx}^2L(x,\lambda,\mu)=\nabla^2f(x)+\sum_{i=1}^m\lambda_i\nabla^2g_i(x)+\sum_{j=1}^p\mu_j\nabla^2h_j(x).
+}
+\defi{Critical Cone}{
+    \eq{
+        \begin{aligned}\mathcal{C}(\mathbf{x})&:=\{\boldsymbol{d}\in\mathbb{R}^n:\nabla f(\mathbf{x})^\top\boldsymbol{d}=0,\\\nabla h_j(\mathbf{x})^\top\boldsymbol{d}&=0,\mathrm{~}\nabla g_i(\mathbf{x})^\top\boldsymbol{d}\leq0,\mathrm{~}\forall\mathrm{~}i\in\mathcal{A}(\mathbf{x}),\\\nabla h_j(\mathbf{x})^\top\boldsymbol{d}&=0,\mathrm{~}\forall j\}.\end{aligned}
+    }
+}
+\thm{SOC for Constrained Problems}{
+    Let $x^*$ be a regular point and local minimum. Then, the KKT conditions hold and there are \tbf{unique} (followed from LICQ) 
+    multiplier $\lambda\in\RR^m$ and $\mu\in\RR^p$ such that:
+    \eq{
+        \begin{aligned}&\nabla f(x^*)+\nabla g(x^*)\lambda+\nabla h(x^*)\mu=0,\\&g(x^*)\leq0,\quad h(x^*)=0,\quad\lambda\geq0,\quad\lambda_i\cdot g_i(x^*)=0\quad\forall i\end{aligned}
+    }
+    If we have:
+    \eq{
+        d^\top\nabla_{xx}^2L(x^*,\lambda,\mu)d\geq0\quad\forall\mathrm{~}d\in\mathcal{C}(x^*).
+    }
+    These conditions compose the SONC. The SOSC is just to modify the last inequation to:
+    \eq{
+        d^\top\nabla_{xx}^2L(x^*,\lambda,\mu)d>0\quad\forall\mathrm{~}d\in\mathcal{C}(x^*)\backslash\{0\}.
+    }
+}
+\fig{Second-OrderConditions Comparison}{Second-OrderConditions: Comparison}{0.8}
+\re{
+    The strategy for solving nonlinear constrained programs:
+    \lis{
+        \item Check LICQ (if required);
+        \item Derive KKT conditions;
+        \item Discuss different easy cases via the complementarity conditions (set multiplier or 
+        constraints to 0) to find all KKT points;
+        \item Calculate $\mathcal{C}(x)$ and $\nabla_{xx}^2L(x,\lambda,\mu)$ at KKT points;
+        \item Check the SOC.
+    }
+    Other notes for solving the problem:
+    \tab{
+        \item Check if $f$ is coercive or bounded: has global solutions;
+        \item If the LICQ holds, then $\lambda$ and $\mu$ are always unique.
+    }
+}
+
+\subsubsection{Algorithms for Constrained Problems}
+The first class of algorithm is the \tbf{penalty method}, the basic idea is to solve the constrained 
+problem via a sequence of unconstrained optimization problems, which are built by adding \gt{penalty terms} 
+with positive \gt{penalty parameters} for the constraints to the objective function.
+\eq{
+    \min_{x\in\mathbb{R}^n}f(x)+\alpha p(x),\quad\alpha>0,
+}
+where $p:\RR^n\to\RR$ satisfies: $p(x)=0$ for all $x\in X$ and $p(x)>0$ on $\RR \backslash X$.\\
+The procedure is given below:
+\lis{
+    \item Generate a sequence of penalty problems corresponding to a growing sequence of 
+    penalty parameters $\{\alpha_k\}_k$;
+    \item The solution $x^k$ of the $k$-th subproblem will be used as the initial point for the next problem.
+}
+\sep{The Quadratic Penalty Function}
+\eq{
+    \begin{aligned}
+        P_{\alpha}(x)& :=f(x)+\frac\alpha2\sum_{i=1}^m(\max\{0,g_i(x)\})^2+\frac\alpha2\sum_{j=1}^ph_j(x)^2  \\
+        &=f(x)+\frac\alpha2\|(g(x))_+\|^2+\frac\alpha2\|h(x)\|^2.
+        \end{aligned}
+}
+$P_\alpha$ is once continuously differentiable with:
+\eq{
+    \nabla P_\alpha(x)=\nabla f(x)+\alpha\sum_{i=1}^m(g_i(x))_+\nabla g_i(x)+\alpha\sum_{j=1}^ph_j(x)\nabla h_j(x).
+}
+\fig{The Quadratic Penalty Method}{The Quadratic Penalty Method}{0.5}
+By applying the penalty method, every accumulation point of $\{x^k\}_k$ is a \tit{global solution}.\\
+\tbf{Projected Gradient Method}\\
+Applying the gradient method to the constraint problem directly may produce $x^k$ outside the feasible set, one idea is 
+to project $x^k$ onto the feasible set.
+\defi{Euclidean Projections}{
+    Let $X$ be the convex feasible set, the (Euclidean) projection of $x$ is defined as:
+    \eq{
+        \min_y\frac12\|x-y\|^2\quad\mathrm{s.t.}\quad y\in X
+    }
+    We write $y^*=\cP X(x)$, which is the point in $X$ that has the minimum distance to $x$.
+}
+
+\clearpage
 \section{Simulation}
 
 \subsection{Variance Reduction Technique}
@@ -1502,7 +1708,7 @@ of "modern" clan culture:
     \item Compilation of genealogies;
     \item Own internal governance structures.
 }
-Currently although China has been transitioning for a long time from a traditional society to a modern society, clan culture is still
+Currently, although China has been transitioning for a long time from a traditional society to a modern society, clan culture is still
 prevalent and has a broad impact on the lives of Chinese people, especially in rural areas.
 
 \cite{bertrand2006role} shows the positive correlation between the fraction of family control among listed firms and family
@@ -1520,7 +1726,7 @@ Potential reasons that culture affects the concentration of family ownership:
     \item \textit{Amenity Potential}: other things constant, owners subject to stronger influences of clan culture
     could have a higher utility.
 }
-\cite{zhang2020clans} estimates the effect of clan on entrepreneurship. He finds that clan leads to a higher
+\cite{zhang2020clans} estimates the effect of the clan on entrepreneurship. He finds that clan leads to a higher
 occurrence of entrepreneurship by helping overcome financing constraints and escape from local governments' "grabbing hand."
 \cite{zhang2019family} investigates the relationship between the low take-up rate of social pensions and the clan culture intensity. In
 his article, dummy variable $temple_c$ (whether community $c$ has ancestral temple) is constructed as the proxy variable for the strength of clan
@@ -2516,11 +2722,11 @@ Where the green layer conducts the following operations:
     \hat{Q}(s,a,\mathbf{w},\mathbf{w_A},\mathbf{w_V})=\hat{V}(s,\mathbf{w},\mathbf{w_V})+\left(A(s,a,\mathbf{w},\mathbf{w_A})-\max_{a'\in A}A(s,a',\mathbf{w},\mathbf{w_A})\right);\\
     \hat{Q}(s,a,\mathbf{w},\mathbf{w_A},\mathbf{w_V})=\hat{V}(s,\mathbf{w},\mathbf{w_V})+\left(A(s,a,\mathbf{w},\mathbf{w_A})-\frac{1}{|\mathcal{A}|}\sum_{a'}A(s,a',\mathbf{w},\mathbf{w_A})\right).
 }
-in which \mathbf{w_V} is the parameter of the FC layer to predict the value functions, and \mathbf{w_A} is the parameter of the FC layer to predict the advantage functions.
+in which $\mathbf{w_V}$ is the parameter of the FC layer to predict the value functions, and $\mathbf{w_A}$ is the parameter of the FC layer to predict the advantage functions.
 
 \subsection{Policy Gradient Algorithms}
 
-In most RL algorithms, the policy y does not exist without the action value estimates $Q(s,a)$, these are called \tbf{value-based} algorithms.
+In most RL algorithms, the policy does not exist without the action value estimates $Q(s,a)$, these are called \tbf{value-based} algorithms.
 These algorithms have several limitations:
 \lis{
     \item Can only address discrete action spaces due to the $\arg\max_{a\in A}$ operation;
@@ -2528,7 +2734,7 @@ These algorithms have several limitations:
     \item Can only improve the policy indirectly by improving the estimates of the value function.
 }
 \tbf{Policy-based} method directly parameterizes the policy function $\pi_\theta(s)$ without calculating the value functions.
-A value function may still be used to learn the policy parameters, but is not required for action selection. To implement the policy-based methods,
+A value function may still be used to learn the policy parameters, but it is not required for action selection. To implement the policy-based methods,
 an important step is to approximate policies with parametrization. In discrete case, we can use softmax and \gt{state-action preferences}
 $h(s,a,\theta)$ to parameterize a policy:
 \eq{
