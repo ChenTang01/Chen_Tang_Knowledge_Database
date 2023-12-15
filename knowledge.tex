@@ -1519,7 +1519,7 @@ More than the FONC, we want to generalize the optimality conditions for the gene
         \eq{
             \tilde{A}=(a_i^T)_{i\in \cA(x^*)}\in \RR^{|\cA|\times n}
         }
-        Now we can refine the optimality condition as: for all $d$ with $\tilde{A}d\le0$, we have $-\nabla f(x^*) d \le 0$. By applying the Farkas' lemma, 
+        Now we can refine the optimality condition as: for all $d$ with $\tilde{A}d\le0$, we have $-\nabla f(x^*) d \le 0$. By applying the Farkas' lemma,
         by setting $A=\tilde{A}, B=0, c=-\nabla(x^*)$, we can transform the optimality condition to:\\
         \begin{center}
             $\exists u \in \RR^{|\cA|} \ge 0$, with $-\nabla f(x^*)=\tilde{A}^Tu$.
@@ -1528,25 +1528,25 @@ More than the FONC, we want to generalize the optimality conditions for the gene
     }
 }
 \thm{FONC for Linearly Equality Constrained Problems}{
-    The FONC condition for equality constraint is easier than the inequality constraint case. If $x^*$ is 
+    The FONC condition for equality constraint is easier than the inequality constraint case. If $x^*$ is
     a local minimum for $\mathrm{minimize}_xf(x)\quad\mathrm{s.t.}\quad Ax = b,$ the FONC is:
     \begin{center}
         $\exists y$ that \nabla f(x^*)+A^\top y=0.
     \end{center}
-    Compared to the FONC for inequality problems, the condition reduces the term $y_i\cdot(a_i^\top x^*-b_i)=0$. 
+    Compared to the FONC for inequality problems, the condition reduces the term $y_i\cdot(a_i^\top x^*-b_i)=0$.
     This is easy to understand since every constraint is active so $a_i^\top x^*-b_i=0$.\\
-    Another difference is that $y$ doesn't need to be greater than 0. 
+    Another difference is that $y$ doesn't need to be greater than 0.
 }
 
 \subsubsection{The KKT Conditions}
-Now, we can extend the FONC for the general nonlinear optimization problem, this is called the \tbf{\rt{KKT}} 
-condition, named by \tit{H. Kuhn}, \tit{A. Tucker} and \tit{W.Karush}. The first step is to construct the \tbf{\bt{Lagrangian multiplier}}: 
+Now, we can extend the FONC for the general nonlinear optimization problem, this is called the \tbf{\rt{KKT}}
+condition, named by \tit{H. Kuhn}, \tit{A. Tucker} and \tit{W.Karush}. The first step is to construct the \tbf{\bt{Lagrangian multiplier}}:
 $g_i(x)\leq0 \cdots \lambda_i$, $h_j(x) =0 \cdots&\mu_j$. Then we define the \tbf{\bt{Lagrangian}} of the problem:
 \eq{
     L(x,\lambda,\mu):=f(x)+\sum_{i=1}^m\lambda_ig_i(x)+\sum_{j=1}^p\mu_jh_j(x)
 }.
-We require "$\lambda_i\ge0$, $\mu_i$ free". These conditions are called \tbf{\bt{dual feasibility}} conditions. 
-Taking the derivative with respect to $x$ and setting it to zero, forms the \rt{main condition} of KKT conditions. Besides, 
+We require "$\lambda_i\ge0$, $\mu_i$ free". These conditions are called \tbf{\bt{dual feasibility}} conditions.
+Taking the derivative with respect to $x$ and setting it to zero, forms the \rt{main condition} of KKT conditions. Besides,
 we have a set of \rt{complementary conditions}: $\lambda_i\cdot g_i(x)=0, \forall i$.
 \fig{KKT Conditions}{KKT Conditions}{0.7}
 \re{
@@ -1558,13 +1558,13 @@ we have a set of \rt{complementary conditions}: $\lambda_i\cdot g_i(x)=0, \foral
     to be \tbf{linearly independent} (full rank). A feasible point satisfying the LICQ is called \tit{regular}.
 }
 \re{
-    A (feasible) point satisfying the KKT conditions is called a \rt{KKT point}. 
-    The KKT conditions are only necessary conditions, meaning the KKT points are only candidates for 
+    A (feasible) point satisfying the KKT conditions is called a \rt{KKT point}.
+    The KKT conditions are only necessary conditions, meaning the KKT points are only candidates for
     local optimal solutions — just like stationary points
 }
 \pro{Convexity and KKT Conditions}{
-    We can the problem $\min_{x\in\mathbb{R}^n}f(x)\quad\mathrm{s.t.}\quad g(x)\leq0,\quad h(x)=0$ convex 
-    if $f, g_i$ are convex and $h$ is an affine-linear mapping. If a problem is convex, we have the following 
+    We can the problem $\min_{x\in\mathbb{R}^n}f(x)\quad\mathrm{s.t.}\quad g(x)\leq0,\quad h(x)=0$ convex
+    if $f, g_i$ are convex and $h$ is an affine-linear mapping. If a problem is convex, we have the following
     propositions:
     \tab{
         \item Every local solution is a global solution;
@@ -1594,7 +1594,7 @@ If we assume that $f, g_i, h_j$ are twice continuously differentiable, the Hessi
     }
 }
 \thm{SOC for Constrained Problems}{
-    Let $x^*$ be a regular point and local minimum. Then, the KKT conditions hold and there are \tbf{unique} (followed from LICQ) 
+    Let $x^*$ be a regular point and local minimum. Then, the KKT conditions hold and there are \tbf{unique} (followed from LICQ)
     multiplier $\lambda\in\RR^m$ and $\mu\in\RR^p$ such that:
     \eq{
         \begin{aligned}&\nabla f(x^*)+\nabla g(x^*)\lambda+\nabla h(x^*)\mu=0,\\&g(x^*)\leq0,\quad h(x^*)=0,\quad\lambda\geq0,\quad\lambda_i\cdot g_i(x^*)=0\quad\forall i\end{aligned}
@@ -1614,7 +1614,7 @@ If we assume that $f, g_i, h_j$ are twice continuously differentiable, the Hessi
     \lis{
         \item Check LICQ (if required);
         \item Derive KKT conditions;
-        \item Discuss different easy cases via the complementarity conditions (set multiplier or 
+        \item Discuss different easy cases via the complementarity conditions (set multiplier or
         constraints to 0) to find all KKT points;
         \item Calculate $\mathcal{C}(x)$ and $\nabla_{xx}^2L(x,\lambda,\mu)$ at KKT points;
         \item Check the SOC.
@@ -1627,8 +1627,8 @@ If we assume that $f, g_i, h_j$ are twice continuously differentiable, the Hessi
 }
 
 \subsubsection{Algorithms for Constrained Problems}
-The first class of algorithm is the \tbf{penalty method}, the basic idea is to solve the constrained 
-problem via a sequence of unconstrained optimization problems, which are built by adding \gt{penalty terms} 
+The first class of algorithm is the \tbf{penalty method}, the basic idea is to solve the constrained
+problem via a sequence of unconstrained optimization problems, which are built by adding \gt{penalty terms}
 with positive \gt{penalty parameters} for the constraints to the objective function.
 \eq{
     \min_{x\in\mathbb{R}^n}f(x)+\alpha p(x),\quad\alpha>0,
@@ -1636,16 +1636,16 @@ with positive \gt{penalty parameters} for the constraints to the objective funct
 where $p:\RR^n\to\RR$ satisfies: $p(x)=0$ for all $x\in X$ and $p(x)>0$ on $\RR \backslash X$.\\
 The procedure is given below:
 \lis{
-    \item Generate a sequence of penalty problems corresponding to a growing sequence of 
+    \item Generate a sequence of penalty problems corresponding to a growing sequence of
     penalty parameters $\{\alpha_k\}_k$;
     \item The solution $x^k$ of the $k$-th subproblem will be used as the initial point for the next problem.
 }
 \sep{The Quadratic Penalty Function}
 \eq{
     \begin{aligned}
-        P_{\alpha}(x)& :=f(x)+\frac\alpha2\sum_{i=1}^m(\max\{0,g_i(x)\})^2+\frac\alpha2\sum_{j=1}^ph_j(x)^2  \\
-        &=f(x)+\frac\alpha2\|(g(x))_+\|^2+\frac\alpha2\|h(x)\|^2.
-        \end{aligned}
+        P_{\alpha}(x) & :=f(x)+\frac\alpha2\sum_{i=1}^m(\max\{0,g_i(x)\})^2+\frac\alpha2\sum_{j=1}^ph_j(x)^2 \\
+                      & =f(x)+\frac\alpha2\|(g(x))_+\|^2+\frac\alpha2\|h(x)\|^2.
+    \end{aligned}
 }
 $P_\alpha$ is once continuously differentiable with:
 \eq{
@@ -1654,7 +1654,7 @@ $P_\alpha$ is once continuously differentiable with:
 \fig{The Quadratic Penalty Method}{The Quadratic Penalty Method}{0.5}
 By applying the penalty method, every accumulation point of $\{x^k\}_k$ is a \tit{global solution}.\\
 \tbf{Projected Gradient Method}\\
-Applying the gradient method to the constraint problem directly may produce $x^k$ outside the feasible set, one idea is 
+Applying the gradient method to the constraint problem directly may produce $x^k$ outside the feasible set, one idea is
 to project $x^k$ onto the feasible set.
 \defi{Euclidean Projections}{
     Let $X$ be the convex feasible set, the (Euclidean) projection of $x$ is defined as:
@@ -1663,6 +1663,11 @@ to project $x^k$ onto the feasible set.
     }
     We write $y^*=\cP X(x)$, which is the point in $X$ that has the minimum distance to $x$.
 }
+For example, if $X=\{x:Ax=b\}$ and $X$ has full row rank, then it holds that:
+$\cP_X(\mathbf{x})=\mathbf{x}-\mathbf{A}^\top(\mathbf{A}\mathbf{A}^\top)^{-1}[\mathbf{A}\mathbf{x}-\mathbf{b}].$
+Different constraints correspond to different $\cP_X(x)$.
+
+\subsection{Nonsmooth Optimization}
 
 \clearpage
 \section{Simulation}
@@ -1965,226 +1970,6 @@ This regression gives an estimation of 6.2\% for $\rho$. But in practice, the co
 
 \clearpage
 \chapter{Data Science}
-
-\section{Cloud Computing}
-
-This section is mainly the notes of \cite{hwang2017cloud}.
-
-\subsection{Principles of Cloud Computing System}
-\key{\tab{
-        \item HTC, HPC, physical machine, virtual machine, VM clusters;
-        \item IaaS, PaaS, SaaS;
-        \item Amdahl's Law, Gustafson's Law, cloud availability.
-    }}
-\defi{HPC and HTC}{
-    \tab{
-        \item \textbf{HTC} refers to \textit{highly-throughput computing} system built with parallel and distributed computing technologies;
-        \item \textbf{HPC} refers to \textit{highly-performance computing} system in terms of raw speed in batch processing.
-    }
-}
-\fig{Cloud Computing Technology Convergence}{Cloud Computing Technology Convergence}{}
-\defi{Cloud}{A cloud is a pool of virtualized computer resources. A cloud can host a variety of different workloads,
-    including batch-style backend jobs and interactive, user-facing applications.\\
-    Some view the clouds as computing clusters with modest changes in \tit{virtualization}.}
-\ex{\lis{
-        \item Distinguish between physical machines and virtual machines.
-        \item What are the fundamental differences between CPU and GPU as building blocks in a modern computer, or datacenter, or a cloud system?
-        \item What are the fundamental differences between traditional data centers and modern cloud platforms?
-        \item Differences between HPC and HTC.
-    }}{\tbf{1}\\
-    \lis{
-        \item PM runs on hardware, VM runs on virtualized layer such as hypervisor or container;
-        \item The resource of PM is fixed, for VM it can be dynamically adjusted;
-    }
-    (2)\\
-    CPU has several cores and low latency, good for serial processing; GPU has many cores, high throughput, good for parallel processing.\\
-    (3)\\
-    One is HTC, built with many servers and the computing services are fixed; Cloud is HTC, built with virtualized clusters and more flexible.\\
-    (4)\\
-    HPC tasks need large amounts of computing power for short periods, whereas HTC tasks also require large amounts of computing, but for much longer times;\\
-    HPC utilizes centralized high-performance processors to deal with a single large task, HTC utilizes less powerful processors from many servers to deal with the task that requires high throughput.\\
-}
-\fig{from HPC systems and clusters to p2p}{From HPC systems and clusters to grids, p2p networks, clouds and IoT}{}
-Basic cloud service models are \tit{infrastructure as a service} (IaaS) or infrastructure cloud,
-\tit{platform as a service} (PaaS) or platform cloud,
-and \tit{software as a service} (SaaS) or application cloud. Their differences with on-premise computing are listed below:
-\fig{comparing three cloud service models}{Comparing three cloud service models with on-premise computing}{}
-\tab{
-    \item \tbf{IaaS}: AWS, GoGrid;
-    \item \tbf{PaaS}: Google App Engine, Microsoft Azure, Salesforce;
-    \item \tbf{SaaS}: CRM, ERP, HR, Hadoop, Google Docs.
-}
-A physical cluster is a collection of servers (PMs) interconnected by a physical network. \tbf{virtual clusters} are built with multiple
-VMs installed at PM belong to one or more physical clusters.
-\fig{physical clusters and virtual clusters}{physical cluster and virtual cluster}{}
-The virtual clusters have the following interesting properties:
-\lis{
-    \item Multiple VMs running with different OSs can be deployed on the same physical node;
-    \item A VM runs with a guest OS, which is often different than the host OS that manages the resources
-    in the PM, where the VM is implemented;
-    \item Using VMs can greatly enhance server utilization and application flexibility;
-    \item VMs can be colonized (replicated) in multiple servers for fault tolerance and disaster recovery;
-    \item The size (number of nodes) of a virtual cluster can grow or shrink dynamically;
-    \item the failure of any physical nodes may disable some VMs installed on the failing
-    nodes but the failure of VMs will not pull down the host system.
-}
-\sep{Cloud Scalability}
-\emogood There are two fundamental issues on cloud performance: \tbf{Scalability} and \tbf{Availability}.
-The total execution time of the program is calculated by $\alpha \bT+(1-\alpha)\bT/n$.
-\thm{Amdahl's Law}{
-The total execution time of the program is calculated by $\alpha \bT+(1-\alpha)\bT/n$.
-\eq{
-Speedup\ factor=S=T/[\alpha T+(1-\alpha)T/n]=1/[\alpha+(1-\alpha)/n]
-}
-\tab{
-    \item The communication time and I/O time are excluded in this formula;
-    \item When $n\to\infty$, the $S$ can have the upper bound $\frac{1}{\alpha}$, thus $\alpha$ is the \tit{sequential bottleneck} here;
-    \item This speedup is called \tit{fixed-workload speedup};
-    \item The \tit{cluster efficiency} is defined by $E=S/n=\frac{1}{\alpha n+1-\alpha}$; (
-    efficiency means that one more cluster can reduce how much time to process
-    )
-    \item Large sequential bottleneck would lead to many idle servers in the cluster;
-}
-}
-\thm{Gustafson's Law}{
-By fixing the parallel execution time at level $W$:
-\eq{S^{\prime}=W^{\prime}/W=[\alpha W+(1-\alpha)nW]/W=\alpha+(1-\alpha)n}
-\tab{
-\item The efficiency is obtained by: $E^{\prime}=S^{\prime}/n=\alpha/n+(1-\alpha)$, this means one more cluster
-can increase how much workload;
-\item For a fixed workload, use Amdahl's Law; for a scaled problem, apply Gustafson's Law.
-}
-}
-\sep{Cloud Availability}
-\thm{Cluster Availability}{
-    \eq{
-        \text{Clusater Availability}=MTTF/(MTTF+MTTR)
-    }
-    \tab{
-        \item \tit{MTTF}: mean time to failure;
-        \item \tit{MTTR}: mean time to repair.
-    }
-}
-\ex{
-    There is a double-redundancy cluster, the MTTF is 200 units while the MTTR is 5 units, calculate the availability of this system.
-}{
-    The availability of each server is $200/(200+5)=97.5\%$, the failure rate of the whole system is $1-(1-97.5\%)^2=0.625\%$
-}
-Consider the use of a cluster of $n$ homogeneous servers in a system, the system is available when more than $k$ machine is running,
-then the system availability can be expressed by:
-\eq{
-    \begin{aligned}
-        \text{A} & =\sum_{i=k}^{n}\left(\begin{array}{c}n\\i\end{array}\right)p^{i}\left(1-p\right)^{n-i}                                                               \\
-                 & =\left(\begin{array}{c}n\\k\end{array}\right)p^k\left(1-p\right)^{n-k}+\left(\begin{array}{c}n\\k+1\end{array}\right)p^{k+1}\left(1-p\right)^{n-k-1} \\
-                 & +\cdots+\left(\begin{array}{c}n\\n-1\end{array}\right)p^{n-1}\left(1-p\right)^1+\left(\begin{array}{c}n\\n\end{array}\right)p^n\left(1-p\right)^0,
-    \end{aligned}
-}
-\sep{CPU and GPU}
-\fig{CPU and GPU Architecture}{CPU and GPU Architecture}{}
-\tab{
-    \item CPU has high flexibility for different applications. \tit{Von Neumann bottleneck}: memory access is slow compared to calculation.
-    \item GPU has high throughput, it works well on applications with \tit{massive parallelism}.
-}
-
-\subsection{Virtual Machines}
-A VM is essentially built as a software package that can be loaded into a host computer to
-execute certain user applications. Once the jobs are done, the VM package can be removed from the host computer.
-The host acts like a “hotel” to accommodate different “guests” at different timeframes. \\
-\tbf{VMM} (virtual machine monitor) can be used to build virtual machine for the guest OS, it can have the following operations:
-\fig{VMM Operations}{VMM Operations}{}
-There are five levels of virtualization, among which only 2 are valuable:
-\tab{
-    \item \tbf{Hypervisor}: virtualization on top of bare-metal hardware, an example is XEN.
-    \item \tbf{Container}: virtualization on operating system level, isolated containers of user app with isolated resources.
-}
-\re{
-    \tbf{Difference between hypervisor and container}\\
-    \lis{
-        \item \tit{Virtualization Level}: hardware-level virtualization vs. operating system-level virtualization;
-        \item \tit{Resource Isolation}: strong isolation between VMs vs. lighter resource isolation;
-        \item \tit{Performance, Startup time, Management}: high vs. low;
-    }
-}
-\tbf{Unikernel}: combines the advantages of hypervisor and container. Don't rely on a host OS, don't need guest OS for every VM.
-High performance and start quickly.
-\fig{virtual machine architecture}{virtual machine architecture}{}
-\subsection{Hadoop and Spark}
-\lis{
-    \item \tbf{MapReduce}: is a parrallel programming model designed by Google;
-    \item \tbf{Haddop}: is a parallel programming platform (library) to implement the MapReduce model;
-    \item \tbf{Spark}: is a computing engine for big data supporting more operations than MapReduce.
-}
-\sep{MapReduce Model}
-\fig{MapReduce Model}{MapReduce Model}{50}
-Steps of MapReduce:
-\lis{
-    \item \tbf{Data Partitioning}: split the input data files into multiple \tit{blocks};
-    \item \tbf{Fork Out} the user pogram to masters (nne copy of the user program runs on the master mode);
-    \item Assign \tbf{Map Function} and \tbf{Reduce Function};
-    \item Read the partitioned data blocks into map workers;
-    \item Perform the Map Function;
-    \item \tbf{Sort and Group} intermediate key-value pairs before forwarding them to reduce workers;
-    \item Perform the reduction function using the grouped pairs;
-    \item Output the results.
-}
-\fig{Word Count Using MapReduce}{Word Count Using MapReduce}{0.4}
-For an $n\times n$ matrix multiplication, the complexity is $O(n^3)$, using $N$ clusters, the ideal speedup is $N$ and the maximum speed up is $n^2$.
-\fig{MapReduce for Parallel Matrix Multiplication}{MapReduce for Parallel Matrix Multiplication}{0.4}
-Different types of ReducForm:
-\lis{
-    \item Map-only: map() $\to$ output: document conversion, brute force searches;
-    \item Classic MapReduce: map() $\to$ reduce() $\to$ output: distributed search and sort;
-    \item Iterative MapReduce: some advanced linear algebra and machine learning.
-}
-\sep{Benchmark for Distributed System}
-\tbf{1.} PageRank Algorithm with MapReduce: PageRank is an iterative algorithm used to calculate the importance of web pages. At time $0$, the PR
-score for every page is $1$ or $\frac{1}{N}$ by default. At time $t$, the score is given by:
-\eq{
-    PR(p_i;t+1)=\frac{1-d}N+d\sum_{p_j\in M(p_i)}\frac{PR(p_j;t)}{L(p_j)}.
-}
-And the matrix notation is $\mathbf{R}(t+1)=d\mathcal{M}\mathbf{R}(t)+\frac{1-d}N\mathbf{1}.$
-To use MapReduce model to solve a PageRank algorithm, we need an iterative MapReduce model, in which multiple reducers are processed.
-\fig{PageRank using MapReduce}{PageRank using MapReduce}{0.8}
-\tbf{2.} Terasort: is a standard benchmark on Hadoop. It covers the following steps:
-\lis{
-    \item Input: random data generated by TeraGen on HDFS;
-    \item Map: generate trie to ensure KV pair to be partitioned to specific reduce server;
-    \item Shuffle & sort: sort the output from mapper on local disk of each mapper server;
-    \item Reduce: local sort each reducer input and write results to HDFS;
-    \item Record performance metrics such as sorting time and throughput;
-    \item Compare the performance of different systems or configurations;
-}
-\tbf{3. } Hibench: is a benchmark toolkit that covers the following metrics: speed, HDFS bandwidth, utilization (CPU, memory, IO).
-\sep{Apache Hadoop}
-The hadoop architecture contains three components:
-\tab{
-    \item Hadoop Distributed File System (HDFS): store the data in multiple blocks;
-    \item MapReduce Engine;
-    \item YARN: process job requests and manage cluster resources.
-}
-Standing on a higher level, there is a master-slave pattern for every component, among which \tit{master} is the control node and
-\tit{slave} is the working node.
-\tab{
-    \item HDFS: NameNode - DataNode;
-    \item MapReduce: Jobtracker - Tasktracker;
-    \item YARN: ResourceManager - NodeManager.
-}
-\sep{Apache Spark}
-Two main abstractions of Spark:
-\lis{
-    \item \tbf{RDD}: Resilient Distributed Datasets, a data structure that is failure-tolerant. Two kind
-    of modification: \tit{transformation}: turn a RDD into a new RDD; \tit{action}: compute a RDD and return a result;
-    \item \tbf{DAG}: A scheduler that enables in-memory-computation.
-}
-\fig{Spark Architecture}{Spark Architecture}{0.3}
-The difference between Spark and Hadoop:
-\tab{
-    \item Speed: Spark usually has a higher speed;
-    \item Data Processing Models: Hadoop uses the MapReduce model for batch processing. Spark supports batch processing (similar to MapReduce),
-    real-time streaming processing (Spark Streaming), interactive querying (Spark SQL);
-    \item Data Caching: Spark allows data to be cached in memory, and Hadoop relies on an intermediate disk.
-}
-\fig{Hadoop vs Spark}{Hadoop vs Spark}{0.3}
 
 \clearpage
 \section{Machine Learning}
