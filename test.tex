@@ -1,0 +1,47 @@
+\documentclass[12pt]{report}
+\input{chentang}
+
+\title{\textbf{Chen Tang's \break Knowledge Database}}
+\author{\textbf{ChenTang@link.cuhk.edu.cn}}
+\date{Last updated on \today}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+% 定义代码样式
+\lstdefinestyle{mystyle}{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    commentstyle=\color{green!40!black},
+    keywordstyle=\color{blue},
+    numberstyle=\tiny\color{gray},
+    numbers=left,
+    stepnumber=1,
+    backgroundcolor=\color{gray!10},
+    frame=single,
+    breaklines=true,
+    breakatwhitespace=false,
+    captionpos=b,
+    tabsize=4
+}
+
+% 应用定义的代码样式
+\lstset{style=mystyle}
+
+
+\begin{document}
+
+\maketitle
+
+\clearpage
+\begin{lstlisting}[caption={Your Python Code}, label={lst:python_code}]
+    # 这是一个简单的Python代码示例
+    def hello_world():
+        print("Hello, World!")
+    
+    # 调用函数
+    hello_world()
+    \end{lstlisting}
+
+
+\end{document}

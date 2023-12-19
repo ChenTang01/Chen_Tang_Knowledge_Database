@@ -1499,7 +1499,7 @@ More than the FONC, we want to generalize the optimality conditions for the gene
     statements are equivalent:
     \lis{
         \item For all $d \in \RR^n$ with $Ad<0$ and $Bd=0$ we have $c^T d\le 0$;
-        \item There exists $Uin\RR^m, u\ge 0$, and $v\in \RR^p$ with $c=A^T u +B^Tv$.
+        \item There exists $u \in\RR^m, u\ge 0$, and $v\in \RR^p$ with $c=A^T u +B^Tv$.
     }
     These results remain valid in the cases $m=0$ and $p=0$.
 }
@@ -1529,9 +1529,11 @@ More than the FONC, we want to generalize the optimality conditions for the gene
 }
 \thm{FONC for Linearly Equality Constrained Problems}{
     The FONC condition for equality constraint is easier than the inequality constraint case. If $x^*$ is
-    a local minimum for $\mathrm{minimize}_xf(x)\quad\mathrm{s.t.}\quad Ax = b,$ the FONC is:
+    a local minimum for $\mathrm{min}_xf(x)\quad\mathrm{s.t.}\quad Ax = b,$ the FONC is:
     \begin{center}
-        $\exists y$ that \nabla f(x^*)+A^\top y=0.
+        \eq{
+            \exists y \quad s.t. \nabla f(x^*)+A^\top y=0.
+        }
     \end{center}
     Compared to the FONC for inequality problems, the condition reduces the term $y_i\cdot(a_i^\top x^*-b_i)=0$.
     This is easy to understand since every constraint is active so $a_i^\top x^*-b_i=0$.\\
@@ -1543,8 +1545,8 @@ Now, we can extend the FONC for the general nonlinear optimization problem, this
 condition, named by \tit{H. Kuhn}, \tit{A. Tucker} and \tit{W.Karush}. The first step is to construct the \tbf{\bt{Lagrangian multiplier}}:
 $g_i(x)\leq0 \cdots \lambda_i$, $h_j(x) =0 \cdots&\mu_j$. Then we define the \tbf{\bt{Lagrangian}} of the problem:
 \eq{
-    L(x,\lambda,\mu):=f(x)+\sum_{i=1}^m\lambda_ig_i(x)+\sum_{j=1}^p\mu_jh_j(x)
-}.
+    L(x,\lambda,\mu):=f(x)+\sum_{i=1}^m\lambda_ig_i(x)+\sum_{j=1}^p\mu_jh_j(x).
+}
 We require "$\lambda_i\ge0$, $\mu_i$ free". These conditions are called \tbf{\bt{dual feasibility}} conditions.
 Taking the derivative with respect to $x$ and setting it to zero, forms the \rt{main condition} of KKT conditions. Besides,
 we have a set of \rt{complementary conditions}: $\lambda_i\cdot g_i(x)=0, \forall i$.
@@ -1563,7 +1565,7 @@ we have a set of \rt{complementary conditions}: $\lambda_i\cdot g_i(x)=0, \foral
     local optimal solutions — just like stationary points
 }
 \pro{Convexity and KKT Conditions}{
-    We can the problem $\min_{x\in\mathbb{R}^n}f(x)\quad\mathrm{s.t.}\quad g(x)\leq0,\quad h(x)=0$ convex
+    We call the problem $\min_{x\in\mathbb{R}^n}f(x)\quad\mathrm{s.t.}\quad g(x)\leq0,\quad h(x)=0$ convex
     if $f, g_i$ are convex and $h$ is an affine-linear mapping. If a problem is convex, we have the following
     propositions:
     \tab{
@@ -1590,7 +1592,9 @@ If we assume that $f, g_i, h_j$ are twice continuously differentiable, the Hessi
 }
 \defi{Critical Cone}{
     \eq{
-        \begin{aligned}\mathcal{C}(\mathbf{x})&:=\{\boldsymbol{d}\in\mathbb{R}^n:\nabla f(\mathbf{x})^\top\boldsymbol{d}=0,\\\nabla h_j(\mathbf{x})^\top\boldsymbol{d}&=0,\mathrm{~}\nabla g_i(\mathbf{x})^\top\boldsymbol{d}\leq0,\mathrm{~}\forall\mathrm{~}i\in\mathcal{A}(\mathbf{x}),\\\nabla h_j(\mathbf{x})^\top\boldsymbol{d}&=0,\mathrm{~}\forall j\}.\end{aligned}
+        \begin{aligned}\mathcal{C}(\mathbf{x}):=\{\boldsymbol{d}\in\mathbb{R}^n:\nabla f(\mathbf{x})^\top\boldsymbol{d} & =0,                                                           \\
+               \nabla g_i(\mathbf{x})^\top\boldsymbol{d}                                                        & \leq0,\mathrm{~}\forall\mathrm{~}i\in\mathcal{A}(\mathbf{x}), \\
+               \nabla h_j(\mathbf{x})^\top\boldsymbol{d}                                                        & =0,\mathrm{~}\forall j\}.\end{aligned}
     }
 }
 \thm{SOC for Constrained Problems}{
@@ -1667,7 +1671,8 @@ For example, if $X=\{x:Ax=b\}$ and $X$ has full row rank, then it holds that:
 $\cP_X(\mathbf{x})=\mathbf{x}-\mathbf{A}^\top(\mathbf{A}\mathbf{A}^\top)^{-1}[\mathbf{A}\mathbf{x}-\mathbf{b}].$
 Different constraints correspond to different $\cP_X(x)$.
 
-\subsection{Nonsmooth Optimization}
+\clearpage
+\section{Nonsmooth Optimization}
 
 \clearpage
 \section{Simulation}
@@ -2807,7 +2812,7 @@ There are some extra summary papers like \cite{Strauss2018},
     \lis{
         \item The traditional RM system doesn't consider the choice model,
         in particular, it assumes the demands are independent random variables;
-        \item Further assumption: consumer will leave without purchasing if preferred fare
+        \item Further assumption: the consumer will leave without purchasing if the preferred fare
         class is unavailable (holds when gaps in fares are large enough);
         \item The capacity is fixed, the capacity's marginal profit is zero(can be relaxed);
         \item All booked consumers would arrive (another circumstance see \ref{subsec:overbooking}).}}
