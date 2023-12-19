@@ -3073,7 +3073,7 @@ following regression to give some human-interpretable suggestions:
                         & + PROPERTY_i + \epsilon_{it}
     \end{aligned}
 }
-\cite{chen2023regulating} investigates the professional players' effects on the non-professional host. They define host who has more than
+\cite{chen2023regulating} investigates the professional players' effects on the non-professional host. They define a host who has more than
 one properties on the platform simultaneously as professional players, and use a quasi-experiment (OHOH policy) and DiD model to analysis
 whether competition effects or differentiation effects is dominant.\\
 They predict 2 propositions:
@@ -3108,7 +3108,7 @@ into complementary product spaces.
 }
 \tbf{Identification Techniques}:
 \tab{
-    \item The sales ranking is used as proxy variable for the sales of the products;
+    \item The sales ranking is used as the proxy variable for the sales of the products;
     \item To overcome the impact of the referral rates by category-level fixed effects;
     \item To measure the seller's platform-specific investment, they calculate the seller's average answers;
 }
@@ -3163,7 +3163,7 @@ The authors analyze two conditions: without hosting and hosting. By solving the 
     \item In the without hosting condition, $M$ would dominant the whole market, the profit for $S$ is zero;
     \item Even without transfer for $S$ to sell products in the platform $M$, $M$ can still benefit if $\lambda_A\leq\sigma/u_A$ and $\Delta>\lambda_A(u_A-\sigma)^+F/(1-\lambda_A)$.
 }
-\cite{cheng2022impact} analyze the owner's entry ob the incumbent sellers in the E-commerce platform.
+\cite{cheng2022impact} analyze the owner's entry of the incumbent sellers in the E-commerce platform.
 \ass{
     Sell-on Contract
 }{
@@ -3214,9 +3214,9 @@ To given insights which policy would benefit different parties, they took the fo
 }
 They find some interesting insights:
 \lis{
-    \item The third party benifits from FBA when $T<\bar{T}$;
+    \item The third-party benifits from FBA when $T<\bar{T}$;
     \item Amazon can benefit from FBA if $\eta$ is either small or large;
-    \item The FBA program can achieve a \tit{win-win-win} outcome for he third-party seller, Amazon and its OEM supplier.
+    \item The FBA program can achieve a \tit{win-win-win} outcome for the third-party seller, Amazon and its OEM supplier.
 }
 
 \subsection{Consumer Polarization}
@@ -3417,7 +3417,6 @@ There are 6x6 colors in the preset preamble:\\
     \item item 3.
 }
 
-
 \begin{tcblisting}{colback=red!5!white,colframe=red!75!black,listing side text,
         title=Format of Words,fonttitle=\bfseries}
     \hl{highlighted}, \ul{underlined}, \st{strikethrough}\\
@@ -3457,12 +3456,10 @@ There are 6x6 colors in the preset preamble:\\
 
 \no Using \verb=\label, \ref= to refer to chapters \ref{chap:miscellaneous},
 sections \ref{sec:notestools}, equations \ref{eq:Example}, and boxes \ref{ax:Example}.\\
-\no Using \verb=\cite= to cite the literature in apa style. For example:
-\cite{Klein2020}\\
+\no Using \verb=\cite= to cite the literature in APA style. For example:
+\cite{Angrist}\\
 \no Using \verb=\sep= to insert a horizontal line with words in the middle:\\
 \sep{Compilation}
-Cleaning all the auxiliary files: LaTeXmk $\rightarrow$ BibTeX $\rightarrow$ LaTeXmk $\rightarrow$ LaTeXmk.
-Or, zip the main files and upload them to Overleaf.\\
 Put photos in the \textit{pic} file and use \verb|\fig| to show it.
 \fig{temp}{Example.png}{0.6}
 Using \verb=\alg= to write the pseudo code:
@@ -3482,6 +3479,21 @@ Using \verb=\alg= to write the pseudo code:
     \EndIf
     \EndWhile
 }
+
+\no Using \verb=\begin{python}=, \verb=\begin{stata}=, \verb=\begin{shell}= to write codes:
+\begin{python}
+    def hello_world():
+    print("Hello, World!")
+    hello_world()
+\end{python}
+
+\begin{stata}
+    ss install reghdfe
+\end{stata}
+
+\begin{shell}
+    git push origin main
+\end{shell}
 
 \newpage
 \listoffigures

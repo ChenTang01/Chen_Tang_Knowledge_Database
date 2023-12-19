@@ -19,6 +19,7 @@
 \usepackage{algorithm,algpseudocode}
 \usepackage{import,xfrac,soul,bm,graphicx}
 \graphicspath{{pic/}}
+\usepackage{listings}
 
 % reference setting
 \usepackage{currfile,hyperref,bookmark}
@@ -182,6 +183,67 @@
 	fonttitle=\bfseries, boxed title style={size=small, colframe=df!90},
 }
 {proo}
+
+\lstdefinestyle{style_stata}{
+	language=Stata,
+	basicstyle=\ttfamily\small,
+	commentstyle=\color{aa},
+	keywordstyle=\color{ab},
+	numberstyle=\tiny\color{ac},
+	numbers=left,
+	stepnumber=1,
+	backgroundcolor=\color{ae!10},
+	frame=single,
+	breaklines=true,
+	breakatwhitespace=false,
+	captionpos=empty,
+	tabsize=4
+}
+
+\lstdefinestyle{style_python}{
+	language=Python,
+	basicstyle=\ttfamily\small,
+	commentstyle=\color{ba},
+	keywordstyle=\color{bb},
+	numberstyle=\tiny\color{bf},
+	numbers=left,
+	stepnumber=1,
+	backgroundcolor=\color{bc!10},
+	frame=single,
+	breaklines=true,
+	breakatwhitespace=false,
+	captionpos=empty,
+	tabsize=4,
+	morekeywords={additional_keyword1, additional_keyword2}
+}
+
+\lstdefinestyle{style_shell}{
+	language=sh,
+	basicstyle=\ttfamily\small,
+	commentstyle=\color{cb},
+	keywordstyle=\color{cc},
+	numberstyle=\tiny\color{cd},
+	numbers=left,
+	stepnumber=1,
+	backgroundcolor=\color{ca!10},
+	frame=single,
+	breaklines=true,
+	breakatwhitespace=false,
+	captionpos=empty,
+	tabsize=4
+}
+
+\lstnewenvironment{python}[1][]
+{\lstset{style=style_python, #1}}
+{}
+
+\lstnewenvironment{stata}[1][]
+{\lstset{style=style_stata, #1}}
+{}
+
+\lstnewenvironment{shell}[1][]
+{\lstset{style=style_shell, #1}}
+{}
 
 \newcommand{\customtext}[1]{
 	\if\relax\detokenize{#1}\relax
