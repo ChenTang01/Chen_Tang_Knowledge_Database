@@ -670,10 +670,12 @@ Rewriting this and minimize over $\lambda\ge 0$, we have
                          & = \frac12(h^TAx)^T+\frac12x^TAh+\frac12h^TAh+b^Th         \\\\
                          & = X^TAh+b^Th
         \end{align}
-
     }
     Thus $\nabla f(x)=Ax+b$.\\
-    If $A$ is not symmetric, then $\nabla f(x)=\frac{A^T+A}{2}x+b$.}
+    If $A$ is not symmetric, then $\nabla f(x)=\frac{A^T+A}{2}x+b$.
+}
+
+\subsubsection{First and Second Order Conditions}
 \re{
     \tbf{FONC (First-Order Necessary Conditions)}\\
     If $x^{\star}$ is a local minimizer of the unconstrained problem, then we must have $\nabla f(x^*)=0.$
@@ -722,7 +724,67 @@ Then $x^*$ is a \tit{strict local minimum} of $f$.
     and has at least one \tit{global minimizer} (This is called \rt{the Weierstrass Theorem}).
 }
 
-\sep{Convexity}
+\subsubsection{Zero Order Conditions}
+Consider the constrained problem:
+\eq{
+    \label{eq:zoc}
+    \begin{aligned}
+        \min & f(x)                      \\
+        s.t. & x \in \Omega, x \in \RR^n
+    \end{aligned}
+}
+where $f$ is convex, $x^*$ is the optimal solution and $f^*$ is the optimal value. Consider the epigraph $\Gamma\subset \RR^{n+1}=\{(r,\mathbf{x}):r\geqslant f(\mathbf{x}),\mathbf{x}\in \RR^n\}$, and construct $B\in\RR^{n+1}$ with cross
+section $\Omega$ and extending vertically from $-\infty$ up to $f^*$. $B$ only overlaps $\Gamma$ at the boundary point $(f^*, x^*)$.
+\fig{Zero Order Conditions}{Zero Order Conditions}{0.5}
+By the separating hyperplane theorem, there exists a vector $(s, \lambda)\in\RR^{n+1}$ satisfy:
+\eq{\label{eq:zoc1}
+    \begin{aligned}
+         & sr+\boldsymbol{\lambda}^T\mathbf{x}\geq c\quad\text{for all x}\in \RR^n\text{ and }r\geq f(\mathbf{x}) \\
+         & sr+\boldsymbol{\lambda}^T\mathbf{x}\leq c\quad\text{for all x}\in\Omega\text{ and }r\leq f^*.
+    \end{aligned}
+}
+$s>0$ otherwise equation \ref{eq:zoc1} don't hold, so we can scale the equations by setting $s=1$.
+\pro{Zero-order necessary conditions (\tbf{ZONC})}{
+    If $x^*$ solves equation \ref{eq:zoc}, then there is a nonzero $\lambda \in \RR^n$ that $x^*$ is a solution to:
+    \eq{\label{eq:zoc2}
+        \begin{aligned}
+            \min & f(x) + \lambda^T x \\
+            s.t. & x \in \RR^n
+        \end{aligned}
+    }
+    And
+    \eq{\label{eq:zoc3}
+        \begin{aligned}
+            \max \lambda^T x    \\
+            s.t. & x \in \Omega
+        \end{aligned}
+    }
+    \proo{}{
+        The equation \ref{eq:zoc2} and \ref{eq:zoc3} follow from equation \ref{eq:zoc1}, where $c$ is attained at the point $f^*,x^*$ for both inequalities.
+    }
+    \re{
+        The FONC of \ref{eq:zoc2} implies $\nabla f(x^*) = -\lambda$, and the signal of $\lambda$ can give us the hint of the signal of $x^*$ form \ref{eq:zoc3}.
+    }
+}
+\pro{Zero-order sufficiency conditions \tbf{ZOSC}}{
+    If there is a $\lambda$ such that $x^*\in\Omega$ solves equation \ref{eq:zoc2} and \ref{eq:zoc1}, then $x^*$ solves euqation \ref{eq:zoc}.
+    \proo{}{
+        Suppose $x_1$ is any other point in $\Omega$, from equation \ref{eq:zoc2}:
+        \eq{
+            f(x_1)+\boldsymbol{\lambda}^T x_1\geqslant f(x^*)+\boldsymbol{\lambda}^T x^*.
+        }
+        This can be written as:
+        \eq{
+            f(x_1)-f(x^*)\geqslant\boldsymbol{\lambda}^T x^*-\boldsymbol{\lambda}^T x_1.
+        }
+        By equation \ref{eq:zoc3}, we can get $f(x_1) \ge f(x^*)$
+    }
+    \re{
+        \hl{ZOSC don't require $f$ to be convex}.
+    }
+}
+
+\subsubsection{Convexity}
 \defi{Convex Sets and Functions}{
     \tbf{Convex Sets}\\
     A set $X\subseteq\mathbb{R}^n$ is \tbf{convex} if for any $x,y\in X$, and any $\lambda \in [0,1]$, we have $\lambda x+(1-\lambda)y\in X$.\\
@@ -769,7 +831,7 @@ with $dom(g)=\{x\mid Ax+b\in dom(f)\}$. Then, if $f$ is convex (concave), so is 
         \end{aligned}
     }
 }
-\tbf{Composition of non-decreasing functions}: Let $h: X\to \RR$ be convex and $g: Y\to\RR$ be convex and \tbf{non-decreasing}.
+\no\tbf{Composition of non-decreasing functions}: Let $h: X\to \RR$ be convex and $g: Y\to\RR$ be convex and \tbf{non-decreasing}.
 Suppose that $X \subset \RR^n$ and $Y \subset \RR$ are convex sets with $h(X) \subset Y$. Then, $f=g\circ h:X\to\mathbb{R},f(x)=g(h(x))$ is convex.\\
 \tbf{Power of non-negative function}: If $f$ is convex and non-negative and $k\ge 1$, then $f^k$ is convex.
 \proo{}{
@@ -781,9 +843,9 @@ Suppose that $X \subset \RR^n$ and $Y \subset \RR$ are convex sets with $h(X) \s
         \end{aligned}
     }
 }
-\tbf{Epigraph}: If $f\in \RR^n$ is a convex function, then its epigraph $epi(f)\in \RR^{n+1}$ is a convex set:
+\no\tbf{Epigraph}: If $f\in \RR^n$ is a convex function, then its epigraph $epi(f)\in \RR^{n+1}$ is a convex set:
 \eq{
-    \text{epi}(f)=\begin{Bmatrix}(x,w)\mid x\in X,w\in\Re,f(x)\leq w\end{Bmatrix}
+    \text{epi}(f)=\begin{Bmatrix}(x,w)\mid x\in X,w\in\RR,f(x)\leq w\end{Bmatrix}
 }
 \fig{Examples of Epigraph}{Examples of Epigraph}{0.5}
 \thm{Convexity and Differentiability}{
@@ -791,11 +853,41 @@ Suppose that $X \subset \RR^n$ and $Y \subset \RR$ are convex sets with $h(X) \s
     \eq{
         f(y)-f(x)\geq\nabla f(x)^\top(y-x),\quad\forall\mathrm{~}x,y\in X
     }
-    Or
-    \eq{
-        h^\top\nabla^2f(x)h\geq0,\quad\forall\mathrm{~}h\in\mathbb{R}^n,\quad\forall\mathrm{~}x\in X
+    \proo{}{
+        First, we prove the "only if" part: suppose $f$ is convex, we have:
+        \meq{
+            f(\alpha\mathbf{y}+(1-\alpha)\mathbf{x})\leqslant\alpha f(\mathbf{y})+(1-\alpha)f(\mathbf{x});\\
+            \frac{f(\mathbf{x}+\alpha(\mathbf{y}-\mathbf{x}))-f(\mathbf{x})}\alpha\leqslant f(\mathbf{y})-f(\mathbf{x}).
+        }
+        Letting $\alpha\to 0$, we obtain:
+        \eq{
+            \mathbf{\nabla}f(\mathbf{x})(\mathbf{y}-\mathbf{x})\leqslant f(\mathbf{y})-f(\mathbf{x}).
+        }
+        Now, we prove the "if" part, assuming for all $\mathbf{x}$:
+        \eq{
+            \begin{aligned}
+                 & f(\mathbf{x}_1)\geqslant f(\mathbf{x})+\nabla f(\mathbf{x})(\mathbf{x}_1-\mathbf{x})  \\
+                 & f(\mathbf{x}_2)\geqslant f(\mathbf{x})+\nabla f(\mathbf{x})(\mathbf{x}_2-\mathbf{x}).
+            \end{aligned}
+        }
+        Multiplying the first by $\alpha$ and the second by $1-\alpha$, and adding:
+        \eq{
+            \alpha f(\mathbf{x}_1)+(1-\alpha)f(\mathbf{x}_2)\geqslant f(\mathbf{x})+\nabla f(\mathbf{x})[\alpha\mathbf{x}_1+(1-\alpha)\mathbf{x}_2-\mathbf{x}].
+        }
+        Replacing $\mathbf{x}=\alpha\mathbf{x}_{1}+(1-\alpha)\mathbf{x}_{2}$, we obtain:
+        \eq{
+            \alpha f(\mathbf{x}_1)+(1-\alpha)f(\mathbf{x}_2)\geqslant f(\alpha\mathbf{x}_1+(1-\alpha)\mathbf{x}_2).
+        }
+    }
+    See the figure below.
+    \re{
+        The 'iff' condition can be replaced to:
+        \eq{
+            h^\top\nabla^2f(x)h\geq0,\quad\forall\mathrm{~}h\in\mathbb{R}^n,\quad\forall\mathrm{~}x\in X
+        }
     }
 }
+\fig{Sufficient and Necessary Condition for Convexity}{Sufficient and Necessary Condition for Convexity}{0.5}
 \thm{Convexity and Optimality}{
     If $f$ is a convex function and $X$ is a convex set, then for the problem $\min f(x)\quad\mathrm{s.t.}\quad x\in X$, we have:
     \tab{
@@ -906,7 +998,7 @@ to $x_i=u_i-v_i$, where both $u_i$ and $v_i$ are larger or equal to zero. Anothe
 }
 where $x_i$ is the free variable, thus we can replace $x_i$ by $b_i-\sum_{j\ne i}^n a_jx_j$, which can eliminate one variable and one constraint simultaneously.\\
 One important example of the linear programming model is the \tbf{maximal flow problem}:
-\fig{A network with capacities}{A network with capacities}{}
+\fig{A network with capacities}{A network with capacities}{0.3}
 This problem can be formulated into:
 \eq{
     \begin{aligned}
@@ -1073,6 +1165,7 @@ A popular stopping criterion is $\|\nabla f(x^k)\|\leq\text{to}1$ with \rt{toler
         direction where $f$ is decreasing the most.
     }
 }
+\fig{Gradient Descent Method}{Gradient Descent Method}{0.7}
 
 \subsubsection{Step Size Strategies}
 There is one simple step size strategy: \tbf{constant step size}, by which we choose $\alpha_k=\bar{\alpha}$ for all $k$.
@@ -1117,8 +1210,7 @@ By Taylor expansion, for small $\alpha$:
 \sep{Diminishing Step Sizes}
 Choose $\alpha_k\to0$ and $\sum_{k=0}^{\infty}\alpha_k=\infty$, this is frequently used in stochastic programming.
 
-\subsection{Gradient Descent Algorithm}
-\fig{Gradient Descent Method}{Gradient Descent Method}{0.7}
+\subsubsection{The Convergence Rate}
 \defi{Accumulation Point}{
     A point $x$ is an \tbf{accumulation point} of $\{x^k\}_k$ if for every $\epsilon>0$, there are infinitely many numbers $k$ with $x^k\in B_\varepsilon(x)$.
     \re{
@@ -1148,6 +1240,36 @@ Choose $\alpha_k\to0$ and $\sum_{k=0}^{\infty}\alpha_k=\infty$, this is frequent
             }
         }
     }
+}
+Rigorously speaking, we define the algorithm $A$ as a point-to-point mapping:
+\eq{
+    x_{k+1} = A(x_k),
+}
+or a point-to-set mapping:
+\eq{
+    x_{k+1} \in A(x_k).
+}
+We further define the continuous descent function $Z$ on $X$ given the solution set $\Gamma \subset X$ if $Z$ satisfy:
+\lis{
+    \item if $x \notin \Gamma$ and $y \subset A(x)$, then $Z(y) < Z(x)$;
+    \item if $x \in \Gamma$ and $y \subset A(x)$, then $Z(y) \le Z(x)$.
+}
+\defi{Closed Mapping}{
+    A point-to-set mapping $A$ from $X$ to $Y$ is said to be \tbf{closed} at $x\in X$ if $x_k \to x,x_k \in X$ and $y_k\to y, y_k\in A(x_k)$
+    imply that $y\in A(x)$.
+}
+\fig{Examples of Closed and Unclosed Mapping}{Examples of Closed and Unclosed Mapping}{0.5}
+We can further define the \tit{composite mapping}. Let $A:X\to Y$ and $B:Y\to Z$ be point-to-set mappings, the composite mapping $C+BA$
+is defined as $C:X\to Z$ with:
+\eq{
+    \mathbf{C}(\mathbf{x})=\underset{\mathbf{y}\in\mathbf{A}(\mathbf{x})}{\operatorname*{\cup}}\mathbf{B}(\mathbf{y}).
+}
+\fig{Composition of mappings}{Composition of mappings}{0.6}
+\pro{Closedness of Composite Mapping}{
+
+}
+\thm{(Rigorous) Global Convergence Theorem}{
+
 }
 \thm{Convergence under Lipschitz Continuity}{
     Let $f:\RR^n\to\RR$ be Lipschitz Smooth, $\{x^k\}_k$ be the sequence generated by gradient method for:
@@ -1225,7 +1347,7 @@ The optimal rate can be $\eta=1-\frac\mu L=1-\frac1\kappa, \kappa=\frac{L}{\mu}$
 }
 }
 
-\subsubsection{Conjugate Gradient Method}
+\subsection{Conjugate Direction Methods}
 The \rt{conjugate gradient method} (CG-method)  is an iterative approach for solving quadratic optimization and linear equations $Ax=b$, where $A$ is symmetric and PD.
 This problem can be treated as a minimization problem:
 eq{
@@ -1762,6 +1884,9 @@ which reduces the original variance.
 \clearpage
 \chapter{Economics and Econometrics}
 
+\section{Game Theory and Mechanism Design}
+
+\clearpage
 \section{Development Economics}
 
 \subsection{Models of Development Economics}
@@ -2039,6 +2164,8 @@ This regression gives an estimation of 6.2\% for $\rho$. But in practice, the co
 
 \clearpage
 \chapter{Data Science}
+
+\section{Time Series Analysis}
 
 \clearpage
 \section{Machine Learning}
@@ -2857,6 +2984,31 @@ traditional ones like forecasting and inventory planning, to new technologies, l
 identification (RFID) and e-commerce.
 
 \clearpage
+\section{Supply Chain}
+
+\subsection{Manufacturing}
+\cite{chen2023quick} investigates the impact of ``quick response'' of the fashion product on the supply chain under
+different demand stochasticity. They assume there are two periods, and each period has an identical demand function $d_i=A_i-p_i(i=1,2)$, where $A_i$ is the market size:
+\eq{A_i=\begin{cases}H=1+\sigma&\text{ with probability }0.5,\\L=1-\sigma&\text{ with probability }0.5.&\end{cases}}
+$\sigma$ is the standard deviation of $A_i$ and a measure on the demand uncertainty. It is assumed that $A_1$ and $A_2$ are positively and perfectly correlated. There are three scenarios for
+the manufacturer to decide:
+\lis{
+    \item \tbf{N}: no quick response;
+    \item \tbf{D}: quick response with dynamic wholesale pricing;
+    \item \tbf{C}: quick response with committed wholesale pricing.
+}
+\fig{chen2023quick}{Sequence of Events}{0.5}
+To analyze the effect of ``quick response'' on the supply chain (compare scenarios N and D), the authors give 3 intermediate scenarios $\alpha,\beta,\gamma$ and extract 4 effects.
+The results show that ``quick response'' may harm the retailer when demand uncertainty is in a medium range
+
+\subsection{Distribution Channel}
+
+\cite{kouvelis2020should} analytically study the game consisting of three independent parties: a manufacturer, a retailer, and a sales agent. They
+give the equilibrium solution for the parties' decision to choose the mode of the value chain under different parameter settings. Key modeling framework:
+The manufacturer has a unit cost $c\ge 0$, and consumers have two valuations on the product: $r(r>c)$ or $0$. The efforts of the sales agent can make the probability
+of the consumers' non-negative valuation higher.
+
+\clearpage
 \section{Revenue Management}
 
 Revenue management is a data-driven system to price perishable assets tactically
@@ -3022,8 +3174,8 @@ In this paper a novel algorithm (UCB-PI) is proposed and verified that can outpe
 \subsection{Multi-agent Dynamic Pricing}
 
 \subsubsection{Algorithmic Collusion using Reinforcement Learning}
-\cite{calvano2020artificial} is the first top paper that studies the algorithmic collusion of RL algorithm in a Non-monopoly market.
-In this paper, the demand function is assumed as
+\cite{calvano2019algorithmic}, \cite{calvano2020artificial}, \cite{calvano2020protecting} are the first few papers studying the algorithmic collusion of RL algorithm in a Non-monopoly market.
+In these papers, the demand function is assumed as
 \eq{
 q_{i,t}=\frac{e^{\frac{a_i-p_{i,t}}\mu}}{\sum_{j=1}^ne^{\frac{a_j-p_{j,t}}\mu}+e^{\frac{a_0}\mu}}.
 }
@@ -3042,7 +3194,10 @@ To test the final results, the authors further define the \tbf{average profit ga
     \Delta\equiv\frac{\bar{\pi}-\pi^N}{\pi^M-\pi^N}
 }
 $\Delta=0$ corresponds to the competitive outcome and $\Delta=1$ corresponds to the perfectly collusive outcome. Their simulation shows that Q-learning pricing
-algorithms systematically learn to collude. The collusion is typically partial and is enforced by punishment in case of deviation. The article has no analytical proof.\\
+algorithms systematically learn to collude. The collusion is typically partial and is enforced by punishment in case of deviation. The article has no analytical proof.
+The authors also investigate the algorithm's strategy toward competitor's deviation: at epoch $0$ the supra-competitive outcomes have been achieved, and at epoch $1$ one party is defected by force, but then
+back to using the algorithm to decide as normal. The dynamics can be shown in the picture below:
+\fig{collusion deviation}{collusion deviation}{0.5}
 \cite{hansen2021frontiers} follows the research and verifies whether the UCB algorithm would lead to collusion in the duopoly market. They assume a symmetric linear demand:
 \eq{
 d_j^*(p_j,p_{-j})=\alpha-\beta p_j+\gamma p_{-j}.
@@ -3072,14 +3227,53 @@ The simulation results show that the higher the SNR, the higher the chance of co
     }
 }
 \proo{}{
-    Assume for each firm there are only two prices that can be chosen: $p_L, p_H$, where $p_L$ can be thought as the competitive price and $p_H$ is the supra-competitive price.
+    Assume for each firm there are only two prices that can be chosen: $p_L, p_H$, where $p_L$ can be thought of as the competitive price and $p_H$ is the supra-competitive price.
     After the first two rounds, there can only be two cases:
     \lis{
         \item Matched prices, that is, $(p_H, p_H)$ in one round and $(p_L, p_L)$ in the other;
         \item Mismatched prices.
     }
-    Under \tbf{case 1}:\\
-
+    In both cases, the two agents have the same index for the two arms. Because the decision process and the demand function are
+    deterministic, they will pose the same action forever. Although they might choose $p_L$ at some time when $n_L$ is small, the actions would be made simultaneously, and revert to
+    $p_H$ ar the next epoch.
+}
+\cite{klein2021autonomous} discuss the algorithmic collusion of Q-learning in another economic environment. Consider two agents $i\in \{1, 2\}$ price in infinitely discrete time indexed by $t\in\{0, 1, 2, \cdots \}$.
+Price adjustments occur \tbf{sequentially}: agent 1 can only adjust its price in odd-numbered periods, agent 2 in even-numbered periods. Each agent selects its price from a discrete set $P=\{0,\frac{1}{k},\frac{2}{k},\ldots,1\}.$
+Firm $i$ profit at time $t$ is derived as $\pi_i(p_{it},p_{jt})=p_{it}D_i(p_{it},p_{jt})$, its objective function can be expressed as $\sum_{s=0}^{\infty}\delta^s \pi_i(p_{i,t+s}, p_{j,t+s})$.
+The demand is linear:
+\eq{
+D_i(p_{it},p_{jt})=\begin{cases}1-p_{it}      & \mathrm{if~}p_{it}<p_{jt}   \\
+             0.5(1-p_{it}) & \mathrm{if~}p_{it}=p_{jt}   \\
+             0             & \mathrm{if~}p_{it}>p_{jt} &\end{cases}.
+}
+This setting provides a monopoly collusive price of $0.5$ with a per-firm profit of $0.125$. Here, we use the Markov Perfect Equilibrium (MPE):
+\eq{\label{eq:klein2021}
+V_i(p_{jt})=\max_p\big[\pi_i(p,p_{jt})+E_{p_{j,t+1}}\big[\delta\pi_i(p,p_{j,t+1})+\delta^2V_i(p_{j,t+1})\big]\big]
+}
+An action pair $(R_1, R_2)$ is an MPE if equation \ref{eq:klein2021} holds for both agents. To align with the game setting, the Q-learning algorithm is simply modified,
+the state $s_t$ is the opponent's price $p_{j,t}$, and the updating formula is given as:
+\eq{
+    \tilde{Q}(p_{i,t}, s_t) = \pi_i(p_{i,t}, s_t) + \delta \pi_i(p_{i,t}, s_{t+1}) + \delta^2 \max_p Q_i(p, s_{t+1})
+}
+Both agents use the $\epsilon$-greedy strategy to select their actions. The performance metric is the average profit in the last 1000 runs.
+In this paper, the author distinguishes whether a strategy is Nash-equilibrium by looking at the optimality of both agents:
+\eq{
+    \Gamma_i(p_i,p_j)\doteq\frac{Q_i(p_i,p_j)}{\max_pQ_i^*(p,p_j)},
+}
+If $\Gamma=1$ for both agents, the action pair $p_i,p_j$ can be regarded as a Nash equilibrium. Among all Nash equilibriums, some are collusive equilibriums when profitability is above the competitive benchmark.
+It is found that agents have high chances to collude, and \tit{Edgeworth price cycles} are observed. However, unlike theoretical analysis in past works, these price cycles are deterministic: It is always the same firm that undertakes the
+costly action of “resetting” the price cycle by jumping up in price rather than undercutting, with the other firm able to free-ride on this.
+\fig{Edgeworth price cycles}{Edgeworth price cycles}{0.6}
+\re{Two Limitations of \cite{klein2021autonomous}
+    \tab{
+        \item The convergence is not guaranteed;
+        \item Q-learning is restricted to playing pure strategies.
+    }
+}
+\cite{calvano2023algorithmic} surveys some papers on algorithmic collusion and further categorizes the collusion into two groups:
+\tab{
+    \item \tbf{genuine collusion}: the algorithms do not cut their prices because they anticipate retaliatory responses by rivals;
+    \item \tbf{spurious collusion}: the algorithms do not cut their prices simply because they are missing opportunities to earn more.
 }
 
 \clearpage
@@ -3087,7 +3281,7 @@ The simulation results show that the higher the SNR, the higher the chance of co
 
 \cite{rietveld2021platform} reviews literature in platform competitions.
 
-\cite{wang2023} uses game theory framework to analyze the cross-licensing policy initiated by Qualcomm, which provides some insights
+\cite{wang2023} uses the game theory framework to analyze the cross-licensing policy initiated by Qualcomm, which provides some insights
 for the up-stream manufacturing company:
 \lis{
     \item The supplier shouldn't adopt the cross-licensing policy if the inferior manufacturer's cost of innovation is high;
@@ -3095,6 +3289,13 @@ for the up-stream manufacturing company:
     \item The superior manufacturer can benefit from cross-licensing, if innovation is costly but the manufacturers' costs of
     innovation is similar.
 }
+\cite{deng2021urban} studies the business pattern operation for the last-mile delivery in the city using the game theory framework.
+In the model, the decision maker can decide whether to launch a UCC (urban consolidation center) or to operate a P2P platform for carriers to share the capacity.
+There are $n$ carriers in the region, each jas a delivery task with volume $v_i$. $v_i=v_L$ with a probability $\lambda$, and $v_i=v_H(>v_L)$ with a probability
+$1-\lambda$. Each carrier can deliver his own task with a fixed cost of $c$ and a variable cost of $m$, or deliver by the platform.
+In the UCC mode, the UCC incurs a fixed cost of $C$, a variable cost of $M$, and a variable subsidy $S$. The center charges a unit fee $\bar{p}$ for the carriers, after observing the unit fee, each carrier
+decides to deliver on his own or to outsource the task independently. In the P2P mode, the platform follows a similar decision process.
+The equilibrium analysis shows the critical condition (related to $m, n$) under which the UCC or the P2P mode can reduce more social-environmental cost.
 
 \subsection{Hotel Platform}
 \sep{An overview of Airbnb}
