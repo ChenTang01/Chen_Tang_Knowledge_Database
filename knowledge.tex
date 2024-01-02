@@ -749,21 +749,21 @@ $s>0$ otherwise equation \ref{eq:zoc1} don't hold, so we can scale the equations
     \eq{\label{eq:zoc2}
         \begin{aligned}
             \min & f(x) + \lambda^T x \\
-            s.t. & x \in \RR^n
+            s.t. & \quad x \in \RR^n
         \end{aligned}
     }
     And
     \eq{\label{eq:zoc3}
         \begin{aligned}
-            \max \lambda^T x    \\
-            s.t. & x \in \Omega
+            \max & \lambda^T x        \\
+            s.t. & \quad x \in \Omega
         \end{aligned}
     }
     \proo{}{
         The equation \ref{eq:zoc2} and \ref{eq:zoc3} follow from equation \ref{eq:zoc1}, where $c$ is attained at the point $f^*,x^*$ for both inequalities.
     }
     \re{
-        The FONC of \ref{eq:zoc2} implies $\nabla f(x^*) = -\lambda$, and the signal of $\lambda$ can give us the hint of the signal of $x^*$ form \ref{eq:zoc3}.
+        The FONC of \ref{eq:zoc2} implies $\nabla f(x^*) = -\lambda$, and the signal of $\lambda$ can give us the hint of the signal of $x^*$ from \ref{eq:zoc3}.
     }
 }
 \pro{Zero-order sufficiency conditions \tbf{ZOSC}}{
@@ -1266,7 +1266,10 @@ is defined as $C:X\to Z$ with:
 }
 \fig{Composition of mappings}{Composition of mappings}{0.6}
 \pro{Closedness of Composite Mapping}{
-
+    Let $\mathbf{A}:X\to Y$ and $\mathbf{B}:Y\toZ$ be point-to-set mappings. If $\mathbf{A}$ is closed at $x$, $\mathbf{B}$ is closed on
+    $\mathbf{A}(x)$.
+    \proo{}{}
+    \co{}{}
 }
 \thm{(Rigorous) Global Convergence Theorem}{
 
@@ -2999,7 +3002,29 @@ the manufacturer to decide:
 }
 \fig{chen2023quick}{Sequence of Events}{0.5}
 To analyze the effect of ``quick response'' on the supply chain (compare scenarios N and D), the authors give 3 intermediate scenarios $\alpha,\beta,\gamma$ and extract 4 effects.
-The results show that ``quick response'' may harm the retailer when demand uncertainty is in a medium range
+The results show that ``quick response'' may harm the retailer when demand uncertainty is in a medium range.\\
+\cite{dong2022food} studies the effects of the auditing systems mode (decentralized v.s. centralized) in the food supply chain
+on the food safety outcome and economical payoff. In the decentralized mode, there are four parties in the game:
+\lis{
+    \item At stage 1, the upstream agency decides on its auditing action $\mathcal{A}_1\in\{\mathcal{Y},\mathcal{N}\}$, there is an auditing cost $c_1$ if $\mathcal{A}_1\ = \mathcal{Y}$;
+    \item At stage 2, the upstream supplier decides on the safety level of the raw material $\mathcal{A}_2\in\{\mathcal{S},\mathcal{R}\}$, there is an extra cost $\Delta c_2$ if $\mathcal{A}_2 = \mathcal{S}$;
+    \item At stage 3, the downstream agency decides on its auditing action $\mathcal{A}_3\in\{\mathcal{Y},\mathcal{N}\}$, there is an auditing cost $c_3$ if $\mathcal{A}_3\ = \mathcal{Y}$;
+    \item At stage 4, the downstream producer decides on the safety level of the food $\mathcal{A}_4\in\{\mathcal{S},\mathcal{R}\}$, there is an extra cost $\Delta c_4$ if $\mathcal{A}_4 = \mathcal{S}$.
+}
+Each time the agency chooses to audit, there would be a probability $p_1,p_3$ of the TP rate. When the unsafe food enters the market, four agents would face penalties $k_1,k_2,k_3$ and $k_4$.
+The centralized mode follows a similar modeling process. The authors deduce the SPME under different parameter settings,
+the paper identifies the driving forces behind equilibrium decisions:
+\tab{
+    \item The \tit{penalty-shield} effect of the downstream agency may lead to risky behavior by the upstream supplier.
+    \item A \tit{free-riding} effect between the two agencies may lead to less auditing.
+}
+The results show that the centralized auditing system may generate inferior performance.\\
+\cite{dong20223d} investigate the assortment strategy under the usage of 3D printing. The model assumes that the assortments can be selected from two sets:
+the generic set $\cG$ and the 3D-specific set $\cS$. The manufacturer decides on three production sets: the dedicated
+technology set $\cD\subset\cG$, the traditional flexible set $\cT \subset \cG$, and the 3D printing set $\cP \subset \cG\cup\cS$.
+Then the authors use multinomial-logit model to characterize the market of each product and separate the investment cost to \tit{adoption cost}, \tit{development cost}, and \tit{capacity cost}.
+The paper shows the assortment structure: based on the popularity of the products. The Numerical study shows that 3D printing tends to be more valuable when popularities of the generic designs are distributed
+more evenly and when popularities of the 3D-specific designs are distributed less evenly.
 
 \subsection{Distribution Channel}
 
@@ -3018,7 +3043,6 @@ There are some extra summary papers like \cite{Strauss2018},
 \cite{Klein2020}.
 
 \subsection{Traditional RM}
-
 
 \key{\tab{
         \item Protection Level, Booking Limit, Littlewood's Rule
