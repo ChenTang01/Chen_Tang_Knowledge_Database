@@ -1111,8 +1111,10 @@ The bisection method can only help us find an approximate \tit{stationary point}
 The iteration of the bisection method takes at most $\log_2(\frac{x_r-x_\ell}\epsilon)$ steps.\\
 \tbf{Golden section method} can optimize those problems whose first derivative is difficult to obtain, but it requires us to know the range of the local optimal solution.\\
 \fig{Golden Section Method}{Golden Section Method}{0.5}
-If we set $\phi=\frac{3-\sqrt{5}}2$, then we can save one function evaluation during each iteration.\\
-A necessary condition for the minimizer is $g(x)=f^\prime(x)=0$. \tbf{Newton's Method in single dimension} approximates $g$ using a first-order
+If we set $\phi=\frac{3-\sqrt{5}}2$ (comes from $\frac{r}{1}=\frac{1-2r}{1-r}$), then we can save one function evaluation during each iteration.
+\fig{Golden Section Graph}{Golden Section Graph}{0.4}
+The iteration of the golden section method takes at most $\log_2(\frac{x_r-x_\ell}\epsilon)$ steps. A necessary condition for the minimizer is $g(x)=f^\prime(x)=0$. \\
+\tbf{Newton's Method in single dimension} approximates $g$ using a first-order
 Taylor expansion for each $x^k$: $g(x)\approx g(x^k)+g^{\prime}(x^k)(x-x^k).$ By setting the right-hand side to 0 and solving:
 \meq{
     x^{k+1}=x^k-\frac{g(x^k)}{g^{\prime}(x^k)};\\
@@ -1266,10 +1268,10 @@ is defined as $C:X\to Z$ with:
 }
 \fig{Composition of mappings}{Composition of mappings}{0.6}
 \pro{Closedness of Composite Mapping}{
-    Let $\mathbf{A}:X\to Y$ and $\mathbf{B}:Y\to Z$ be point-to-set mappings. If $\mathbf{A}$ is closed at $x$, $\mathbf{B}$ is closed on $A(x)$. If there exists a $y$ and a subsequence $\{y_{ki}\}$, 
+    Let $\mathbf{A}:X\to Y$ and $\mathbf{B}:Y\to Z$ be point-to-set mappings. If $\mathbf{A}$ is closed at $x$, $\mathbf{B}$ is closed on $A(x)$. If there exists a $y$ and a subsequence $\{y_{ki}\}$,
     and $\{y_{ki}\}\to y$, then the composite mapping $C = BA$ is closed at point $x$.
     \proo{}{
-        Let $x_k\to x$ and $z_k\to z, (z_k \in C(x_k))$, according to the definition, if we can prove $z\in C(x)$, the proposition holds. According to the assumption, 
+        Let $x_k\to x$ and $z_k\to z, (z_k \in C(x_k))$, according to the definition, if we can prove $z\in C(x)$, the proposition holds. According to the assumption,
         we can find a $y$ such that $x_k\to x, \{y\in A(x_k)\}\to y$. Since $A$ is closed at point $x$, we can get $y\in A(x)$, and $B$ is closed at $y$.\\
         When $x_k\to x$, $z_k \in C(x_k) (B(A(x_k))) \to z$, we can show that $z\in B(y)$. Thus, $z\in B(A(x)), z\in C(x)$.
     }
@@ -1339,14 +1341,14 @@ Finally, we have:
 }
 }
 \defi{Order of Convergence}{
-    Let $\{r_k\to r^*\}$, the order is the supremum of the $p\ge 0$ satisfying:
-    \eq{
-        0\leqslant\underset{k\to\infty}{\operatorname*{\overline{lim}}}\frac{|r_{k+1}-r^*|}{|r_k-r^*|^p}<\infty.
-    }
-    In most of the cases, we can use a simpler definition:
-    \eq{
-        \beta=\lim_{k\to\infty}\frac{|r_{k+1}-r^*|}{|r_k-r^*|^p}
-    }
+Let $\{r_k\to r^*\}$, the order is the supremum of the $p\ge 0$ satisfying:
+\eq{
+0\leqslant\underset{k\to\infty}{\operatorname*{\overline{lim}}}\frac{|r_{k+1}-r^*|}{|r_k-r^*|^p}<\infty.
+}
+In most of the cases, we can use a simpler definition:
+\eq{
+\beta=\lim_{k\to\infty}\frac{|r_{k+1}-r^*|}{|r_k-r^*|^p}
+}
 }
 \defi{Linear Convergence}{
 $\{x^k\}_k$ converges linear with rate $\eta\in(0,1)$ to $x^\star \in \RR^n$ if there is $\cL > 0$ such that:
@@ -1354,11 +1356,11 @@ $\{x^k\}_k$ converges linear with rate $\eta\in(0,1)$ to $x^\star \in \RR^n$ if 
 \|x^{k+1}-x^\star\|\le \eta\cdot\|x^k-x^\star\|, \forall k\ge \cL
 }
 \re{
-    \tab{
-        \item linear convergence with $\cL=0$ implies that $\|x^k-x^\star\| \le \eta^k \|x^0-x^\star\|$.
-    }
-    The sequence with $r_k=a^k$ where $0<a<1$ converges to zero with linear convergence, since $r_{k+1}/r_k=a$.\\
-    The sequence with $r_k=a^{2^k}$ where $0<a<1$ converges to zero with quadratic convergence, since $r_{k+1}/r_k^2=1$.\\
+\tab{
+    \item linear convergence with $\cL=0$ implies that $\|x^k-x^\star\| \le \eta^k \|x^0-x^\star\|$.
+}
+The sequence with $r_k=a^k$ where $0<a<1$ converges to zero with linear convergence, since $r_{k+1}/r_k=a$.\\
+The sequence with $r_k=a^{2^k}$ where $0<a<1$ converges to zero with quadratic convergence, since $r_{k+1}/r_k^2=1$.\\
 }
 \thm{Rates for Strongly Convex Problems}{
 Let $f$ be Lipschitz smooth with $L$ and suppose there is $\mu>0$ such that:
@@ -3249,6 +3251,7 @@ algorithms systematically learn to collude. The collusion is typically partial a
 The authors also investigate the algorithm's strategy toward competitor's deviation: at epoch $0$ the supra-competitive outcomes have been achieved, and at epoch $1$ one party is defected by force, but then
 back to using the algorithm to decide as normal. The dynamics can be shown in the picture below:
 \fig{collusion deviation}{collusion deviation}{0.5}
+\cite{asker2022artificial} and \cite{asker2023impact} extend Calvano's research methodology using the Bertrand Pricing model, and find that during such setting, the game would converge to the collusive outcome when both agents use the \tit{synchronous updating} scheme.\\
 \cite{hansen2021frontiers} follows the research and verifies whether the UCB algorithm would lead to collusion in the duopoly market. They assume a symmetric linear demand:
 \eq{
 d_j^*(p_j,p_{-j})=\alpha-\beta p_j+\gamma p_{-j}.
@@ -3326,6 +3329,8 @@ costly action of “resetting” the price cycle by jumping up in price rather t
     \item \tbf{genuine collusion}: the algorithms do not cut their prices because they anticipate retaliatory responses by rivals;
     \item \tbf{spurious collusion}: the algorithms do not cut their prices simply because they are missing opportunities to earn more.
 }
+\cite{abada2023artificial} studies the dynamic pricing collusive scenario using the model of the electricity markets. Agents are indexed by $i\in I$ and their actions time $t$ are denoted by $a_i^t$, $a_i^t\in\RR$ is positive
+(negative) if the agent $i$ sells to (buys from) the market at time $t$.
 
 \clearpage
 \section{Platform Operations Management}
@@ -3657,6 +3662,38 @@ The above model can be formulated in a linear programming style:
 
 \clearpage
 \section{Data-Driven Operations Management}
+
+\cite{Deng2023} provide a data-driven framework for firms to allocate budget portfolios on online cross-channel advertisement.
+They obtain data from the selling and advertising records of a globally-known CPG company on Tmall. There are 4 channels:
+\tab{
+    \item Banner;
+    \item Recommender;
+    \item SEO-product;
+    \item SEO-store.
+}
+And there are 3 advertisement effects:
+\tab{
+    \item promotional effect;
+    \item cross-period spillover effect;
+    \item cross-product spillover effect.
+}
+through a reduced-form regression using the pricing records of a non-competing but analogous market as IV:
+\eq{
+    \begin{gathered}
+        r_i^t \begin{aligned}=\alpha_{i,0}+\sum_{j\in\mathcal{J}}\alpha_{i,j}s_{i,j}^{t}+\sum_{j\in\mathcal{J}}\hat{\alpha}_{i,j}(s_{i,j}^{t})^{2}+\sum_{j\in\mathcal{J}}\left(\alpha_{i,j}^{pre}\delta_{pre}^{t}+\alpha_{i,j}^{pro}\delta_{pro}^{t}+\alpha_{i,j}^{pos}\delta_{pos}^{t}\right)s_{i,j}^{t}+\end{aligned} \\
+        \sum_{j\in\mathcal{J}}\left(\beta_{i,j}^{\ell1}s_{i,j}^{t-1}+\beta_{i,j}^{\ell2}s_{i,j}^{t-2}+\beta_{i,j}^{\ell3}s_{i,j}^{t-3}\right)+\sum_{k\in\mathcal{I}\setminus\{i\}}\sum_{j\in\mathcal{J}}\gamma_{k,j}s_{k,j}^{t}+\boldsymbol{\Theta}_{i}\cdot\boldsymbol{\Omega}_{i}^{t}+\epsilon_{i},\quad i\in\mathcal{I}.
+    \end{gathered}
+}
+where $r_i^t$ is the revenue for product $i$ at time $t$, $s_{i,j}^t$ is the spending of budges on product $i$ through channel $j$, $s_{k,j}^t$ measures the cross-channel spillover effect. The regression
+results are significant. What's more, the authors utilize the parameters of the regressions and optimize them in a sequential game:
+\fig{deng2023}{The Optimization Problem}{0.5}
+The simulation results give positive feedback.
+
+\clearpage
+\chapter{Information Systems}
+
+\section{Introduction and Methodology of IS research}
+
 
 \clearpage
 \chapter{Miscellaneous} \label{chap:miscellaneous}
