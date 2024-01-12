@@ -3076,7 +3076,6 @@ There are some extra summary papers like \cite{Strauss2018},
 \key{\tab{
         \item Protection Level, Booking Limit, Littlewood's Rule
     }}
-
 \ass{What does \textbf{"traditional"} means in RM?}{
     \lis{
         \item The traditional RM system doesn't consider the choice model,
@@ -3084,7 +3083,11 @@ There are some extra summary papers like \cite{Strauss2018},
         \item Further assumption: the consumer will leave without purchasing if the preferred fare
         class is unavailable (holds when gaps in fares are large enough);
         \item The capacity is fixed, the capacity's marginal profit is zero(can be relaxed);
-        \item All booked consumers would arrive (another circumstance see \ref{subsec:overbooking}).}}
+        \item All booked consumers would arrive (another circumstance see \ref{subsec:overbooking}).
+    }
+}
+
+\subsubsection{Single Resource RM with the-worst-case Arrival Pattern}
 \ass{Single Resource RM}{
     \lis{
         \item The units of capacity is $c$, pricing at multiple different level $p_n<\cdots<p_1$;
@@ -3094,45 +3097,135 @@ There are some extra summary papers like \cite{Strauss2018},
         the \textbf{booking limit} which serves $D_j$;
     }
 }
-\emocool So the problem is to solve the optimal protection level given the current consumer level $j$.
-
+\emocool So the problem is to solve the optimal protection level given the current consumer level $j$.\\
 Let $V_j(x)$ be the optimal revenue given $D_j$ coming in, $x$ units remained. $V_0(x)=0$ by design.
 Let $y$ be the protection level for $D_{j-1},\cdots,D_1$: sales at $p_j$ = $\min\{x-y,D_j\}  $.
 The remaining capacity for $D_{j-1},\cdots,D_1$ is $x-\min\{x-y,D_j\}=max\{y,x-D_j\}$.
 Now let $W_j(y,x)$ be the optimal solution. We have:
-
 \eq{W_j(y,x)=p_j\mathbb{E}\{\min\{x-y,D_j\}\}+\mathbb{E}\{V_{j-1}(\max\{y,x-D_j\})\}}
 \eq{V_{j}(x)=\max_{y\in\{0,\ldots,x\}}W_{j}(y,x) =
 \max_{y\in\{0,...,x\}}\left\{p_{j}\mathbb{E}\{\min\{x-y,D_{j}\}\}+
 \mathbb{E}\{V_{j-1}(\max\{y,x-D_{j}\})\}\right\}}
-
 \pro{Structure of the Optimal Policy}{
     \begin{equation}
         y_{j-1}^*=\max\{y\in\mathbb{N}_+:\Delta V_{j-1}(y)>p_j\}.
     \end{equation}
     The maximizer of $W_j(y,x)$ is given by $y_j^*,\codts, y_1^*$
 }
-
 \re{The optimal solution for $y_j $is independent of the distribution of $D_j$;}
-
 \co{When $j=2$:}{
     \thm{Littlewood's rule}{
-        \eq{y_1^*=\max\{y\in\mathbb{N}_+:\mathbb{P}\{D_1\geq y\}>r\}};
-
+        \eq{y_1^*=\max\{y\in\mathbb{N}_+:\mathbb{P}\{D_1\geq y\}>r\}.}
     }
 }
-
-\re{The Littlewoood's Rule:\lis{
+\re{The Littlewoods Rule:\lis{
 \item The solution depends on the \textbf{fare ratio}: $r:=p_2/p_1$;
 \item When the distribution of $D_2$ is continuous: $F_{1}(y)=\mathbb{P}\{D_{1}\leq y\}$.
 The optimal protection level is $y_1^*=F_1^{-1}(1-r)=\mu_{1}+\sigma_{1}\notin^{-1}(1-r)$:\lis{
     \item if $r>\frac{1}{2}$, $y_1^*<\mu_1$ and $y_1^*$ decreases with $\sigma_1$;
     \item if $r<\frac{1}{2}$, $y_1^*<\mu_1$ and $y_1^*$ increases with $\sigma_1$;
     \item if $r=\frac{1}{2}$, $y_1^*=\mu_1$;}
-\item Using Littlewood's rule would result in some $D_1$ served by competitors (high spill rates).
-Solution: add penalty to save more seats for the high fare consumers:
-\eq{ y_1^*=\max\left\{y\in\mathbb{N}_+:\mathbb{R}\{D_1\geq y\}>\frac{p_2}{p_1+\rho}\right\}}
+\item Using the Littlewoods rule would result in some $D_1$ served by competitors (high spill rates).
+Solution: add a penalty to save more seats for the high-fare consumers:
+\eq{ y_1^*=\max\left\{y\in\mathbb{N}_+:\mathbb{P}\{D_1\geq y\}>\frac{p_2}{p_1+\rho}\right\}}
 }}
+\tbf{Multi-fare Heuristics}: The EMSR (expected marginal seat revenue) is a set of heuristic algorithms. The EMSR-a algorithm is based on the idea of
+adding protection levels produced by applying Littlewood’s rule to each pair of fare classes. Suppose that we are at stage $j$ and we need to decide the
+protection level for fare classes $j-1,j-2,\cdots,1$. We can apply the Littlewood's rule on fare class $k(k<j)$:
+\eq{
+    y_{kj}^*=\max\left\{y\in\mathbb{N}_+:\mathbb{P}\{D_k\geq y\}>\frac{p_j}{p_k}\right\}.
+}
+The overall protection level at stage $j$ is given by $y_{j-1}^a:=\sum_{k=1}^{j-1}y_{kj}^*$.\\
+The EMSR-b algorithm simply aggregate the fare classes $j-1,\cdots,1$ into one class, the demand is denoted as $D[1,j-1]$, and the aggregated price is defined as:
+\eq{
+    \bar{p}_{j-1}=\sum_{k=1}^{j-1}p_k\frac{\mu_k}{\mu[1,j-1]}.
+}
+The algorithm uses the Littlewood's rule to solve the two-fare class problem:
+\eq{
+    y_{j-1}^b=\max\left\{y\in\mathbb{N}_+:\mathbb{P}\{D[1,j-1]\geq y\}>\frac{p_j}{\bar{p}_{j-1}}\right\}
+}
+\sep{The Upper Bound of $V_n(c)$}
+Assume the demand vector $D=(D_{n},\ldots, D_{1})$ is known in advance, we can transform the problem into a knapsack problem:
+\eq{
+    \bar{V}(c\mid D):=\max\Bigg\{\sum_{j=1}^np_jx_j:\sum_{j=1}^nx_j\leq c,0\leq x_j\leq D_j\forall j=1,\ldots,n\Bigg\}.
+}
+This problem has an explicit solution, which is the upper bound for $V^U_n(c)$:
+\eq{
+\bar{V}(c\mid D)&=\sum_{j=1}^np_j\min\{D_j,(c-D[1,j-1])^+\},
+}
+where the term $(c-D[1,j-1])^+$ is the remaining capacity after the reserved capacity for the fare class $j-1,\cdots,1$. Taking the expectation on the capacity, we have:
+\eq{
+    \begin{aligned}
+        V_{n}^{U}(c) & \begin{aligned}&=\sum_{j=1}^np_j\mathbb{E}\{\min\{D_j,(c-D[1,j-1])^+\}\}\end{aligned}        \\
+                     & =\sum_{j=1}^np_j\left(\mathbb{E}\{\min\{D[1,j],c\}\}-\mathbb{E}\{\min\{D[1,j-1],c\}\}\right) \\
+                     & =\sum_{j=1}^n(p_j-p_{j+1})\mathbb{E}\{\min\{D[1,j],c\}\},                                    \\
+                     & =\sum_{j=1}^n(p_j-p_{j+1})\sum_{k=1}^c\mathbb{P}\{D[1,j]\geq k\}
+    \end{aligned}
+}
+where we define $p_{n+1}\quad\equiv\quad0$. Recall that in $\bar{V}(c\mid D)$, $D$ are random variables. Since $\bar{V}(c\mid D)$ is concave, by applying Jensen's inequality, we can obtain a more tractable upper bound:
+\eq{
+    \begin{aligned}
+        \bar{V_n}(c) & =\max\left\{\sum_{j=1}^np_jx_j:\sum_{j=1}^nx_j\le c,\quad0\le x_j\le\mu_j\forallj=1,\ldots,n\right\} \\
+                     & =\sum_{j=1}^n(p_j-p_{j+1})\min\{\mu[1,j],c\}
+    \end{aligned}
+}
+\sep{The Lower Bound of $V_n(c)$}
+The lower bound of the revenue management system is simply applying zero protection level, at the worst case, the bound is given by:
+\eq{
+    \begin{aligned}
+        V_{n}^{L}(c) & =\sum_{j=1}^np_j\mathbb{E}\{\min\{D_k,(c-D[j+1,n])^+\}\}                      \\
+                     & =\sum_{j=1}^np_j(\mathbb{E}\min\{D[j,n],c\}\}-\mathbb{E}\min\{D[j+1,n],c\}\}) \\
+                     & =\sum_{j=1}^n(p_j-p_{j-1})\operatorname{E}\{\min\{D[j,n],c\}\},
+    \end{aligned}
+}
+where we define $p_{0}\quad\equiv\quad0$.
+\pro{}{
+    For the multiple fare class problem, we have:
+    \eq{
+        V_n^L(c)\leq V_n(c)\leq V_n^U(c)\leq\bar{V}_n(c).
+    }
+}
+
+\subsubsection{Single Resource RM with General Arrival Pattern}
+In this model, we consider the effects of time. Assume the horizon is $T$, and time $t$ represents the time left until the end.
+Let $M_t$ denote the assortment at time $t$. Assume the fare class $j$ arrive according to a Poisson process with $\lambda_{jt}$, and let $N_{jt}$ denote
+the number of consumers that arrive during the last $t$ units of time, which is Poisson with parameter:
+\eq{
+    \Lambda_{jt}:= \int_0^t\lambda_{js}1 (j \in M_s) ds.
+}
+Now, refine $V(x)$ to $V(t, x)$ as the maximum expected revenue given capacity $x$ and time $t$. In a short time window $\delta t$, the probability that there is one request for class $j$ is $\lambda_{jt}\delta t+o(\delta t)$,
+and the probability that there are no requests is $1-\sum_{k\neq j}\lambda_{kt}\delta t+o(\delta t)$. Now we can have:
+\eq{
+    \begin{aligned}
+        V(t,x) & \begin{aligned}=\sum_{j\in M_t}\lambda_{jt}\delta t\max\{p_j+V(t-\delta t,x-1),V(t-\delta t,x)\}\end{aligned} \\
+               & +\left(1-\sum_{j\in M_t}\lambda_{j_t}\delta t\right)V(t-\delta t,x)+o(\delta t)                               \\
+               & =V(t-\delta t,x)+\delta t\sum_{j\in M_t}\lambda_{jt}[p_j-\Delta V(t-\delta t,x)]^++o(\delta t),
+    \end{aligned}
+}
+where $\begin{aligned}\Delta V(t,x)&=V(t,x)-V(t,x-1)\end{aligned}$. Subtracting $V(t-\delta t,x)$ from both sides and dividing by $\delta t$, and setting $\delta t\to 0$, we can get the HJB (Hamilton–Jacobi–Bellman) equation:
+\eq{
+    \begin{aligned} & \frac{\partial V(t,x)}{\partial t}=\mathcal{R}_t(\Delta V(t,x)).  \\
+                & \mathcal{R}_t(z):=\sum_{j\in M_t}\lambda_{jt}\left[p_j-z\right]^+
+    \end{aligned}
+}
+We can see that fare $j$ is accepted iff $p_j\geq\Delta V(t,x)$. So if we accept fare $j$ at state $(t, x)$, we should accept all fare classes $k<j$. We can define:
+\eq{
+    a(t,x):=\max\{j:p_j\geq\Delta V(t,x)\}
+}
+\thm{The structure of $V(t,x)$}{
+    The value function $V(t,x)$ is increasing in $t$ and $x$. $\Delta V(t,x)$ is decreasing in $x$. If the arrival rate $\lambda_{jt}$ is stationary across time, $V(t,x)$
+    is strictly increasing and concave in $t$.
+}
+\sep{Discrete-Time Formulation}
+In the discrete setting, we can set $\delta t=1$, and drop the $\mathcal{o}(\delta t)$ term. By setting the interval density $k>1$, and letting $\lambda_{jt}\leftarrow\frac1k\lambda_{j,t/k}$, we can have:
+\eq{
+    \begin{aligned}
+        V(t,x) & \begin{aligned}=\sum_{j\in M_t}\lambda_{jt}\max\{p_j+V(t-1,x-1),V(t-1,x)\}\end{aligned}   \\
+               & +\left(1-\sum_{j\in M_t}\lambda_{jt}\right)V(t-1,x)                                     & \\
+               & =V(t-1,x)+\sum_{j\in M_t}\lambda_{jt}[p_j-\Delta V(t-1,x)]^+                              \\
+               & =V(t-1,x)+\mathcal{R}_t(\Delta V(t-1,x))
+    \end{aligned}
+}
 
 \subsection{Overbooking} \label{subsec:overbooking}
 
@@ -3144,7 +3237,7 @@ Solution: add penalty to save more seats for the high fare consumers:
 \section{Dynamic Pricing}
 
 \cite{den2015dynamic} reviews the literature studying dynamic pricing and learning - the study of optimal dynamic pricing in an uncertain environment where characteristics of consumer behavior can be learned from accumulating sales data -
-by 2014. There are two main streams of research in dynamic pricing: one assumes the demand function is changing respect to time, another assumes static demand but finite inventory.
+by 2014. There are two main streams of research in dynamic pricing: one assumes the demand function is changing with time, while another assumes static demand but finite inventory.
 
 \subsection{Basic Pricing Theory}
 
@@ -3694,6 +3787,27 @@ The simulation results give positive feedback.
 
 \section{Introduction and Methodology of IS research}
 
+In 2003 there was a discussion on the IS identity crisis. \cite{Benbasat2003} defines the \tbf{IT artifact} as: \tit{the application of IT to enable or support some task(s) embedded within a structure(s) that itself is embedded within a context(s)}.
+They provide a nomological net of the IS research. Specifically, the IS research should focus on:
+\lis{
+    \item how IT artifacts are conceived, constructed, and implemented;
+    \item how IT artifacts are used, supported, and evolved;
+    \item how IT artifacts impact (and are impacted by) the contexts in which they are embedded.
+}
+\fig{IS Nomological Net}{IS Nomological Net}{0.4}
+They also point 2 errors in the IS research:
+\tab{
+    \item \tit{error of inclusion}: under-investigating phenomena intimately associated with IT-based system.
+    \item \tit{error of exclusion}: over-investigating phenomena distantly associated with IT-based system.
+}
+\cite{Agarwal2005} argues that the nomological net only provides a micro focus, which can harm the IS academia. They classify research that has a narrow focus as \tbf{micro} while research on the transformational aspects of IT as \tbf{macro}.\\
+\cite{hevner2008design} divides the IS research into two categories:
+\tab{
+    \item Design science: justify and evaluate the IT artifact;
+    \item Behavioral science: develop and build the IT artifact.
+}
+They also provide an IS research framework:
+\fig{IS Research Framework}{IS Research Framework}{0.6}
 
 \clearpage
 \chapter{Miscellaneous} \label{chap:miscellaneous}
