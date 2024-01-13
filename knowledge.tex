@@ -3204,8 +3204,8 @@ and the probability that there are no requests is $1-\sum_{k\neq j}\lambda_{kt}\
 }
 where $\begin{aligned}\Delta V(t,x)&=V(t,x)-V(t,x-1)\end{aligned}$. Subtracting $V(t-\delta t,x)$ from both sides and dividing by $\delta t$, and setting $\delta t\to 0$, we can get the HJB (Hamilton–Jacobi–Bellman) equation:
 \eq{
-    \begin{aligned} & \frac{\partial V(t,x)}{\partial t}=\mathcal{R}_t(\Delta V(t,x)).  \\
-                & \mathcal{R}_t(z):=\sum_{j\in M_t}\lambda_{jt}\left[p_j-z\right]^+
+    \begin{aligned}  & \frac{\partial V(t,x)}{\partial t}=\mathcal{R}_t(\Delta V(t,x)).  \\
+                 & \mathcal{R}_t(z):=\sum_{j\in M_t}\lambda_{jt}\left[p_j-z\right]^+
     \end{aligned}
 }
 We can see that fare $j$ is accepted iff $p_j\geq\Delta V(t,x)$. So if we accept fare $j$ at state $(t, x)$, we should accept all fare classes $k<j$. We can define:
@@ -3228,6 +3228,58 @@ In the discrete setting, we can set $\delta t=1$, and drop the $\mathcal{o}(\del
 }
 
 \subsection{Overbooking} \label{subsec:overbooking}
+
+\subsection{Fairness in Airline RM}
+
+\cite{Aslani2014} summarize some unfair pricing phenomena in revenue management, such as the hidden-city ticketing and throwaway ticketing. \cite{wang2016hidden} studies the cause and impact of the hidden-city ticketing:
+\ass{\cite{wang2016hidden}}{
+\lis{
+\item Airlines only provide itineraries with at most one stop. For an O-D (orientation-destination) pair $i\to j$, we use the notation $(k_{ij}^t,p_{ij}^t)_{(i,j)\in\mathcal{O}}$,
+where $k_{ij}^t$ is the connection city ($k_{ij}^t=0$ indicates direct flight), and $p_{ij}^t$ is the price;
+\item For a passenger with O-D pair $i\to j$, he only considers $k_{ij}^t$ without considering $p_{ij}^t$. Denote $\lambda_{ij}^t(p_{ij}^t)$ as the probability of purchase.
+We assume that $\lambda_{ij}^t(p_{ij}^t)$ is known in advance and it is small enough so that at each period, the probability that there are more than one purchases can be ignored.
+\item For any $i, j, t$: $\lambda_{ij}^t(p)$ is continuously differentiable and non-increasing in $p$;
+\item For any $c>0$, $\lambda_{ij}^t(p)(p-c)$ is quasiconcave in $p$ and there exists a unique maximizer for $\lambda_{ij}^t(p)(p-c)$.
+}
+}
+For one particular airline company, denote the capacity of the flight leg using vector $\boldsymbol{x}$, and the optimal expected revenue as $V^t(\boldsymbol{x})$, we can formulate the dynamic programming:
+\eq{
+    \begin{gathered}
+        V^t(\boldsymbol{x}) =\max_{k_{ij}^t,p_{ij}^t,\forall(i,j)\in\mathcal{O}}\left\{\sum_{(i,j)\in\mathcal{O}}\lambda_{ij}^t(p_{ij}^t)\left(p_{ij}^t+V^{t-1}(\boldsymbol{x}-A_{ij}^{k_{ij}^t})\right)+\left(1-\sum_{(i,j)\in\mathcal{O}}\lambda_{ij}^t(p_{ij}^t)\right)V^{t-1}(\boldsymbol{x})\right\} \\
+        =\quad V^{t-1}(\boldsymbol{x})+\max_{k_{ij}^t,p_{ij}^t,\forall(i,j)\in\mathcal{O}}\left\{\sum_{(i,j)\in\mathcal{O}}\lambda_{ij}^t(p_{ij}^t)\left(p_{ij}^t+V^{t-1}(\boldsymbol{x}-A_{ij}^{k_{ij}^t})-V^{t-1}(\boldsymbol{x})\right)\right\}
+    \end{gathered}
+}
+where $A_{ij}^{k}$ is the capacity consumption vector for each flight leg. With boundary conditions $V^0(\boldsymbol{x})=0\quad\forall\boldsymbol{x}$, $V^t(0)=0\quad\forall t$ and $V^t(\boldsymbol{x})=-\infty $ if
+$\boldsymbol{x}$ contains any negative entry. Note that we can solve the problem in two steps because the optimization over $k_{ij}^t$ and $p_{ij}^t$ are separated. We can first solve $k_{ij}^t$:
+\eq{
+\hat{k}_{ij}^t=\arg\max_{k_{ij}^t}V^{t-1}(\boldsymbol{x}-A_{ij}^{k_{ij}^t})
+}
+then we can solve the optimal $p^t_{ij}$ by maximize:
+\eq{
+\lambda_{ij}^t(p_{ij}^t)\left(p_{ij}^t+V^{t-1}(\boldsymbol{x}-A_{ij}^{\hat{k}_{ij}^t})-V^{t-1}(\boldsymbol{x})\right)
+}
+\sep{The Cause of Hidden City}
+We can define $c_{ij}^t=V^{t-1}(\boldsymbol{x})-V^{t-1}(\boldsymbol{x}-A_{ij}^{\hat{k}_{ij}^t})$ as the opportunity cost of using capacity $A_{ij}^{\hat{k}_{ij}^t}$, then the optimal price for O-D pair $i\to j$ is determined by:
+\eq{
+\hat{p}_{ij}^t=\arg\max_p\lambda_{ij}^t(p)(p-c_{ij}^t).
+}
+This is an easy problem, at the optimal $\hat{p_{ij}}$ (without considering $t$), we have:
+\eq{
+    \begin{aligned}1-\frac{c_{ij}}{\hat{p}_{ij}}&=-\frac{\lambda_{ij}(\hat{p}_{ij})}{\hat{p}_{ij}\lambda_{ij}^{\prime}(\hat{p}_{ij})}=-(E_{ij}(\hat{p}_{ij}))^{-1}\end{aligned}
+}
+Where $E_{ij}(p)~=~\frac{p\lambda_{ij}^{\prime}(p)}{\lambda_{ij}(p)}$ is the price elasticity of demand at price $p$. Consider the trip $i\to j\to k$, ($k$ is the hidden city), the prices should satisfy:
+\eq{
+    1-\frac{c_{ij}}{p_{ij}}&=-(E_{ij}(p_{ij}))^{-1}\quad\text{ and }\quad1-\frac{c_{ik}}{p_{ik}}&=-(E_{ik}(p_{ik}))^{-1}.
+}
+It's easy to verify that $c_{ij}\le c_{ik}$, combined with that $p_{ij} > p_{ik}$, we can obtain:
+\eq{
+|E_{ij}(p_{ij})|<|E_{ik}(p_{ik})|
+}
+\pro{}{
+    If the hidden-city phenomenon $i\to j\to k$ happens, then the price elasticity of demand $i\to k$ is greater than that of $i\to j$ at the optimal price.
+}
+The authors later provide an algorithm that would produce no arbitrage opportunity for hidden-city ticketing. however, under this circumstance, all parties' welfare
+decreases compared to the baseline model.
 
 \subsection{Traditional Consumer Choice Model}
 
