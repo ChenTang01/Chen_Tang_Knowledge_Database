@@ -34,20 +34,21 @@
 
 \subsection{Keys of Linear Algebra}
 
-The main contents of this subsection are notes from \cite{deisenroth2020mathematics}.
+The main contents of this subsection are notes from \cite{deisenroth2020mathematics}, \cite{axler2023linear}, \cite{petersen2008matrix}.
 The properties of Matrix Multiplication:
 \tab{
     \item Associativity: $(AB)C=A(BC)$;
     \item Distributivity: $A(C+D)=AC+AD$;
     \item Identity Multiplication: $I_mA=A,AI_n=A$
 }
-Only square matrixes ha an inverse matrix, and the inverse is unique. If a matrix has an inverse, then it's called \tbf{regular/invertible/nonsingular}.
+Only square matrixes have the inverse matrix, and the inverse is unique. If a matrix has an inverse, then it's called \tbf{regular/invertible/nonsingular}.
 The properties of inverses and transposes:
 \tab{
 \item $(AB)^{-1}=B^{-1}A^{-1}$;
 \item $(A+B)^{-1}\neq A^{-1}+B^{-1}$;
 \item $(AB)^\top=B^\top A^\top $;
-\item $(A+B)^\top=A^\top+B^\top $.
+\item $(A+B)^\top=A^\top+B^\top $;
+\item $(A^\top)^{-1} = (A^{-1})^\top$.
 }
 To find the inverse matrix, gaussian elimination can be applied: $[A\mid I]=[I\mid A^{-1}]$.\\
 \sep{Solutions of Linear Systems}
@@ -130,18 +131,33 @@ that are only modified in length rather than direction. This is the idea of the 
     }
 }
 The definiteness is similar to the idea of eigenvalue. Consider $X^T MX$ as the inner product of $X$ and $MX$, where
-$MX$ can be thought as a transformed version of $X$. If $X^T MX>0$ for all $X$,
+$MX$ can be regarded as a transformed version of $X$. If $X^T MX>0$ for all $X$,
 then we can get $\cos \theta=\frac{X^T \cdot MX}{||X||\cdot ||MX||}>0$, which means for all vectors, the linear mapping $M$ can map
 the vector to an angle less than 90 degrees.\\
-So to show whether a matrix is positive definite, calculate all the eigenvalues of the matrix. If all values are larger than 0, then it's positive definite/
+So to show whether a matrix is positive definite, calculate all the eigenvalues of the matrix. If all values are larger than 0, then it's positive definite.
 \re{
     \tab{
         \item $Tr(A)=\sum_i^n \lambda_i$;
-        \item $\det(A)=\prod_{i=1}^n\lambda_i$.
+        \item $\det(A)=\prod_{i=1}^n\lambda_i$;
+        \item $\mathrm{Tr(A+B)}\quad=\quad\mathrm{Tr(A)}+\mathrm{Tr(B)}$, $\det(\mathbf{AB})\quad=\quad\det(\mathbf{A})\det(\mathbf{B})$;
+        \item $\det(\mathbf{A}^{-1})\quad=\quad1/\det(\mathbf{A})$, $\mathrm{det}(\mathbf{A}^n)\quad=\quad\mathrm{det}(\mathbf{A})^n$;
+        \item $\det(\mathbf{I}+\mathbf{u}\mathbf{v}^T)\quad=\quad1+\mathbf{u}^T\mathbf{v}$.
+    }
+    The approximation of the determinant. For small $\epsilon$:
+    \eq{
+        \det(\mathbf{I}+\varepsilon\mathbf{A})\cong1+\det(\mathbf{A})+\varepsilon\mathrm{Tr}(\mathbf{A})+\frac12\varepsilon^2\mathrm{Tr}(\mathbf{A})^2-\frac12\varepsilon^2\mathrm{Tr}(\mathbf{A}^2)
     }
 }
+\sep{The $2\times 2$ Matrix}
+Considering the $2\times 2$ matrix $\mathbf{A}$, we have:
+\meq{
+\det(\mathbf{A})=A_{11}A_{22}-A_{12}A_{21}\\
+\mathrm{Tr}(\mathbf{A})=A_{11}+A_{22}\\
+\lambda^2-\lambda\cdot\mathrm{Tr}(\mathbf{A})+\det(\mathbf{A})=0 \\
+\left.\mathbf{A}^{-1}=\frac1{\det(\mathbf{A})}\left[\begin{array}{cc}A_{22}&-A_{12}\\-A_{21}&A_{11}\end{array}\right.\right]
+}
 
-\subsection{Norms}
+\subsection{Norms \& Derivatives of the Matrix}
 
 \defi{Norm}{
 The norm $||\codt||$ is a mapping $V\to \RR$, which assigns each vector a length that satisfy:
@@ -2197,9 +2213,6 @@ This regression gives an estimation of 6.2\% for $\rho$. But in practice, the co
 \clearpage
 \chapter{Data Science}
 
-\section{Time Series Analysis}
-
-\clearpage
 \section{Machine Learning}
 
 \subsection{Imitation Learning}
@@ -3083,7 +3096,7 @@ There are some extra summary papers like \cite{Strauss2018},
         \item Further assumption: the consumer will leave without purchasing if the preferred fare
         class is unavailable (holds when gaps in fares are large enough);
         \item The capacity is fixed, the capacity's marginal profit is zero(can be relaxed);
-        \item All booked consumers would arrive (another circumstance see \ref{subsec:overbooking}).
+        \item All booked consumers would arrive (another circumstance see \ref{subsubsec:overbooking}).
     }
 }
 
@@ -3204,8 +3217,8 @@ and the probability that there are no requests is $1-\sum_{k\neq j}\lambda_{kt}\
 }
 where $\begin{aligned}\Delta V(t,x)&=V(t,x)-V(t,x-1)\end{aligned}$. Subtracting $V(t-\delta t,x)$ from both sides and dividing by $\delta t$, and setting $\delta t\to 0$, we can get the HJB (Hamilton–Jacobi–Bellman) equation:
 \eq{
-    \begin{aligned}  & \frac{\partial V(t,x)}{\partial t}=\mathcal{R}_t(\Delta V(t,x)).  \\
-                 & \mathcal{R}_t(z):=\sum_{j\in M_t}\lambda_{jt}\left[p_j-z\right]^+
+    \begin{aligned}   & \frac{\partial V(t,x)}{\partial t}=\mathcal{R}_t(\Delta V(t,x)).  \\
+                  & \mathcal{R}_t(z):=\sum_{j\in M_t}\lambda_{jt}\left[p_j-z\right]^+
     \end{aligned}
 }
 We can see that fare $j$ is accepted iff $p_j\geq\Delta V(t,x)$. So if we accept fare $j$ at state $(t, x)$, we should accept all fare classes $k<j$. We can define:
@@ -3227,10 +3240,145 @@ In the discrete setting, we can set $\delta t=1$, and drop the $\mathcal{o}(\del
     \end{aligned}
 }
 
-\subsection{Overbooking} \label{subsec:overbooking}
+\subsubsection{Network Revenue Management with Independent Demands}
 
-\subsection{Fairness in Airline RM}
+In the airline RM vocabulary, the \tbf{flught leg} refers to a resource and the ODF (\tbf{origin-destination-fare}) refers to the product. In the traditional model, it is often assumed that
+the set of possible ODFs is given and the demand for each ODF is independent of the demand for other ODFs.
+\sep{Formulations of Dynamic Programming}
+Assume there are $m$ resources (flight legs) in the network and let $c^2:=(c_1,\ldots,c_m)$ denote the capacity. We measure time backward (start at $t=T$ and end at $t=0$).
+We index each ODF (itinerary) by $1,\cdots, K$, and the price levels for ODF $k$ by $p_{kj}$ for $j\in\{1,\ldots,n_k\}$. Let $\lambda_{tkj}$ denote the
+arrival rate at time $t$ of customers interested in ODF $kj$, and $A_k$ be the resource vector (with dimension of $m$). We use the dummy $u_{kj}$ to denote the decision variable: whether we
+accept a request for ODF $kj$, the feasible set is constrained by the remained capacity $x$: $A_k \cdot u_{kj} \le x$. Given a short enough period $\delta t$ such that $\sum_{k=1}^K\sum_{j=1}^{n_k}\lambda_{tkj}\delta t \ll 1$, we can write the DP as:
+\eq{
+    \begin{aligned}
+        V(t,x) & =\sum_{k=1}^K\sum_{j=1}^{n_k}\lambda_{tkj}\delta t\max_{u_{kj}\in\{0,1\}}[p_{kj}u_{kj}+V(t-\delta t,x-A_ku_{kj})] \\
+               & +\left\{1-\sum_{k=1}^K\sum_{j=1}^{n_k}\lambda_{tkj}\delta t\right\}V(t-\delta t,x)+o(\delta t),
+    \end{aligned}
+}
+where $o(\delta t)$ comes from the property of Poisson process. Subtracting $V(t-\delta t,x)$ from both sides and dividing by $\delta t$, and using the notation
+$\Delta_kV(t,x)=V(t,x)-V(t,x-A_k)$, we obtain the HJB equation:
+\eq{\label{eq:rmodf}
+    \frac{\partial V(t,x)}{\partial t}&=\sum_{k=1}^K\sum_{j=1}^{n_k}\lambda_{tkj}[p_{kj}-\Delta_kV(t,x)]^+,
+}
+where the term $[p_{kj}-\Delta V_k(t,x)]^+$ is equivalent to the maximum of $p_{kj}u_{kj}+V(t,x-A_ku_{kj})-V(t-\delta t,x)$. Let
+\eq{
+R_t(u,\Delta V(t,x)):=\sum_{k=1}^K\sum_{j=1}^{n_k}\lambda_{tkj}[p_{kj}-\Delta_kV(t,x)]u_{kj},
+}
+and consider the optimization problem:
+\eq{
+    \begin{aligned}
+        \mathcal{R}_t(\Delta V(t,x)) & :=\max_{u}R_t(u,\Delta V(t,x))                                                                   \\
+                                     & =\sum_{k=1}^K\sum_{j=1}^{n_k}\lambda_{tkj}\max_{u_{jk}\in\{0,1\}}[p_{kj} - \Delta_kV(t,x)]u_{kj} \\
+                                     & =\sum_{k=1}^K\sum_{j=1}^{n_k}\lambda_{tkj}[p_{kj}-\Delta_kV(t,x)]^+.
+    \end{aligned}
+}
+The optimal solution to the optimization is to accept all fares for itinerary $k$ that exceed $\Delta_kV(t,x)$, and we can write the HJB equation as:
+\eq{
+    \frac{\partial V(t,x)}{\partial t}=\mathcal{R}_t(\Delta V(t,x))
+}
+We can aggregate $\lambda_{tkj}$ to $\lambda_{tk}=\sum_{j=1}^{\boldsymbol{n}_k}\lambda_{tkj}$, and set $\lambda_{tkj}=\lambda_{tk}q_{tkj}$, where $q_{tkj}$
+follows the distribution $P_{tk}$. This yields:
+\eq{
+    \frac{\partial V(t,x)}{\partial t}=\sum_{k=1}^K\lambda_{tk}\operatorname{E}[P_{tk}-\Delta_kV(t,x)]^+=\mathcal{R}_t(\Delta V(t,x)).
+}
+\sep{The Optimal Policy}
+In practice, for convenience \tbf{the single index} formulation is widely used. Let $n=\sum_{k=1}^K n_k$ be the number of ODFs, and $N=\{1,\ldots,n\}$ to be the
+set of all ODFs. The single index formulation is given by:
+\eq{\label{eq:singleindex}
+    \frac{\partial V(t,x)}{\partial t}=\mathcal{R}_t(\Delta V(t,x))=\sum_{j\in M_t}\lambda_{tj}[p_j-\Delta_jV(t,x)]^+
+}
+In the optimal solution, we have:
+\eq{\label{eq:singleindexoptimal}
+    u_j^*(t,x)=\begin{cases}1&\text{if }j\in M_t,A_j\leq x,\text{and }p_j\geq\Delta_jV(t,x)\\0&\text{otherwise},\end{cases}
+}
+\sep{The LP Upper Bound}
+\thm{The upper bound for $V(T,c)$}{
+    For $V(T,c)$ from problem \ref{eq:singleindex}, we have the bound:
+    \eq{
+        V(T,c)\leq\mathbb{E}[\bar{V}(T,c|D)]\leq\bar{V}(T,c),
+    }
+    where the shaper bound comes from:
+    \eq{\label{eq:rmsharperbound}
+        \begin{aligned}
+            \bar{V}(T,c|D):=\max\quad & \sum_{j=1}^np_jy_j                    \\\mathrm{s.t.}\quad&\sum_{j\in N}a_{ij}y_j\le c_i\quad&\forall i\in M \\
+            0                         & \le y_j\le D_j\quad & \forall j\in N.
+        \end{aligned}
+    }
+    and the wider bound comes from:
+    \eq{\label{eq:rmwiderbound}
+        \begin{aligned}
+            \bar{V}(T,c)~:=~\max~ & \sum_{j\in N}p_j~y_j                               \\
+            \text{s.t.}~          & \sum_{j\in N}a_{ij}~y_j\leq c_i~ & \forall i\in M  \\
+            0                     & \leq y_j\leq\Lambda_j~           & \forall j\in N.
+        \end{aligned}
+    }
+    The decision variable $y_j$ corresponds to the number of requests for ODF $j$, and $D_j$ is the aggregated demand for the ODF $j$, which is
+    a Poisson with parameter $\Lambda_j=\int_0^T\lambda_{sj}ds$.
+}
+\proo{The upper bound for $V(T,c)$}{
+    For every instance of $D$, the optimal policy \ref{eq:singleindexoptimal} constitute a feasible solution to program \ref{eq:rmsharperbound}, so $V(T,c)\leq\mathbb{E}[\bar{V}(T,c\mid D)]$.\\
+    For the second inequality, note that $\mathbb{E}[\bar{V}(T,c\mid D)]$ is concave on $D$, using Jensen's inequality:
+    \eq{
+        \mathbb{E}[\bar{V}(T,c\mid D)]\leq\bar{V}(T,c\mid\mathbb{E}[D])=\bar{V}(T,c\mid\Lambda)=\bar{V}(T,c).
+    }
+}
+By strong duality, we can transform program \ref{eq:rmwiderbound} to:
+\eq{\label{eq:rmdual}
+    \begin{aligned}
+        \bar{V}(T,c)~=~\min~ & \sum_{i\in M}c_iz_i+\sum_{j\in N}\Lambda_j\beta_j         \\
+        \text{s.t.}~         & \sum_{i\in M}a_{ij}z_i+\beta_j\geq p_j\quad\forall j\in N \\
+                             & z_i\geq0,~\beta_j\geq0\quad\forall i\in M,~j\in N.
+    \end{aligned}
+}
+At optimality, the dual variable $z_i^*$ is the marginal value of capacity of resource $i$,
+while the dual variable $\beta_j^*$ is the marginal value of demand for ODF $j$. Setting $\beta_j=(p_j-\sum_{i\in M}a_{ij}z_i)^+$ so that
+we can optimize on $z$ only. Consequently:
+\meq{
+\sum_{j\in N}\Lambda_j\beta_j=\sum_{j\in N}\Lambda_j(p_j-\sum_{i\in M}a_{ij}z_i)^+=\int_0^T\mathcal{R}_t(A^{\prime}z)dt,\\
+\bar{V}(T,c)=\min_{z\geq0}\left\{\int_0^T\mathcal{R}_t(A^{\prime}z)dt+c^{\prime}z\right\}.
+}
+This provides a way to approximate $\Delta V(T,c)$.
+\sep{Heuristics for the Network RM}
+Suppose $\{z_i^*:i\in M\}$ from the dual program \ref{eq:rmdual} is known. The \tbf{bid-price heuristic} policy is: making ODF $j$ available iff
+$A_j\le x$ and $p_j \ge \sum_{i\in M}a_{ij}z_i^*$.\\
+Suppose$y=(y_1^*,\ldots,y_n^*)$ from the dual program \ref{eq:rmwiderbound} is known. The \tbf{probabilistic admission control heuristic} (PAC) policy is: making PDF $j$ available with
+probability $\frac{y_j^*}{\Gamma_j}$ whenever $A_j\le x$.\\
+Comparing the two heuristic policies, the bid-price uses $m$ parameters (resources) while the PAC uses $n$ parameters (ODF). Usually, $m\ll n$, so bid-price heuristics is more widely used.
+\re{
+    \tab{
+        \item The bid-price heuristic is NOT asymptotically optimal;
+        \item PAC is asymptotically optimal;
+        \item However, the PAC does not perform as well as the bid-price heuristic with frequent updates over the horizon.
+    }
+}
+\sep{Upgrades and Upsells}
+Let $U_j$ be the set of products to fulfill a request $j$: the customers are willing to take any product $k\in U_j$ at the price $p_j$. The value function with upgrades is given by:
+\eq{
+    \frac{\partial V(t,x)}{\partial t}=\sum_{j\in\mathcal{M}_t}\lambda_j\max_{k\in U_j}(p_j-\Delta_kV(t,x))^+=\sum_{j\in\mathcal{M}_t}\lambda_j(p_j-\tilde{\Delta}_jV(t,x))^+
+}
+where
+\eq{
+    \tilde{\Delta}_jV(t,x)=\min_{k\in U_j}\Delta_kV(t,x).
+}
+In the upsell model, assume that $r_{jk}$ is the revenue by upselling product $k\in U_j$ (r_{jk}>p_j), and there is a probability $\pi_{jk}$ that the customer accepts the upsell. 
+This leads to the upsell HJB equation:
+\eq{
+    \frac{\partial V(t,x)}{\partial t}=\sum_{j\in M_t}\lambda_j\max_{k\in U_j}\left[\pi_{jk}(r_{jk}-\tilde{\Delta}_kV(t,x))^++(1-\pi_{jk})(p_j-\tilde{\Delta}_jV(t,x))^+\right]
+}
 
+\subsubsection{Overbooking} \label{subsubsec:overbooking}
+Suppose that the flight capacity is $c$, and the demand is $D$. Assume that passengers who do not show up are given a full refund 
+and that the unit cost for denied boarding is $\theta$. Let $b$ be the booking limit, then $N:= min(D, b)$ is the number of bookings. 
+The objective is to maximize:
+\eq{
+    R(b):=p\mathbb{E}[Z(\min(D,b))]-\theta\mathbb{E}[Z(\min(D,b))-c]^+].
+}
+The optimal $b^*$ is given by:
+\eq{
+    b^*=\min\left\{b\geq0:\mathbb{P}\{Z(b)\geq c\}>\frac p\theta\right\}.
+}
+
+\subsubsection{Fairness in Airline RM}
 \cite{Aslani2014} summarize some unfair pricing phenomena in revenue management, such as the hidden-city ticketing and throwaway ticketing. \cite{wang2016hidden} studies the cause and impact of the hidden-city ticketing:
 \ass{\cite{wang2016hidden}}{
 \lis{
