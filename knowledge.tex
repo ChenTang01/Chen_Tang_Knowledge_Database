@@ -3217,8 +3217,8 @@ and the probability that there are no requests is $1-\sum_{k\neq j}\lambda_{kt}\
 }
 where $\begin{aligned}\Delta V(t,x)&=V(t,x)-V(t,x-1)\end{aligned}$. Subtracting $V(t-\delta t,x)$ from both sides and dividing by $\delta t$, and setting $\delta t\to 0$, we can get the HJB (Hamilton–Jacobi–Bellman) equation:
 \eq{
-    \begin{aligned}   & \frac{\partial V(t,x)}{\partial t}=\mathcal{R}_t(\Delta V(t,x)).  \\
-                  & \mathcal{R}_t(z):=\sum_{j\in M_t}\lambda_{jt}\left[p_j-z\right]^+
+    \begin{aligned}    & \frac{\partial V(t,x)}{\partial t}=\mathcal{R}_t(\Delta V(t,x)).  \\
+                   & \mathcal{R}_t(z):=\sum_{j\in M_t}\lambda_{jt}\left[p_j-z\right]^+
     \end{aligned}
 }
 We can see that fare $j$ is accepted iff $p_j\geq\Delta V(t,x)$. So if we accept fare $j$ at state $(t, x)$, we should accept all fare classes $k<j$. We can define:
@@ -3242,7 +3242,7 @@ In the discrete setting, we can set $\delta t=1$, and drop the $\mathcal{o}(\del
 
 \subsubsection{Network Revenue Management with Independent Demands}
 
-In the airline RM vocabulary, the \tbf{flught leg} refers to a resource and the ODF (\tbf{origin-destination-fare}) refers to the product. In the traditional model, it is often assumed that
+In the airline RM vocabulary, the \tbf{flight leg} refers to a resource and the ODF (\tbf{origin-destination-fare}) refers to the product. In the traditional model, it is often assumed that
 the set of possible ODFs is given and the demand for each ODF is independent of the demand for other ODFs.
 \sep{Formulations of Dynamic Programming}
 Assume there are $m$ resources (flight legs) in the network and let $c^2:=(c_1,\ldots,c_m)$ denote the capacity. We measure time backward (start at $t=T$ and end at $t=0$).
@@ -3360,15 +3360,15 @@ where
 \eq{
     \tilde{\Delta}_jV(t,x)=\min_{k\in U_j}\Delta_kV(t,x).
 }
-In the upsell model, assume that $r_{jk}$ is the revenue by upselling product $k\in U_j$ (r_{jk}>p_j), and there is a probability $\pi_{jk}$ that the customer accepts the upsell. 
+In the upsell model, assume that $r_{jk}$ is the revenue by upselling product $k\in U_j$ (r_{jk}>p_j), and there is a probability $\pi_{jk}$ that the customer accepts the upsell.
 This leads to the upsell HJB equation:
 \eq{
-    \frac{\partial V(t,x)}{\partial t}=\sum_{j\in M_t}\lambda_j\max_{k\in U_j}\left[\pi_{jk}(r_{jk}-\tilde{\Delta}_kV(t,x))^++(1-\pi_{jk})(p_j-\tilde{\Delta}_jV(t,x))^+\right]
+\frac{\partial V(t,x)}{\partial t}=\sum_{j\in M_t}\lambda_j\max_{k\in U_j}\left[\pi_{jk}(r_{jk}-\tilde{\Delta}_kV(t,x))^++(1-\pi_{jk})(p_j-\tilde{\Delta}_jV(t,x))^+\right]
 }
 
 \subsubsection{Overbooking} \label{subsubsec:overbooking}
-Suppose that the flight capacity is $c$, and the demand is $D$. Assume that passengers who do not show up are given a full refund 
-and that the unit cost for denied boarding is $\theta$. Let $b$ be the booking limit, then $N:= min(D, b)$ is the number of bookings. 
+Suppose that the flight capacity is $c$, and the demand is $D$. Assume that passengers who do not show up are given a full refund
+and that the unit cost for denied boarding is $\theta$. Let $b$ be the booking limit, then $N:= min(D, b)$ is the number of bookings.
 The objective is to maximize:
 \eq{
     R(b):=p\mathbb{E}[Z(\min(D,b))]-\theta\mathbb{E}[Z(\min(D,b))-c]^+].
@@ -3981,33 +3981,6 @@ where $r_i^t$ is the revenue for product $i$ at time $t$, $s_{i,j}^t$ is the spe
 results are significant. What's more, the authors utilize the parameters of the regressions and optimize them in a sequential game:
 \fig{deng2023}{The Optimization Problem}{0.5}
 The simulation results give positive feedback.
-
-\clearpage
-\chapter{Information Systems}
-
-\section{Introduction and Methodology of IS research}
-
-In 2003 there was a discussion on the IS identity crisis. \cite{Benbasat2003} defines the \tbf{IT artifact} as: \tit{the application of IT to enable or support some task(s) embedded within a structure(s) that itself is embedded within a context(s)}.
-They provide a nomological net of the IS research. Specifically, the IS research should focus on:
-\lis{
-    \item how IT artifacts are conceived, constructed, and implemented;
-    \item how IT artifacts are used, supported, and evolved;
-    \item how IT artifacts impact (and are impacted by) the contexts in which they are embedded.
-}
-\fig{IS Nomological Net}{IS Nomological Net}{0.4}
-They also point 2 errors in the IS research:
-\tab{
-    \item \tit{error of inclusion}: under-investigating phenomena intimately associated with IT-based system.
-    \item \tit{error of exclusion}: over-investigating phenomena distantly associated with IT-based system.
-}
-\cite{Agarwal2005} argues that the nomological net only provides a micro focus, which can harm the IS academia. They classify research that has a narrow focus as \tbf{micro} while research on the transformational aspects of IT as \tbf{macro}.\\
-\cite{hevner2008design} divides the IS research into two categories:
-\tab{
-    \item Design science: justify and evaluate the IT artifact;
-    \item Behavioral science: develop and build the IT artifact.
-}
-They also provide an IS research framework:
-\fig{IS Research Framework}{IS Research Framework}{0.6}
 
 \clearpage
 \chapter{Miscellaneous} \label{chap:miscellaneous}
