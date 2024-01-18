@@ -3217,8 +3217,8 @@ and the probability that there are no requests is $1-\sum_{k\neq j}\lambda_{kt}\
 }
 where $\begin{aligned}\Delta V(t,x)&=V(t,x)-V(t,x-1)\end{aligned}$. Subtracting $V(t-\delta t,x)$ from both sides and dividing by $\delta t$, and setting $\delta t\to 0$, we can get the HJB (Hamilton–Jacobi–Bellman) equation:
 \eq{
-    \begin{aligned}    & \frac{\partial V(t,x)}{\partial t}=\mathcal{R}_t(\Delta V(t,x)).  \\
-                   & \mathcal{R}_t(z):=\sum_{j\in M_t}\lambda_{jt}\left[p_j-z\right]^+
+    \begin{aligned}      & \frac{\partial V(t,x)}{\partial t}=\mathcal{R}_t(\Delta V(t,x)).  \\
+                     & \mathcal{R}_t(z):=\sum_{j\in M_t}\lambda_{jt}\left[p_j-z\right]^+
     \end{aligned}
 }
 We can see that fare $j$ is accepted iff $p_j\geq\Delta V(t,x)$. So if we accept fare $j$ at state $(t, x)$, we should accept all fare classes $k<j$. We can define:
@@ -3429,9 +3429,125 @@ It's easy to verify that $c_{ij}\le c_{ik}$, combined with that $p_{ij} > p_{ik}
 The authors later provide an algorithm that would produce no arbitrage opportunity for hidden-city ticketing. however, under this circumstance, all parties' welfare
 decreases compared to the baseline model.
 
-\subsection{Traditional Consumer Choice Model}
+\subsection{Consumer Choice Model and Assortment Optimization}
 
-\subsection{Current Consumer Choice Model}
+Assume the products that could be offered is $N:=\{1,\cdots,n\}$, for any assortment $S\subseteq N$ and product $j$, we denote $\pi_j(S)$ as the probability that a consumer will select product $j\in S$.
+$\Pi(S)&:=\sum_{j\in S}\pi_j(S)=0$indicates that the consumer does not purchase or purchases outside $S$. Denote $p$ and $z$ as $n$-dimensioanl vectors for prices and costs of each product. The decision maker
+should optimize a combinatorial problem:
+\eq{
+    \mathcal{R}(z):=\max_{S\subseteq N, p\ge z} R(S,p,z):= \sum_{j\in S}(p_j - z_j)\pi_j(S,p)
+}
+Most of the time, by setting $p_j \to \infty$, we can make $pi_j(N,j)=0$ (remove $j$ out of $S$). Thus, we can transform the problem above to:
+\eq{
+    \mathcal{R}(z):=\max_{p\geq z}R(p,z) :=\sum_{j\in N}(p_j-z_j)\pi_j(N,p)
+}
+\sep{Basic Attraction Model (BAM)}
+Each $j\in N_+$ has an attraction value $v_j>0$ ($v_0$ indicates no-purchase), the choice model is given by:
+\eq{
+    \pi_j(S)=\frac{v_j}{v_0+V(S)}\quad\forall j\in S
+}
+BAM has a great property: for any $S\subseteq T$, we have $\pi_S(T):=\sum_{j\in S}\pi_j(T)$。
+\ax{The Luce Axiom}{
+    If $\pi_i(\{i\})\in(0,1), \forall i\in T$, then for any $Q\subseteq S_+,S\subseteq T$:
+    \eq{
+        \pi_Q(T)=\pi_Q(S)\pi_{S_+}(T).
+    }
+    If $\pi_i(\{i\})=0$ for some $i\in T$, then for some $i\in T$ and $S\subseteq T$:
+    \eq{
+        \pi_S(T)=\pi_{S\setminus\{i\}}(T\setminus\{i\}).
+    }
+}
+\re{
+    Shortage of BAM:
+    \tab{
+        \item $v_0$ is a fixed parameter and does not depend on the offered products;
+        \item This approach ignores the possibility that the consumer may look for the products outside
+        $S$ at a later time.
+    }
+}
+\sep{Generalized Attraction Model (GAM)}
+In addition to the attraction value $v_j$, there are \tbf{shadow attraction values} $w_j\in[0,v_j]$, and the selection behaviour is given by:
+\eq{
+    \pi_j(S)=\frac{v_j}{v_0+W(\bar{S})+V(S)}\quad\forall j\in S,
+}
+where $\bar{S}=N \setminus S$ and $W(\bar{S}):=\sum_{j\in \bar{S}}w_j$.
+\re{
+    \tab{
+        \item If $w_j =0$ for all products, it recovers to BAM;
+        \item Parsimonious GAM (p-GAM) is given by $w_j = \theta v_j$ for all $j$;
+        \item In p-GAM, if $\theta=1$, we can get the \tit{independent demand model} (IDM), under which $\pi_j(S)$ is independent of $j$.
+    }
+}
+\pro{Independence of Irrelevant Alternatives (IIA)}{
+    \tbf{IIA} is a shortcoming for BAM and GAM, under which the following equation holds:
+    \eq{
+        \frac{\pi_j\left(S\right)}{\pi_j\left(S\cup\left\{k\right\}\right)}=\frac{\pi_i\left(S\right)}{\pi_i\left(S\cup\left\{k\right\}\right)}
+    }
+    This shouldn't happen when $k$ is a closer substitute for $j$ than for $i$. This equation indicates that the ratio $\pi_i(S)/\pi_j(S)=\frac{v_i}{v_j}$, which is \tbf{independent} of the set $S$. IIA results in the
+    \rt{red bus, blue bus paradox}: \pi_{rbus}(\{rbus,bbus\})=\frac{1}{2}, but \pi_{rbus}(\{rbus,bbus1,bbus2\})=\frac{1}{3}.
+}
+\sep{Random Utility Models (RUM)}
+Consumers observe $v_i=u_i+\epsilon_i$ and choose product $i$ with the highest $v_i$. The distribution of $\epsilon_i$ can lead to different choice models.
+\tab{
+    \item i.i.d. Gaussians lead to the Probit model;
+    \item i.i.d. Gumbels lead to the Multi-nomial model (MNL), which can be generated to avoid IIA.
+}
+\sep{Multi-Nomial Model (MNL)}
+The CDF of Gumbel distribution is given by:
+\eq{
+    F(x:\nu,\phi)=\exp(-\exp(-\phi^2(x-\nu))),
+}
+where $\nu$ and $\phi$ are location and scale parameters respectively. The variance is $\frac{\pi^2}{6\phi^2}$ ad the mean is $\nu+\frac{\gamma}{\phi}$ ($\gamma$ is the
+Euler constant).\\
+There is also a mixture of choice models: mixed-MNL aka latent class MNL (LC-MNL) assumes that the decision-maker belongs to an unobserved market
+segment $i\in M$ w.p. $\theta_i>0,\sum_{i\in M}\theta_i=1$. The probability of selecting $j$ from $S$ is given by:
+\eq{
+    \pi_j(S) = \sum_{i\in M}\theta_i \pi_{j}(S;i)
+}
+\thm{McFadden}{
+If $\epsilon_i$ are i.i.d. Gumbels, by choosing $i$ with the highest $u_i$, we can get：
+\eq{
+\pi_j(S)=\frac{e^{\phi u_j}}{1+\sum_{k\in S}e^{\phi u_k}}\quad\forall j\in S,
+}
+MNL is a kind of BAM. All RUM can be approximated well by an LC-MNL.
+}
+\sep{Nested Logit Model}
+In the nested model, there are two stages: first the consumers select either one of the nests or decide to leave; then they decide which product to choose from the selected nest.
+We use $M:=\{1,\ldots,m\}$ to denote the set of nests. For product $j$ in nest $S_i$, the probability of choosing $i$ is given by:
+\eq{
+q_{j|i}(S_i):=\frac{v_{ij}}{V_i(S_i)} = \frac{v_{ij}}{\sum_{j\in S_i}v_{ij}}
+}
+We use $\gamma_i$ to denote how easily the products in nest $i$ substitute for each other, so we can get:
+\meq{
+    Q_i(S_1,\ldots,S_m):=\frac{V_i(S_i)^{\gamma_i}}{v_0+\sum_{l\in M}V_l(S_l)^{\gamma_l}}\\
+    Q_i(S_1,\ldots,S_m)q_{j|i}(S_i)=\frac{V_i(S_i)^{\gamma_i}}{v_0+\sum_{l\in M}V_l(S_l)^{\gamma_l}}\frac{v_{ij}}{V_i(S_i)}
+}
+\re{
+    \tab{
+        \item When $\gamma_i=1$ for all $i$, the Nested Lgoit model reduces to an MNL;
+        \item The nested choice model doesn't suffer from IIA;
+        \item But it's difficult to decide the order of nesting.
+    }
+}
+\sep{Markov Chain Choice Model}
+In the preference list (permutation) model, each decision maker has a strict preference list $\sigma$, which has a distribution $\cQ$. The choice probability is given by:
+\eq{
+    \lambda_i := \pi_i(N) = \sum_{sigma} \cQ(\sigma(1) = i)
+}
+If $i$ is not available, consumers would substitute $j$ w.p. $\rho_{ij}=\sum_\sigma \cQ(\sigma(2)=j | \sigma(1)=i)$. In an example with $n=2$ and
+$\lambda = (\lambda_0, \lambda_1, \lambda_2)$, the transition matrix is given by:
+\eq{
+    \rho=\begin{pmatrix}
+        1         & 0         & 0         \\
+        \rho_{10} & 0         & \rho_{12} \\
+        \rho_{20} & \rho_{21} & 0
+    \end{pmatrix}
+}
+We denote $\phi_j(S)$ the probability that a consumer considers product $j$ but $j\notin S$, we have:
+\meq{
+    \pi_j\left(S\right)=\lambda_j+\sum_{i\in\bar{S}}\phi_i\left(S\right)\rho_{ij}\quad\forall j\in S\\
+    \phi_j(S)=\lambda_j+\sum_{i\in\bar{S}}\phi_i(S)\rho_{ij}\quad\forall j\in\bar{S}.
+}
 
 \clearpage
 \section{Dynamic Pricing}
