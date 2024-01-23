@@ -2035,22 +2035,33 @@ $D_i^\infty$ is the set of strategies that survive iterated strict dominance.
     }
 }
 \fig{Examples of no fixed point}{Examples of no fixed point}{0.5}
-\ex{A game with no NE but has correlated equilibria}{
-    Consider the game with 3 players:
-    \begin{table}
+\ex{A game with no NE but has correlated equilibria, consider the game with 3 players: 
+    \begin{table}[H]
         \centering
-        \begin{tabular}{|c|c|c|c|}
+        \begin{tabular}{|c|c|c|}
             \hline
-            & Player & Action Space & Action Notation & Payoff Functions \\
+            Player & Action Space & Action Notation \\
             \hline
-            & 1 & $[0,1]\times\mathbb{N}$ & $(x,m)$ & $-2\cdot\tbf{1}(x=x^\prime) + 2\cdot\tbf{1}(y=x\ne x^\prime) + \tbf{1}(y\ne x\ne x^\prime)\cdot [\tbf{1}(m>n)+\tbf{1}(m<n)]$  \\
+            1 & $[0,1]\times\mathbb{N}$ & $(x,m)$  \\
             \hline
-            & 2 & $[0,1]\times\mathbb{N}$ & $(y,n)$ &  $-2\cdot\tbf{1}(x=x^\prime) + 2\cdot\tbf{1}(y=x\ne x^\prime) + \tbf{1}(y\ne x\ne x^\prime)\cdot [\tbf{1}(n>m)+\tbf{1}(n<m)]$  \\
+            2 & $[0,1]\times\mathbb{N}$ & $(y,n)$  \\
             \hline
-            & 3 & $[0,1]$ & $x^\prime$ & $\tbf{1}(x=x^\prime)$  \\
+            3 & $[0,1]$ & $x^\prime$   \\
             \hline
         \end{tabular}
     \end{table}
+    The payoff function for each player is given as:
+    \lis{
+        \item $-2\cdot\tbf{1}(x=x^\prime) + 2\cdot\tbf{1}(y=x\ne x^\prime) + \tbf{1}(y\ne x\ne x^\prime)\cdot [\tbf{1}(m>n)+\tbf{1}(m<n)]$;
+        \item $-2\cdot\tbf{1}(x=x^\prime) + 2\cdot\tbf{1}(y=x\ne x^\prime) + \tbf{1}(y\ne x\ne x^\prime)\cdot [\tbf{1}(n>m)+\tbf{1}(n<m)]$;
+        \item $\tbf{1}(x=x^\prime)$ 
+    }
+    }{
+        The game has no NE: To avoid the circumstance of $\tbf{1}(x=x^\prime)=1$, player 1 has to decide $x$ stochasticity on $[0,1]$, 
+        thus $\tbf{1}(y\ne x\ne x^\prime)=1$ almost surely. This would lead the game to a zero-sum game between player 1 and palyer 2, where 
+        $A_i$ is not compact for each player (can not apply the Minimax Theorem). This dual-player game has no NE.\\
+        But this game has correlated equilibriums, under which players 1 and 2 make decisions $x$ and $y$ based on a joint distribution $\{(x,y)\| x=y\}$ (only with mass point on the diagonal $x=y$). 
+        From player 3's perspective, the marginal distribution of player 1 is still stochastic. This can make $\tbf{1}(y=x\ne x^\prime)=1$ almost surely, and this is a set of correlated equilibriums.
 }
 \thm{Minimax Theorem}{
     Let $G=(\{1,2\},(A_i),(u_i))$ be a \tbf{zero-sum} game where $A_i$ is compact and $u_i$ is continuous. Then $a^*$ is NE iff:
@@ -2062,7 +2073,10 @@ $D_i^\infty$ is the set of strategies that survive iterated strict dominance.
         First, we prove the 'only if' part: assume that $a^*=(a_1^*,a_2^*)$ is a NE.\\ 
     }
 }
-\thm{Glicksberg}{}
+\thm{Glicksberg}{
+    \defi{Continuous games}{}
+    The 
+}
 \defi{Trembling Hand Perfect Equilibrium}{}
 
 \clearpage
