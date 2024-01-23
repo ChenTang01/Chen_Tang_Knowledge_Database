@@ -1942,11 +1942,11 @@ The contents of this section referenced \cite{fudenberg1991game}.
         \item A payoff function for each player: $u_i:A\to\mathbb{R}(A=\prod_{i\in N}A_i)$.
     }
 }
-\thm{von Neumann-Morgenstern’s Utility Theorem \cite{von2007theory}}{
+\thm{von Neumann-Morgenstern’s Utility Theorem}{
     Let $C$ be a set of outcomes and $P$ be the set of distributions over outcomes, a utility function $U:P \to \RR$ has an
     expected utility form if there exists a function $u: C \to \RR$ s.t. $U(x)=\sum_{c\in C}x(c)u(c)$ for all $x\in P$. In this
     case, $U(\cdot)$ is called an expected utility function, and $u(\cdot)$ is called a \tbf{VNM utility function}.\\
-    The VNM is an axiomatic way to formalize the preference. A preference $\gtrsim$ has an expected utility representation \tbf{iff}:
+    The VNM (\cite{von2007theory}) is an axiomatic way to formalize the preference. A preference $\gtrsim$ has an expected utility representation \tbf{iff}:
     \tab{
         \item \tit{Completeness}: for any two lotteries (distributions) $x$ and $y$, at least one of $x\gtrsim y$ or $y\gtrsim x$ holds;
         \item \tit{Transitivity}: if $x\gtrsim y$ and $y\gtrsim z$, then $y\gtrsim z$;
@@ -1960,7 +1960,110 @@ The contents of this section referenced \cite{fudenberg1991game}.
 \defi{Best Response (BR)}{
     $a_i\in A_i\mathrm$ is a best response to $a_{-i}\in A_{-i}$ if $u_i(a_i,a_{-i})\geq u_i(a_i^{\prime},a_{-i})\mathrm{~}\forall a_i^{\prime}\in A_i.$
     The best response $BR_i(a_{-i})$ is not a function, but a \tbf{correspondence} (there may be multiple BRs).
+}
+\defi{Strict Dominance}{
+    $a_i\in A_i$ if \tbf{strictly dominated} if $a_i$ is strictly dominated by mixed strategy $\alpha_i \in \Delta(A_i)$:
+    \eq{
+        u_i(\alpha_i,a_{-i})>u_i(a_i,a_{-i})\mathrm{~}\forall a_{-i}\in A_{-i}
     }
+    $a^*\in A$ is a \tit{dominant strategy equilibrium} if $\forall i \in N$: $u_i(a_i^*,a_{-i})\geq u_i(a_i,a_{-i}), \forall a_i\in A_i,\forall a_{-i}\in A_{-i}$.
+}
+\ex{Vickery auction (second price auction)}{
+    In the second price auction, the dominant strategy equilibrium for each player is to pose the actual value of the bid.
+}
+Iterated elimination of strictly dominated strategies:
+\fig{Iterated elimination}{Pure Strategy}{0.5}
+\fig{Iterated elimination mixed}{Mixed Strategy}{0.6}
+$D_i^\infty$ is the set of strategies that survive iterated strict dominance.
+\defi{Rationalizability}{
+    First, we need to define the \tbf{belief}: a belief of player $i$ about the other players' actions is a 
+    probability measure over $S_{-i}$, denoting as $\Delta(S_{-i})$. We allow correlation in our belief: $\Delta(S)$ denotes a probability distribution over $S$.\\
+    For a game $G$, $a_i\in A$ is rationalizable if $\exists Z_j\subset A_j,j\in N\mathrm{~s.t.}$:
+    \lis{
+        \item $a_i\in Z_i$;
+        \item each $a_j\in Z_j$ is a BR to some belief $\mu_j\in\Delta(Z_{-j})$.
+    }
+    Another definition of rationalizability is given: p. A strategy is said to be rationalizable 
+    if and only if it survives the iterated elimination of never best response.
+}
+\defi{Never Best Responses (NBR)}{
+    A pure strategy $s_i$ is a never-best response if for all beliefs $\sigma_{-i}$ there exists $\sigma_i \in \sum_i$ s.t.:
+    \eq{
+        u_i(\sigma_i,\sigma_{-i})>u_i(s_i,\sigma_{-i})
+    }
+    \re{
+        \tab{
+            \item A strictly dominated strategy is a never-best response;
+            \item The reverse does not hold (hold in correlated beliefs).
+        }
+    }
+}
+\defi{Correlated Equilibrium}{
+    A correlated equilibrium is a joint distribution $\pi in \Delta(S)$ such that $R$ is a R.V. distributed according to $\pi$:
+    \eq{
+        \sum_{s_{-i}\in S_{-i}}\operatorname{Prob}(R=s|R_i=s_i)\left[u_i(s_i,s_{-i})-u_i(t_i,s_{-i})\right]\geq0
+    }
+    for all $t_i\in S_i$.
+}
+\defi{Nash Equilibrium}{
+    $a^*=(a_1^*,...,a_n^*)\in A$ is an NE if $a_i^*\in B_i(a_{-i}^*)\mathrm{~}\forall i\in\mathbb{N}$. An NE can be either pure-strategy or mixed-strategy, 
+    every NE is also a correlated equilibrium. 
+    \re{
+        The relationship is given as:
+        \eq{
+            NE_i\subseteq R_i^\infty\subseteq D_i^\infty ，
+        }
+        where $NE_i$ is the Nash Equilibrium, $R_i^\infty$ is the set of rationalizable strategies, and $D_i^\infty$ is the set of 
+        strategies that survive iterated strict dominance.
+    }
+    Not all games have an NE (usually due to the dis-coutinuity in $u_i$.)
+}
+\thm{Existence of NE}{
+    Suppose $A_i$ is a nonempty compact convex subset in $\RR^k$ and $u_i$ is continuous and quasi-concave in $A_i$ given any 
+    $a_{-i}\in A_{-i}$, then there exists a NE.
+    \proo{}{
+        \lem{Kakutani Fixed Point}{
+            Let $f:A \rightrightarrows A$ be a correspondence, if:
+            \tab{
+                \item $A$ is a compact and convex set;
+                \item $f(x)$ is non-empty for all $x\in A$;
+                \item for all $x\in A$, $f(x)$ is a convex set;
+                \item $f(x)$ has a closed graph: if $\{x^n,y^n\}\to\{x,y\}$ with $y^n\in f(x^n)$, then $y\in f(x)$。
+            }
+            Then $f$ has a fixed point: $\exists x\in A$, s.t. $x\in f(x)$.
+        }
+    }
+}
+\fig{Examples of no fixed point}{Examples of no fixed point}{0.5}
+\ex{A game with no NE but has correlated equilibria}{
+    Consider the game with 3 players:
+    \begin{table}
+        \centering
+        \begin{tabular}{|c|c|c|c|}
+            \hline
+            & Player & Action Space & Action Notation & Payoff Functions \\
+            \hline
+            & 1 & $[0,1]\times\mathbb{N}$ & $(x,m)$ & $-2\cdot\tbf{1}(x=x^\prime) + 2\cdot\tbf{1}(y=x\ne x^\prime) + \tbf{1}(y\ne x\ne x^\prime)\cdot [\tbf{1}(m>n)+\tbf{1}(m<n)]$  \\
+            \hline
+            & 2 & $[0,1]\times\mathbb{N}$ & $(y,n)$ &  $-2\cdot\tbf{1}(x=x^\prime) + 2\cdot\tbf{1}(y=x\ne x^\prime) + \tbf{1}(y\ne x\ne x^\prime)\cdot [\tbf{1}(n>m)+\tbf{1}(n<m)]$  \\
+            \hline
+            & 3 & $[0,1]$ & $x^\prime$ & $\tbf{1}(x=x^\prime)$  \\
+            \hline
+        \end{tabular}
+    \end{table}
+}
+\thm{Minimax Theorem}{
+    Let $G=(\{1,2\},(A_i),(u_i))$ be a \tbf{zero-sum} game where $A_i$ is compact and $u_i$ is continuous. Then $a^*$ is NE iff:
+    \lis{
+        \item $a_i^*$ is a maxminimizer;
+        \item $u_i(a^*)=\max_{a_i}\min_{a_{-i}}u_i(a)=\min_{a_{-i}}\max_{a_i}u_i(a)$.
+    }
+    \proo{}{
+        First, we prove the 'only if' part: assume that $a^*=(a_1^*,a_2^*)$ is a NE.\\ 
+    }
+}
+\thm{Glicksberg}{}
+\defi{Trembling Hand Perfect Equilibrium}{}
 
 \clearpage
 \section{Development Economics}
