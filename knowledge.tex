@@ -2018,9 +2018,8 @@ $D_i^\infty$ is the set of strategies that survive iterated strict dominance.
     }
     Not all games have an NE (usually due to the dis-coutinuity in $u_i$.)
 }
-\thm{Existence of NE}{
-    Suppose $A_i$ is a nonempty compact convex subset in $\RR^k$ and $u_i$ is continuous and quasi-concave in $A_i$ given any 
-    $a_{-i}\in A_{-i}$, then there exists a NE.
+\thm{Existence of NE (Nash 1951)}{
+    Any game with a finite set of players and a finite set of strategies has an NE of mixed strategies (this theorem emphasizes on \tit{finite games}).
     \proo{}{
         \lem{Kakutani Fixed Point}{
             Let $f:A \rightrightarrows A$ be a correspondence, if:
@@ -2032,6 +2031,7 @@ $D_i^\infty$ is the set of strategies that survive iterated strict dominance.
             }
             Then $f$ has a fixed point: $\exists x\in A$, s.t. $x\in f(x)$.
         }
+        To be fulfilled.
     }
 }
 \fig{Examples of no fixed point}{Examples of no fixed point}{0.5}
@@ -2066,18 +2066,133 @@ $D_i^\infty$ is the set of strategies that survive iterated strict dominance.
 \thm{Minimax Theorem}{
     Let $G=(\{1,2\},(A_i),(u_i))$ be a \tbf{zero-sum} game where $A_i$ is compact and $u_i$ is continuous. Then $a^*$ is NE iff:
     \lis{
-        \item $a_i^*$ is a maxminimizer;
+        \item $a_i^*$ is a maxminimizer: $a_i^* = \arg\max_{a_i}\min_{a_{-i}}u_i(a_i, a_{-i})$;
         \item $u_i(a^*)=\max_{a_i}\min_{a_{-i}}u_i(a)=\min_{a_{-i}}\max_{a_i}u_i(a)$.
-    }
-    \proo{}{
-        First, we prove the 'only if' part: assume that $a^*=(a_1^*,a_2^*)$ is a NE.\\ 
     }
 }
 \thm{Glicksberg}{
-    \defi{Continuous games}{}
-    The 
+    \defi{Continuous games}{
+        A game $\langle\mathcal{I},(S_i),(u_i)\rangle $ where $\cI$ is a finite set, the $S_i$ are nonempty compact spaces, and $u_i$ are continuous functions 
+        is called a continuous game.
+    }
+    Any continuous game has a mixed strategy NE.
+    \proo{}{
+        \lis{
+            \item First we approximate the original game with a sequence of finite games;
+            \item Then show these finite games have equilibriums using Nash's theorem;
+            \item At last using the continuity and closed assumption to show these converge to the original game.
+        }
+    }
 }
-\defi{Trembling Hand Perfect Equilibrium}{}
+Nash Equilibrium sometimes can bring unreasonable behavior. In this game, both $(A,A)$ and $(B,B)$ are NEs, but $(A,A)$ is surely more reasonable.
+\fig{Nash Equilibrium unreasonable}{Example of unreasonable NE}{0.4}
+\defi{Trembling Hand Perfect Equilibrium}{
+    A strategy $\sigma$ is a trembling hand perfect equilibrium if there exists a sequence of \tbf{totally mixed} 
+    ($\sigma_i(s_i)>0$ for all $s_i\in S$) strategy $\sigma^n$ converging to $\sigma$, such that $\sigma_i\in BR_i(\sigma^n_{-i})$ for all $n, i$.\\
+    Using this definition, we can observe that $(B,B)$ is not a trembling hand perfect equilibrium, because it's not the best response for any totally mixed strategy.
+    \re{
+        \tab{
+            \item Every trembling hand perfect equilibrium is an NE;
+            \item For every \tit{finite game}, there exists a trembling hand perfect equilibrium.
+        }
+    }
+}
+\sep{Sequential Games}
+Consider a sequential game, denoting $h^{0}=\emptyset $ as the initial \tbf{history}, $a^k=(a_1^k,\cdots, a_n^k)$ as the actions at stage $k$, 
+and $h^{k+1}=(a^0,a^1,\ldots,a^k)$ as the hostory at stage $k+1$. Let $H=\cup_{k=0}^{K+1}H^k$ be the set of all possible histories. Under this definition, 
+the pure strategy in the sequential games is a plan for every possible history $h_k$: $S_i(H^k)=\bigcup_{h^k\in H^k}S_i(h^k)$.
+\defi{Information Set}{
+    The information set is a subset of the history, partitioning the nodes of the game tree. A player who is choosing an action at $x$ is uncertain 
+    if he is at $x$ or at $x^\prime \in h(x)$.
+    \re{
+        \tab{
+            \item When $x^{\prime}\in h(x)$, $A(x)=A(x^{\prime})$;
+            \item A game has \rt{perfect information} if all its information sets are singletons.
+        }
+    }
+}
+\defi{Sub-Game \& SPNE}{
+    A subgame $G^\prime$ of an extensive form game $G$ consists of a single node and all its successors in $G$, with the property that 
+    if $x^\prime \in V_{G^\prime}, x^{\prime\prime}\in h(x^{\prime})$, then $x^{\prime\prime}\in V_{G^{\prime}}$.\\
+    A \tbf{Subgame Perfect (Nash) Equilibrium} is a strategy $s^*$ that for any $G^\prime \in G$, $S^*|G^{\prime}$ is an NE for $G^\prime$. 
+    The SPNE can remove noncredible threats. Every finite extensive form game $G$ has an SPNE and every finite perfect information extensive form game 
+    has a pure strategy SPNE.
+    \re{
+        How to find SPNE:
+        \tab{
+            \item In finite-horizon games: backward induction;
+            \item For infinite-horizon games (with continuity at infinity): one-stage deviation principle.
+        }
+    }
+}
+\sep{Incomplete Information}
+First, we define \tbf{state}, each state $w\in \Omega$. States are exhaustive and mutually exclusive. Information function $P_i(w)$ is the set of states that $i$ thinks he may be in, 
+given that the true state is $w$ (analogous to 'information set').
+\ass{Information Function}{
+    \lis{
+        \item \tit{Reflexitivity or Non-Deludedness}: $\omega \in P_i(\omega)$;
+        \item Consistency: $\forall\omega,\omega^{\prime}\in\Omega,\omega^{\prime}\in P_i(\omega)\Rightarrow P_i(\omega^{\prime})=P_i(\omega)$.
+    }
+}
+\defi{Knowledge Operator}{
+    We say that $i$ knows event $A\subset\Omega$ at $\omega$ if $P_i(\omega)\subset A$. Thus the event that $i$ knows A is:
+    \eq{
+        K_i(A):=\{\omega\in\Omega:P_i(\omega)\subset A\}
+    }
+    \ex{
+        Consider the game between $A$ and $B$, $A$ may feel good or sick, $B$ can see whether has received a message of `$A$ is sick'. $\Omega=\{a,b,c\}$:
+        \lis{
+            \item a: $A$ is good;
+            \item b: $A$ is sick, $B$ receive the message;
+            \item c: $A$ is sick, $B$ receive no message;
+        } 
+        We can conclude that $P_A=\{\{a\},\{b,c\}\},P_B=\{\{a,b\},\{c\}\}$.
+    }{
+        \tab{
+            \item $B$ know that $A$ is sick: $K_B(\{b,c\})=\{\omega:P_B(\omega)\subset\{b,c\}\}=\{c\}$;
+            \item $A$ doesn't know that $B$ know $A$ is sick: $K_A(K_B(\{b,c\}))=\{\omega:P_A(\omega)\subset\{c\}\}=\varnothing $.
+        }
+    }
+    Properties of the knowledge operator:
+    \lis{
+        \item $K_i(\Omega)=\Omega $;
+        \item $E\subset F\Rightarrow K_i(E)\subset K_i(F)$;
+        \item $K_i(A)\cap K_i(B)=K_i(A\cap B)$;
+        \item $K_i(A)\subset A$;
+        \item $K_i(A) = K_i(K_i(A))$；
+        \item $\Omega\setminus K_i(A)= K_i(\Omega\setminus K_i(A))$。
+    }
+    \re{
+        An event $A\subset\Omega $ is \tbf{self-evident} if $P_i(\omega) \subset A$ for any $\omega \in A, i$. An event $E\subset\Omega$ is 
+        \tbf{common knowledge} at state $\omega$ if exists a self-evident $A$ s.t. $w\in A\subset E$ for all players (or $P_i(\omega)\subset E$ for all $i$).
+    }
+}
+In games with incomplete information, one agent is unsure about the payoffs of others. One solution is to suppose that players have \tbf{common} prior on the distribution 
+of possible games, this can create common knowledge by making the original game into a `bigger' one (incomplete information to imperfect information).
+\defi{Bayesian Games}{
+    Compared to normal games, the Bayesian games have two more elements:
+    \lis{
+        \item A set of types for each player $i$: $\theta_i\in\Theta_i$, different type can bring different payoff functions;
+        \item A (joint) distribution $p(\theta_1,\ldots,\theta_1)$ over the types.
+    }
+    Under this definition, a strategy for player $i$ is a map $s_i:\Theta_i\to S_i$.\\
+    \emocool Why it's called \tit{Bayesian game}? Given $p(\theta_1,\ldots,\theta_n)$, each player can calculate $p(\theta_{-i}\mid\theta_i)$ using Bayes rule. Thus, 
+    the expected utility for player $i$ is given as:
+    \eq{
+        U(s_i^{\prime},s_{-i},\theta_i)=\sum_{\theta_{-i}}p(\theta_{-i}\mid\theta_i)u_i(s_i^{\prime},s_{-i}(\theta_{-i});\theta_i,\theta_{-i})
+    }
+}
+\thm{Bayesian Nash Equilibrium (BNE)}{
+    A strategy profile $s(\cdot)$ is a BNE if for all $i,\theta_i$, we have that:
+    \eq{
+        s_i(\theta_i)\in\arg\max_{s_i^{\prime}\in\mathcal{S}_i}\sum_{\theta_{-i}}p(\theta_{-i}\mid\theta_i)u_i(s_i^{\prime},s_{-i}(\theta_{-i});\theta_i,\theta_{-i}),
+    }
+    or in the infinite-type case:
+    \eq{
+        s_i(\theta_i)\in\arg\max_{s_i^{\prime}\in S_i}\int u_i(s_i^{\prime},s_{-i}(\theta_{-i}),\theta_i,\theta_{-i})P(d\theta_{-i}\mid\theta_i).
+    }
+    \emotree For any finite Bayesian game, there exists a mixed-strategy BNE.
+}
 
 \clearpage
 \section{Development Economics}
