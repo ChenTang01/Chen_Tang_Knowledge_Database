@@ -1934,6 +1934,7 @@ which reduces the original variance.
 \section{Game Theory and Mechanism Design}
 
 The contents of this section referenced \cite{fudenberg1991game}.
+\subsubsection{Dynamic \& Static, Complete \& Incomplete Information}
 \defi{Game}{
     A strategic (normal form) game $G=(N,(A_i)_{i\in N},(u_i)_{i\in N})$ consists of:
     \tab{
@@ -2167,6 +2168,26 @@ given that the true state is $w$ (analogous to 'information set').
         \tbf{common knowledge} at state $\omega$ if exists a self-evident $A$ s.t. $w\in A\subset E$ for all players (or $P_i(\omega)\subset E$ for all $i$).
     }
 }
+\ex{
+    Three individuals are all wearing green hats. They can see see color of each other's but not their own. They can press the button when they know the color of their hats, one outsider 
+    points out that there is at least one green hat. They press the buttons simultaneously in the third round. 
+    First, we define all the states $\omega$:
+    \tab{
+        \item $a: g,g,g \quad b: r,g,g \quad c:g,r,g \quad d:g,g,r$;
+        \item $e: g,r,r \quad f: r,g,r \quad g: r,r,g \quad h: r,r,r$.
+    }
+    The information set for each player is given as: 
+    \lis{
+        \item $P_1=\{(a,b),(c,g),(d,f),(e,h)\}$;
+        \item $P_2=\{(a,c), (b,g), (d,e), (f,h)\}$;
+        \item $P_3=\{(a,d),(b,f),(c,e),(g,h)\}$.
+    }
+}{
+    In the 1st round, player $1$ knows he's in the information set $(a,b)$. If $b$ is the realization, then 
+    \tab{
+        \item player $2$ is in the information set $(b,g)$ 
+    }
+}
 In games with incomplete information, one agent is unsure about the payoffs of others. One solution is to suppose that players have \tbf{common} prior on the distribution 
 of possible games, this can create common knowledge by making the original game into a `bigger' one (incomplete information to imperfect information).
 \defi{Bayesian Games}{
@@ -2193,6 +2214,30 @@ of possible games, this can create common knowledge by making the original game 
     }
     \emotree For any finite Bayesian game, there exists a mixed-strategy BNE.
 }
+\subsubsection{Dynamic Games of Incomplete Information}
+In this game, there is an analog of BNE, called perfect Bayesian equilibrium (PBE), which strengthens subgame perfection by:
+\lis{
+    \item A complete strategy (a mapping from information set to strategies);
+    \item Beliefs for each player $(P_i(\nu|h)$ (a conditional distribution over everything player $i$ \tbf{does not know}, given everything that player $i$ \tbf{does know}).
+}
+In a dynamic game of complete and perfect information, PBE is equivalent to SPNE because all information sets are singletons, so beliefs are trivial. 
+\ex{
+    Ante Game: there are two players. Player $i$ can observe $t_i\sim uniform(0,1)$ independently. Player $1$ can `showdown'(both players show $t_i$, the higher $i$ win), or he can `raise': 
+    under this case, player $2$ can `fold' (lose the game) or `match' (force a  showdown).\\
+    In this game, the information sets for player $1$ is given as $(t_1)$, and $(t_2,a_1)$ for player $2$. The beliefs for player $1$ is $p_1(t_2\|t_1)=t_2$ and $p_2(t_1\|t_2,a_1)=p_2(t_1\|a_1)$ for player $2$.
+}{
+    Find the PBE for the game.
+}
+\sep{The signaling game}
+Player $1$ has some private information $t_1$ and first move $A_1$, player $2$ sees $A_1$ and make move $A_2$. In this case, when player $2$ moves first, it's called a \tbf{screening game}. 
+An example is the job market game (\cite{Spence1973}): player $1$ is the worker, who has the intrinsic ability $t_1$ and education decision $a_1$. Player $2$ is the firm that can decide the wage offered $a_2$.
+\fig{The stylised signaling game}{The stylised signaling game}{0.5}
+Consider a stylised signaling game: a seller has an item with quality of either $H$ (with probability $p$) or $L$ (probability $1-p$), and the seller can advertise either $H$ or $L$. In this case, the game only has a 
+\tbf{pooling} equilibrium (the player $2$'s belief is independent of the seller's action). But suppose there is a cost $c$ ($H-c<L$) when the seller lies, this game has an \tbf{separating} equilibrium: the seller 
+always tells the truth and the player $2$ always believes the advertisement.
+
+\subsection{Auction Games}
+Add some content on the first-price and second-price auction.
 
 \clearpage
 \section{Development Economics}
@@ -3725,6 +3770,22 @@ BAM has a great property: for any $S\subseteq T$, we have $\pi_S(T):=\sum_{j\in 
         $S$ at a later time.
     }
 }
+Now consider the assortment optimization for BAM, the expected revenue when offering $S\subseteq N$ is:
+\eq{
+    R(S)=\sum_{j\in S}p_j\pi_j(S)=\frac{\sum_{j\in S}p_jv_j}{v_0+V(S)}.
+}
+This equation neglects the cost, one can replace $p_j$ by $r_j=p_j-z_j$. The goal is to find the $S^*$:
+\eq{
+    \mathcal{R}^*=\max_{S\subseteq N}\left.R(S)\right.=\max_{S\subseteq N}\left\{\frac{\sum_{j\in S}p_j\mathrm{~}v_j}{v_0+V(S)}\right\}.
+}
+Assume that the products are indexed such that $p_1\geq p_2\geq\ldots\geq p_n$, denote the class of nested-by-revenue assortments is $\{E_0,E_1,\ldots,E_n\}$, where 
+$E_0=\emptyset$ and $E_j:=\{1,\ldots,j\}$.
+\thm{Optimal Assortment for BAM}{
+    An optimal assortment for BAM is in the class of nested-by revenue assortments $\{E_0,E_1,\ldots,E_n\}$.\\
+    The proof is straightforward： since $R(S)\le \cR^*$, consequently $\sum_{i\in S}r_i v_i \le \cR^*(1+V(S))$, equivalently $\sum_{i\in S}(r_i-\cR^*)v_i\le\cR^*$, 
+    which implies that $S^*=\{i\in N:r_i\ge\cR^*\}$.\\
+    \emocool This theorem can reduce the number of assortments to search from $2^n$ to $\log n$, without estimating the value of $v_i$.
+}
 \sep{Generalized Attraction Model (GAM)}
 In addition to the attraction value $v_j$, there are \tbf{shadow attraction values} $w_j\in[0,v_j]$, and the selection behaviour is given by:
 \eq{
@@ -3738,6 +3799,8 @@ where $\bar{S}=N \setminus S$ and $W(\bar{S}):=\sum_{j\in \bar{S}}w_j$.
         \item In p-GAM, if $\theta=1$, we can get the \tit{independent demand model} (IDM), under which $\pi_j(S)$ is independent of $j$.
     }
 }
+The GAM has a similar optimal assortment structure to the BAM: denote $\tilde{r}_i:=r_i v_i / (v_i-w_i)$, then $S^*=\{i\in N:\tilde{r}_i \ge \cR^*\}$. 
+However, to reduce the search number to $log n$, the estimation for $v_i,w_i$ is needed.
 \pro{Independence of Irrelevant Alternatives (IIA)}{
     \tbf{IIA} is a shortcoming for BAM and GAM, under which the following equation holds:
     \eq{
@@ -3746,7 +3809,56 @@ where $\bar{S}=N \setminus S$ and $W(\bar{S}):=\sum_{j\in \bar{S}}w_j$.
     This shouldn't happen when $k$ is a closer substitute for $j$ than for $i$. This equation indicates that the ratio $\pi_i(S)/\pi_j(S)=\frac{v_i}{v_j}$, which is \tbf{independent} of the set $S$. IIA results in the
     \rt{red bus, blue bus paradox}: $\pi_{rbus}(\{rbus,bbus\})=\frac{1}{2}$, but $\pi_{rbus}(\{rbus,bbus1,bbus2\})=\frac{1}{3}$.
 }
-\sep{Random Utility Models (RUM)}
+\subsubsection{Assortment for BAM/GAM with TUM constraints}
+In practice, the assortment optimization is usually a constrained optimization:
+\eq{
+    \begin{aligned}
+        \mathcal{R}^*&=\max\quad\frac{\sum_{j\in N}p_j\upsilon_jx_j}{v_0+\sum_{j\in N}\upsilon_jx_j}\\
+        \mathrm{s.t.}\quad&\sum_{j\in N}a_{ij}x_j\leq b_i\quad\forall i\in L\\
+        &x_j\in\{0,1\}\quad\quad\forall j\in N,
+    \end{aligned}
+}
+The above problem is hard because of the fractional objective function and binary constraint. However, if the matrix $a$ is TU (totally unimodular), It can be 
+transformed into linear programming.
+\re{
+    A unimodular matrix $M$ is a square integer matrix with determinant $1$ or $-1$. It is an integer matrix that is invertible over another integer matrix. A matrix is totally unimodular 
+    if every square non-singular submatrix is unimodular. For every equation $Mx=b$, where $M,b$ are integers, and $M$ is totally unimodular, the solutions are all integers.\\
+}
+\eq{
+    \begin{gathered}
+        \max\sum_{j\in N}r_jx_j \\
+       \sum_{j\in N}x_j+x_0=1, \\
+       \begin{aligned}0\leq\frac{x_j}{v_j}\leq x_0\forall j\in N\end{aligned} \\
+       \sum_{j\in N}a_{ij}\frac{x_j}{v_j}\leq b_ix_0\forall i\in M. 
+    \end{gathered}
+}
+The $x_j$ can be interpreted as the probability of selecting product $j$. The optimal structure for this optimization problem is to select $\{x_j:x_j>0\}$.
+\subsubsection{Random Consideration Set Model}
+This choice model assumes that all consumers have the same preference for ordering, each item in the assortment is \tbf{independently} considered with `attention' probability $w_i$. 
+So the probability of purchasing $i$ form $S$ is given by:
+\eq{
+    \pi_i(S)=\lambda_i\prod_{j\succ i,j\in S}(1-\lambda_j)\quad\forall i\in S
+}
+\ex{Consider an assortment with $S=\{1,2\}$ with $1\prec2$. The consideration set for $\{1\}$ is $w_1(1-w_2)$, $\{\emptyset\}$ is $(1-w_1)(1-w_2)$.}{
+    The selection probability for product $2$ is $w_2$, $w_1(1-w_2)$ for product $1$, $(1-w_1)(1-w_2)$ for selecting nothing.
+}
+\lem{}{
+    Let $S\subseteq N$, and let $k\in N$ be such that $i\prec k$ for all $i\in S$, then:
+    \eq{
+        R(S\cup\{k\})=(1-\lambda_k)R(S)+\lambda_k r_k
+    }
+    and consequently $R(S\cup\{k\})>R(S)$ iff $r_k>R(S)$. (The proof is obvious).
+}
+To optimize the assortment for the RCS, denote $E_0=\emptyset$ and $E_j=\{1,\ldots,j\}$ (consecutive sets in the full ranking). 
+Set $H(E_0):=0$, $H(E_j)$ is given by:
+\eq{
+    H(E_j):=H(E_{j-1})+\lambda_j(p_j-H(E_{j-1}))^+.
+}
+Let $\tilde{E}_j:=\{i\in E_j:p_i>H(E_{i-1})\},\quad j\in N$. Hence $\mathbf{S}^{*}=\tilde{E}_{n}$ is an optimal assortment:
+\eq{
+    H(E_j)=R(\tilde{E}_j)\geq R(S)~\forall S\subseteq E_j,~j\in N,
+}
+\subsubsection{Random Utility Models (RUM)}
 Consumers observe $v_i=u_i+\epsilon_i$ and choose product $i$ with the highest $v_i$. The distribution of $\epsilon_i$ can lead to different choice models.
 \tab{
     \item i.i.d. Gaussians lead to the Probit model;
@@ -3771,7 +3883,7 @@ If $\epsilon_i$ are i.i.d. Gumbels, by choosing $i$ with the highest $u_i$, we c
 }
 MNL is a kind of BAM. All RUM can be approximated well by an LC-MNL.
 }
-\sep{Nested Logit Model}
+\subsubsection{Nested Logit Model}
 In the nested model, there are two stages: first the consumers select either one of the nests or decide to leave; then they decide which product to choose from the selected nest.
 We use $M:=\{1,\ldots,m\}$ to denote the set of nests. For product $j$ in nest $S_i$, the probability of choosing $i$ is given by:
 \eq{
@@ -3789,10 +3901,40 @@ We use $\gamma_i$ to denote how easily the products in nest $i$ substitute for e
         \item But it's difficult to decide the order of nesting.
     }
 }
-\sep{Markov Chain Choice Model}
+The assortment optimization for the nested logit model is to find the sets of products $(S_1,\ldots,S_m)$ to maximize:
+\eq{
+    R(S_1,\ldots,S_m):=\sum_{i\in M}R_i(S_i)Q_i(S_1,\ldots,S_m)=\frac{\sum_{i\in M}R_i(S_i)V_i(S_i)^{\gamma_i}}{v_0+\sum_{i\in M}V_i(S_i)^{\gamma_i}}.
+}
+We can define the optimal solution as:
+\eq{
+    \begin{aligned}
+        \mathcal{R}^*&=\max_{\begin{array}{c}(S_1,\ldots,S_m)\\
+        S_i\subseteq N\mathrm{~}\forall i\in M\end{array}}R(S_1,\ldots,S_m).
+    \end{aligned}
+}
+This is a binary fractional program if we identify each subset $S_i$ with an incidence vector $x_i=(x_{i+1},\ldots,x_{in})\in\{0,1\}^n$. 
+Let $V_i(x_i):=\sum_{j\in N}v_{ij}x_{ij}$, $f_i(x_i):=R_i(x_i)V_i(x_i)^{\gamma_i}$ and $g_i(x_i)&:=&V_i(x_i)^{\gamma_i}$. 
+Then we have:
+\eq{
+    \cR^* \ge \sum_{i\in M}f_i(x_i)/(v_0+\sum_{i\in M}g_i(x_i)),
+}
+which can be rewritten as:
+\eq{
+    \sum_{i\in M}f_i(x_i)-\mathcal{R}^*\sum_{i\in M}g_i(x_i)\leq\mathcal{R}^*v_0,\forall x_i\in\{0,1\}^n,i\in M.
+} 
+The inequality is tight at the optimal solution, we can transform it into a linear program:
+\eq{
+    \begin{aligned}
+        \mathcal{R}^*&=\min z\\
+        &\mathrm{s.t.}\quad\sum_{i\in M}v_i\leq v_0z\\
+        &f_i(x_i)-zg_i(x_i)\leq y_i\quad\forall x_i\in\{0,1\}^n,\quad i\in M,
+    \end{aligned}
+}
+where $z$ and $y_i$ are decision variables ($m+1$). 
+\subsubsection{Markov Chain Choice Model}
 In the preference list (permutation) model, each decision maker has a strict preference list $\sigma$, which has a distribution $\cQ$. The choice probability is given by:
 \eq{
-    \lambda_i := \pi_i(N) = \sum_{sigma} \cQ(\sigma(1) = i)
+    \lambda_i := \pi_i(N) = \sum_{\sigma} \cQ(\sigma(1) = i)
 }
 If $i$ is not available, consumers would substitute $j$ w.p. $\rho_{ij}=\sum_\sigma \cQ(\sigma(2)=j | \sigma(1)=i)$. In an example with $n=2$ and
 $\lambda = (\lambda_0, \lambda_1, \lambda_2)$, the transition matrix is given by:
@@ -3808,7 +3950,20 @@ We denote $\phi_j(S)$ the probability that a consumer considers product $j$ but 
     \pi_j\left(S\right)=\lambda_j+\sum_{i\in\bar{S}}\phi_i\left(S\right)\rho_{ij}\quad\forall j\in S\\
     \phi_j(S)=\lambda_j+\sum_{i\in\bar{S}}\phi_i(S)\rho_{ij}\quad\forall j\in\bar{S}.
 }
-\cite{NiPhone021} consider the competitive and cooperative assortment games under the Markov Chain Choice Model. They assume There are $\mathcal{M}=\{1,\ldots,m\}$ retailers, each manages a
+There is an efficient way to solve the assortment optimization problem under the MC choice model. Let $g_i$ be the optimal expected revenue that can be obtained from a consumer that is currently considering product $i$:
+\eq{
+    g_i=\max\left\{p_i,\sum_{i\in N}\rho_{ij}g_j\right\}\quad\forall i\in N.
+}
+If $i\in S$, we have $g_i=p_i$. One way to find the value of $g_i$ is through value iteration, or we can solve it by LP:
+\eq{
+    \begin{aligned}
+        \mathcal{R}^*&=\min \sum_{i\in N}\lambda_i g_i\\
+        \mathrm{s.t.}&\quad g_i \ge p_i \quad\forall i\in N\\
+        &g_i \ge \sum_{i\in N}\rho_{ij}g_j \quad\forall i\in N
+    \end{aligned}
+}
+Mention that under the optimal $g^*$, the expected revenue is given by $\sum_i g_i^* \lambda_i$.
+\cite{NiP2021} consider the competitive and cooperative assortment games under the Markov Chain Choice Model. They assume There are $\mathcal{M}=\{1,\ldots,m\}$ retailers, each manages a
 collection of $\cN_k$ products. We call product $j$ an \tit{exclusive} product to $k$ if $j\in\mathcal{N}_{k}\backslash\mathcal{N}_{-k}$, \tit{common} otherwise. In the game, each retailer needs to dicide
 the assortment $S_k \subseteq \cN_k$, and the prices $r_j^k$ are assumed to be fixed. We assume the consumers follow the Markov Chain Choice Model to select the products: with probability $\lambda_j>0$ and $\sum_{j=1}^n \lambda_=1$, a customer
 arrives for product $j$, he would choose $j$ from seller $k$ following the distribution $\beta_j^k(S_1,\ldots,S_m)$:
@@ -3926,7 +4081,8 @@ Where $X$ is the set of allowable prices.
 }
 Transforming the revenue function as a function only to $z$ is useful. Because by \tbf{Jensen's Inequality}, $\mathbb{E}[\mathcal{R}(\mathbb{Z})]\geq\mathcal{R}(\mathbb{E}[\mathbb{Z}])$.
 Their differences can be interpreted as the difference between a dynamic pricing policy $p(Z)$ that responds to changes in $Z$ and a static policy $\mathcal{R}(\mathbb{E}[\mathbb{Z}])$,
-the larger the variance of $Z$, the larger the gap between them.
+the larger the variance of $Z$, the larger the gap between them. This implies that an interesting phenomenon, in the revenue management domain, considering dynamic pricing, the firms can prefer 
+stochastic production cost over static cost.
 \sep{Perspective from the Consumers}
 To answer whether consumers are better off with pricing policy $p(Z)$ or $p(\bE(Z))$,
 we can frame this using the \tbf{utility theory} (\cite{chen2019welfare}).
