@@ -3333,6 +3333,74 @@ causal inference and counterfactual perspective.
 traditional ones like forecasting and inventory planning, to new technologies, like radio frequency
 identification (RFID) and e-commerce.
 
+\subsection{Quantitative Marketing}
+
+\subsubsection{Promotion Decompostion}
+\cite{Leeflang2002} reviewed the development process of the SCAN*PRO (scanner and promotion) model, which was proposed by \cite{wittink1988scan}. The original version is given by:
+\eq{\label{eq:scanpro}
+    \begin{aligned}
+        q_{kji}&=\left[\prod_{r=1}^{n}\left[\frac{p_{krt}}{\overline{p}_{kr}}\right]^{\beta rj}\prod_{l=1}^{3}\gamma_{lnj}^{D_{lkn}}\right]\left[\prod_{t=1}^{T}\delta_{ji}^{X_{t}}\right]\left[\prod_{k=1}^{K}\lambda_{kj}^{Z_{k}}\right]e^{u_{kjt}}\\
+        k&=1,\ldots,K,~t=1,\ldots,T
+    \end{aligned}
+}
+Where: $q_{kjt}$ is unit sales in store $k$ for brand $j$ at week $t$, $p_{krt}$ is the unit price in store $k$ for brand $j$ at week $t$, \bar{p}_{kr} is the median price at store $k$ 
+for brand $r$ in non-promoted weeks, and $D_{lkrt}$ is the dummy variable indicating whether promotion activity $l$ is launched in store $k$ for brand $r$ at time $t$. 
+The terms $X_t$ and $Z_k$ can be interpreted as time and location fixed effects, and $u_{kjt}$ is the error term. The above equation looks complicated, but if we use $\log$ to transform it, we can get；
+\eq{
+    \log q_{kjt} = \sum_{i=1}^n(\log p_{krt}-\log \bar{p_{kr}})\cdot \beta_{rj}\cdot \sum_{l=1}^3\log \gamma_{lkj}D_{lkrt}+Fixed\_Effects + u_{kjt}
+}
+The $\beta_{rj}$ is the price discount elasticities (own-brand for $r=j$, cross-brand if $r\ne j$), the $\gamma_{jt}$ is the promotion multiplier. This model allows all brands 
+to have unique own- and cross-brand effects for the marketing variables.\\
+Equation \ref{eq:scanpro} does not account for dynamic promotion effects, which occurs if promotions influence future demand. The \tbf{process function} of the own-brand discount elasticity can capture these effects:
+\eq{
+    \beta_{kjt}^{\prime}=\beta_{0j}^{\prime}+\beta_{1j}^{\prime}Dsum_{kjt}+\beta_{2j}^{\prime}CDsum_{kjt}+\beta_{3j}^{\prime}d_{\eta}\left(\frac{1}{PTime_{kjt}}\right)+\beta_{4j}^{\prime}d_{\eta}\left(\frac{1}{CPTime_{kjt}}\right)+u_{kjt}^{\prime},
+}
+where 
+\tab{
+    \item $Dsum_{kjt}$ is $\sum_{s=1}^{\omega}\eta^{s-1}\times(discount_{kj,t-s})$ in store $k$ for brand $j$ at week $t$, $\eta$ is the decline rate;
+    \item $CDsum_{kjt}$ is $\sum_{\begin{array}{c}r=1\\r\neq j\end{array}}^n\sum_{s=1}^\omega\eta^{s-1}\times(discount_{kr,t-s})$;
+    \item $d_\eta$ is a dummy variable equal to 1 if $\eta=1$ and 0 if $0<\eta<1$;
+    \item $PTime_{kjt}$ is the number of weeks since the last own-brand promotion.
+}
+Beside decomposing the demand based on elastisity (gross effects)m, there is another decomposotion scheme based on the unit sales (net effects). 
+\cite{VanHeerde2004} is an example of the net effects decomposition. In the standard sales-based decomposition, the own-brand sales increase can be splitted into three parts: 
+cross-brand, crossperiod, and category-expansion effects. Denote $S_{ijt}$ as the sales volume at store $i$ for brand $j$ at time $t$, and $CS_{i}$ as the average sales at store $i$. 
+Define:
+\[
+    \begin{aligned}
+        \mathrm{OBS}_{ijt}&=-\frac{S_{ijt}}{CS_i},\quad\mathrm{CBS}_{ijt}=\sum_{k=1}^{l}\frac{S_{ikt}}{CS_i},\\
+        \mathrm{PPCS}_{it}&=\sum_{s=-T^*}^{l}\sum_{k=1}^{l}\frac{S_{ikt+s}}{CS_i},\quad\mathrm{TCS}_{it}=-\sum_{s=-T^*}^{l}\sum_{k=1}^{l}\frac{S_{ikt+s}}{CS_i}.
+    \end{aligned}
+\]
+Where $OBS_{ijt}$ is the own-brand sales, $CBS_{ijt}$ is the cross-brand sales, $PPCS_{it}$ is the Pre- and Post category sales, and $TCS_{it}$ is the total category sales. By construction, the 
+following equation holds:
+\eq{
+    \mathrm{OBS}_{ijt}=\mathrm{CBS}_{ijt}+\mathrm{PPCS}_{it}+\mathrm{TCS}_{it}.
+}
+For each variable given above, the firm can use a linear system to estimate the net effetcs:
+\eq{
+    \begin{aligned}
+        \mathrm{X}_{ijt}& =\alpha_{j}^{\prime}+\sum_{l=1}^{4}\beta_{\mathrm{ob},lj}\mathrm{PI}_{ijlt}+\sum_{l=1}^{4}\gamma_{1,lj}^{\prime}\mathrm{CPI}_{ijlt}+\sum_{m=1}^{3}\gamma_{2,mj}^{\prime}\mathrm{D}_{ijmt}  \\
+        &+\sum_{m=1}^{3}\gamma_{3,mj}^{\prime}\mathrm{CD}_{ijmt}+\gamma_{4j}^{\prime}\mathrm{RP}_{ijt}+\gamma_{5j}^{\prime}\mathrm{CRP}_{ijt} \\
+        &+\sum_{\tau=T+T^{*}+1}^{T_{\max}-T-T^{*}}\gamma_{6,\tau j}^{\prime}W_{t}+\sum_{\tau=1}^{T_{+}T^{*}}\gamma_{7,\tau j}^{\prime}\mathrm{PI}_{ijlt+\tau} \\
+        &+\sum_{\tau=1}^{T+T^{*}}\gamma_{8,\tau j}^{\prime}\mathrm{PI}_{ijlt-\tau}+\sum_{\tau=1}^{T+T^{*}}\gamma_{9,\tau j}^{\prime}\mathrm{CPI}_{ijlt+\tau} \\
+        &+\sum_{\tau=1}^{T+T^{*}}\gamma_{10,\tau j}^{\prime}\mathrm{CPI}_{ijlt-\tau}+u_{ijt}^{\prime}, 
+    \end{aligned}
+}
+where $PI_{ijlt}$ and $CPI_{ijlt}$ is the own-brand price index and cross-brand price index among the same category considering support $l$, $D_{ijmt}$ is the non-price promotion 
+considering type $m$, $RP_{ijt}$ is the regular price. To allow the interactions between different products, the semiparametric SCAN*PRO-model was proposed:
+\eq{
+    \begin{aligned}
+        \ln q_{kjt}& =m(\ln(PI_{k1t}),\ln(PI_{k2t}),...,\ln(PI_{knt})+\sum_{l=1}^{3}\sum_{r=1}^{n}\gamma_{lrj}^{\prime\prime}D_{lkrt}+\delta_{ji}^{\prime\prime}X_{t}+\lambda_{kj}^{\prime\prime}Z_{k}+u_{kjt}^{\prime\prime}  \\
+        &t=1,\ldots,T\mathrm{~and~}k=1,\ldots,K
+    \end{aligned}
+}
+where $m(\cdot)$ is a nonparametric function.
+
+\subsubsection{Online Advertising}
+\cite{Dinner2014} studied the croos-channel effects between online and offline advertising. They verified that the cross-channel effect exists, but it could be 
+diminished by an indirect effect manifested by its impact on paid search impressions and click-through rate. 
+
 \clearpage
 \section{Supply Chain}
 
@@ -3819,7 +3887,7 @@ In practice, the assortment optimization is usually a constrained optimization:
     \end{aligned}
 }
 The above problem is hard because of the fractional objective function and binary constraint. However, if the matrix $a$ is TU (totally unimodular), It can be 
-transformed into linear programming.
+transformed into linear programming (This is called Cooper Transformation, rewrite $y_j=\frac{v_jx_j}{v_0+\sum_{j\in N}\upsilon_jx_j}$).
 \re{
     A unimodular matrix $M$ is a square integer matrix with determinant $1$ or $-1$. It is an integer matrix that is invertible over another integer matrix. A matrix is totally unimodular 
     if every square non-singular submatrix is unimodular. For every equation $Mx=b$, where $M,b$ are integers, and $M$ is totally unimodular, the solutions are all integers.\\
@@ -3912,7 +3980,7 @@ We can define the optimal solution as:
         S_i\subseteq N\mathrm{~}\forall i\in M\end{array}}R(S_1,\ldots,S_m).
     \end{aligned}
 }
-This is a binary fractional program if we identify each subset $S_i$ with an incidence vector $x_i=(x_{i+1},\ldots,x_{in})\in\{0,1\}^n$. 
+This is a binary fractional program if we identify each subset $S_i$ with an incidence vector $x_i=(x_{i1},\ldots,x_{in})\in\{0,1\}^n$. 
 Let $V_i(x_i):=\sum_{j\in N}v_{ij}x_{ij}$, $f_i(x_i):=R_i(x_i)V_i(x_i)^{\gamma_i}$ and $g_i(x_i)&:=&V_i(x_i)^{\gamma_i}$. 
 Then we have:
 \eq{
@@ -3954,7 +4022,7 @@ There is an efficient way to solve the assortment optimization problem under the
 \eq{
     g_i=\max\left\{p_i,\sum_{i\in N}\rho_{ij}g_j\right\}\quad\forall i\in N.
 }
-If $i\in S$, we have $g_i=p_i$. One way to find the value of $g_i$ is through value iteration, or we can solve it by LP:
+If $i\in S$, we have $g_i=p_i$. Unfortunately, $g_i$ doesn't have a closed form. One way to find the value of $g_i$ is through value iteration, or we can solve it by LP:
 \eq{
     \begin{aligned}
         \mathcal{R}^*&=\min \sum_{i\in N}\lambda_i g_i\\
@@ -3962,7 +4030,27 @@ If $i\in S$, we have $g_i=p_i$. One way to find the value of $g_i$ is through va
         &g_i \ge \sum_{i\in N}\rho_{ij}g_j \quad\forall i\in N
     \end{aligned}
 }
-Mention that under the optimal $g^*$, the expected revenue is given by $\sum_i g_i^* \lambda_i$.
+Mention that under the optimal $g^*$, the expected revenue is given by $\sum_i g_i^* \lambda_i$. The optimal assortment is given by $S^*:=\{i\in N:g_i^*=p_i\}$
+\re{
+    The logic behind the LP is: if we want to find the expected revenue for a given $S$, we need to solve a similar LP, where the first inequality falls in $i\in S$ and the second 
+    inequality falls in $i\in \bar{S}$. Which takes exponential time if we want to solve $R(S)$ for all $S$. We can solve one LP to find the maximum $\cR$.
+}
+\sep{Rank-1 Markov Chain}
+\thm{Outer product representation of a rank-one matrix}{
+    Every rank-one matrix $A\in \RR^{m\times n}$ can be written as an `outer product':
+    \[A=pq^T,\]
+    where $p\in \RR^m,q\in\RR^n$. A Markov chain rank-one needs to satisfy $\sum_{j\neq i}p_j=1/q_i$.
+}
+\re{
+    \rt{\tbf{It can be shown that BAM, GAM and RCS are all rank-1 Markov Chain Models}}.
+}
+\subsubsection{Heuristics in Assortment Optimization}
+The assortment optimization problem is usually NP-hard (such as mixed MNL), there are some heuristic algorithm to approximate $\cR^*$.
+\sep{Revenue-Ordered}
+The RO-assortment is to find $\tau$ and the corresponding assortment under $\tau$: $S(\tau):=\{i\in N:r_i\geq\tau\}.$ The optimal assortment is 
+$\mathcal{R}^0:=\max_{\tau\geq0}R(S(\tau))$, and it's proven that $\mathcal{R}^0\geq\frac1n\mathcal{R}^*$.
+\sep{The Refined Greedy Heuristic}
+
 \cite{NiP2021} consider the competitive and cooperative assortment games under the Markov Chain Choice Model. They assume There are $\mathcal{M}=\{1,\ldots,m\}$ retailers, each manages a
 collection of $\cN_k$ products. We call product $j$ an \tit{exclusive} product to $k$ if $j\in\mathcal{N}_{k}\backslash\mathcal{N}_{-k}$, \tit{common} otherwise. In the game, each retailer needs to dicide
 the assortment $S_k \subseteq \cN_k$, and the prices $r_j^k$ are assumed to be fixed. We assume the consumers follow the Markov Chain Choice Model to select the products: with probability $\lambda_j>0$ and $\sum_{j=1}^n \lambda_=1$, a customer
@@ -3971,7 +4059,6 @@ arrives for product $j$, he would choose $j$ from seller $k$ following the distr
     \item TBW
 }
 If $j\notin S$, the consumer would switch to product $i$ w.p. $\rho_{ji}$.
-
 \sep{Endogenized MNL model}
 \cite{wang2017consumer} propose the \tbf{endogenized choice model}, which is an extent on MNL and incorporating the network effects.
 \defi{Network Effects}{
