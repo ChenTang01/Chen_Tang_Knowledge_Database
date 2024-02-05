@@ -1947,16 +1947,37 @@ The contents of this section referenced \cite{fudenberg1991game}.
     Let $C$ be a set of outcomes and $P$ be the set of distributions over outcomes, a utility function $U:P \to \RR$ has an
     expected utility form if there exists a function $u: C \to \RR$ s.t. $U(x)=\sum_{c\in C}x(c)u(c)$ for all $x\in P$. In this
     case, $U(\cdot)$ is called an expected utility function, and $u(\cdot)$ is called a \tbf{VNM utility function}.\\
-    The VNM (\cite{von2007theory}) is an axiomatic way to formalize the preference. A preference $\gtrsim$ has an expected utility representation \tbf{iff}:
+    The VNM (\cite{von2007theory}) is an axiomatic way to formalize the preference. 
+    If a preference $\gtrsim$ among the lotteries (distributions) $U(\cdot)$ has an expected utility representation (follow the following axioms):
     \tab{
         \item \tit{Completeness}: for any two lotteries (distributions) $x$ and $y$, at least one of $x\gtrsim y$ or $y\gtrsim x$ holds;
         \item \tit{Transitivity}: if $x\gtrsim y$ and $y\gtrsim z$, then $y\gtrsim z$;
         \item \tit{Continuity}: if $x\gtrsim y\gtrsim z$, then exists $p\in [0,1]$ s.t. $px + (1-p)z \sim y$;
         \item \tit{Independence}: For any lottery $z$ and $p\in [0,1]$, $x\gtrsim y$ iff $px+(1-p)z\gtrsim py+(1-p)z$.
     }
-    \proo{}{
-        TBW
+    , there exists a VNM utility function $u$ such that for every lottery in $U$:
+    \eq{\label{eq:eut1}
+        P\succsim Q\iff\sum_{x\in X}P(x)u(x)\geq\sum_{x\in X}Q(x)u(x)
     }
+    \proo{}{
+        The proof is finding and constructing $u_i$ that satisfies the axioms.
+        Suppose there are $n$ outcomes $C_1,\cdots,C_n$, by the axioms of completeness and transitivity, we can rank them by order:
+        \[C_1\lesssimC_2\lesssim\lesssim\cdots\lesssim C_n\]
+        In those circumstance where $C_1\sim C_n$, the therom holds obviously; otherwise $C_1\lesssim C_n$, we can define:
+        \[L(p)=p\cdot C_1+(1-p)\cdot C_n, 0\le p \le 1\]
+        By the axiom of continuity, for any $C_i$, we can always find a $p_i$ such that:
+        \[L(p_i)\sim C_i\]
+        and 
+        \[C_1\lesssim L(p_i)\lesssim C_n \forall i\] 
+        Then we can define the VNM utility for every outcome as $L(p_i)$, and the expected utility for every lottery $P=sum_i \alpha_i C_i$ as 
+        \[U(P)=u(\sum_i \alpha_i C_i)=\sum_i \alpha_i u(C_i)\]
+        Since the decision maker is indifferent among $C_i$ and $p_i\cdot C_1+(1-p_i)\cdot C_n$, by the reduction axiom, we can obtain:
+        \eq{
+            C_i = \frac{u(C_i)-u(C_1)}{u(C_n)-u(C_1)}C_1 + \frac{u(C_n)-u(C_i)}{u(C_n)-u(C_1)}C_n
+        }
+        This means the lottery $C_i$ s, in effect, a lottery in which the best outcome is won with probability $\frac{u(C_i)-u(C_1)}{u(C_n)-u(C_1)}$, 
+        and the worst outcome otherwise. Note that \frac{u(C_i)-u(C_1)}{u(C_n)-u(C_1)} is positive first-order linear on $u(C_i)$, so 
+        a rational decision maker would prefer the lottery $P$ to $Q$ ($P\succsim Q$) if and only if $u(C_p)\ge u(C_q)$.
 }
 \defi{Best Response (BR)}{
     $a_i\in A_i\mathrm$ is a best response to $a_{-i}\in A_{-i}$ if $u_i(a_i,a_{-i})\geq u_i(a_i^{\prime},a_{-i})\mathrm{~}\forall a_i^{\prime}\in A_i.$
@@ -2032,7 +2053,38 @@ $D_i^\infty$ is the set of strategies that survive iterated strict dominance.
             }
             Then $f$ has a fixed point: $\exists x\in A$, s.t. $x\in f(x)$.
         }
-        To be fulfilled.
+        First, we show that the action set $\Sigma=\prod_{i\in\mathcal{I}}\Sigma_i$ is compact, convex, and non-empty. 
+        This conclusion is quite natural, since each $\Sigma_i=\{x\mid\sum_jx_j=1\}$ is a simplex, thus compact, convex, and non-empty, 
+        so is the product. Then we note the best correspondence $B(\sigma)$ is not empty because:
+        \[B_i(\sigma_{-i})=\arg\max_{x\in\Sigma_i}u_i(x,\sigma_{-i})\]
+        is non-empty by Weirstrass’s theorem.\\
+        Next, we show that $B(\sigma)$ is a convex set for all $\sigma$. When $\|B(\sigma)\|=1$, it's a convex set by nature. When $B(\sigma)$ 
+        is not a single element, we take $\sigma_i^\prime, \sigma_i^{\prime\prime}$ to denote any two elements among $B(\sigma_{-i})$:
+        \eq{
+            \begin{aligned}
+                &u_i(\sigma_i^{\prime},\sigma_{-i})\geq u_i(\tau_i,\sigma_{-i})\quad\text{ for all }\tau_i\in\Sigma_i,\\
+                &u_i(\sigma_i^{\prime\prime},\sigma_{-i})\geq u_i(\tau_i,\sigma_{-i})\quad\text{ for all }\tau_i\in\Sigma_i.
+            \end{aligned}
+        }
+        We can show that for all $\lambda\in(0,1)$:
+        \eq{
+            \lambda u_i(\sigma_i^{\prime},\sigma_{-i})+(1-\lambda)u_i(\sigma_i^{\prime\prime},\sigma_{-i})\geq u_i(\tau_i,\sigma_{-i})\quad\mathrm{~for~all~}\tau_i\in\Sigma_i.
+        }
+        By the linearity of $u_i$:
+        \eq{
+            u_i(\lambda\sigma_i^{\prime}+(1-\lambda)\sigma_i^{\prime\prime},\sigma_{-i})\geq u_i(\tau_i,\sigma_{-i})\quad\mathrm{~for~all~}\tau_i\in\Sigma_i.
+        }
+        Therefore, $\lambda\sigma_i^{\prime}+(1-\lambda)\sigma_i^{\prime\prime}\in B_i(\sigma_{-i})$, indicating that $B(\sigma)$ is a convex correspondence.\\
+        At last, we prove that $B(\sigma)$ is a closed graph by contradiction. Suppose not, then exists a sequence $(\sigma^n,\hat{\sigma}^n)\to(\sigma,\hat{\sigma})$ with 
+        $\hat{\sigma}^n\in\mathcal{B}(\sigma^n)$, but $\hat{\sigma}_i\notin B_i(\sigma_{-i})$. This implies for any $\epsilon>0$, there always exists some $\sigma_i^\prime$ such that:
+        \[u_i(\sigma_i^{\prime},\sigma_{-i})>u_i(\hat{\sigma}_i,\sigma_{-i})+3\epsilon.\] 
+        But by the fact that $\sigma_{-i}^n\to\sigma_{-i}$, we can find $n$ such that:
+        \[u_i(\sigma_i^{\prime},\sigma_{-i}^n)\geq u_i(\sigma_i^{\prime},\sigma_{-i})-\epsilon.\]
+        This leads us to:
+        \eq{
+            u_i(\sigma_i^{\prime},\sigma_{-i}^n)>u_i(\hat{\sigma}_i,\sigma_{-i})+2\epsilon\geq u_i(\hat{\sigma}_i^n,\sigma_{-i}^n)+\epsilon.
+        }
+        By the Kakutani Fixed Point theorem, for any $\sigma$, $B(\sigma)$ is not empty.
     }
 }
 \fig{Examples of no fixed point}{Examples of no fixed point}{0.5}
@@ -3339,7 +3391,7 @@ identification (RFID) and e-commerce.
 \cite{Leeflang2002} reviewed the development process of the SCAN*PRO (scanner and promotion) model, which was proposed by \cite{wittink1988scan}. The original version is given by:
 \eq{\label{eq:scanpro}
     \begin{aligned}
-        q_{kji}&=\left[\prod_{r=1}^{n}\left[\frac{p_{krt}}{\overline{p}_{kr}}\right]^{\beta rj}\prod_{l=1}^{3}\gamma_{lnj}^{D_{lkn}}\right]\left[\prod_{t=1}^{T}\delta_{ji}^{X_{t}}\right]\left[\prod_{k=1}^{K}\lambda_{kj}^{Z_{k}}\right]e^{u_{kjt}}\\
+        q_{kjt}&=\left[\prod_{r=1}^{n}\left[\frac{p_{krt}}{\overline{p}_{kr}}\right]^{\beta rj}\prod_{l=1}^{3}\gamma_{lrj}^{D_{lkn}}\right]\left[\prod_{t=1}^{T}\delta_{ji}^{X_{t}}\right]\left[\prod_{k=1}^{K}\lambda_{kj}^{Z_{k}}\right]e^{u_{kjt}}\\
         k&=1,\ldots,K,~t=1,\ldots,T
     \end{aligned}
 }
@@ -3351,7 +3403,7 @@ The terms $X_t$ and $Z_k$ can be interpreted as time and location fixed effects,
 }
 The $\beta_{rj}$ is the price discount elasticities (own-brand for $r=j$, cross-brand if $r\ne j$), the $\gamma_{jt}$ is the promotion multiplier. This model allows all brands 
 to have unique own- and cross-brand effects for the marketing variables.\\
-Equation \ref{eq:scanpro} does not account for dynamic promotion effects, which occurs if promotions influence future demand. The \tbf{process function} of the own-brand discount elasticity can capture these effects:
+Equation \ref{eq:scanpro} does not account for dynamic promotion effects, which occur if promotions influence future demand. The \tbf{process function} of the own-brand discount elasticity can capture these effects:
 \eq{
     \beta_{kjt}^{\prime}=\beta_{0j}^{\prime}+\beta_{1j}^{\prime}Dsum_{kjt}+\beta_{2j}^{\prime}CDsum_{kjt}+\beta_{3j}^{\prime}d_{\eta}\left(\frac{1}{PTime_{kjt}}\right)+\beta_{4j}^{\prime}d_{\eta}\left(\frac{1}{CPTime_{kjt}}\right)+u_{kjt}^{\prime},
 }
@@ -3362,8 +3414,8 @@ where
     \item $d_\eta$ is a dummy variable equal to 1 if $\eta=1$ and 0 if $0<\eta<1$;
     \item $PTime_{kjt}$ is the number of weeks since the last own-brand promotion.
 }
-Beside decomposing the demand based on elastisity (gross effects)m, there is another decomposotion scheme based on the unit sales (net effects). 
-\cite{VanHeerde2004} is an example of the net effects decomposition. In the standard sales-based decomposition, the own-brand sales increase can be splitted into three parts: 
+Besides decomposing the demand based on elasticity (gross effects)m, there is another decomposition scheme based on the unit sales (net effects). 
+\cite{VanHeerde2004} is an example of the net effects decomposition. In the standard sales-based decomposition, the own-brand sales increase can be split into three parts: 
 cross-brand, crossperiod, and category-expansion effects. Denote $S_{ijt}$ as the sales volume at store $i$ for brand $j$ at time $t$, and $CS_{i}$ as the average sales at store $i$. 
 Define:
 \[
@@ -3372,12 +3424,11 @@ Define:
         \mathrm{PPCS}_{it}&=\sum_{s=-T^*}^{l}\sum_{k=1}^{l}\frac{S_{ikt+s}}{CS_i},\quad\mathrm{TCS}_{it}=-\sum_{s=-T^*}^{l}\sum_{k=1}^{l}\frac{S_{ikt+s}}{CS_i}.
     \end{aligned}
 \]
-Where $OBS_{ijt}$ is the own-brand sales, $CBS_{ijt}$ is the cross-brand sales, $PPCS_{it}$ is the Pre- and Post category sales, and $TCS_{it}$ is the total category sales. By construction, the 
-following equation holds:
+Where $OBS_{ijt}$ is the own-brand sales, $CBS_{ijt}$ is the cross-brand sales, $PPCS_{it}$ is the Pre- and Post category sales, and $TCS_{it}$ is the total category sales. By construction, the following equation holds:
 \eq{
     \mathrm{OBS}_{ijt}=\mathrm{CBS}_{ijt}+\mathrm{PPCS}_{it}+\mathrm{TCS}_{it}.
 }
-For each variable given above, the firm can use a linear system to estimate the net effetcs:
+For each variable given above, the firm can use a linear system to estimate the net effects:
 \eq{
     \begin{aligned}
         \mathrm{X}_{ijt}& =\alpha_{j}^{\prime}+\sum_{l=1}^{4}\beta_{\mathrm{ob},lj}\mathrm{PI}_{ijlt}+\sum_{l=1}^{4}\gamma_{1,lj}^{\prime}\mathrm{CPI}_{ijlt}+\sum_{m=1}^{3}\gamma_{2,mj}^{\prime}\mathrm{D}_{ijmt}  \\
