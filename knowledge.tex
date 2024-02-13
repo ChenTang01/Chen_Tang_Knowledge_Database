@@ -1981,9 +1981,57 @@ The contents of this section referenced \cite{fudenberg1991game}.
         and the worst outcome otherwise. Note that $\frac{u(C_i)-u(C_1)}{u(C_n)-u(C_1)}$ is positive first-order linear on $u(C_i)$, so 
         a rational decision maker would prefer the lottery $P$ to $Q$ ($P\succsim Q$) if and only if $u(C_p)\ge u(C_q)$.
 }
+}
 \defi{Best Response (BR)}{
     $a_i\in A_i\mathrm$ is a best response to $a_{-i}\in A_{-i}$ if $u_i(a_i,a_{-i})\geq u_i(a_i^{\prime},a_{-i})\mathrm{~}\forall a_i^{\prime}\in A_i.$
     The best response $BR_i(a_{-i})$ is not a function, but a \tbf{correspondence} (there may be multiple BRs).
+}
+\thm{Existence of NE (Nash 1951)}{
+    Any game with a finite set of players and a finite set of strategies has an NE of mixed strategies (this theorem emphasizes on \tit{finite games}).
+    \lem{Kakutani Fixed Point}{
+            Let $f:A \rightrightarrows A$ be a correspondence, if:
+            \tab{
+                \item $A$ is a compact and convex set;
+                \item $f(x)$ is non-empty for all $x\in A$;
+                \item for all $x\in A$, $f(x)$ is a convex set;
+                \item $f(x)$ has a closed graph: if $\{x^n,y^n\}\to\{x,y\}$ with $y^n\in f(x^n)$, then $y\in f(x)$。
+            }
+            Then $f$ has a fixed point: $\exists x\in A$, s.t. $x\in f(x)$.
+        }
+}
+\proo{}{
+    First, we show that the action set $\Sigma=\prod_{i\in\mathcal{I}}\Sigma_i$ is compact, convex, and non-empty. 
+    This conclusion is quite natural, since each $\Sigma_i=\{x\mid\sum_jx_j=1\}$ is a simplex, thus compact, convex, and non-empty, 
+    so is the product. Then we note the best correspondence $B(\sigma)$ is not empty because:
+    \[B_i(\sigma_{-i})=\arg\max_{x\in\Sigma_i}u_i(x,\sigma_{-i})\]
+    is non-empty by Weirstrass’s theorem.\\
+    Next, we show that $B(\sigma)$ is a convex set for all $\sigma$. When $\|B(\sigma)\|=1$, it's a convex set by nature. When $B(\sigma)$ 
+    is not a single element, we take $\sigma_i^\prime, \sigma_i^{\prime\prime}$ to denote any two elements among $B(\sigma_{-i})$:
+    \eq{
+        \begin{aligned}
+            &u_i(\sigma_i^{\prime},\sigma_{-i})\geq u_i(\tau_i,\sigma_{-i})\quad\text{ for all }\tau_i\in\Sigma_i,\\
+            &u_i(\sigma_i^{\prime\prime},\sigma_{-i})\geq u_i(\tau_i,\sigma_{-i})\quad\text{ for all }\tau_i\in\Sigma_i.
+        \end{aligned}
+    }
+    We can show that for all $\lambda\in(0,1)$:
+    \eq{
+        \lambda u_i(\sigma_i^{\prime},\sigma_{-i})+(1-\lambda)u_i(\sigma_i^{\prime\prime},\sigma_{-i})\geq u_i(\tau_i,\sigma_{-i})\quad\mathrm{~for~all~}\tau_i\in\Sigma_i.
+    }
+    By the linearity of $u_i$:
+    \eq{
+        u_i(\lambda\sigma_i^{\prime}+(1-\lambda)\sigma_i^{\prime\prime},\sigma_{-i})\geq u_i(\tau_i,\sigma_{-i})\quad\mathrm{~for~all~}\tau_i\in\Sigma_i.
+    }
+    Therefore, $\lambda\sigma_i^{\prime}+(1-\lambda)\sigma_i^{\prime\prime}\in B_i(\sigma_{-i})$, indicating that $B(\sigma)$ is a convex correspondence.\\
+    At last, we prove that $B(\sigma)$ is a closed graph by contradiction. Suppose not, then exists a sequence $(\sigma^n,\hat{\sigma}^n)\to(\sigma,\hat{\sigma})$ with 
+    $\hat{\sigma}^n\in\mathcal{B}(\sigma^n)$, but $\hat{\sigma}_i\notin B_i(\sigma_{-i})$. This implies for any $\epsilon>0$, there always exists some $\sigma_i^\prime$ such that:
+    \[u_i(\sigma_i^{\prime},\sigma_{-i})>u_i(\hat{\sigma}_i,\sigma_{-i})+3\epsilon.\] 
+    But by the fact that $\sigma_{-i}^n\to\sigma_{-i}$, we can find $n$ such that:
+    \[u_i(\sigma_i^{\prime},\sigma_{-i}^n)\geq u_i(\sigma_i^{\prime},\sigma_{-i})-\epsilon.\]
+    This leads us to:
+    \eq{
+        u_i(\sigma_i^{\prime},\sigma_{-i}^n)>u_i(\hat{\sigma}_i,\sigma_{-i})+2\epsilon\geq u_i(\hat{\sigma}_i^n,\sigma_{-i}^n)+\epsilon.
+    }
+    By the Kakutani Fixed Point theorem, for any $\sigma$, $B(\sigma)$ is not empty.
 }
 \defi{Strict Dominance}{
     $a_i\in A_i$ if \tbf{strictly dominated} if $a_i$ is strictly dominated by mixed strategy $\alpha_i \in \Delta(A_i)$:
