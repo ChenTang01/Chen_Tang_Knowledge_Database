@@ -1934,7 +1934,8 @@ which reduces the original variance.
 \section{Game Theory and Mechanism Design}
 
 The contents of this section referenced \cite{fudenberg1991game}.
-\subsubsection{Dynamic \& Static, Complete \& Incomplete Information}
+\subsection{Dynamic \& Static, Complete \& Incomplete Information}
+\sep{Static game}
 \defi{Game}{
     A strategic (normal form) game $G=(N,(A_i)_{i\in N},(u_i)_{i\in N})$ consists of:
     \tab{
@@ -2006,7 +2007,7 @@ $D_i^\infty$ is the set of strategies that survive iterated strict dominance.
         \item $a_i\in Z_i$;
         \item each $a_j\in Z_j$ is a BR to some belief $\mu_j\in\Delta(Z_{-j})$.
     }
-    Another definition of rationalizability is given: p. A strategy is said to be rationalizable 
+    Another definition of rationalizability is given: A strategy is said to be rationalizable 
     if and only if it survives the iterated elimination of never best response.
 }
 \defi{Never Best Responses (NBR)}{
@@ -2151,7 +2152,7 @@ Nash Equilibrium sometimes can bring unreasonable behavior. In this game, both $
         }
     }
 }
-\sep{Sequential Games}
+\sep{Dynamic Game}
 Consider a sequential game, denoting $h^{0}=\emptyset $ as the initial \tbf{history}, $a^k=(a_1^k,\cdots, a_n^k)$ as the actions at stage $k$, 
 and $h^{k+1}=(a^0,a^1,\ldots,a^k)$ as the hostory at stage $k+1$. Let $H=\cup_{k=0}^{K+1}H^k$ be the set of all possible histories. Under this definition, 
 the pure strategy in the sequential games is a plan for every possible history $h_k$: $S_i(H^k)=\bigcup_{h^k\in H^k}S_i(h^k)$.
@@ -2221,26 +2222,6 @@ given that the true state is $w$ (analogous to 'information set').
         \tbf{common knowledge} at state $\omega$ if exists a self-evident $A$ s.t. $w\in A\subset E$ for all players (or $P_i(\omega)\subset E$ for all $i$).
     }
 }
-\ex{
-    Three individuals are all wearing green hats. They can see see color of each other's but not their own. They can press the button when they know the color of their hats, one outsider 
-    points out that there is at least one green hat. They press the buttons simultaneously in the third round. 
-    First, we define all the states $\omega$:
-    \tab{
-        \item $a: g,g,g \quad b: r,g,g \quad c:g,r,g \quad d:g,g,r$;
-        \item $e: g,r,r \quad f: r,g,r \quad g: r,r,g \quad h: r,r,r$.
-    }
-    The information set for each player is given as: 
-    \lis{
-        \item $P_1=\{(a,b),(c,g),(d,f),(e,h)\}$;
-        \item $P_2=\{(a,c), (b,g), (d,e), (f,h)\}$;
-        \item $P_3=\{(a,d),(b,f),(c,e),(g,h)\}$.
-    }
-}{
-    In the 1st round, player $1$ knows he's in the information set $(a,b)$. If $b$ is the realization, then 
-    \tab{
-        \item player $2$ is in the information set $(b,g)$ 
-    }
-}
 In games with incomplete information, one agent is unsure about the payoffs of others. One solution is to suppose that players have \tbf{common} prior on the distribution 
 of possible games, this can create common knowledge by making the original game into a `bigger' one (incomplete information to imperfect information).
 \defi{Bayesian Games}{
@@ -2263,11 +2244,11 @@ of possible games, this can create common knowledge by making the original game 
     }
     or in the infinite-type case:
     \eq{
-        s_i(\theta_i)\in\arg\max_{s_i^{\prime}\in S_i}\int u_i(s_i^{\prime},s_{-i}(\theta_{-i}),\theta_i,\theta_{-i})P(d\theta_{-i}\mid\theta_i).
+        s_i(\theta_i)\in\arg\max_{s_i^{\prime}\in S_i}\int u_i(s_i^{\prime},s_{-i}(\theta_{-i});\theta_i,\theta_{-i})dP(\theta_{-i}\mid\theta_i).
     }
     \emotree For any finite Bayesian game, there exists a mixed-strategy BNE.
 }
-\subsubsection{Dynamic Games of Incomplete Information}
+\sep{Dynamic Games of Incomplete Information}
 In this game, there is an analog of BNE, called perfect Bayesian equilibrium (PBE), which strengthens subgame perfection by:
 \lis{
     \item A complete strategy (a mapping from information set to strategies);
@@ -2275,9 +2256,10 @@ In this game, there is an analog of BNE, called perfect Bayesian equilibrium (PB
 }
 In a dynamic game of complete and perfect information, PBE is equivalent to SPNE because all information sets are singletons, so beliefs are trivial. 
 \ex{
-    Ante Game: there are two players. Player $i$ can observe $t_i\sim uniform(0,1)$ independently. Player $1$ can `showdown'(both players show $t_i$, the higher $i$ win), or he can `raise': 
+    Ante Game: \\
+    there are two players. Player $i$ can observe $t_i\sim uniform(0,1)$ independently. Player $1$ can `showdown'(both players show $t_i$, the higher $i$ wins), or he can `raise': 
     under this case, player $2$ can `fold' (lose the game) or `match' (force a  showdown).\\
-    In this game, the information sets for player $1$ is given as $(t_1)$, and $(t_2,a_1)$ for player $2$. The beliefs for player $1$ is $p_1(t_2\|t_1)=t_2$ and $p_2(t_1\|t_2,a_1)=p_2(t_1\|a_1)$ for player $2$.
+    In this game, the information sets for player $1$ is given as $(t_1)$, and $(t_2,a_1)$ for player $2$. The beliefs for player $1$ is $p_1(t_2|t_1)=t_2$ and $p_2(t_1|t_2,a_1)=p_2(t_1|a_1)$ for player $2$.
 }{
     Find the PBE for the game.
 }
@@ -2289,8 +2271,36 @@ Consider a stylised signaling game: a seller has an item with quality of either 
 \tbf{pooling} equilibrium (the player $2$'s belief is independent of the seller's action). But suppose there is a cost $c$ ($H-c<L$) when the seller lies, this game has an \tbf{separating} equilibrium: the seller 
 always tells the truth and the player $2$ always believes the advertisement.
 
-\subsection{Auction Games}
-Add some content on the first-price and second-price auction.
+\subsection{Repeated Games}
+
+In \tbf{repeated games}, we refer to a situation in which the same \tbf{stage game} is played for $T$ times with a discount factor $\delta\in[0,r)$. 
+We assume \tit{perfect monitoring}: the outcomes of all past periods are observed by all players. Notation:
+\tab{
+    \item $\mathbf{a}=\{a^t\}_{t=0}^T$：the sequence of actions;
+    \item $\alpha=\{\alpha^t\}_{t=0}^T$: the sequence of mixed strategies;
+    \item $u_i(\mathbf{a})=\sum_{t=0}^T\delta^tg_i(a_i^t,a_{-i}^t)$: payoff.
+}
+In any finitely repeated prisoner's dilemma game, the unique SPE is always to defect. If the game has multiple NEs, the SPE is to select one NE in each period. 
+In infinitely repeated games, we can consider \rt{trigger strategies}: both cooperate if no defect in the past, otherwise always defect. This is a SPE when $\delta$ is large enough. 
+\fig{Sustaining Cooperation}{Sustaining Cooperation}{0.5}
+In the examples above, the game has two NEs. Now consider the following strategies:
+\lis{
+    \item In period 1, play (A,A);
+    \item In period $2,\cdots,t^*$, $t^*\in(1,T)$: if (A,A), then continue; otherwise (C,C);
+    \item In period $t^*+1,\cdots,T$: if all (A,A) in stage 2 and (B,B) after stage 2: (B,B); otherwise (C,C).
+}
+By \tbf{one-shot deviation principle}, this is an SPE for appropriate $t^*$. For the largest available $t^*$:
+\eq{
+    1 \leq \sum_n^{T-t^*}\delta^n
+}
+When both $T$ and $\delta$ are sufficiency large, we can make the actions (A,A) be played for arbitrarily many periods (infinite game). 
+\thm{Nash Folk Theorem}{
+    If $(v_1,\cdots, v_n)$ is feasible and higher than the minmax payoff lower bounds $\underline{v}_i$ for all $i$, then there exists $1>\delta\ge\underbar{\delta}$, that 
+    for all game $G^{\infty}(\delta)$, there is a equilibrium with payoffs $(v_1,\cdots, v_n)$. 
+}
+
+\subsubsection{The Bargaining Model}
+\cite{Rubinstein1982} studies another equilibrium in the game. In the model, 
 
 \clearpage
 \section{Development Economics}
@@ -2588,6 +2598,33 @@ The $\pi_i$ (suboptimal policy) trick is designed to bootstrap more data, genera
 
 \clearpage
 \section{Deep Learning}
+
+\subsection{Neural Networks}
+Non-linear classifiers: $f(\sum_i w_ix_i+b)$, the $f$ is called the \tbf{activation function}. Each non-linear classifier 
+(with $n$ inputs and $1$ output) is a \tbf{neuron}.
+\lis{
+    \item Sigmoid(Logistic): $\sigma(z)=\frac1{1+\exp(-z)}$;
+    \item Tanh: $\tanh(z)=\frac{\exp(z)-\exp(-z)}{\exp(z)+\exp(-z)}$;
+    \item ReLU: $\mathrm{ReLU}(z)=\max(0,z)$.
+}
+The simplest neural network is a multi-layer perceptron with one hidden layer. A neural network with at least one hidden layer is a universal approximator
+(can represent any continuous function). Shallow network can represent any function, but using deep structure is more effective: the hidden layer is a kind of 
+modularization: and the modularization is automatically learned from data.
+
+\subsubsection{Forward Pass: Inference}
+\fig{Example of Forward Pass in Python}{Example of Forward Pass in Python}{0.7}
+$W_1$ is a $4\times 3$ matrix and $W_2$ is a $4\times 4$ matrix.
+\subsubsection{Back Propagation: Learning and Optimization}
+The first step is to set an appropriate loss function: $L=\cL(X,Y,\theta)$, where $X$ and $Y$ are known from the samples and $\theta$ is the parameters to learn. 
+Common loss functions include cross-entropy and MSE loss.
+\subsubsection{Initialization and Regularization}
+Setting all weights of an NN to the same constant can not work, because, for all neurons at the same layer, the gradient is the same, thus the update is the same, and it can not 
+learn different features. For small networks, it is OK to set $W_0=0.01*random.rand()$. XAvier initialization aims to make the variance across every layer is the same, 
+preventing gradient explosion or diminishing:
+\[w_{1,i}\overset{\mathrm{iid}}{\operatorname*{\sim}}N\left(0,\frac1d\right)\]
+where $d$ is the number of inputs for each neuron. Another initialization note is to scale the features.\\
+\tbf{early stopping} is a regularization technique, using a validation set to validate the error each time after the update when the validation error 
+doesn't improve, return the stored weights.
 
 \clearpage
 \section{Causal Inference with Machine Learning}
@@ -4702,14 +4739,85 @@ The above model can be formulated in a linear programming style:
 \clearpage
 \section{Behavioral Operations Management}
 
+\cite{Donohue2020} surveys the behavioral issues in the OM literature: the behavioral OM studies the difference between the \tbf{normative models} and the actual observed behaviors. 
+Two important exmaples: 
+\tab{
+    \item \bt{pull-to-center} bias: the participants’ ordering decisions are systematically pulled toward mean demand and away from the “optimal” ordering decision (the mechanism is not unified);
+    \item The influence of \tit{trust} on information sharing in the distributed supply chain
+}
+
 \subsection{Behavioral Economics}
 
 \subsubsection{Individual choice theories}
-\sep{Prospect Theory}
+\sep{Prospect Theory} 
+There are many cases where the consumers' choice is inconsistent with the expected utility theory. The key idea of prospect 
+theory is that people evaluate an outcome based on the comparison of the outcome with some subjective reference point, rather than based on the absolute outcome itself: 
+the evaluation of a lottery relies on a value function and a nonlinear probability function:
+\fig{Prospect Theory}{The Valuation in Prospect Theory}{0.7}
+\tab{
+    \item the valuation of the outcomes of a lottery is classi ed as gains or losses compared to the reference point: consumers are usually `risk aversion' in the gain domain (concavity) and `risk seeking' in the loss domain (convexity);
+    \item the consumers tend to over-react to extreme events that have small probabilities (see the solid curve above the dashed line).
+}
+\tbf{Framing effetcs}:  di erent presentations of the same choice problem may yield reversed preferences. \tbf{Endowment effects}: 
+People value a product or service more once they establish property rights to it. 
+\sep{Choice Over Time}
+The \tbf{hyperbolic} discounting model consider a sequence of dated consumptions denoted by $\{(x_i,t_i),i=1,\ldots,n\}$, the utility is given by:
+\eq{
+    U(x_1,t_1;\ldots;x_n,t_n)=\sum_{i=1}^nv(x_i)\phi(t_i).
+}
+$v(\cdot)$ is the value function with the same structural properties as the one in prospect theory, and $\phi(\cdot)$ is the discount function with a hyperbolic form: 
+$\phi(t)=(1+\alpha t)^{-\beta/\alpha}$, with $\alpha,\beta>0$. When $\alpha\to 0$, the hyperbolic form reverts to the standard exponential discount function: 
+$\phi(t)=e^{-\beta t}$ (which is more tractable).
+
+\subsubsection{Social Preferences}
+\sep{Reciprocity and Inequality Aversion}
+\ex{Consider the bargaining game with two players: a proposer (he) and a responder (she). He is provided with an endowment $X$, and he offers 
+an amount $Y\in[0,X]$ to her, and she decisdes whether to accpet it. The unique SPNE is to offer the smallest amount while accepting all the offers. 
+However, the experiments give the contradictory results.}{
+    There are two explanations for this phenomenon:
+    \tab{
+        \item \tbf{Reciprocity:} proposers make high o ers because they fear rejections of low o ers by responders;
+        \item \tbf{Fairness}: proposers make high o ers because they are purely generous.
+    }
+}
+The inequality aversion model captures the fairness: for $n$ individuals, player $i$'s utility is given by:
+\eq{
+    \begin{aligned}U_i(x)=x_i-\frac{\alpha_i}{n-1}\sum_{j\neq i}\max\{x_j-x_i,0\}-\frac{\beta_i}{n-1}\sum_{j\neq i}\max\{x_i-x_j,0\}\end{aligned}
+}
+where $\alpha$ is the envy weight and $\beta$ is the guilt weight: $0\le\beta_i\le1$ and $\beta_i \le \alpha_i$ because people are more averse to being worse o than being better off.
+\sep{Trust and Reputations}
+
+\subsubsection{Complexity and Bounded Ratinoality}
+\defi{Level-k Thinking}{A level-0 player is a `native' type who picks choices randomly.  A level-1 player believes that other players are level-0 type and best responds to the level-0
+types strategy. Similar definition for level-k thinking.}
 
 \subsection{Behavioral Revenue Management}
 
-Chapter 20 in \cite{ozer2012oxford} discussed how human deviations affect pricing management
+Chapter 20 in \cite{ozer2012oxford} discussed how human deviations affect pricing management. The first stram literatures study how indvidual choice theory affect the 
+consumer pricing.
+\sep{Context effects}
+\fig{Demonstration of Attraction Effect and Compromise Effect}{Demonstration of Attraction Effect and Compromise Effect}{0.6}
+The \rt{attraction effect} happens when adding an \tit{asymmetrically dominated} prodoct or a \tit{relatively inferior} product (comparing with product $i$) in the assortment, the selection probability of $i$ increases. \\
+There is another kind of context effects called the \rt{compromise effect}: suggesting that the choice probability of an alternative can be increased by making the alternative become a compromise/an intermediate alternative in the choice set. 
+This effect is a consequence of loss aversion implied by prospect theory.
+\tab{
+    \item the product $C$ can lead an attraction effect for $B$;
+    \item the product $D$ can lead a compromise effect for $B$.
+}
+\sep{Price Presentation Effects}
+One well-known example is the \tbf{price-ending effect}. The digits 0, 5, and 9 are the most frequently used rightmost (i.e., ending) digits in retail prices, with the digit 9 especially dominant for discounted prices.\\
+There is another stream of literatures studying how the social preferences affect the pricing and how the behavioral issue can influence the B2B contract. \\
+
+\cite{Kocabiyikoglu2015} study and compare decision-making behavior in an experimental setting under the newsvendor model and the two-fare revenue management model (the two models have a clear analytical solution). 
+Under the two models, the decision-maker needs to decide on the \tit{order quantity} or the \tit{protection level}:
+\eq{
+    x^*=F^{-1}\left(\frac{c_U}{c_U+c_O}\right),
+}
+where $F$ is the distribution (class 1 for RM), $c_U$ is the underage cost and $c_O$ is the overage cost. 
+So the analytical solutions for the models are $x^*=F^{-1}\left(\frac{p-c}p\right)=F^{-1}\left(\frac{p_1-p_2}{p_1}\right)$ respectively. 
+The authors employ a $2\times 2$ design in the experiments: NV/RM $times$ high/low-cost, and adapt the uniform distribution on the demand. 
+They ask several participants to play the games for several rounds, the mian results show that in the low-cost condition, the decision-makers tend to make decisions with samller values than the analytical solution, and vice versa. 
+They analyze the difference of decisions between the RM and NV problem: RM is always higher than NV, which indicates that decision-maker identifies the perceived losses due to leftovers as the main driver of the behavioral patterns.
 
 \clearpage
 \section{Data-Driven Operations Management}
