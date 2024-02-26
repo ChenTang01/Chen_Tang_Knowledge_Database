@@ -677,6 +677,16 @@ Every optimization problem has a decision version that is \rt{no harder than} th
 }
 \fig{P and NP}{P and NP}{0.6}
 
+\subsubsection{Polynomial-Time Reduction}
+A reduction is an algorithm for \tbf{transforming a problem instance into another}.
+\fig{Polynomial-Time Reduction}{Polynomial-Time Reduction}{0.5}
+\re{
+    \tab{
+        \item $A\leq_p B$ if A can be reduced to B \tbf{in polynomial time};
+        \item Reduction from $A$ to $B$ implies $A$ is no harder than $B$, so if $A$ is hard, then so is $B$;
+        \item One way to prove two problems have equal difficulty is to prove $A\leq_p B$ and $B\leq_p A$.
+    }
+}
 
 \subsection{Convexity and Continuity}
 
