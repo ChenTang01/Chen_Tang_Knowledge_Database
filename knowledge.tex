@@ -651,6 +651,33 @@ Rewriting this and minimize over $\lambda\ge 0$, we have
 \clearpage
 \section{Theory of Optimization}
 
+\subsection{NP-Hard}
+
+\defi{Polynomial Time Algorithms}{
+    For an input with size $n$, the worst-case running time is $O(n^k)$ for some constant $k$. 
+    A problem that is solvable by polynomial-time algorithms is said to be \tbf{tractable, easy, efficient}.
+}
+\sep{Decision Problem V.S. Optimization Problem}
+Decision problems need to decide simply `yes' or `no', optimization needs to decide a specific value. 
+Every optimization problem has a decision version that is \rt{no harder than} the optimization problem.
+\ex{
+    $A_{opt}$: given a graph, find the length of the shortest path.\\
+    $A_{dec}$: given a graph, determine whether there is a path $\le k$.
+}{
+    Using $A_{opt}$ to solve $A_{dec}$: check if optimal value $\le k$.\\
+    Using $A_{dec}$ to solve $A_{opt}$: apply binary search on the value range, logarithmic at most.
+}
+
+\subsubsection{P and NP}
+\lis{
+    \item Class P: problems that can be solved in $O(n^k)$;
+    \item Class NP: problems that can be verified in $O(n^k)$ ($\mathbb{P}\subseteq\mathbb{NP}$);
+    \item Class NP-hard: problems that are “at least as hard as all NP problems”;
+    \item Class NP-complete: problems in both NP and NP-hard.
+}
+\fig{P and NP}{P and NP}{0.6}
+
+
 \subsection{Convexity and Continuity}
 
 \defi{Local Minimum (Relative Minimum)}{
@@ -4957,7 +4984,7 @@ When $r_i=1\forall i$, this problem becomes a CTROP (Click Through Rate Optimiza
 }
 The CMNL behaves well in empirical validation (using AIC and BIC scores), but both the AOP and CTROP are NP-hard. \\
 In some scenarios, the assortment may have a `star' product, consumers would over-evaluate its utility, this is called the \rt{focal effect}. 
-\cite{kovach} design a new choice model (focal luce model: FLM) that considers this phenomenon:
+\cite{kovach2022focal} design a new choice model (focal luce model: FLM) that considers this phenomenon:
 \eq{
     v(i,\mathcal{S})=v_i+\log\left(1+\delta(\mathcal{S})\cdot\mathbf{1}\{i\in F(\mathcal{S})\}\right)+\epsilon_i,
 }
@@ -5006,6 +5033,44 @@ where $r_i^t$ is the revenue for product $i$ at time $t$, $s_{i,j}^t$ is the spe
 results are significant. What's more, the authors utilize the parameters of the regressions and optimize them in a sequential game:
 \fig{deng2023}{The Optimization Problem}{0.5}
 The simulation results give positive feedback.
+
+\clearpage
+\section{Analytical Modeling (Game Theory Style)}
+\cite{dai2020conspicuous} study a problem of the doctor's pathway behavior considering the reputational payoff.
+\ass{\cite{dai2020conspicuous}}{
+    \tab{
+        \item A client has a state $\theta$, $\theta=1$ means positive, there is a prior on $\theta$ (Bernoulli with parameter $\alpha$, and $\alpha$ is common knowledge);
+        \item The expert has a private signal $S_e\in\{0,1\}$ (two types of experts: $e\in\{l,h\}$), the precision is $\rho_e$: $\Pr(s_e=0|\theta=0)=\Pr(s_e=1|\theta=1)=\rho_e$. Assume that $rho_h>\rho_l>0.5$;
+        \item After the observing $\alpha$ and the private signal $S_e$, there are two decisions: $t\in\{0,1\}$ denotes the testing decision, $a\in\{0,1\}$ denotes the diagnosis decision;
+        \item The client's utility depends on the state and expert's diagnosis decision: TP: $B$; FP: $-D$; TN: $0$l FN: $-d$.
+        \item Test $t=1$ would incur a cost $c$ for the client ($c<d$);
+        \item Using the Bayesian rule, we can calculate the posterior belief of the expert: 
+    }
+    \eq{
+        b_e(\alpha|\mathrm{s}_e)\triangleq
+        \begin{cases}
+            \dfrac{\alpha\rho_e}{\alpha\rho_e+(1-\alpha)(1-\rho_e)}&\text{ if }s_e=1,\\
+            \dfrac{\alpha(1-\rho_e)}{\alpha(1-\rho_e)+(1-\alpha)\rho_e}&\text{ if }s_e=0.
+        \end{cases}
+    }
+    \tab{
+        \item We can use the posterior belief to calculate the expected utility for the clients given $S_e$ and $t$, a purely altruistic expert would decide whether to conduct the test $t$ based on the expected utility of the client;
+        \item The expert's type is personal information, but peers can update their beliefs $\beta(t,a)$ about the expert's type, the reputational utility for the expert is $r\cdot \beta(t,a)$;
+        \item The expert's expected payoff is given by:
+    }
+    \eq{
+        u_e=\phi U+(1-\phi)r\beta(t,a)
+    }
+}
+When the expert's type is common knowledge, it's intuitive to come up with $\bar{\alpha}_S^e$ and $\underline{\alpha}_s^e$ that the expert provides:
+\lis{
+    \item positive diagnosis without performing the test if $\alpha>\bar{\alpha}_S^e$;
+    \item perform the test if $\bar{\alpha}_S^e\ge\alpha\ge\underbar{\alpha}_S^e$;
+    \item negative diagnosis without performing the test if $\alpha<\underbar{\alpha}_S^e$.
+}
+In the asymmetric-information case, assuming the peers' prior belief of $e=h$ is $\gamma$, the authors prove that under certain circumstances ($\underbar{B}\le B\le\bar{B}$), the system has a single separating NE: the type-l expert conduct the test and the type-h expert doesn't. 
+This model assumes that given the expert's type, the precision $\rho_e$ is fixed.  
+\cite{adida2023impact} uses a similar framework to analyze whether the payment scheme would affect the expert's pathway behavior.
 
 \clearpage
 \chapter{Miscellaneous} \label{chap:miscellaneous}
