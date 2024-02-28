@@ -2600,10 +2600,10 @@ thus $Cov(Y_i,\tilde{x_{ki}}=\beta_k x_{ki})$.
 Consider the demand equilibrium model:
 \eq{
     \begin{cases}
-         q_t^d=\alpha_0+\alpha_1p_t+u_t&\text{(Demand)}\\
+        q_t^d=\alpha_0+\alpha_1p_t+u_t&\text{(Demand)}\\
         q_t^s=\beta_0+\beta_1p_t+v_t&\text{(Supply)}\\
         q_t^d=q_t^s&\text{(Equilibrium)}
-    \end{cases}
+   \end{cases}
 }
 
 \subsubsection{Validity of IV}
@@ -2633,16 +2633,16 @@ The above regressions don't consider other variables, one approach to handle thi
 (\cite{ashenfelter1994estimates}, \cite{ashenfelter1998income}), since each person of the twins is almost identical in IQ,
 family background, etc. The long regression is written as:
 \eq{
-\ln Y_{i,f} = \alpha+\rho S_{i,f}+\lambda A_{i,f}+e_{i,f},
+    \ln Y_{i,f} = \alpha+\rho S_{i,f}+\lambda A_{i,f}+e_{i,f},
 }
 where subscript $i,f$ stand for individual and family respectively, $i=1,2$ indexes twin siblings. If we consider the regression within a family:
 \eq{
-\ln Y_{1,f} = \alpha + \rho S_{1,f} +\lambda A_f +e_{1,f}\\
-\ln Y_{2,f} = \alpha + \rho S_{2,f} +\lambda A_f +e_{2,f}
+    \ln Y_{1,f} = \alpha + \rho S_{1,f} +\lambda A_f +e_{1,f}\\
+    \ln Y_{2,f} = \alpha + \rho S_{2,f} +\lambda A_f +e_{2,f}
 }
 Subtracting them would lead to:
 \eq{
-\ln Y_{1,f}-\ln Y_{2,f}=\rho (S_{1,f}-S_{2,f}) + e_{1,f}-e_{2,f}
+    \ln Y_{1,f}-\ln Y_{2,f}=\rho (S_{1,f}-S_{2,f}) + e_{1,f}-e_{2,f}
 }
 This regression gives an estimation of 6.2\% for $\rho$. But in practice, the collected data encounters the misreported issue, which can bring the \tbf{Attenuation bias}.
 \proo{Attenuation Bias}{
@@ -4922,17 +4922,20 @@ Define $r(S,\mathbf{p})$ as the reference price for assortment $S$ when the curr
     U_i=\alpha_i-\beta p_i+\lambda(r(S,\mathbf{p})-p_i)^+-\gamma(p_i-r(S,\mathbf{p}))^++\xi_i.
 }
 $\lambda<\gamma$ ($\lambda>\gamma$) indicates the ``loss-averse'' (``gain-seeking'') effect respectively, the utility of no-purchase is $U_0=\xi_0$. 
-After obtaining the utility under reference price, the consumers follow an MNL model (Gumbel distribution for $\xi_i$). 
+After obtaining the utility under the reference price, the consumers follow an MNL model (Gumbel distribution for $\xi_i$). 
 The formation of the reference price could be varied: highest, average, etc, and the model does not suffer from IIA because a new product into the assortment could influence the selection probability by changing the reference price. 
 For an assortment $S$ at prices $\mathbf{p}$, the \tit{consumer surplus} is defined as:
 \eq{
-    \log\left(1+\sum_{i\in\mathcal{S}}\exp\left(\alpha_i-\beta p_i+\lambda(r(S,\mathbf{p})-p_i)^+\right.\right.\left.-\gamma(p_i-r(S,\mathbf{p}))^+\right)
+    \log \left(1+\sum_{i\in S}\exp(\alpha_i-\beta p_i+\lambda(r(S,\mathbf{p})-p_i)^+-\gamma(p_i-r(S,\mathbf{p}))^+ )\right)
 }
 Now considering the lowest price as the reference price: $r_l(S,\mathbf{p})=\min_{k\in s}p_k$, and the selecting probability is:
 \eq{
     q_i(S,\mathbf{p};r_l)=\frac{\exp(\alpha_i-(\beta+\gamma)p_i+\gamma\min_{k\in S}p_k)}{1+\sum_{j\in S}\exp(\alpha_j-(\beta+\gamma)p_j+\gamma\min_{k\in S}p_k)}.
 }
-Using this framework, one may find that sometimes increasing the price of the products (with the lowest price) can increase the total wellfare.
+\pro{}{
+    For the lowest price reference, the choice probability $q_i(S,\mathbf{p};r_l)$ is decreasing in $p_i$ and is increasing in $p_j$ for any $j\in S,j\ne i$. 
+}
+Using this framework, one may find that sometimes increasing the price of the products (with the lowest price) can increase the total welfare.
 \sep{Assortment Planning and Pricing}
 First, assume the prices of all products are predetermined, so the problem can be formulated by:
 \[
@@ -4944,8 +4947,66 @@ In this case, a quasi-markup-ordered assortment is optimal:
     For any $2\le n\le N$, relabel all products in $S_{n-1}:=\{1,2,\cdots,n-1\}$ in the markup(revenue)-decresing order. 
     For any $i\le n-1$, the subset $\{k:k\le i,k\in S_{n-1}\}\cup \{n\}$ is called a quasi-arkup-ordered assortment.
 }
-There are two parameters needed for searching the optimal assortment: the reference price parameter $n$ and the revenue order parameter $i$, so this assortment optimization costs $O(N^2)$. 
-The author also considers the joint problem of optimizing the assortment as well as determining the price.\\ 
+\proo{QMOA Optimal}{
+    Since the reference is the lowest price, then there are $N$ circumstances. For each $n=1,\cdots,N$m the firm need to select the other products from $S_{n-1}$:
+    \eq{
+        \max_{S\subseteq S_{n-1}}R(S\cup\{n\},\mathfrak{p};r_l).
+    }
+    Then, the choice probability for each product $i$ is:
+    \eq{
+        q_i(\mathcal{S}\cup\{n\},\mathbf{p};r_l)=\frac{\exp(\alpha_i-(\beta+\gamma)p_i+\gamma p_n)}{1+\sum_{j\in S\cup\{n\}}\exp(\alpha_j-(\beta+\gamma)p_j+\gamma p_n)}
+    }
+    Let $\max_{S\subseteq S_{n-1}}R(S\cup\{n\},\mathbf{p};r_l)=x$. We can write:
+    \eq{
+        \begin{aligned}
+            x=H_n(x)& :=(p_{n}-c_{n}-x)\cdot\exp(\alpha_{n}-\beta p_{n})  \\
+            &+\max_{S\subseteq S_{n-1}}\sum_{i\in S}(p_i-c_i-x)\cdot\exp(\alpha_i-(\beta+\gamma)p_i+\gamma p_n).
+        \end{aligned}
+    }
+    Note the RHS has a familiar structure and for every $n$, there is a revenue-order assortment. 
+}
+There are two parameters needed for searching the optimal assortment: the reference price parameter $n$ and the revenue order parameter $i$, so this assortment optimization costs $O(n\log n)$. 
+The author also considers the joint problem of optimizing the assortment as well as determining the price:
+\eq{
+    \max_{S,\mathbf{p}}R(S,\mathbf{p};r_l).
+}
+This objective function is not jointly concave even without the reference price. 
+\defi{Same-markup/Same-price policy}{
+    Label the products using cost, $c_1\ge c_2\ge\cdots\ge c_N$. 
+    For $1\le n\le N$, products $1,2,\cdots,n$ are referred as high-cost products, whereas products $n + 1, n + 2, \cdots N$ are called low-cost products. 
+    The pricing policy that charges the same markup for high-cost products and the same price for low-cost products is called the same-markup/same-price policy.
+}
+\thm{The Optimal Policy}{
+    It is optimal to offer all products, and the same-markup/same-price policy is optimal.
+    \proo{}{
+        Assuming that product $i$ is not included in the optimal assortment, it's obvious to note that if including $i$, by setting its price and revenue sufficiently high, the revenue would increase, so the optimal assortment is $N$. 
+        Let $x^*$ as the optimal profit:
+        \eq{
+            x^*=\max_{\mathbf{p}}\sum_{i\in\mathcal{N}}(p_i-c_i-x^*)\cdot\exp\left(\alpha_i-(\beta+\gamma)p_i+\gamma\min_{k\in\mathcal{N}}p_k\right).
+        }
+        We use $y$ to substitute $\min \mathbf{p}$, and the optimization can be transform to:
+        \eq{
+            \max_{\mathbf{p}\geq y}\sum_{i\in\mathcal{N}}(p_i-c_i-x^*)\cdot\exp(\alpha_i-(\beta+\gamma)p_i+\gamma y).
+        }
+        This means that we can optimize $p_i$ for each $i$ separately, and the optimal solution is given by $p_i=\max(c_i+x^*+1/(\beta+\gamma),y)$.
+    }
+}
+Following the conclusion of the last theorem, the AOP can be transformed to solving $N$ two-dimensional problem (for each $n$):
+\eq{
+    \begin{gathered}
+        \max_{m+c_n\geq p}\left(\sum_{i=1}^nm\cdot\exp(\alpha_i-(\beta+\gamma)(m+c_i)+\gamma p)\right. +\sum_{i=n+1}^N(p-c_i)\cdot\exp(\alpha_i-\beta p)\biggr) \\
+        \cdot\left(1+\sum_{j=1}^n\exp(\alpha_j-(\beta+\gamma)(m+c_j)+\gamma p\right)\left.+\sum_{j=n+1}^N\exp(\alpha_j-\beta p)\right)^{-1}. 
+    \end{gathered}
+}
+However, for a given $n$, the problem is not jointly concave in $p$ and $m$, so we need an efficient algorithm. 
+Let $R(\mathcal{N},\mathbf{p};r_l)=x$, we can get:
+\eq{
+    \begin{aligned}
+        \boldsymbol{x}= & \Gamma(x;\gamma)  \\
+        := & \max_{\mathbf{p}}\sum_{i\in\mathcal{N}}\Big\{(p_{i}-c_{i}-x)\mathrm{exp}\Big(\alpha_{i}-(\beta+\gamma)p_{i}+\gamma\mathrm{min}p_{k}\Big)\Big\}. 
+    \end{aligned}
+}
+Note that $\Gamma(x;\gamma)$ is decreasing in $x$, the effecient algorithm contain two parts: first compute $\Gamma(x;\gamma)$, then use the bisection method to search $x^*$ such that $x^*=\Gamma(x^*;\gamma)$.\\
 \cite{rooderkerk2011incorporating} is the first paper incorporating context effects into the \tbf{attribute-based} choice model. 
 Given participant $h$ (can be understood as the response parameter heterogeneity), item $i$ and the choice set $S$, the utility $z_{hi}^S$ is defined by:
 \eq{
@@ -4999,7 +5060,7 @@ Matrix $A\in\RR^{n\times n}$ is the matrix for $\alpha_{ji}$, now the assortment
     \max_{x\in\{0,1\}^N}r(x,\mu,A)=\max_{x\in\{0,1\}^N}\sum_{i=1}^Nx_ir_iP_i(x),
 }
 where $r_i$ is the revenue for product $i$. 
-When $r_i=1\forall i$, this problem becomes a CTROP (Click Through Rate Optimization Problem), which is widely used in online recommendations:
+When $r_i=1,\forall i$, this problem becomes a CTROP (Click Through Rate Optimization Problem), which is widely used in online recommendations:
 \eq{
     \max_{x\in\{0,1\}^N}M(x,\mu,A)=\max_{x\in\{0,1\}^N}\sum_{i\in\mathcal{N}}x_iP_i(x).
 }
