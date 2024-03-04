@@ -2606,9 +2606,46 @@ Consider the demand equilibrium model:
    \end{cases}
 }
 
-\subsubsection{Validity of IV}
-
 \subsubsection{Local Average Treatment Effect}
+\lis{
+    \item the \tit{instrument}: $Z_i$;
+    \item the \tit{treatment}: $D_i$;
+    \item the \tit{outcome}: $Y_i$.
+}
+The IV chain can lead us to the definition of LATE: the \tbf{first-stage} $\phi=E[D_i|Z_i=1]-E[D_i|Z_i=0]$; the \tbf{reduced-form} $\rho=E[Y_i|Z_i=1]-E[Y_i|Z_i=0]$. 
+The LATE is defined as $\lambda=\frac{\rho}{\phi}=\frac{E[Y_i|Z_i=1]-E[Y_i|Z_i=0]}{E[D_i|Z_i=1]-E[D_i|Z_i=0]}$, which is the ratio of the reduced form to the first stage. 
+\begin{center}
+    LATE is the average causal effect of $D$ on $Y$ for those whose status $D$ is determined \tbf{solely} by $Z$ (\tit{compliers}), but only under the monotonicity assumption: there is no \tit{defier} in the sample.
+\end{center}
+\eq{
+    \lambda = \frac{\rho}{\phi} = E[Y_{1i}-Y_{0i}|C_i=1]
+}
+To calculate the standard error of the 2SLS parameter, one can regress 
+\[
+    \eta_i=Y_i-\alpha_2-\lambda_{2SLS}D_i-\gamma_2A_i.    
+\]
+The standard error is given by:
+\eq{
+    SE(\hat{\lambda}_{2SLS})=\frac{\sigma_n}{\sqrt{n}}\times\frac{1}{\sigma_{\hat{D}}}
+}
+
+\subsubsection{2SLS}
+Compared to computing LATE by hand, 2SLS (2-stage-least-squares) has two advantages:
+\lis{
+    \item 2SLS can use multiple IVs simultaneously;
+    \item 2SLS can control for covariates.
+}
+\eq{
+    \begin{cases}
+        \hat{D}_i = \alpha_1+\phi Z_i+\gamma_1 A_i & \text{first-stage} \\
+        Y_i=\alpha_2+\lambda_{2SLS}\hat{D}_i+\gamma_2A_i+e_{2i} & \text{second-stage}
+    \end{cases}
+}
+
+\subsubsection{Validity of IV}
+\begin{center}
+    \tit{If you can not see it in the reduced form, it ain't there.}
+\end{center}
 
 \subsection{Asymptotic Analysis}
 
@@ -4184,6 +4221,16 @@ The inequality is tight at the optimal solution, we can transform it into a line
     \end{aligned}
 }
 where $z$ and $y_i$ are decision variables ($m+1$). 
+\subsubsection{Properties of the Choice Model}
+There are two important properties for the MNL-based choice model: \tbf{regularity} and \tbf{submodularity}. 
+Regularity means for any assortment $S$, adding a new item $j\notin S$ would reduce the probability of $P_i(S\cup j)$ for any $i\in S$ under the choice model.\\
+\defi{Submodularity}{
+    Given a choice model $P$, let the demand function: $2^{\mathcal{J}}\mapsto\mathbb{R}$ of the choice model be given by $d(S):=\sum_{j\in S}P_{j:S}$ for any assortment $S\subset\mathcal{J}$. 
+    The intuitive understanding of submodularity is the marginal increment of new items on $d$ is always decreasing:
+    \eq{
+        d(S_2\cup\{k\})-d(S_2)\quad\le\quad d(S_1\cup\{k\})-d(S_1),\quad\forall S_1\subset S_2\subset\mathcal{J},k\in\mathcal{J}\setminus S_2.
+    }
+} 
 \subsubsection{Markov Chain Choice Model}
 In the preference list (permutation) model, each decision maker has a strict preference list $\sigma$, which has a distribution $\cQ$. The choice probability is given by:
 \eq{
@@ -4375,6 +4422,14 @@ And at last, we can achieve:
 
 \subsection{Dynamic Pricing and Reinforcement Learning}
 
+\cite{den2023mathematical} provides a mathematical definition on algorithmic collusion, there are four conditions for collusion:
+\lis{
+    \item the algorithm should be implementable in practice (\tbf{incomplete information} about the payoff structure);
+    \item the algorithm should be rational, ensuring a good performance against various alternative algorithms is also essential;
+    \item supracompetitive outcomes;
+    \item no illegal communications.
+}
+Let $\nu:=\{\nu_{a_1,a_{-1}}:(a_1,a_{-1})\in\mathcal{A}_1\times\mathcal{A}_{-1}\}\in\mathcal{V}_0$ be the collection of probability distributions of $(Y_{1,a_1,a_{-1}},Y_{-1,a_{-1},a_1})$, we call $\nu$ the \tit{true parameter} in the repeated game.
 \cite{misra2019dynamic} is probably the first paper that incorporates reinforcement learning (MAB) algorithm
 into dynamic pricing.
 \ass{\cite{misra2019dynamic}}{
@@ -4426,6 +4481,7 @@ algorithms systematically learn to collude. The collusion is typically partial a
 The authors also investigate the algorithm's strategy toward competitor's deviation: at epoch $0$ the supra-competitive outcomes have been achieved, and at epoch $1$ one party is defected by force, but then
 back to using the algorithm to decide as normal. The dynamics can be shown in the picture below:
 \fig{collusion deviation}{collusion deviation}{0.5}
+\cite{den2022artificial} verified this collusion but criticized that this paper doesn't reveal the `true' algorithmic collusion. 
 \cite{asker2022artificial} and \cite{asker2023impact} extend Calvano's research methodology using the Bertrand Pricing model, and find that during such setting, the game would converge to the collusive outcome when both agents use the \tit{synchronous updating} scheme.\\
 \cite{hansen2021frontiers} follows the research and verifies whether the UCB algorithm would lead to collusion in the duopoly market. They assume a symmetric linear demand:
 \eq{
@@ -4504,6 +4560,13 @@ costly action of “resetting” the price cycle by jumping up in price rather t
     \item \tbf{genuine collusion}: the algorithms do not cut their prices because they anticipate retaliatory responses by rivals;
     \item \tbf{spurious collusion}: the algorithms do not cut their prices simply because they are missing opportunities to earn more.
 }
+\cite{aouad2021algorithmic} proposes an efficient algorithm to support the tacit collusion in the multi-agent assortment game (solving the collusive factor is NP-hard, thus needs an efficient way). 
+\cite{meylahn2022learning} presents a price algorithm that can learn to collude when used by both players in a duopoly with unknown demand function and no inventory constraints. 
+They assume there is a \tbf{unique} maximizer $\mathbf{p}^{col}$ and a unique Nash Equilibrium $\mathbf{p}^{com}$. 
+There are five phases in their algorithm, in the first and second phases, the two players explore and estimate the collusive outcomes; in the third and fourth phases, the two players explore and estimate the competitive outcomes; in the 5th stage, the two players make decision based on the previous outcomes. 
+The authors proved that this algorithm can converge to the supracompetitive outcomes when used by both firms and can respond competitively to the reaction function when used by a single firm.\\ 
+\cite{loots2023data} proposed an algorithm that can collude under the multinomial logit demand function, and this algorithm can learn another firm's private information using the public pricing information. 
+\cite{} 
 \cite{abada2023artificial} studies the dynamic pricing collusive scenario using the model of the electricity markets. Agents are indexed by $i\in I$ and their actions time $t$ are denoted by $a_i^t$, $a_i^t\in\RR$ is positive
 (negative) if the agent $i$ sells to (buys from) the market at time $t$.
 
@@ -5085,7 +5148,9 @@ The first scenario they consider is the ranking-based focal effect, let $\sigma(
 \[
     F(\mathcal{S})=\{i:\sigma(i,\mathcal{S})\leq\min\{K,|\mathcal{S}|\},i\in\mathcal{S}\},
 \]
-and the distortion function is set to be a constant: $\delta(\cS)=\delta$.
+and the distortion function is set to be a constant: $\delta(\cS)=\delta$.\\
+\cite{cao2022network} consider the assortment optimization in the airline industry using the spiked-MNL choice model. 
+`Spiked' means that each product $j$ has two utility $w_j,v_j$ with $w_j\ge v_j\ge0$, if $j$ is the cheapest among the assortment, the utility is $w_j$, otherwise $v_j$. 
 
 \clearpage
 \section{Data-Driven Operations Management}
