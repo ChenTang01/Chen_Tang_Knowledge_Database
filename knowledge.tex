@@ -2343,7 +2343,7 @@ In a dynamic game of complete and perfect information, PBE is equivalent to SPNE
 \ex{
     Ante Game: \\
     there are two players. Player $i$ can observe $t_i\sim uniform(0,1)$ independently. Player $1$ can `showdown'(both players show $t_i$, the higher $i$ wins), or he can `raise': 
-    under this case, player $2$ can `fold' (lose the game) or `match' (force a  showdown).\\
+    under this case, player $2$ can `fold' (lose the game) or `match' (force a showdown).\\
     In this game, the information sets for player $1$ is given as $(t_1)$, and $(t_2,a_1)$ for player $2$. The beliefs for player $1$ is $p_1(t_2|t_1)=t_2$ and $p_2(t_1|t_2,a_1)=p_2(t_1|a_1)$ for player $2$.
 }{
     Find the PBE for the game.
@@ -2352,7 +2352,7 @@ In a dynamic game of complete and perfect information, PBE is equivalent to SPNE
 Player $1$ has some private information $t_1$ and first move $A_1$, player $2$ sees $A_1$ and make move $A_2$. In this case, when player $2$ moves first, it's called a \tbf{screening game}. 
 An example is the job market game (\cite{Spence1973}): player $1$ is the worker, who has the intrinsic ability $t_1$ and education decision $a_1$. Player $2$ is the firm that can decide the wage offered $a_2$.
 \fig{The stylised signaling game}{The stylised signaling game}{0.5}
-Consider a stylised signaling game: a seller has an item with quality of either $H$ (with probability $p$) or $L$ (probability $1-p$), and the seller can advertise either $H$ or $L$. In this case, the game only has a 
+Consider a stylized signaling game: a seller has an item with quality of either $H$ (with probability $p$) or $L$ (probability $1-p$), and the seller can advertise either $H$ or $L$. In this case, the game only has a 
 \tbf{pooling} equilibrium (the player $2$'s belief is independent of the seller's action). But suppose there is a cost $c$ ($H-c<L$) when the seller lies, this game has an \tbf{separating} equilibrium: the seller 
 always tells the truth and the player $2$ always believes the advertisement.
 
@@ -2383,6 +2383,135 @@ When both $T$ and $\delta$ are sufficiency large, we can make the actions (A,A) 
     If $(v_1,\cdots, v_n)$ is feasible and higher than the minmax payoff lower bounds $\underline{v}_i$ for all $i$, then there exists $1>\delta\ge\underbar{\delta}$, that 
     for all game $G^{\infty}(\delta)$, there is a equilibrium with payoffs $(v_1,\cdots, v_n)$. 
 }
+
+\subsection{Cooperative Game}
+
+A \tbf{cooperative game} (coalitional game) is a model of interacting decision-makers that focuses on the behavior of groups of players ($N$). 
+A \tbf{coalition} is a subset $S\subset N$, we call $N$ the \tbf{grand coalition}. 
+Every coalition $S$ has a set of available actions $A_S$. 
+An \tbf{outcome} consists of a CS (\tbf{coalition structure}) and one action associated with the CS:
+\[
+    (S_k,a_k)_{k=1,...,\bar{k}}\text{with}S_j\cap S_k=\emptyset,\forall j\neq k,\cup_kS_k=N,a_k\in A_{S_k}.
+\]
+Each agent has a utility function $u_i$ without externalities. 
+\defi{Transferable Payoffs}{
+    A game with transferable payoffs associates any coalition $S$ to a real number $v(S)$, and assumes $v(\emptyset)=0$. 
+    The set of actions available for coalition $S$ is all possible divisions $(x_i)_{i\in S}$ such that $\sum_{i\in S}x_i=v(S)$.
+}
+A coalition $S$ can \tbf{block} an action $a_N$ of the grand coalition if $v(S)>\sum_{i\in S}x_i, x_i=a_{N_i}$. 
+We call a game \tbf{cohesive} if there exists some action $a_N$ in the grand coalition that no coalition can block. 
+\defi{Core}{
+    The core of a coalitional game is the set of actions $a_N$ of the grand coalition $N$ that are not blocked by any coalition.
+}
+\thm{Bondareva \$ Shapley}{
+    A non-negative vector $\lambda_S$ with dimension $2^N$ is a \tbf{balanced} weight if:
+    \[
+        \sum_{\{S\subset N|i\in S\}}\lambda_S=1,\forall i\in N.
+    \]
+    A payoff function is \tbf{balanced} if for every balanced weight $\lambda$:
+    \eq{
+        \sum_{S\subset N}\lambda_Sv(S)\leq v(N)
+    }
+    There is an intuitive way to understand the balanced weight, $\lmabda_S$ can be viewed as the proportion of time for player $i$ distributing on the coalition $S$.
+    \begin{center}
+        A coalitional game with transferable payoffs has a non-empty core iff it is balanced.
+    \end{center}
+    \proo{}{
+        The proof needs the duality theorem. 
+        The core can be solved by solving the LP:
+        \eq{
+            \min\sum_{i\in N}x_i\mathrm{~s.t.~}\sum_{i\in S}x_i\geq v(S),\forall S\subset N.
+        }
+        The core is non-empty iff $\sum_{i\in N}x_i^* \le v(N)$, and the dual of the LP is given by:
+        \eq{
+            \max\sum_{S\in2^N}\lambda_Sv(S)\text{ s.t. }\lambda_S\geq0,\forall S\subset N\&\sum_{S\ni i}\lambda_S\leq1,\forall i\in N.
+        }
+        By the definition of LP, $\sum_{i\in N}x_i^*=\sum_{S\in2^N}\lambda_S^*v(S)$. 
+        So if $LHS\le v(N)$, then $RHS\le v(N)$. 
+    }
+}
+\defi{Convex Cooperative Game}{
+    A game with transferable playoffs $v$ is \tit{convex} (sometimes referred to as super-modularity) if for any two colations $S$ and $T$:
+    \eq{
+        v(S\cup T)+v(S\cap T)\geq v(S)+v(T),
+    }
+    which implies that the marginal contribution of an individual $i$ to a coalition is (weekly) increasing as the coalition gets larger because for any $S\subset T$ and $i\notin T$:
+    \[
+        S\subset T\And i\notin T\implies v(T\cup\{i\})-v(T)\geq v(S\cup\{i\})-v(S).
+    \]
+    To see this, we consider the interaction between $S\cup \{i\}$ and $T$ and apply the above definition:
+    \eq{
+        v((S\cup\{i\})\cup T)+v((S\cup\{i\})\cap T)\geq v(S\cup\{i\})+v(T).
+    }
+    \re{
+        There are some similar definitions in the game:
+        \lis{
+            \item \tbf{Superaddictivity}: for any two disjoint $S,T$: $v(S\cup T)\geq v(S)+v(T).$
+            \item \tbf{Monotone}: for any coalitions $S\subset T$: $v(S)\le v(T)$.
+        }
+        Convexity implies superadditivity, and superadditivity implies monotonicity.
+    }
+}
+\pro{}{
+    Any convex game with transferable payoffs has a non-empty core.
+}
+
+\subsubsection{The Core and Competitive Equilibria}
+Consider an exchange economy with a set of consumers $N$ and a set of goods $G$. 
+A \tit{consumption bundle} is an element $x \in \RR_+^G$. 
+Consumer $i$ enjoys utility $u_i(x_i)$ from a bundle $x_i$. 
+Each consumer starts with an endowment $\omega_i\in \RR^G_+$. 
+An \tit{allocation} $\{x_i\}_{i\in N}$ with $x \in \RR_+$ is feasible if
+\[
+    \sum_{i\in N}x_{i}=\sum_{i\in N}\omega_{i}
+\]
+\defi{Competitive Equilibria}{
+    A competitive equilibria is a price vector $(p_g^*)_{g\in G}$ and a feasible allocation $x^*=(x_i^*)_{i\in N}$ such that:
+    \eq{
+        p^*\cdot x_i\leq p^*\cdot\omega_i\implies u_i(x_i^*)\geq u_i(x_i).
+    }
+    Intuitive understanding: $x_i^*$ is the consumption bundle that maximizes consumer $i$'s utility among bundles he can afford given the price $p^*$. 
+}
+We can view the market as a cooperative game (without considering prices), and for any coalition $S$ in the game, the distribution need to satisfy:
+\eq{
+    A_S=\left\{(x_i)_{i\in S}\mid\sum_{i\in S}x_i=\sum_{i\in S}\omega_i\right\}.
+}
+Note that in this game there is no transferable utility function. 
+\thm{}{
+    \begin{center}
+        Any competitive equilibrium is in the core.
+    \end{center}
+    \proo{}{
+        Let $x^*$ be a competitive equilibrium allocation corresponding to a price vector $p$. 
+        Suppose that a coalition $S$ can block $x^*$, then there exists $(x_i)_{i\in S}$ such that $\sum_{i\in S}x_i=\sum_{i\in S}\omega_i$ and $u_i(x_i)>u_i(x_i^*)\forall i\in S$. 
+        By definition of equilibrium, we can imply:
+        \[
+            p\cdot x_i>p\cdot \omega_i, \forall i\in S
+        \]
+        Adding up these conditions we obtain
+        \eq{
+            p\cdot\sum_{i\in S}x_i>p\cdot\sum_{i\in S}\omega_i.
+        }
+        Contradiction. \emotree
+    }
+}
+
+\subsubsection{Shapley Value}
+\defi{Shapley Value}{
+    The Shapley value is given by:
+    \eq{
+        \varphi_i(v)&=\sum_{S\subset N\setminus\{i\}}\frac{|S|!(|N|-|S|-1)!}{|N|!}(v(S\cup\{i\})-v(S)).
+    }
+    Intuitive understanding: $\varphi_i(v)$ represents the expected value of player $i$'s contribution to the coalition formed by the players preceding him in line. 
+}
+\ax{}{
+    \tab{
+        \item \tbf{Symmetry}: if $i$ and $j$ are interchangable ($v(S\cup\{i\})=v(S\cup\{j\})$ for all $S$ disjoint from $\{i,j\}$) in $v$, then $\varphi_{i}(v)=\varphi_{j}(v)$;
+        \item \tbf{Dummy}: if $i$ is dummy ($v(S\cup\{i\})=v(S)$ for all $S$) in $v$, then $\varphi_{i}(v)=0$;
+        \item \tbf{Addictivity}: For any two games $v$ and $w$, we have $\varphi(v+w)=\varphi(v)+\varphi(w)$.
+    }
+}
+
 
 \subsubsection{The Bargaining Model}
 \cite{Rubinstein1982} studies another equilibrium in the game. In the model, 
@@ -4565,10 +4694,41 @@ costly action of “resetting” the price cycle by jumping up in price rather t
 They assume there is a \tbf{unique} maximizer $\mathbf{p}^{col}$ and a unique Nash Equilibrium $\mathbf{p}^{com}$. 
 There are five phases in their algorithm, in the first and second phases, the two players explore and estimate the collusive outcomes; in the third and fourth phases, the two players explore and estimate the competitive outcomes; in the 5th stage, the two players make decision based on the previous outcomes. 
 The authors proved that this algorithm can converge to the supracompetitive outcomes when used by both firms and can respond competitively to the reaction function when used by a single firm.\\ 
-\cite{loots2023data} proposed an algorithm that can collude under the multinomial logit demand function, and this algorithm can learn another firm's private information using the public pricing information. 
-\cite{} 
+\cite{loots2023data} proposed an algorithm that can collude under the multinomial logit demand function, and this algorithm can learn another firm's private information using the public pricing information. \\
 \cite{abada2023artificial} studies the dynamic pricing collusive scenario using the model of the electricity markets. Agents are indexed by $i\in I$ and their actions time $t$ are denoted by $a_i^t$, $a_i^t\in\RR$ is positive
-(negative) if the agent $i$ sells to (buys from) the market at time $t$.
+(negative) if the agent $i$ sells to (buys from) the market at time $t$. There is a group of fringe producers $a_f^t$, so the overall demand at time $t$ is given by:
+\[
+    D^t=\sum_ia_i^t+a_f^t\quad\forall t\in1,\ldots, T.
+\]
+But the fringe producers are price-takers and can be ignored, thus the residual inverse demand function is given by:
+\[
+    p^t=\tilde{p}^t-\beta^t\sum_ia_i^t\quad\forall t\in1,\ldots,T,
+\]
+Each agent has a capacity $l_i^t$ with a linking function $l_i^{t+1}=l_i^t-a_i^t$, facing the trading constraint as well as the stocking constraint. 
+Denoting $\mathbf{a}^{t}\equiv(a_{1}^{t},a_{2}^{t},\ldots,a_{I}^{t})\in\mathbb{R}^{|I|}$, we can write the payoff function for each agent as (ignore the discounted factor):
+\eq{
+    \Pi_i=\sum_{t=1}^Tp^t(\mathfrak{a}^t)a_i^t,
+}
+and the corresponding optimization can be written as:
+\eq{
+    \begin{aligned}
+        \mathrm{Max}_{a_i^1,\ldots,a_i^T}&\sum_{t=1}^Tp^t(\mathbf{a}^t)a_i^t\\
+        \mathrm{s.t.}&\quad l_i^{t+1}=l_i^t-a_i^t&\forall t\in0,\ldots,T-1,\\
+        &|a_i^t|\leq K_i&\forall t\in1,\ldots,T,\\
+        &0\leq l_i^t\leq L_i&\forall t\in1,\ldots,T.
+    \end{aligned}
+}
+Each agent uses Q-learning with $\epsilon$-greedy exploration, the state space is defined as the historical prices and capacities (in a discrete style). 
+The experiments show that the agent can converge to the collusive outcomes, and each agent exhibits the punishment for any deviation. 
+The authors explain this `seemingly' collusion as a result of \tbf{lack of exploration}, to support this intuition, they artificially force the learning process to keep exploring at some steps, and the results learned are closer to the full-competition phenomenon. 
+Finally, the authors provide two methods to avoid(reduce) this collusion:
+\lis{
+    \item Local learning: prevent the aggregated learning;
+    \item The regulator can play in the market as a participant.
+}
+\sep{Some Theoretical Works from a Game Theory Perspective}
+\cite{dolgopolov2024reinforcement} studied whether a prisoner's dilemma would converge to the collusive outcomes using bandit RL algorithms. 
+He proved that by using a large enough learning rate, the game would converge to the collusive outcomes, the proof uses one-shot deviation principle, and to simply the proof, the author discretizes the Q-value. 
 
 \clearpage
 \section{Platform Operations Management}
