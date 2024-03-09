@@ -1,4 +1,4 @@
-\documentclass[12pt]{report}
+\documentclass[10pt]{report}
 \input{chentang}
 
 \title{\textbf{Chen Tang's \break Knowledge Database}}
@@ -2497,6 +2497,9 @@ Note that in this game there is no transferable utility function.
 }
 
 \subsubsection{Shapley Value}
+An outcome in the core may be unfair, a fair payment scheme rewards each agent according to his marginal contribution. 
+However, this scheme is dependent on the order, we can permutate on all the orderings, which is the Shapley value.
+
 \defi{Shapley Value}{
     The Shapley value is given by:
     \eq{
@@ -2511,7 +2514,25 @@ Note that in this game there is no transferable utility function.
         \item \tbf{Addictivity}: For any two games $v$ and $w$, we have $\varphi(v+w)=\varphi(v)+\varphi(w)$.
     }
 }
-
+\thm{}{
+    \begin{center}
+        A value satisfies the three axioms above iff it is the Shapley value.
+    \end{center}
+    \proo{}{
+        First, we prove the `if' part. The only not-so-straightforward part is the proof of symmetry:
+        \eq{
+            \begin{aligned}
+                \varphi_{i}(v)& =\sum_{S\subset N\setminus\{i\}}\frac{|S|!(|N|-|S|-1)!}{|N|!}(v(S\cup\{i\})-v(S))  \\
+                &=\sum_{S\subset N\setminus\{i,j\}}\frac{|S|!(|N|-|S|-1)!}{|N|!}(v(S\cup\{i\})-v(S)) \\
+                &+\sum_{S\subset N\setminus\{i,j\}}\frac{(|S|+1)!(|N|-(|S|+1)-1)!}{|N|!}(v(S\cup\{i,j\})-v(S\cup\{j\})) \\
+                &=\sum_{S\subset N\setminus\{i,j\}}\frac{|S|!(|N|-|S|-1)!}{|N|!}(v(S\cup\{j\})-v(S)) \\
+                &+\sum_{S\subset N\setminus\{i,j\}}\frac{(|S|+1)!(|N|-(|S|+1)-1)!}{|N|!}(v(S\cup\{i,j\})-v(S\cup\{i\})) \\
+                &=\quad\varphi_j(v).
+            \end{aligned}
+        }
+        Next, we need to prove the `only if' part, suppose $\psi$ is the value that satisfies the above axioms, we need to prove $\psi=\varphi$. 
+    }
+}
 
 \subsubsection{The Bargaining Model}
 \cite{Rubinstein1982} studies another equilibrium in the game. In the model, 
