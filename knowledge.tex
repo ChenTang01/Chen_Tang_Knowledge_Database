@@ -2125,7 +2125,7 @@ $D_i^\infty$ is the set of strategies that survive iterated strict dominance.
         where $NE_i$ is the Nash Equilibrium, $R_i^\infty$ is the set of rationalizable strategies, and $D_i^\infty$ is the set of 
         strategies that survive iterated strict dominance.
     }
-    Not all games have an NE (usually due to the dis-coutinuity in $u_i$.)
+    Not all games have an NE (usually due to the dis-coutinuity in $u_i$).
 }
 \thm{Existence of NE (Nash 1951)}{
     Any game with a finite set of players and a finite set of strategies has an NE of mixed strategies (this theorem emphasizes on \tit{finite games}).
@@ -2537,6 +2537,38 @@ However, this scheme is dependent on the order, we can permutate on all the orde
 \subsubsection{The Bargaining Model}
 \cite{Rubinstein1982} studies another equilibrium in the game. In the model, 
 
+\subsection{Mechanism Design}
+
+Mechanism design is a reverse engineering of game theory, it focuses on the problems associated with incentives and private information (selling, matching and auctions). Redefine an incomplete information game: $\Gamma=\langle[n],\{A_i\}_{i\in\mathbb{n}},\{T_i\}_{i\in\mathbb{n}},\Omega,g,\{u_i\}_{i\in\mathbb{n}}\rangle$: $n$ is the player, $A_i$ is the set of actions, $T_i$ is the player's type, $g$ is the outcome mapping the action to the outcome space $\Omega$, and $u$ is the utility function. There is a prior distribution on $T$: $F$. 
+\defi{Social Choice Function}{
+    A social choice function is $f:T\to\Omega$. A successful mechanism needs to satisfy:
+    \[
+        g(\mathbf{s}^*(\mathbf{t}))\in f(\mathbf{t})
+    \]
+    The \tbf{social welfare} can be defined as $\mathbb{E}_{\mathbf{t}\sim F}\left[W(g(\mathbf{s}^*(\mathbf{t}))\right]$.
+}
+A \tit{direct mechanism} is one in which the space of possible actions is equal to the space of possible types. All other mechanisms are called \tit{indirect}.
+\defi{Incentive Compatibility}{
+    A (direct) mechanism is BIC (\tbf{bayesian incentive compatibility}) iff truthtelling is a BayesNash equilibrium: i.e.,
+    \eq{
+        \underset{\mathbf{t}\sim F}{\operatorname*{E}}\left[u_i(g(t_i,\mathbf{t}_{-i});\mathbf{t})\right]\geq\underset{\mathbf{t}\sim F}{\operatorname*{E}}\left[u_i(g(t_i^{\prime},\mathbf{t}_{-i});\mathbf{t})\right],\quad\forall i\in[n],\forall t_i^{\prime}\in T_i.
+    }
+    Similarly, a mechanism is EPIC (\tbf{ex-post incentive compatibility}) iff truthtelling is a Nash equilibrium: i.e.,
+    \eq{
+        u_i(g(t_i,\mathbf{t}_{-i});\mathbf{t})\geq u_i(g(t_i^{\prime},\mathbf{t}_{-i});\mathbf{t}),\quad\forall i\in[n],\forall t_i^{\prime}\in T_i.
+    }
+    A mechanism is DSIC (\tbf{dominant strategy incentive compatibility}) iff:
+    \eq{
+        u_i(g(t_i,\mathbf{t}_{-i});\mathbf{t})\geq u_i(g(t_i^{\prime},\mathbf{t}_{-i});\mathbf{t}),\quad\forall i\in[n],\forall t_i^{\prime}\in T_i,\forall\mathbf{t}_{-i}\in T_{-i}.
+    }
+    \re{
+        In a direct mechanism, EPIC is equivalent to DSIC.
+    }
+}
+\thm{The Revelation Principle}{
+    Given a mechanism $M$ for which there exists an equilibrium strategy profile $s$, we can construct an equivalent direct mechanism $M^∗$ in which truthtelling is likewise an equilibrium.
+}
+
 \clearpage
 \section{Development Economics}
 
@@ -2866,26 +2898,6 @@ This regression gives an estimation of 6.2\% for $\rho$. But in practice, the co
 
 \section{Machine Learning}
 
-\subsection{Association Mining}
-
-An \tbf{itemset} is a set of items, and a $k$-itemset is a set of items of cardinality $k$. 
-\defi{Support}{
-    The support of an itemset $I$ is defined as the fraction of the transactions in the database $\cT$ that contain $I$ as a subset. Frequent itemset mining is to determine all itemsets $I$ that have support higher than a predefined threshold. 
-    \eq{
-        sup(J)\geq sup(I)\quad\forall J\subseteq I
-    }
-    This is also called the \tit{downward closure property}. A frequent itemset is \tbf{maximal} if given a minimum support, it is frequent and no superset of it is frequent.
-}
-We can calculate the \tit{confidence} of $x\to Y$ using:
-\eq{
-    conf(X\Rightarrow Y)=\frac{sup(X\cup Y)}{sup(X)}
-}
-If the support of $X\cup Y$ and the confidence of $X\to Y$ are larger than certain values, we call $X\to Y$ an \tbf{association rule}. There are some tricks to compute the frequent itemset effectively. 
-\sep{The Apriori Algorithm}
-The idea is: if an itemset is infrequent, there is little point in counting the support of its superset candidates. 
-\fig{The Apriori algorithm}{The Apriori algorithm}{0.4}
-
-
 \subsection{Imitation Learning}
 
 \sep{DAGGER}
@@ -2944,8 +2956,7 @@ where $d$ is the number of inputs for each neuron. Another initialization note i
 
 \subsection{Foundations of Causal Inference}
 
-\cite{peters2017elements} provide an overview of causal inference from a fundamental science perspective. \cite{spirtes2010introduction}
-summarize the development of causal inference and machine learning interface from a computer science perspective.\\
+\cite{peters2017elements} provide an overview of causal inference from a fundamental science perspective. \cite{spirtes2010introduction} summarize the development of causal inference and machine learning interface from a computer science perspective.\\
 There are two main causal frameworks: \tbf{Structural Causal Model} and \tbf{Potential Outcome Framework}.
 
 \subsubsection{Structural Causal Model}
@@ -3037,17 +3048,12 @@ If we denote $G_t=R_{t+1}+\gamma G_{t+1}$, then we have:
                         & =\sum\pi(a|s)\sum p(s^{\prime},r|s,a)\Big[r+\gamma v_\pi(s^{\prime})\Big],\quad\text{for all }s\in\mathcal{S},
         \end{aligned}
     }
-    If we consider a $n$-state game, assume the reward $r\in \RR^n$ is deterministic. Then we denote $P$ as the transition matrix
-    for a corresponding strategy and $V\in\RR^n$ as the value function vector. Finally, we can get the Bellman equation in matrix form:
+    If we consider a $n$-state game, assume the reward $r\in \RR^n$ is deterministic. Then we denote $P$ as the transition matrix for a corresponding strategy and $V\in\RR^n$ as the value function vector. Finally, we can get the Bellman equation in matrix form:
     eq{
             V=r+\gamma PV.
         }
 }
-A policy $\pi$ is better $\pi'$ if and only if $v_{\pi}(s)\le v_{\pi'}(S) \text{for all } s \in \cS$. There is always at list one
-\tit{optimal policy} denoted by $\pi_*$ (doesn't hold for partially observed MDP). They share the same state-value function, called the \tit{optimal state-value function}:
-$v_*(s)\doteq\max_\pi v_\pi(s)$. The optimal policy also shares the same \tit{optimal action-value function}:
-$q_*(s,a)\doteq\max_{\pi}q_\pi(s,a)=\mathbb{E}[R_{t+1}+\gamma v_*(S_{t+1})\mid S_t=s,A_t=a]$. Then we can get the \tbf{Bellman optimality function}
-in an action-value function sense:
+A policy $\pi$ is better $\pi'$ if and only if $v_{\pi}(s)\le v_{\pi'}(S) \text{for all } s \in \cS$. There is always at list one \tit{optimal policy} denoted by $\pi_*$ (doesn't hold for partially observed MDP). They share the same state-value function, called the \tit{optimal state-value function}: $v_*(s)\doteq\max_\pi v_\pi(s)$. The optimal policy also shares the same \tit{optimal action-value function}: $q_*(s,a)\doteq\max_{\pi}q_\pi(s,a)=\mathbb{E}[R_{t+1}+\gamma v_*(S_{t+1})\mid S_t=s,A_t=a]$. Then we can get the \tbf{Bellman optimality function} in an action-value function sense:
 \thm{Bellman optimality function}{
     \eq{
         \begin{gathered}
