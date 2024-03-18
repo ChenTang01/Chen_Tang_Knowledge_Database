@@ -2641,21 +2641,63 @@ re{Common Control Variables in Clan Research Identification(Individual Level):
 \section{Reduced-Form Identification}
 The main contents of this chapter are the notes of \cite{angrist2014mastering}, \cite{angrist2009mostly}.
 
-\subsection{Randomized Trials}
+\subsection{Counterfactual Framework \& Identification}
+
 \key{ATT, ATE, Counter-factual World, Potential Outcome}
-The outcome is $Y_i$, the potential outcome is $Y_{1i},Y_{0i}$:
-\eq{Y_i=\begin{cases}Y_{1i}\quad&ifD_i=1\\Y_{0i}\quad&ifD_i=0\end{cases}\\Y_i=Y_{0i}+(Y_{1i}-Y_{0i})D_i}
+In the theory of the Neyman-Rubin Causal model, the outcome is $Y_i$, the potential outcome is $Y_{1i},Y_{0i}$:
+\eq{
+    Y_i=\begin{cases}Y_{1i}\quad&ifD_i=1
+    \\Y_{0i}\quad&ifD_i=0\end{cases}
+}
+\eq{
+    Y_i=Y_{0i}+(Y_{1i}-Y_{0i})D_i
+}
 \textit{Naive Comparison}:
-\eq{\begin{aligned}\{\mathbf{E}[Y_i|D_i=1]-\mathbf{E}[Y_i|D_i=0]\} & =\{\mathbf{E}[Y_{1i}|D_i=1]-
-            \mathbf{E}[Y_{0i}|D_i=1]\}                                                     \\&+\{\mathbf{E}[Y_{0i}|D_i=1]-\mathbf{E}[Y_{0i}|D_i=0]\}\end{aligned}}
-\tab{\item observed difference: $\mathbf{E}[Y_i|D_i=1]-\mathbf{E}[Y_i|D_i=0]$;
+\eq{
+    \begin{aligned}
+        \{\mathbf{E}[Y_i|D_i=1]-\mathbf{E}[Y_i|D_i=0]\} & =\{\mathbf{E}[Y_{1i}|D_i=1] - \mathbf{E}[Y_{0i}|D_i=1]\}                                                     
+        \\&+\{\mathbf{E}[Y_{0i}|D_i=1]-\mathbf{E}[Y_{0i}|D_i=0]\}
+    \end{aligned}
+}
+\tab{
+    \item observed difference: $\mathbf{E}[Y_i|D_i=1]-\mathbf{E}[Y_i|D_i=0]$;
+    \item ATE: $\mathbf{E}[Y_{1i}]-\mathbf{E}[Y_{0i}]$;
     \item ATT: $\mathbf{E}[Y_{1i}|D_i=1]-\mathbf{E}[Y_{0i}|D_i=1]$;
     \item selection bias: $\mathbf{E}[Y_{0i}|D_i=1]-\mathbf{E}[Y_{0i}|D_i=0]$.
 }
-\no The existence of the selection bias is due to the dependence between $D_i$ and the \textbf{potential} outcome $Y_{1i},Y_{0i}$. Randomization can make
-$D_i \perp Y_{1i},Y_{0i}$:
-\eq{E[Y_{1i}|D_i=1]=E[Y_{1i}|D_i=0]=E[Y_{1i}]\\
-E[Y_{0i}|D_i=1]=E[Y_{0i}|D_i=0]=E[Y_{0i}]}
+The conditional average treatment effect (CATE) is defined as:
+\eq{
+    \tau_{CATE}(x)=\mathbb{E}(\tau_i|X_i=x)=\mathbb{E}(Y_{1i}-Y_{0i}|X_i=x),
+} 
+where $X_i$ is some additional characteristic. Note that the definition of ATE is on the whole population, including those who don't receive the treatment. The existence of the selection bias is due to the dependence between $D_i$ and the \textbf{potential} outcome $Y_{1i}, Y_{0i}$. The relationship between CATE and ATE is:
+\meq{
+    \tau_{ATE}=\int\tau_{\mathsf{C}ATE}(x)f(x)dx, \\
+    \tau_{ATE}=\sum_{x\in\mathcal{X}}\tau_{CATE}(x)Pr(X_i=x).
+}
+\ass{\tbf{SUTVA} (Stable Unit Treatment Value Assumption)}{
+    For two treatment vector $\tbf{D}$ and $\tbf{D}^\prime$, if $\tbf{D}_i=\tbf{D}^\prime_i$, then:
+    \eq{
+        Y_{i}(\mathbf{D})=Y_{i}(\mathbf{D}^{\prime}).
+    }
+    It means that the outcome is only affected by own treatment status, and not the treatment status of others. SUTVA can be relaxed in many ways.
+}
+\re{
+    \tab{
+        \item \tbf{Estimand}: the quantity to be estimated;
+        \item \tbf{Estimate}: the approximation of the estimand using a finite data sample;
+        \item \tbf{Estimator}: the method or formula for arriving at the estimate for an estimand.
+    }
+}
+\defi{Identification}{
+    \emocool Estimate the estimand from the data we observe.
+}
+
+\subsubsection{Randomization}
+Randomization can make $D_i \perp Y_{1i},Y_{0i}$:
+\meq{
+    E[Y_{1i}|D_i=1]=E[Y_{1i}|D_i=0]=E[Y_{1i}]\\
+    E[Y_{0i}|D_i=1]=E[Y_{0i}|D_i=0]=E[Y_{0i}]
+}
 \no So selection $=\mathbf{E}[Y_{0i}|D_i=1]-\mathbf{E}[Y_{0i}|D_i=0]=0$. \emocool Besides, by randomization, $ATT=ATE$.
 Randomization example:
 \tab{
@@ -2672,10 +2714,30 @@ Randomization example:
     }}
 
 \subsection{Regression and Matching}
-\key{\tab{
+\key{
+    \tab{
         \item CEF, CEF decomposition, ANOVA;
         \item regression justification,
-    }}
+    }
+}
+\defi{Strong Ignorability}{
+    We say that $D_i$ is strongly ignorable conditional on a vector $\mathbf{X}_i$ if:
+    \lis{
+        \item $Y_i(0),Y_i(1)\perp D_i|\mathbf{X}_i$;
+        \item \exists\varepsilon>0\text{such that }\varepsilon<Pr(D_i=1|\mathbf{X}_i)<1-\varepsilon.
+    } 
+}
+The first part of the definition is sometimes referred to \tit{unconfoundeness} or \tit{exogeneous}. This is a powerful tool, note that under the strong ignorability:
+\eq{
+    \mathbb{E}(Y_i(0)|\boldsymbol{X}_i)=\mathbb{E}(Y_i(0)|D_i=0,\boldsymbol{X}_i)=\mathbb{E}(Y_i|D_i=0,\boldsymbol{X}_i).
+}
+This means that \tbf{we can interchange counterfactuals and realized data in conditionals}. 
+\thm{Identification of the ATE}{
+    If $D_i$ is strongly ignorable conditional on $\mathbf{X}_i$, then
+    \eq{
+        \operatorname{E}(\tau_i)=\sum_{x\in\operatorname{Supp}X_i}\left(\operatorname{E}(Y_i|D_i=1,\mathbf{X}_i=x)-\operatorname{E}(Y_i|D_i=0,\mathbf{X}_i=x)\right)Pr(\mathbf{X}_i=x)
+    }  
+}
 \no Conditional Expectation Function (CEF) is a \hl{population} concept:
 \eq{\begin{gathered}
         E[Y_i|X_i=x]=\int tf_y(t|X_i=x)dt \\
@@ -2961,6 +3023,20 @@ There are two main causal frameworks: \tbf{Structural Causal Model} and \tbf{Pot
 
 \subsubsection{Structural Causal Model}
 \tbf{SCM} (Structural Causal Model) can be divided into two subgroups: \tit{causal graph} and \tit{structural euqation}.
+
+\subsection{Directed Acyclic Graphs (DAG)}
+
+We can encode the relationship between $D$ and $Y$ using an \tit{arrow} in a graph.  
+\begin{figure}[H]
+    \begin{center}
+        \begin{tikzpicture}
+            \node[text centered] (t) {$D$};
+            \node[right=1.5 of t, text centered] (y) {$Y$};
+            \draw [->, line width= 1] (t) -- (y);
+        \end{tikzpicture}
+        \caption{$D$ has a causal effect on $Y$}
+    \end{center}
+\end{figure}
 
 \clearpage
 \section{Reinforcement Learning}
