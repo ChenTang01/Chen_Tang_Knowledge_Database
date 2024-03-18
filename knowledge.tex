@@ -2689,7 +2689,8 @@ where $X_i$ is some additional characteristic. Note that the definition of ATE i
     }
 }
 \defi{Identification}{
-    \emocool Estimate the estimand from the data we observe.
+    \emocool Estimate the estimand from the data we observe. \\
+    There is another similar definition of identification from the perspective of structural form: a structure $S$ is a DGP, let $\cS$ be the set of all structures and $S_0\in\cS$ be the true structure. Identification is to test the hypothesis $S_0$ and estimate the paramters $\theta(S_0)$.
 }
 
 \subsubsection{Randomization}
@@ -2957,6 +2958,40 @@ This regression gives an estimation of 6.2\% for $\rho$. But in practice, the co
 
 \subsection{Structural Equations}
 
+\subsubsection{What is the structural identification?}
+Taxonomy for the types of empirical works (\cite{haile2020structural}): 
+\lis{
+    \item Descriptive (association and facts about data);
+    \item Structural (\tbf{estimate or parameters features of a data generating process}, causal identification is a special case of structural form.)
+}'
+\defi{Structural Form \& Reduced Form}{
+    A structural form is a DGP $f(Y,X,Z,U)$, where $Y$ is the \tbf{endogenous} variable, $X$ is the \tbf{exogeneous} variable, and $U$ is the \tit{unobservables} (``structural errors''). A reduced form solves the structural form and gets $Y=f(X,Z,U)$, i.e., a functional or stochastic mapping for which the inputs are exogenous variables and unobservables, and the outputs are endogenous variables.
+    \re{
+        \tab{
+            \item \tit{exogeneous}: one taken as given in (not determined within) the model; or one satisfying some kind of independence condition with respect to unobservables;
+            \item This means that sometimes there is no reduced form for a structural form.
+        }
+    }
+}
+\ex{Structural Form \& Reduced Form}{
+    The structural form is given as:
+    \meq{
+        Q=D(P,X,U_d)\\
+        P=MC(Q,Z,U_s)
+    }
+    Solving the equilibrium $Q=P$ yields the reduced form relations:
+    \meq{
+        P = p(Z,X,U_s,U_d)\\
+        Q = q(Z,X,U_s,U_d)
+    }
+}
+\re{
+    \tab{
+        \item Reduced form isn't equal to the use of IV, RD, etc;
+        \item Structural form isn't equal to the complex models;
+        \item The key is to name the structural errors.
+    }
+}
 Consider the following economic model:
 \eq{
     Y_{i} = \alpha + \beta D_{i} + \varepsilon_{i}.
