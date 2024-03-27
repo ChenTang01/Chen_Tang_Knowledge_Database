@@ -32,13 +32,12 @@
 
 \sep{General Proof Techniques}
 \tbf{Direct proof}: given a set of rules (axioms), rewrite the statement in the form of the axioms.
-\ex{Direct Proof}{
+\ex{
     Let $k$ be an integer, define $n=2k+1$ as odd. Show that the square of the sum of two consecutive integers is odd.
-    \proo{}{
-        Rewrite $(x+[x+1])^2)$ in the form of $2k+1$, where $k$ is an integer.
-        \eq{
-            (x+[x+1])^2=4x^2+4x+1=2(2x^2+2x)+1
-        }
+}{
+    Rewrite $(x+[x+1])^2)$ in the form of $2k+1$, where $k$ is an integer.
+    \eq{
+        (x+[x+1])^2=4x^2+4x+1=2(2x^2+2x)+1
     }
 }
 \tbf{Proof by Induction}: when you need to show that some sequence of objects has some property $P$. You can
@@ -911,8 +910,14 @@ with $dom(g)=\{x\mid Ax+b\in dom(f)\}$. Then, if $f$ is convex (concave), so is 
         \end{aligned}
     }
 }
-\no\tbf{Composition of non-decreasing functions}: Let $h: X\to \RR$ be convex and $g: Y\to\RR$ be convex and \tbf{non-decreasing}.
-Suppose that $X \subset \RR^n$ and $Y \subset \RR$ are convex sets with $h(X) \subset Y$. Then, $f=g\circ h:X\to\mathbb{R},f(x)=g(h(x))$ is convex.\\
+\no\tbf{Composition of non-decreasing functions}: Let $h: X\to \RR$ be convex and \tbf{non-decreasing} and $g: Y\to\RR$ be convex. Suppose that $X \subset \RR^n$ and $Y \subset \RR$ are convex sets with $h(X) \subset Y$. Then, $f=g\circ h:X\to\mathbb{R},f(x)=g(h(x))$ is convex. This holds only when both $h$ and $g$ are continuous. 
+\proo{}{
+    \begin{aligned}
+        &f(x) =h(g(x))  \\
+        &f^{\prime}(x) =h'(g(x))\times g'(x)  \\
+        &f^{\prime\prime}(x) =h''(g(x))(g'(x))^{2}+h'(g(x))g''(x) 
+     \end{aligned}
+}
 \tbf{Power of non-negative function}: If $f$ is convex and non-negative and $k\ge 1$, then $f^k$ is convex.
 \proo{}{
     Assume $f$ is twice differentiable. Let $g=f^k$: Then:
@@ -2567,15 +2572,41 @@ However, this scheme is dependent on the order, we can permutate on all the orde
 
 \subsection{Mechanism Design}
 
-This subsection is mainly the notes from \cite{jackson2014mechanism}. Mechanism design is a reverse engineering of game theory, it focuses on the problems associated with incentives and private information (selling, matching and auctions). Redefine an incomplete information game: $\Gamma=\langle[n],\{A_i\}_{i\in\mathbb{n}},\{T_i\}_{i\in\mathbb{n}},\Omega,g,\{u_i\}_{i\in\mathbb{n}}\rangle$: $n$ is the player, $A_i$ is the set of actions, $T_i$ is the player's type, $g$ is the outcome mapping the action to the outcome space $\Omega$, and $u$ is the utility function. There is a prior distribution on $T$: $F$. 
-\defi{Social Choice Function}{
-    A social choice function is $f:T\to\Omega$. A successful mechanism needs to satisfy:
-    \[
-        g(\mathbf{s}^*(\mathbf{t}))\in f(\mathbf{t})
-    \]
-    The \tbf{social welfare} can be defined as $\mathbb{E}_{\mathbf{t}\sim F}\left[W(g(\mathbf{s}^*(\mathbf{t}))\right]$.
+This subsection is mainly the notes from \cite{jackson2014mechanism}. Mechanism design is a reverse engineering of game theory, it focuses on the problems associated with incentives and private information (selling, matching and auctions). A general setting for mechanism design:
+\lis{
+    \item individuals: a finite group of individuals denoted by $N=\{1,2,\cdots, n\}$;
+    \item decisions: a specific decision $d$ from the set of potential decisions $D$;
+    \item information: each individual has some private information $\theta_i\in \Theta_i$, let $\Theta=\times_i\Theta_i$;
+    \item preference: each individual has a value function $v_i:D\times\Theta_i\to \R$, we assume the utility function only depends on $\theta$ and $d$.
 }
-A \tit{direct mechanism} is one in which the space of possible actions is equal to the space of possible types. All other mechanisms are called \tit{indirect}.
+\defi{Efficient Decisions}{
+    A decision rule is a mapping $d:\Theta\to D$, it is efficient if:
+    \eq{
+        \sum_iv_i(d(\theta),\theta_i)\geq\sum_iv_i(d^{\prime},\theta_i)
+    }
+    for all $\theta_i$ and $d^\prime\in D$. Intuition: given information $theta$, the decision that can generate the maximum total utility is the efficient decision.
+}
+To make the efficient decision happen, we can define a \tbf{transfer function} $t:\Theta\to\R^n$, and the function $t_i(\theta)$ represents the payment that $i$ receives (Here $\theta$ is the `announced' types, sometimes is denoted as $\hat{\theta}$). A transfer function is \gt{feasible} if $0\geq\sum_it_i(\theta)$ for all $\theta$, and \gt{balance} if $\sum_it_i(\theta)=0$ for all $\theta$.
+\defi{Social Choice Functions \& Mechanism}{
+    A social choice function $f$ is a pair $d,t$, given $\hat{theta}, \theta_i$, the final utility function for player $i$ is:
+    \eq{
+        u_i(\widehat{\theta},\theta_i,d,t)=v_i(d(\widehat{\theta}),\theta_i)+t_i(\widehat{\theta}).
+    }
+    A \tbf{mechanism} is a pair $M,g$, where $M=M_1\times\cdots\times M_n$ is the space of message (`announced' information) for all individuals, and $g:M\to D\times\R^n$ is an outcome function.
+    \re{
+        \tab{
+            \item A \tit{social choice} function contains a mapping from decisions to the outcome: $d, v$, thus imply $u$;
+            \item Note that a social choice function $f=(d,t)$ can be viewed as a mechanism, where $M_i=\Theta_i$ and $g=f$. This is referred to as a \tit{direct mechanism}: one in which the space of possible actions is equal to the space of possible types. All other mechanisms are called \tit{indirect}.
+        }
+    }
+}
+
+\subsubsection{Dominant Strategy Mechanism Design}
+A strategy $m_i\in M_i$ is a \tit{dominant strategy} for player $i$ with $\theta_i\in \Theta_i$ if:
+\eq{
+    v_i(g_d(m_{-i},m_i),\theta_i)+g_{t,i}(m_{-i},m_i)\geq v_i(g_d(m_{-i},\widehat{m_i}),\theta_i)+g_{t,i}(m_{-i},\widehat{m_i})
+}
+for all $m_{-i}\in M_{-i}$ and ̂$\widehat{m_i} \in M_i$. This is a strong situation that the strategy is optimal no matter what the other players do. 
 \defi{Incentive Compatibility}{
     A (direct) mechanism is BIC (\tbf{bayesian incentive compatibility}) iff truthtelling is a BayesNash equilibrium: i.e.,
     \eq{
@@ -2593,9 +2624,20 @@ A \tit{direct mechanism} is one in which the space of possible actions is equal 
         In a direct mechanism, EPIC is equivalent to DSIC.
     }
 }
-\thm{The Revelation Principle}{
-    Given a mechanism $M$ for which there exists an equilibrium strategy profile $s$, we can construct an equivalent direct mechanism $M^∗$ in which truthtelling is likewise an equilibrium.
+\thm{The Revelation Principle for Dominant Strategies}{
+    If a mechanism $(M,g)$ implements a social choice function $f=(d,t)$ in dominant strategies (i.e., there exist functions $m_i:\Theta_i\to M_i$ such that $m_i(\theta_i)$ is dominant strategy for all $i$ and $g(m(\theta))=f(\theta)$ for all $\theta$), then the direct mechanism $f$ is dominant strategy incentive compatible.
 }
+Considering cases that have no transfer function $t$, a decision $d$ is DSIC if the social choice function $f=(d,t^0)$ is DSIC. A decision rule $d$ is \tbf{dictatorial} if there exists $i$ such that $d(\theta) \in \arg\max_{d\in D}v_i(d,\theta_i)$ for all $\theta$.
+\thm{The Gibbard-Satterthwaite Theorem}{
+    Suppose that $|D|\ge 3$ and each individual can have any strict ranking of these decisions. Then a decision rule $d$ with no transfer function is DSIC iff it is dictatorial.
+    \proo{\cite{benoit2000gibbard}}{
+        Suppose the mechanism $(d,t^0)$ for a game with $|D|\ge3$ is DSIC, we show that one of the voters in $N$ must be a dictator. 
+        \lem{}{
+            Suppose that alternative $A$ is selected given some preference profile. Modify the profile by raising some alternative $X$ in individual $i$’s ranking (holding everything else fixed). Then either $A$ or $X$ is now selected.
+        }
+    }
+}
+The Gibbard-Satterthwaite theorem 
 
 \clearpage
 \section{Development Economics}
@@ -4802,14 +4844,12 @@ where $U(q)$ us an increasing concave function. Then the \tit{optimal surplus} c
 \eq{
     \mathcal{S}(p):=\max_{q\geq0}S(q,p)
 }
-where the solution $q^{\star}=d(p)=\nabla^{-1}U(p)$. under the first-order condition. Similar to the analysis from the firm's
-perspective, we can get $\mathbb{E}[\mathcal{S}(P)]\geq\mathcal{S}(\mathbb{E}[P])$.
-And at last, we can achieve:
+where the solution $q^{\star}=d(p)=\nabla^{-1}U(p)$. under the first-order condition. Similar to the analysis from the firm's perspective, we can get $\mathbb{E}[\mathcal{S}(P)]\geq\mathcal{S}(\mathbb{E}[P])$. And at last, we can achieve:
 \eq{
 \mathbb{E}[\mathcal{S}(p(\mathbb{Z}))]\geq\mathcal{S}(\mathbb{E}[p(\mathbb{Z})])\geq\mathcal{S}(p(\mathbb{E}[Z])).
 }
 
-\subsubsection{DP Considering Finite Capacity}
+\subsubsection{Pricng Considering Finite Capacity}
 Consider a monopoly selling $n$ products with price $p$ using $m$ types of resources, $A\in \RR^{m\times n}$ the resource consumption matrix. Assume that $d(p):\Re_+^n\to\Re_+^n$ is the continuous demand function. Given a m-dimensional resource limit vector $c$, the revenue can be expressed as:
 \eq{
     \bar{V}(c):=\max_{p\in X}R(p,0)\text{ subject to }Ad(p)\leq c.
@@ -5666,6 +5706,11 @@ This model assumes that given the expert's type, the precision $\rho_e$ is fixed
 \chapter{Miscellaneous} \label{chap:miscellaneous}
 
 \section{Notes on Tools} \label{sec:notestools}
+
+\subsection{Stata}
+
+\subsubsection{coefplot}
+\href{https://repec.sowi.unibe.ch/stata/coefplot/getting-started.html}{A tutorial} about the use of coefplot.
 
 \subsection{LaTeX Shortcuts}
 
