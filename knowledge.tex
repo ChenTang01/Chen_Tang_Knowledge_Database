@@ -2567,7 +2567,7 @@ However, this scheme is dependent on the order, we can permutate on all the orde
     }
 }
 
-\subsubsection{The Bargaining Model}
+\subsection{The Bargaining Model}
 \cite{Rubinstein1982} studies another equilibrium in the game. In the model, 
 
 \subsection{Mechanism Design}
@@ -2577,18 +2577,18 @@ This subsection is mainly the notes from \cite{jackson2014mechanism}. Mechanism 
     \item individuals: a finite group of individuals denoted by $N=\{1,2,\cdots, n\}$;
     \item decisions: a specific decision $d$ from the set of potential decisions $D$;
     \item information: each individual has some private information $\theta_i\in \Theta_i$, let $\Theta=\times_i\Theta_i$;
-    \item preference: each individual has a value function $v_i:D\times\Theta_i\to \R$, we assume the utility function only depends on $\theta$ and $d$.
+    \item preference: each individual has a value function $v_i:D\times\Theta_i\to \RR$, we assume the utility function only depends on $\theta$ and $d$.
 }
 \defi{Efficient Decisions}{
     A decision rule is a mapping $d:\Theta\to D$, it is efficient if:
     \eq{
         \sum_iv_i(d(\theta),\theta_i)\geq\sum_iv_i(d^{\prime},\theta_i)
     }
-    for all $\theta_i$ and $d^\prime\in D$. Intuition: given information $theta$, the decision that can generate the maximum total utility is the efficient decision.
+    for all $\theta_i$ and $d^\prime\in D$. Intuition: given information $\theta$, the decision that can generate the maximum total utility is the efficient decision.
 }
-To make the efficient decision happen, we can define a \tbf{transfer function} $t:\Theta\to\R^n$, and the function $t_i(\theta)$ represents the payment that $i$ receives (Here $\theta$ is the `announced' types, sometimes is denoted as $\hat{\theta}$). A transfer function is \gt{feasible} if $0\geq\sum_it_i(\theta)$ for all $\theta$, and \gt{balance} if $\sum_it_i(\theta)=0$ for all $\theta$.
+To make the efficient decision happen, we can define a \tbf{transfer function} $t:\Theta\to\RR^n$, and the function $t_i(\theta)$ represents the payment that $i$ receives (Here $\theta$ is the `announced' types, sometimes is denoted as $\hat{\theta}$). A transfer function is \gt{feasible} if $0\geq\sum_it_i(\theta)$ for all $\theta$, and \gt{balance} if $\sum_it_i(\theta)=0$ for all $\theta$.
 \defi{Social Choice Functions \& Mechanism}{
-    A social choice function $f$ is a pair $d,t$, given $\hat{theta}, \theta_i$, the final utility function for player $i$ is:
+    A social choice function $f$ is a pair $d,t$, given $\hat{\theta}, \theta_i$, the final utility function for player $i$ is:
     \eq{
         u_i(\widehat{\theta},\theta_i,d,t)=v_i(d(\widehat{\theta}),\theta_i)+t_i(\widehat{\theta}).
     }
@@ -2625,19 +2625,115 @@ for all $m_{-i}\in M_{-i}$ and ̂$\widehat{m_i} \in M_i$. This is a strong situa
     }
 }
 \thm{The Revelation Principle for Dominant Strategies}{
-    If a mechanism $(M,g)$ implements a social choice function $f=(d,t)$ in dominant strategies (i.e., there exist functions $m_i:\Theta_i\to M_i$ such that $m_i(\theta_i)$ is dominant strategy for all $i$ and $g(m(\theta))=f(\theta)$ for all $\theta$), then the direct mechanism $f$ is dominant strategy incentive compatible.
+    If a mechanism $(M,g)$ implements a social choice function $f=(d,t)$ in dominant strategies (i.e., there exist functions $m_i:\Theta_i\to M_i$ such that $m_i(\theta_i)$ is dominant strategy for all $i$ and $g(m(\theta))=f(\theta)$ for all $\theta$), then the direct mechanism $f$ is dominant strategy incentive compatible (sometimes also refers to \tbf{strategy-proof}).
 }
 Considering cases that have no transfer function $t$, a decision $d$ is DSIC if the social choice function $f=(d,t^0)$ is DSIC. A decision rule $d$ is \tbf{dictatorial} if there exists $i$ such that $d(\theta) \in \arg\max_{d\in D}v_i(d,\theta_i)$ for all $\theta$.
 \thm{The Gibbard-Satterthwaite Theorem}{
-    Suppose that $|D|\ge 3$ and each individual can have any strict ranking of these decisions. Then a decision rule $d$ with no transfer function is DSIC iff it is dictatorial.
-    \proo{\cite{benoit2000gibbard}}{
-        Suppose the mechanism $(d,t^0)$ for a game with $|D|\ge3$ is DSIC, we show that one of the voters in $N$ must be a dictator. 
-        \lem{}{
-            Suppose that alternative $A$ is selected given some preference profile. Modify the profile by raising some alternative $X$ in individual $i$’s ranking (holding everything else fixed). Then either $A$ or $X$ is now selected.
+    Suppose that $|D|\ge 3$ and each individual can have any strict ranking of these decisions. Then a decision rule $d$ with no transfer function is DSIC iff it is dictatorial. The proof can be found in \cite{benoit2000gibbard}.
+}
+The Gibbard-Satterthwaite theorem has quite \rt{negative} implications for the hopes of implementing non-trivial decision rules in dominant strategies in a general set of environments.
+\begin{center}
+    In most of the settings, the transfer functions are needed. 
+\end{center}
+\sep{Grove's Schemes}
+\lis{
+    \item Find a decision rule $d$ that is efficient;
+    \item Find a transfer function $t$ such that $d,t$ is DSIC.
+}
+\thm{Groves, Jerry Green and Jean-Jacques Laffont}{
+    If $d$ is an efficient decision rule and for each $i$ there exists a function $x_i:\times_{j\neq i}\Theta_j\to \RR$ such that:
+    \eq{\label{eq:groves1}
+        t_i(\theta)=x_i(\theta_{-i})+\sum_{j\neq i}v_j(d(\theta),\theta_j),
+    }
+    Then $(d,t)$ is DSIC. The key of the theorem is that $x_i(\theta_{-i})$ is independent of $\theta$.
+    \proo{Groves}{
+        Let's prove this by contradiction. Suppose that $d$ is efficient and $x_i$ satisfies \ref{eq:groves1}, but $d,t$ is not DSIC. Then there exists $\widehat{\theta_i}, \theta_i$ for some $i$ such that:
+        \eq{
+            v_i(d(\theta_{-i},\widehat{\theta_i}),\theta_i)+t_i(\theta_{-i},\widehat{\theta_i})>v_i(d(\theta),\theta_i)+t_i(\theta).
         }
+        From \ref{eq:groves1} this implies that:
+        \meq{
+            v_i(d(\theta_{-i},\widehat{\theta_i}),\theta_i)+x_i(\theta_{-i})+\sum_{j\neq i}v_j(d(\theta_{-i},\widehat{\theta_i}),\theta_j)>v_i(d(\theta),\theta_i)+x_i(\theta_{-i})+\sum_{j\neq i}v_j(d(\theta),\theta_j),\\
+            v_i(d(\theta_{-i},\widehat{\theta_i}),\theta_i)+\sum_{j\neq i}v_j(d(\theta_{-i},\widehat{\theta_i}),\theta_j)>v_i(d(\theta),\theta_i)+\sum_{j\neq i}v_j(d(\theta),\theta_j).
+        }
+        Which contradicts the efficiency of $d$.
+    }
+    Conversely, If $d$ is an efficient decision rule and $(d,t)$ is DSIC. Then there exists a function $x_i:\times_{j\neq i}\Theta_j\to \RR$ satisfies \ref{eq:groves1}.
+    \proo{Jerry Green and Jean-Jacques Laffont}{
+        Let $d$ be an efficient rule and $(d,t)$ be DSIC, note that there exists a function $X_i$ such that:
+        \eq{
+            t_i(\theta)=x_i(\theta)+\sum_{j\neq i}v_j(d(\theta),\theta_j)
+        }
+        We only need to show that $x_i$ is independent of $\theta_i$. Suppose there exists $i, \theta, \widehat{\theta}$ such that $x_i(\theta)>x_i(\theta_{-i},\widehat{\theta}_i)$. Let $\epsilon=\frac12[x_i(\theta)-x_i(\theta_{-i},\widehat{\theta}_i)]$, by DSIC, it follows that $d(\theta)\ne d(\theta_{-i},\widehat{\theta_i})$ (when $\widehat{\theta}_i$, if $d$ is the same, he would report as $\theta_i$). So there exists $\widetilde{\theta_{i}}\in\Theta_{i}$ such that:
+        \eq{
+            v_i(d(\theta_{-i},\widehat{\theta_i}),\widetilde{\theta_i})+\sum_{j\neq i}v_j(d(\theta_{-i},\widehat{\theta_i}),\theta_j)=\varepsilon,
+        }
+        and for any $d\ne d(\theta_{-i},\hat{\theta_i})$:
+        \eq{
+            v_i(d,\widetilde{\theta}_i)+\sum_{j\neq i}v_j(d,\theta_j)=0
+        }
+        The efficiency of $d$ together with these conditions on $\tilde{\theta_i}$ imply that $d(\theta_{-\boldsymbol{i}},\widetilde{\theta}_{\boldsymbol{i}})=d(\theta_{-\boldsymbol{i}},\widehat{\theta}_{\boldsymbol{i}})$ and $t_i(\theta_{-\boldsymbol{i}},\widetilde{\theta}_{\boldsymbol{i}})=t_i(\theta_{-\boldsymbol{i}},\widehat{\theta}_{\boldsymbol{i}})$.
+        \tab{
+            \item The utility of $i$ from truthful announcement at $\tilde{\theta_i}$ is $\varepsilon+x_i(\theta_{-i},\widehat{\theta}_i)$;
+            \item By lying $\theta_i$ at $\tilde{\theta_i}$, $i$ get $x_i(\theta_i)$.
+        }
+        Since $x_i(\theta_i)>\varepsilon+x_i(\theta_{-i},\widehat{\theta}_i)$m this contradicts the DSIC of $d,t$.
     }
 }
-The Gibbard-Satterthwaite theorem 
+It's intuitive to come up with the \tbf{pivotal mechanism} from the Groves scheme: if $i$'s presence is already maximizing the sum utility of other players: $\sum_{j\neq i}v_j(d(\theta),\theta_j)$, we transfer him zero. Otherwise he is a \tbf{povital} player, we let $x_i(\theta_{-i})~=~-\max_{d\in D}\sum_{j\neq i}v_j(d,\theta_j)$ and give him a negative transfer:
+\eq{
+    t_i(\theta)=\sum_{j\neq i}v_j(d(\theta),\theta_j)-\max_{d\in D}\sum_{j\neq i}v_j(d,\theta_j).
+}
+This scheme is always feasible since $t_i(\theta)\le 0$. 
+\re{
+    One example of the pivotal mechanism is the \tit{Vickrey Auction} (second-price auction). The payment(transfer function) of the winner is $t_i(\theta)~=~-\max_{j\neq i}\theta_j$, which is the price of the second highest valuation. Such a mechanism is DSIC so every player reports $\theta_i$ truthfully.
+}
+\sep{DSIC, Groves Scheme and the Efficiency}
+Sometimes when the space of the type is large, using the Grove scheme can give an inefficient mechanism (due to the unbalance of the transfer function). Considering the public goods problem with two individuals and $\Theta_1=\Theta_2=\RR$, $c=1.5$. By the Jerry Green and Jean-Jacques Laffont theorem, there exists $X_i$ that can make a mechanism DSIC. Applying the feasibility of the transfer function, we can obtain: 
+\lis{
+    \item $\theta_1=\theta_2=1$: $-0.5\ge x_1(1)+x_2(1)$;
+    \item $\theta_1=\theta_2=0$: $0\ge x_1(0)+x_2(0)$;
+    \item So either $-\frac14\geq x_1(1)+x_2(0)$ or $-\frac14\geq x_1(0)+x_2(1)$;
+    \item Note $d(0,1)=d(1,0)=0$, so either $-\frac14\geq t_1(1,0)+t_2(1,0)$ or $-\frac14\geq t_1(0,1)+t_2(0,1)$.
+}
+This means the DSIC mechanism can always provide an inefficient mechanism in some games. This problem can be solved if there is a $\theta_i$ which is known or fixed, or be approximated if the number of the society is large enough. Another problem with the DSIC mechanism is: it may violate the \tbf{individual ratinoality}:
+\eq{\label{eq:expostir}
+    v_i(d(\theta),\theta_i)+t_i(\theta)\geq0
+}
+
+\subsubsection{Bayesian Mechanism Design}
+The balance difficulties exhibited by Groves’ schemes could be overcome in a setting where individuals have probabilistic beliefs over the types of other individuals. Assume that $\Theta$ is a finite set and that $\theta$ is randomly chosen according to a distribution $P$. $\bar{\theta}_i$ denotes the random variable and $\theta_i^\prime$ denotes realizations. A Bayesian equilibrium holds if:
+\eq{
+    \begin{aligned}
+        E&\left[v_i(g_d(m_{-i}(\bar{\theta}_{-i}),m_i(\theta_i)),\theta_i)+g_{t,i}(m_{-i}(\bar{\theta}_{-i}),m_i(\theta_i))\mid\theta_i\right]\\
+        &\geq E\left[v_i(g_d(m_{-i}(\overline{\theta}_{-i}),\widehat{m}_i),\theta_i)+g_{t,i}(m_{-i}(\overline{\theta}_{-i}),\widehat{m}_i)\mid\theta_i\right]\end{aligned}
+}
+for each $i,\theta_i,\widehat{m}_i$. A direct mechanism $(d,t)$ is BIC if truthtelling is the Bayesian equilibrium.
+\thm{Revelation Principle for Bayesian Equilibrium}{
+    If $(M,g)$ realizes a social choice function $(d,t)$ in Bayesian equilibrium, then the direct mechanism $f$ is Bayesian incentive compatible.
+}
+If the distribution of different $\theta_i$ is independent, we can construct a BIC mechanism that the transfer function is always balanced (efficient).
+\thm{d’Aspremont, Gerard-Varet, and Arrow}{
+    If $\bar{\theta_{-i}}$ and $\bar{\theta_i}$ are independent of each $i$ and $d$ is efficient, and 
+    \eq{
+        t_i(\theta)=E\left[\sum_{j\neq i}v_j(d(\bar{\theta}),\bar{\theta}_j)|\theta_i\right]-\frac1{n-1}\sum_{k\neq i}E\left[\sum_{j\neq k}v_j(d(\bar{\theta}),\bar{\theta}_j)|\theta_k\right]
+    }
+    Then $d,t$ is BIC and $t$ is balanced.
+}
+The ex-post individual rationality is defined in \ref{eq:expostir}. There is a weaker form of IR for the Bayesian game:
+\defi{Interim Individual Rationality}{
+    \eq{
+        E\left[v_i(d(\overline{\theta}),\theta_i)+t_i(\overline{\theta})\mid\theta_i\right]\geq0
+    }
+}
+There is a weaker form of IR: \tbf{ex-ante} IR:
+\eq{
+    E\left[v_i(d(\overline{\theta}),\theta_i)+t_i(\overline{\theta})\right]\geq0
+}
+The ex-ante IR is easy to satisfy for all games, but sometimes the interim IR can not be satisfied (not compatible with BIC).
+\begin{center}
+    \rt{Finding a mechanism that is efficient, incentive-compatible, balanced and interim individual rational is quite difficult.}
+\end{center}
 
 \clearpage
 \section{Development Economics}
@@ -2681,8 +2777,7 @@ Potential reasons that culture affects the concentration of family ownership:
 \cite{zhang2020clans} estimates the effect of the clan on entrepreneurship. He finds that clan leads to a higher
 occurrence of entrepreneurship by helping overcome financing constraints and escape from local governments' "grabbing hand."
 \cite{zhang2019family} investigates the relationship between the low take-up rate of social pensions and the clan culture intensity. In
-his article, dummy variable $temple_c$ (whether community $c$ has ancestral temple) is constructed as the proxy variable for the strength of clan
-culture. Some interesting insights are obtained:
+his article, dummy variable $temple_c$ (whether community $c$ has ancestral temple) is constructed as the proxy variable for the strength of clan culture. Some interesting insights are obtained:
 \lis{
     \item Clan culture is positively related to adults raising children for support in their old age;
     \item Clan culture is associated with a larger number of children being born and a higher probability of having sons;
@@ -5552,7 +5647,7 @@ Let $R(\mathcal{N},\mathbf{p};r_l)=x$, we can get:
         := & \max_{\mathbf{p}}\sum_{i\in\mathcal{N}}\Big\{(p_{i}-c_{i}-x)\mathrm{exp}\Big(\alpha_{i}-(\beta+\gamma)p_{i}+\gamma\mathrm{min}p_{k}\Big)\Big\}. 
     \end{aligned}
 }
-Note that $\Gamma(x;\gamma)$ is decreasing in $x$, the effecient algorithm contain two parts: first compute $\Gamma(x;\gamma)$, then use the bisection method to search $x^*$ such that $x^*=\Gamma(x^*;\gamma)$.\\
+Note that $\Gamma(x;\gamma)$ is decreasing in $x$, the efficient algorithm contain two parts: first compute $\Gamma(x;\gamma)$, then use the bisection method to search $x^*$ such that $x^*=\Gamma(x^*;\gamma)$.\\
 \cite{rooderkerk2011incorporating} is the first paper incorporating context effects into the \tbf{attribute-based} choice model. 
 Given participant $h$ (can be understood as the response parameter heterogeneity), item $i$ and the choice set $S$, the utility $z_{hi}^S$ is defined by:
 \eq{
