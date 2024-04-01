@@ -2413,8 +2413,28 @@ By \tbf{one-shot deviation principle}, this is an SPE for appropriate $t^*$. For
 }
 When both $T$ and $\delta$ are sufficiency large, we can make the actions (A,A) be played for arbitrarily many periods (infinite game). 
 \thm{Nash Folk Theorem}{
-    If $(v_1,\cdots, v_n)$ is feasible and higher than the minmax payoff lower bounds $\underline{v}_i$ for all $i$, then there exists $1>\delta\ge\underbar{\delta}$, that 
+    If $(v_1,\cdots, v_n)$ is feasible and higher than the minmax payoff lower bounds $\underline{v}_i$ for all $i$, then there exists $1>\delta\ge\underline{\delta}$, that 
     for all game $G^{\infty}(\delta)$, there is a equilibrium with payoffs $(v_1,\cdots, v_n)$. 
+}
+
+\subsubsection{The Bargaining Model}
+\cite{Rubinstein1982} studies another equilibrium in the sequential bargaining. In the model, two players are bargaining for a unit pie. Time runs from $t=0,1,2,\cdots$, at time $0$, player $1$ propose a split $x_0,1-x_0$, if rejected by player $2$, player $2$ can propose $y_1,1-y_1$ at time $1$. This game continues infinitely, assuming there are discounted factors $\delta_1,\delta_2$ for the two players. 
+\pro{Finite-Horizon Bargaining Game}{
+    In the finite-horizon bargaining game, we can use backward induction to solve the SPNE. When $T=2$, the SPNE is player $1$ offers $1-\delta_2,\delta_2$ at time $1$ and player $2$ accepts it.
+}
+Rubinstein considers the infinite case.
+\thm{\cite{Rubinstein1982}}{
+    There is a \tbf{unique} SPE in the infinite bargaining game: player $1$ always proposes a split $(x,1-x)$ with $x=(1-\delta_2)/(1-\delta_1\delta_2)$, player $2$ always accepts when her split $\ge 1-x$; player $2$ always proposes a split $(y,1-y)$ with $y=\delta_1(1-\delta_2)/(1-\delta_1\delta_2)$, player $1$ always accepts when her split $\ge y$.
+    \proo{}{
+        It's easy to show that this is an SPE. To show the uniqueness of the SPE, let $\underline{v}_1$ and $\bar{v}_1$ denote the lowest and highest payoffs that player $1$ could get in any SPE starting at a date where he gets to make an offer. Consider a date when player $2$ makes an offer, he can make (the proposal accepted by player $1$) at most $1-\delta_1\underline{v}_1$ by a split $\delta_1\underline{v}_1, 1-\delta_1\underline{v}_1$, and at least $1-\delta_1\bar{v}_1$ by a split $\delta_1\bar{v}_1,1-\delta_1\bar{v}_1$. Now reconsider the decision of the player $1$, we can obtain:
+        \meq{
+            \overline{v}_1\leq1-\delta_2\left(1-\delta_1\overline{v}_1\right), \\
+            \underline{v}_1\geq1-\delta_2\left(1-\delta_1\underline{v}_1\right),
+        }
+        which leads to:
+        \eq{
+            \underline{v}_1\geq\frac{1-\delta_2}{1-\delta_1\delta_2}\geq\overline{v}_1
+        }
 }
 
 \subsection{Cooperative Game}
@@ -2566,9 +2586,6 @@ However, this scheme is dependent on the order, we can permutate on all the orde
         Next, we need to prove the `only if' part, suppose $\psi$ is the value that satisfies the above axioms, we need to prove $\psi=\varphi$. 
     }
 }
-
-\subsection{The Bargaining Model}
-\cite{Rubinstein1982} studies another equilibrium in the game. In the model, 
 
 \subsection{Mechanism Design}
 
