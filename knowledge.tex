@@ -3257,7 +3257,7 @@ If all the hidden layer output and the input are vectors, we can write the gradi
 \eq{
     \partial_{\mathbf{W}^{(l)}} \mathbf{o} = \underbrace{\partial_{\mathbf{h}^{(L-1)}} \mathbf{h}^{(L)}}_{ \mathbf{M}^{(L)} \stackrel{\textrm{def}}{=}} \cdots \underbrace{\partial_{\mathbf{h}^{(l)}} \mathbf{h}^{(l+1)}}_{ \mathbf{M}^{(l+1)} \stackrel{\textrm{def}}{=}} \underbrace{\partial_{\mathbf{W}^{(l)}} \mathbf{h}^{(l)}}_{ \mathbf{v}^{(l)} \stackrel{\textrm{def}}{=}}.
 }
-This may lead to \tbf{gradient vanishing} or \tbf{gradient exploding}.
+This may lead to \tbf{gradient vanishing} or \tbf{gradient exploding}. 
 \sep{Data Preprocessing}
 Setting all weights of an NN to the same constant can not work, because, for all neurons at the same layer, the gradient is the same, thus the update is the same, and it can not 
 learn different features. For small networks, it is OK to set $W_0=0.01*random.rand()$. XAvier initialization aims to make the variance across every layer is the same, 
@@ -3277,6 +3277,118 @@ where $d$ is the number of inputs for each neuron. Another initialization note i
 }
 The operation of dividing the unselected layers by $1-p$ is to maintain the expectation of the output.
 \fig{Dropout}{Dropout}{0.4}
+
+\subsection{Deep Learning for Computer Vision}
+
+\subsubsection{CNN: Convolutional Neural Networks}
+There are three main types of layers to build ConvNet architectures: Convolutional Layer, Pooling Layer, and Fully-Connected Layer.
+\sep{Convolutional Layer}
+The connections between kernels and inputs are local in 2D space (along width and height), but always full along the entire depth of the input volume. 
+\ass{Parameter Sharing}{
+    If one feature is useful to compute at some spatial position $(x,y)$, then it should also be useful to compute at a different position $(x_2,y_2)$.
+}
+This assumption can reduce the number of weights and parameters dramatically. However, sometimes the parameter-sharing assumption may not make sense. This is especially the case when the input images to a ConvNet have some specific centered structure, one example is when the input are faces that have been centered in the image. We can use a \tbf{locally-connected layer} to solve this.
+\tbf{Padding}: sometimes, it is beneficial to pad around the edges with 0s:
+\tab{
+    \item Prevent shrinking;
+    \item Not losing edge information.
+}
+Given figure size $N\times N$ and filter size $F\times F$, padding $P$ and stride $S$, the size of convolved layer is given by:
+\[M=floor(\frac{N+2P-F}{S})+1\]
+A recent development is to introduce one more hyperparameter \tbf{dilation}, which are filters that have spaces between each cell. For example, dilation $=0$ computes $w[0]*x[0]+w[1]*x[1]+w[2]*x[2]$, in contrast, dilation $=0$ computes $w[0]*x[0]+w[1]*x[2]+w[2]*x[4]$.
+\fig{Multi-channel CNN}{Multi-channel CNN}{0.5}
+For the multi-channel input images, each convolutional kernel has the same depth as the input image. There can be multiple kernels in each layer:
+\fig{multiple kernels in each layer}{multiple kernels in each layer}{0.4}
+\sep{Pooling Layer}
+\tbf{Pooling} layer can reduce the complexity and number of parameters for the whole network, and \tbf{subsampling} pixels will not change the object. The Pooling Layer operates independently on every depth slice of the input and resizes it spatially, using the MAX operation. The most common form is a pooling layer with filters of size (spatial extent) 2x2 applied with a stride of 2, the depth dimension remains unchanged. 
+\fig{The pooling layer}{The pooling layer}{0.5}
+\tbf{General pooling}: the pooling units can also perform other functions, such as average pooling. Some people don't like the pooling layer, they replace it by using a larger stride in the conv layer. Discarding pooling layers has also been found to be important in training good generative models, such as  VAE and GAN.
+
+\subsection{Deep Learning for NLP}
+
+Language models compute the probability of occurrence of a number of words in a particular sequence. The probability of a sequence of words $\{w_1,\cdots,w_m\}$ is denoted as $P(w_1,...,w_m)$. Since the location matters:
+\eq{
+    P(w_1,...,w_m)=\prod_{i=1}^{i=m}P(w_i|w_1,...,w_{i-1})\approx\prod_{i=1}^{i=m}P(w_i|w_{i-n},...,w_{i-1})
+}
+\sep{$n$-gram Language Models}
+This model focuses on making predictions based on a fixed window of context. For example, bi-gram is calculated by:
+\[
+    p(w_2|w_1)=\frac{count(w_1,w_2)}{count(w_1)}
+\]
+The trigram model calculates the probability using:
+\[p(w_3|w_1,w_2)=\frac{count(w_1,w_2,w_3)}{count(w_1,w_2)}\]
+However, this model suffers from the problem of \tit{sparsity} and \tit{exponential storage}.
+
+\subsubsection{RNN: Recurrent Neural Networks}
+\fig{Architecture of a traditional RNN}{Architecture of a traditional RNN}{0.5}
+RNNs are a class of neural networks that allow previous outputs to be used as inputs while having hidden states. For each timestep $t$, the activation $a^{<t>}$ and the output $y^{<t>}$ are expressed as follows:
+\[a^{<t>}=g_{1}(W_{aa}a^{<t-1>}+W_{ax}x^{<t>}+b_{a}）\]
+\[y^{<t>}=g_2(W_{ya}a^{<t>}+b_y)\]
+where $g_1$ and $g_2$ are activation functions and $J$ are applied repeatedly at each timestep. The loss function $\cL$ is defined as the sum of the losses at each time step. If we use the cross entropy loss:
+\eq{
+    J=\frac1T\sum_{t=1}^TJ^{(t)}(\theta)=-\frac1T\sum_{t=1}^T\sum_{j=1}^{|V|}y_{t,j}\times log(\hat{y}_{t,j})
+}
+\tit{Perplexity} is defined as $2^J$, where lower values imply more confidence in predicting the next
+word in the sequence. \gt{Advantages} of RNNs:
+\tab{
+    \item They can process input sequences of any length;
+    \item The model size does not increase for longer input sequence lengths;
+    
+}
+\rt{Disadvantages}:
+\tab{
+    \item Computation is slow - because it is sequential, it cannot be parallelized;
+    \item Difficult to access information from many steps back due to problems like vanishing and exploding gradients (This can be alleviated by \tbf{clips} on the gradient).
+}
+\sep{Deep Bidirectional RNNs}
+\fig{ A bi-directional RNN model}{ A bi-directional RNN model}{0.5}
+This network consumes twice as much memory space for its weight and bias parameters. 
+\eq{
+    \begin{gathered}
+        \overrightarrow{h}_t=f(\overrightarrow{W}x_t+\overrightarrow{V}\overrightarrow{h}_{t-1}+\overrightarrow{b})\\
+        \overleftarrow{h}_t=f(\overleftarrow{W}x_t+\overleftarrow{V}\overleftarrow{h}_{t+1}+\overleftarrow{b})\\
+        \hat{y}_t=g(Uh_t+c)=g(U[\overrightarrow{h}_t;\overleftarrow{h}_t]+c)
+    \end{gathered}
+}
+
+\subsubsection{GRU and LSTM}
+Gated recurrent units (GRU) are designed to have more persistent memory for capturing long-term dependencies. Denote $h_t$ as the hidden state and $x_t$ as the input, GRU uses $h_{t-1}$ and $x_t$ to generate $h_t$:
+\eq{
+    \begin{gathered}
+        Z_{t} =\sigma(W^{(z)}x_t+U^{(z)}h_{t-1}) \text{(Update gate)} \\
+        r_{t} =\sigma(W^{(r)}x_t+U^{(r)}h_{t-1}) \text{(Reset gate)} \\
+        \tilde{h}_{t} =\tanh(r_t\circ Uh_{t-1}+Wx_t) \text{(New memory)} \\
+        h_{t} =(1-z_t)\circ\tilde{h}_t+z_t\circ h_{t-1} \text{(Hidden state)} 
+    \end{gathered}
+}
+\fig{Gated Recurrent Units}{Gated Recurrent Units}{0.9}
+Intuitive understandings:
+\lis{
+    \item \tbf{Reset Gate}: the signal $r_t$ is responsible for determining the importance of $h_t$ on $\tilde{h}_{t}$;
+    \item \tbf{New Memory}: $\tilde{h}_{t}$ is a the consolidation of a new input $x_t$ with part of the hidden state $h_{t-1}$ (determined by the reset gate);
+    \item \tbf{Update gate}: the update signal $Z_t$ determins the proportion between $h_{t-1}$ and $\tilde{h}_t$.
+}
+Long-Short-Term-Memories (LSTM) is another type of complex RNN to deal with vanishing gradients. On step $t$, there is a hidden state $h_t$ and a \tbf{cell state} $c_t$ which stores long-term information. The LSTM can erase, write and read information from the cell using \tit{gates}. Each gate is still an $n$-dimensional vector.
+\fig{LSTM Gates}{LSTM Gates}{0.8}
+\fig{LSTM Architecture}{LSTM Architecture}{0.8}
+The LSTM architecture makes it easier for the RNN to preserve information over many timesteps. e.g. the forget gate can set the cell to remember `everything' in the past.
+\re{
+    \tab{
+        \item LSTMs are specifically designed to remember information over long sequences;
+        \item The forget gate in LSTMs allows the network to ignore irrelevant or noisy inputs, making them more robust in noisy environments;
+        \item GRUs have fewer parameters than LSTMs, as they combine the input and forget gates into a single update gate.
+    }
+}
+
+\subsubsection{Attention and Transformers}
+\sep{Sequence to Sequence}
+``Seq2Seq'' is made up of two recurrent neural networks (trained at the same time): an \rt{encoder} to transform the input as a \tit{context} information, and a \rt{decoder} to transform the context to the output. Encoders will process the input sequence in reverse: easier for the decoder to get started on the output. One problem with Seq2Seq is: that the last encoding neuron needs to capture all information: \tbf{Information bottleneck}!
+
+The core idea of attention is:
+\begin{center}
+    on each step of the decoder, use \gt{direct connection} to the encoder to focus on a \gt{particular part} of the source sequence.
+\end{center}
+
 
 \clearpage
 \section{Causal Inference with Machine Learning}
@@ -4520,14 +4632,14 @@ The optimal $b^*$ is given by:
 \subsubsection{Fairness in Airline RM}
 \cite{Aslani2014} summarize some unfair pricing phenomena in revenue management, such as the hidden-city ticketing and throwaway ticketing. \cite{wang2016hidden} studies the cause and impact of the hidden-city ticketing:
 \ass{\cite{wang2016hidden}}{
-\lis{
-\item Airlines only provide itineraries with at most one stop. For an O-D (orientation-destination) pair $i\to j$, we use the notation $(k_{ij}^t,p_{ij}^t)_{(i,j)\in\mathcal{O}}$,
-where $k_{ij}^t$ is the connection city ($k_{ij}^t=0$ indicates direct flight), and $p_{ij}^t$ is the price;
-\item For a passenger with O-D pair $i\to j$, he only considers $k_{ij}^t$ without considering $p_{ij}^t$. Denote $\lambda_{ij}^t(p_{ij}^t)$ as the probability of purchase.
-We assume that $\lambda_{ij}^t(p_{ij}^t)$ is known in advance and it is small enough so that at each period, the probability that there are more than one purchases can be ignored.
-\item For any $i, j, t$: $\lambda_{ij}^t(p)$ is continuously differentiable and non-increasing in $p$;
-\item For any $c>0$, $\lambda_{ij}^t(p)(p-c)$ is quasiconcave in $p$ and there exists a unique maximizer for $\lambda_{ij}^t(p)(p-c)$.
-}
+    \lis{
+        \item Airlines only provide itineraries with at most one stop. For an O-D (orientation-destination) pair $i\to j$, we use the notation $(k_{ij}^t,p_{ij}^t)_{(i,j)\in\mathcal{O}}$,
+        where $k_{ij}^t$ is the connection city ($k_{ij}^t=0$ indicates direct flight), and $p_{ij}^t$ is the price;
+        \item For a passenger with O-D pair $i\to j$, he only considers $k_{ij}^t$ without considering $p_{ij}^t$. Denote $\lambda_{ij}^t(p_{ij}^t)$ as the probability of purchase.
+        We assume that $\lambda_{ij}^t(p_{ij}^t)$ is known in advance and it is small enough so that at each period, the probability that there are more than one purchases can be ignored.
+        \item For any $i, j, t$: $\lambda_{ij}^t(p)$ is continuously differentiable and non-increasing in $p$;
+        \item For any $c>0$, $\lambda_{ij}^t(p)(p-c)$ is quasiconcave in $p$ and there exists a unique maximizer for $\lambda_{ij}^t(p)(p-c)$.
+    }
 }
 For one particular airline company, denote the capacity of the flight leg using vector $\boldsymbol{x}$, and the optimal expected revenue as $V^t(\boldsymbol{x})$, we can formulate the dynamic programming:
 \eq{
@@ -4536,8 +4648,7 @@ For one particular airline company, denote the capacity of the flight leg using 
         =\quad V^{t-1}(\boldsymbol{x})+\max_{k_{ij}^t,p_{ij}^t,\forall(i,j)\in\mathcal{O}}\left\{\sum_{(i,j)\in\mathcal{O}}\lambda_{ij}^t(p_{ij}^t)\left(p_{ij}^t+V^{t-1}(\boldsymbol{x}-A_{ij}^{k_{ij}^t})-V^{t-1}(\boldsymbol{x})\right)\right\}
     \end{gathered}
 }
-where $A_{ij}^{k}$ is the capacity consumption vector for each flight leg. With boundary conditions $V^0(\boldsymbol{x})=0\quad\forall\boldsymbol{x}$, $V^t(0)=0\quad\forall t$ and $V^t(\boldsymbol{x})=-\infty $ if
-$\boldsymbol{x}$ contains any negative entry. Note that we can solve the problem in two steps because the optimization over $k_{ij}^t$ and $p_{ij}^t$ are separated. We can first solve $k_{ij}^t$:
+where $A_{ij}^{k}$ is the capacity consumption vector for each flight leg. With boundary conditions $V^0(\boldsymbol{x})=0\quad\forall\boldsymbol{x}$, $V^t(0)=0\quad\forall t$ and $V^t(\boldsymbol{x})=-\infty $ if $\boldsymbol{x}$ contains any negative entry. Note that we can solve the problem in two steps because the optimization over $k_{ij}^t$ and $p_{ij}^t$ are separated. We can first solve $k_{ij}^t$:
 \eq{
 \hat{k}_{ij}^t=\arg\max_{k_{ij}^t}V^{t-1}(\boldsymbol{x}-A_{ij}^{k_{ij}^t})
 }
