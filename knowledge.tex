@@ -3341,7 +3341,7 @@ word in the sequence. \gt{Advantages} of RNNs:
     \item Difficult to access information from many steps back due to problems like vanishing and exploding gradients (This can be alleviated by \tbf{clips} on the gradient).
 }
 \sep{Deep Bidirectional RNNs}
-\fig{ A bi-directional RNN model}{ A bi-directional RNN model}{0.5}
+\fig{ A bi-directional RNN model}{ A bi-directional RNN model}{0.3}
 This network consumes twice as much memory space for its weight and bias parameters. 
 \eq{
     \begin{gathered}
@@ -3382,13 +3382,44 @@ The LSTM architecture makes it easier for the RNN to preserve information over m
 
 \subsubsection{Attention and Transformers}
 \sep{Sequence to Sequence}
-``Seq2Seq'' is made up of two recurrent neural networks (trained at the same time): an \rt{encoder} to transform the input as a \tit{context} information, and a \rt{decoder} to transform the context to the output. Encoders will process the input sequence in reverse: easier for the decoder to get started on the output. One problem with Seq2Seq is: that the last encoding neuron needs to capture all information: \tbf{Information bottleneck}!
-
+``Seq2Seq'' is made up of two recurrent neural networks (trained at the same time): an \rt{encoder} to transform the input as a \tit{context} information, and a \rt{decoder} to transform the context to the output. Encoders will process the input sequence in reverse: easier for the decoder to get started on the output. One problem with Seq2Seq is: that the last encoding neuron needs to capture all information: \tbf{Information bottleneck}! Besides, traditional RNN lacks parallelizability (stacking many LSTMs together would be slow).
+\fig{Sequence-to-Sequence with RNNs}{Sequence-to-Sequence with RNNs}{0.4}
 The core idea of attention is:
 \begin{center}
     on each step of the decoder, use \gt{direct connection} to the encoder to focus on a \gt{particular part} of the source sequence.
 \end{center}
-
+In the attention mechanism, the \tit{alignment scores} are computed using $\mathrm{e_{t,i}=f_{att}(s_{t-1},h_i)}$, where $s_{t-1}$ is the decoder state and $f_{att}$ is an MLP. Then using Softmax to normalize the alignment scores and get the \tit{attention weights} $a_{t,i}$, the hidden state in the decoder side is a linear combination of the attention score and the hidden states in the encoder side: $c_t=\sum_i a_{t,i}h_i$. The context vector at the next $t$ is computed using $s_t=g_D(y_{t-1},s_{t-1},c_t)$. The intuition is: the context vector attends to the relevant part of the input sequence.
+\fig{Sequence-to-Sequence with RNNs and Attention}{Sequence-to-Sequence with RNNs and Attentio}{0.4}
+\rt{Attention Variants}
+\tab{
+    \item Basic dot-product attention: $e_i=s^Th_i$, this assumes $d_s = d_h$;
+    \item Multiplicative attention: $e_i=s^TWh_i$;
+    \item Reduced rank multiplicative attention: $e_i=s^T(U^TV)h_i,U\in\RR^{k\times d_s},V\in\RR^{k\times d_h}$;
+    \item Addictive attention: $e_i=v^T tanh(W_1h_i+W_2s)$.
+}
+\defi{Attention}{
+    Attention function can be described as mapping a query and a set of key-value pairs to an output (all vectors).
+}
+Assume we have some \tbf{queries} $q_1,\cdots,q_T$, each $q_i\in \RR^d$; \tbf{keys} $k_1,\cdots,k_T$, each $k_i\in \RR^d$; \tbf{values} $v_1,\cdots,v_T$, each $v_i\in \RR^d$. \tit{Self-attention} is those attentions where the query, key, and value are all coming from the same sources (thus the same dimension): let $v_i=k_i=q_i=x_i$. \rt{Self-attention problem}:
+\lis{
+    \item \tit{Sequence order}: use a \tbf{sequence index} $p_i\in\RR^d$, for $i\in\{1,2,\cdots,T\}$ positions. Then add $p_i$ with the original vector. Now we have the position representations for the values;
+    \item \tit{No nonlinearities}：use the \tbf{feed-forward network} between different layers of self-attention;
+    \item \tit{Don't look at future}: use the \tbf{masked attention} in the decoders: setting the attention score to the future words as $-\infty$.
+}
+\sep{Encoder: Key-Query-Value Self-attention}
+Let $X\in\RR^{Txd}$ be the concatenation of input vectors, the output is given by:
+\eq{
+    output=softmax(XQ(XK)^T)\times XV
+}
+\sep{Decoder: Multi-head attention}
+If we want to attend different kinds of places. Let $Q_l,K_l,V_l\in\RR^{d\times \frac{d}{h}}$, and $l$ ranges from $1$ to $h$. Each attention head performs attention independently. For the output, compute $output_l$ first, then use $Y[output_1,\cdots, output_h]$ to concatenate them. \cite{vaswaniAttentionAllYou2023} proposed the transformer model.
+\fig{The Transformer}{The Transformer}{0.3}
+\bt{Tricks in the transformer model} (accelerate the training process):
+\tab{
+    \item Residual connections;
+    \item Layer normalization;
+    \item Scaled dot product attention (reduced rank multiplicative attention).
+}
 
 \clearpage
 \section{Causal Inference with Machine Learning}
