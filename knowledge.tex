@@ -59,9 +59,9 @@
 
 \subsection{Keys of Calculus}
 
-\subsection{Keys of Linear Algebra}
+\subsection{Keys of Linear Algebra and Matrix Theory}
 
-The main contents of this subsection are notes from \cite{deisenroth2020mathematics}, \cite{axler2023linear}, \cite{petersen2008matrix}.
+The main contents of this subsection are notes from \cite{deisenroth2020mathematics}.
 The properties of Matrix Multiplication:
 \tab{
     \item Associativity: $(AB)C=A(BC)$;
@@ -96,7 +96,7 @@ define error = $\|x^{(k+1)}-x_*\|$, then optimize the function $x^{(k+1)}=Cx^{(k
     A \tbf{Vector Space} $V=(\mathcal{V},+,\cdot)$ is a set $\cV$ with two operations:
     \lis{
         \item $+:\mathcal{V}\times\mathcal{V}\to\mathcal{V}$;
-        \item $\cdot:\mathbb{R}\times\mathcal{V}\to\mathcal{V}$
+        \item $\cdot:\mathbb{R}\times\mathcal{V}\to\mathcal{V}$ ($\mathbb{R}$ can be replaced by $\mathbb{C}$).
     }
     For $\mathcal{U}\subseteq\mathcal{V}$ and $\mathcal{U}\neq\emptyset$, then $U=(\cU,+,\cdot)$ is a vector subspace.\\
     \re{
@@ -106,6 +106,13 @@ define error = $\|x^{(k+1)}-x_*\|$, then optimize the function $x^{(k+1)}=Cx^{(k
         }
     }
 }
+For subspaces $V_1$ and $V_2$, the sum operation of $V_1$ and $V_2$ is defined as:
+\eq{
+    V_1+V_2=\{v_1+v_2: v_1\in V_1, v_2\in V_2\}.
+}
+\eq{
+    \dim V_1+\dim V_2=\dim(V_1+V_2)+\dim(V_1\cap V_2).
+}
 If $v=\sum_{i=1}^{k}\lambda_ix_i$, then $v$ is a linear combination of $(x_1,x_2,\cdots,x_k)$. If \tbf{not} all values of a solution are
 0, then it's called a non-trivial solution. For $\sum_{i=1}^{k}\lambda_ix_i=0$, if the non-trivial solution exists, then the vectors are called \tbf{linearly dependent}.
 \defi{Basis and Rank}{
@@ -114,7 +121,7 @@ If $v=\sum_{i=1}^{k}\lambda_ix_i$, then $v$ is a linear combination of $(x_1,x_2
         then $\cA$ is a generating set of $V$;
         \item \tbf{Span}: The set of linear combinations of $\cA$ is its span;
         \item \tbf{Basis}: The minimal generating set (linearly independent) of a vector space $V$ is called its basis;
-        \item \tbf{Rank}: the number of linearly independent column vectors in a matrix $\cA \in \RR&{m\times n}$.
+        \item \tbf{Rank}: the number of linearly independent column vectors in a matrix $\cA \in \RR^{m\times n}$.
     }
     \re{
         \tab{
@@ -126,28 +133,31 @@ If $v=\sum_{i=1}^{k}\lambda_ix_i$, then $v$ is a linear combination of $(x_1,x_2
         }
     }
 }
+Let $A$ be an $m\times n$ matrix, there always exist an $m\times m$ matrix $P$ and $n\times n$ matrix $Q$ such that:
+\eq{
+    PAQ=\left(\begin{array}{cc}I_r&0\\0&0\end{array}\right).
+}
+The size of $I-r$ is the rank of $A$.
 \defi{Linear Mappings}{
     For vector spaces $V,W$, a mapping $\Phi:V\rightarrow W$ is called linear mapping if:
     \eq{
         \forall x,y\in V\forall\lambda,\psi\in\mathbb{R}:\Phi(\lambda x+\psi\boldsymbol{y})=\lambda\Phi(x)+\psi\Phi(\boldsymbol{y})
     }
 }
+\fig{Image and Kernel}{Image and Kernel}{0.5}
 \sep{Determinant and Trace}
-\tbf{Determinant} is used to decide whether a matrix is invertible, denoted by $det(A)$ or $|A|$, its geometric meaning is
-the signed volume. \tit{Laplace Expansian} can be used to compute the determinant for large matrixes.\\
-If $det(A)=0$, then it's non-invertible. otherwise, it's invertible.\\
+\tbf{Determinant} is used to decide whether a matrix is invertible, denoted by $det(A)$ or $|A|$, its geometric meaning is the signed volume. \tit{Laplace Expansian} can be used to compute the determinant for large matrixes:
+\eq{
+    \det A=\sum_{j=1}^n(-1)^{1+j}a_{1j}\det A(1|j)，
+}
+where $A(1|j)$ is the matrix $A$ after eliminating row $1$ and column $j$. If $det(A)=0$, then it's non-invertible. otherwise, it's invertible.
 \tbf{Trace} is defined as $Tr(A)=\sum_{i=1}^n a_{ii}$. Both determinant and trace can only be applied to the squared matrix.
 \sep{Eigenvalue and Postive-Definiteness}
-Consider matrix $A\in \RR^{n\times n}$ as a linear mapping rather than a simple matrix, $A$ can map a n-dimensional space
-to another n-dimensional space.
-\fig{Mona-Lisa}{
-    A shear mapping example
-}{0.3}
-The Mona Lisa example is a linear mapping of two-dimensional space, but during the mapping, there are some vectors (such as the blue vector)
-that are only modified in length rather than direction. This is the idea of the eigenvector.
+Consider matrix $A\in \RR^{n\times n}$ as a linear mapping rather than a simple matrix, $A$ can map a n-dimensional space to another n-dimensional space.
+\fig{Mona-Lisa}{A shear mapping example}{0.3}
+The Mona Lisa example is a linear mapping of two-dimensional space, but during the mapping, there are some vectors (such as the blue vector) that are only modified in length rather than direction. This is the idea of the eigenvector.
 \defi{Eigenvalue and Eigenvector}{
-    For a square matrix $A$, if there exists a scalar $\lambda$ and a vector $v\in \RR^n$, such that $A\cdot v=\lambda\cdot v$.
-    Which would lead us to $(A-\lambda I)\cdot v=\tbf{0}$.
+    For a square matrix $A$, if there exists a scalar $\lambda$ and a vector $v\in \RR^n$, such that $A\cdot v=\lambda\cdot v$. Which would lead us to $(A-\lambda I)\cdot v=\tbf{0}$.
     \re{
         The following statements are equivalent:
         \tab{
@@ -157,10 +167,8 @@ that are only modified in length rather than direction. This is the idea of the 
         }
     }
 }
-The definiteness is similar to the idea of eigenvalue. Consider $X^T MX$ as the inner product of $X$ and $MX$, where
-$MX$ can be regarded as a transformed version of $X$. If $X^T MX>0$ for all $X$,
-then we can get $\cos \theta=\frac{X^T \cdot MX}{||X||\cdot ||MX||}>0$, which means for all vectors, the linear mapping $M$ can map
-the vector to an angle less than 90 degrees.\\
+The definiteness is similar to the idea of eigenvalue. Consider $X^T MX$ as the inner product of $X$ and $MX$, where $MX$ can be regarded as a transformed version of $X$. If $X^T MX>0$ for all $X$, then we can get $\cos \theta=\frac{X^T \cdot MX}{||X||\cdot ||MX||}>0$, which means for all vectors, the linear mapping $M$ can map the vector to an angle less than 90 degrees.
+
 So to show whether a matrix is positive definite, calculate all the eigenvalues of the matrix. If all values are larger than 0, then it's positive definite.
 \re{
     \tab{
@@ -168,7 +176,8 @@ So to show whether a matrix is positive definite, calculate all the eigenvalues 
         \item $\det(A)=\prod_{i=1}^n\lambda_i$;
         \item $\mathrm{Tr(A+B)}=\mathrm{Tr(A)}+\mathrm{Tr(B)}$, $\quad \det(\mathbf{AB})=\det(\mathbf{A})\det(\mathbf{B})$;
         \item $\det(\mathbf{A}^{-1})=1/\det(\mathbf{A})$, $\quad \mathrm{det}(\mathbf{A}^n)=\mathrm{det}(\mathbf{A})^n$;
-        \item $\det(\mathbf{I}+\mathbf{u}\mathbf{v}^T)=1+\mathbf{u}^T\mathbf{v}$.
+        \item $\det(\mathbf{I}+\mathbf{u}\mathbf{v}^T)=1+\mathbf{u}^T\mathbf{v}$;
+        \item $\left|\begin{array}{cc}A&B\\0&C\end{array}\right|=\det A\det C$.
     }
     The approximation of the determinant. For small $\epsilon$:
     \eq{
@@ -184,10 +193,10 @@ Considering the $2\times 2$ matrix $\mathbf{A}$, we have:
 \left.\mathbf{A}^{-1}=\frac1{\det(\mathbf{A})}\left[\begin{array}{cc}A_{22}&-A_{12}\\-A_{21}&A_{11}\end{array}\right.\right]
 }
 
-\subsection{Norms \& Derivatives of the Matrix}
+\subsection{Norms \& Matrix Derivative}
 
 \defi{Norm}{
-The norm $||\codt||$ is a mapping $V\to \RR$, which assigns each vector a length that satisfy:
+The norm $||\cdot||$ is a mapping $V\to \RR$, which assigns each vector a length that satisfy:
 \tab{
     \item \tit{Absolutely homogeneous}: $\|\lambda x\|=|\lambda|\|x\|$;
     \item \tit{Triangle inequality}: $\lVert x+y\rVert\leqslant\lVert x\rVert+\lVert y\rVert$;
@@ -202,8 +211,10 @@ The $L_p$ norm: $\|x\|_p=\left(|x_1|^p+|x_2|^p+\cdots+|x_n|^p\right)^{1/p}$.\\
     }
 }
 \proo{Infinity Norm}{
-By squeeze theorem:\\
-First show that $\|x\|_p=(\sum_i|x_i|^p)^{\frac1p}\leq(\sum_i\max_i|x_i|^p)^{\frac1p}=n^{\frac1p}\max_i|x_i|\to\max_i|x_i|=\|x\|_\infty $,\\
+By squeeze theorem:
+
+First show that $\|x\|_p=(\sum_i|x_i|^p)^{\frac1p}\leq(\sum_i\max_i|x_i|^p)^{\frac1p}=n^{\frac1p}\max_i|x_i|\to\max_i|x_i|=\|x\|_\infty $,
+
 Next show that $\|x\|_p=(\sum_i|x_i|^p)^{\frac1p}\geq(\max_i|x_i|^p)^{\frac1p}=\max_i|x_i|=\|x\|_\infty $.
 }
 
@@ -4311,7 +4322,7 @@ considering type $m$, $RP_{ijt}$ is the regular price. To allow the interactions
 where $m(\cdot)$ is a nonparametric function.
 
 \subsubsection{Online Advertising}
-\cite{Dinner2014} studied the croos-channel effects between online and offline advertising. They verified that the cross-channel effect exists, but it could be 
+\cite{Dinner2014a} studied the croos-channel effects between online and offline advertising. They verified that the cross-channel effect exists, but it could be 
 diminished by an indirect effect manifested by its impact on paid search impressions and click-through rate. 
 
 \clearpage
@@ -4350,9 +4361,7 @@ The results show that the centralized auditing system may generate inferior perf
 \cite{dong20223d} investigate the assortment strategy under the usage of 3D printing. The model assumes that the assortments can be selected from two sets:
 the generic set $\cG$ and the 3D-specific set $\cS$. The manufacturer decides on three production sets: the dedicated
 technology set $\cD\subset\cG$, the traditional flexible set $\cT \subset \cG$, and the 3D printing set $\cP \subset \cG\cup\cS$.
-Then the authors use multinomial-logit model to characterize the market of each product and separate the investment cost to \tit{adoption cost}, \tit{development cost}, and \tit{capacity cost}.
-The paper shows the assortment structure: based on the popularity of the products. The Numerical study shows that 3D printing tends to be more valuable when popularities of the generic designs are distributed
-more evenly and when popularities of the 3D-specific designs are distributed less evenly.
+Then the authors use multinomial-logit model to characterize the market of each product and separate the investment cost to \tit{adoption cost}, \tit{development cost}, and \tit{capacity cost}. The paper shows the assortment structure: based on the popularity of the products. The Numerical study shows that 3D printing tends to be more valuable when popularities of the generic designs are distributed more evenly and when popularities of the 3D-specific designs are distributed less evenly.
 
 \subsection{Distribution Channel}
 
@@ -4364,11 +4373,7 @@ of the consumers' non-negative valuation higher.
 \clearpage
 \section{Revenue Management}
 
-Revenue management is a data-driven system to price perishable assets tactically
-at the micro-market level to maximize expected revenue or profit. Some critical reviews
-before 2009 can be found in the book \cite{Gallego2019}.
-There are some extra summary papers like \cite{Strauss2018},
-\cite{Klein2020}.
+Revenue management is a data-driven system to price perishable assets tactically at the micro-market level to maximize expected revenue or profit. Reference: \cite{gallegoRevenueManagementPricing2019}, \cite{Strauss2018}, \cite{Klein2020}.
 
 \subsection{Traditional RM}
 
@@ -4982,7 +4987,7 @@ arrives for product $j$, he would choose $j$ from seller $k$ following the distr
 }
 If $j\notin S$, the consumer would switch to product $i$ w.p. $\rho_{ji}$.
 \sep{Endogenized MNL model}
-\cite{wang2017consumer} propose the \tbf{endogenized choice model}, which is an extent on MNL and incorporating the network effects.
+\cite{Wang2017} propose the \tbf{endogenized choice model}, which is an extent on MNL and incorporating the network effects.
 \defi{Network Effects}{
     \lis{
         \item \tit{global} network effects: the utility for consuming a product depends on the total level of consumption of the product;
