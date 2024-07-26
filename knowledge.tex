@@ -265,6 +265,17 @@ The \tbf{Frobenius Norm}:
 }
 }
 
+\subsubsection{Norms for Random Variables}
+The $p$-th moment is defined as $\mathbb{E}X^p,p>0$, and the \tit{absolute $p$-th moment} is $\mathbb{E}|X|^p$.
+\defi{$L^p$-norm for the R.V}{
+    Similar to the norm in the general definition. For a R.V. $X$, its $L_p$ norm is:
+    \eq{
+        \|X\|_p = (\mathbb{E}|X|^p)^{1/p},p\in (0,\infty).
+    }
+    Specifically, $\|X\|_\infty = ess sup |X|$. When $p\in[1,\infty)$, the quantity $\|X\|_p$ is a norm (satisfying the triangle inequality) and $L_p=\{X:\|X\|_p<\infty\}$ is a \tit{Banach space}. $L_2$ is a \tit{Hilbert space}.
+}
+\thm{}{}
+
 \clearpage
 \section{Probability Theory}
 
@@ -565,7 +576,7 @@ $T(\bold{X})$ partition the sapmle sapce $\cX$ into sets $A_t=\{\mathbf{x}:T(\ma
 \subsection{Moment Generating Function}
 The \tbf{Moment Genarating Function} (mgf) is:
 \eq{
-    M_X(t)=\mathbb{E}\left(e^{tX}\right).
+    M_X(t)=\mathbb{E}(e^{tX}).
 }
 If taking the $n$ order derivatives of the mgf by $t$, and let $t=0$, then:
 \eq{
@@ -731,6 +742,13 @@ A reduction is an algorithm for \tbf{transforming a problem instance into anothe
 
 \subsection{Convexity and Continuity}
 
+\thm{Jensen's Inequality}{
+    If $f(x)$ is convex over $x$, then:
+    \[
+        f(\mathbb{E}[X]) \le \mathbb{E}[f(X)],
+    \]
+    vice versa.
+}
 \defi{Local Minimum (Relative Minimum)}{
     A point $x^* \in \Omega$ is said to be a local minimum point of $f$ over $\Omega$ if there is an $\epsilon>0$, such that for any $x\in\Omega$ and
     $|x-x^*|<\epsilon$, we have $f(x)\ge f(x^*)$.
