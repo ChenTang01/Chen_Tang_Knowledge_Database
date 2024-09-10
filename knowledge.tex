@@ -231,38 +231,38 @@ Next show that $\|x\|_p=(\sum_i|x_i|^p)^{\frac1p}\geq(\max_i|x_i|^p)^{\frac1p}=\
 }
 
 \subsubsection{Matrix Norms}
-\defi{Induced Matrix Normss}{
-Let $A\in\RR^{W\times V}$ be a mapping from vector space $\cV$ to $\cW$.
-\eq{
-\|A\|_{\cV,\cW}:=\max_{x\neq0}\frac{\|Ax\|_{\cW}}{\|x\|_{\cV}}.
-}
-This measures how much the matrix $A$ can stretch an $n$ dimensional vector at most. Because norms are homogeneous to scaling, we also have:
-\eq{
-\|A\|_{\mathcal{V},\mathcal{W}}=\sup_{\|v\|_{\mathcal{V}=1}}\|Av\|_{\mathcal{W}}.
-}
-Besides the 3 satisfactions listed above, there are two more properties that a matrix norm needs to satisfy:
-\tab{
-    \item \tit{Sub-multiplicative:} $\|AB\|\leq\|A\|\cdot\|B\|\text{ for all }A,B$;
-    \item \tit{Compatible with vector norm}: $\|Ax\|\leq\|A\|\cdot\|x\|\text{ for all }A \text{ and vector }x$.
-}
-\proo{Sub-multiplicative}{
+\defi{Induced Matrix Norms}{
+    Let $A\in\RR^{W\times V}$ be a mapping from vector space $\cV$ to $\cW$.
     \eq{
-        \|AB\|=\max_{\|v\|=1}\|ABv\|\le\max_{\|v\|=1}\|A\|\|Bv\|=\|A\|\|B\|.
+        \|A\|_{\cV,\cW}:=\max_{x\neq0}\frac{\|Ax\|_{\cW}}{\|x\|_{\cV}}.
     }
-}
-For a matrix $A\in\RR^{m\times n}$:
-\eq{
-\|A\|_1:=\max_{j\in\{1,\ldots,n\}}\sum_{i=1}^m|a_{ij}|, \|A\|_\infty:=\max_{i\in\{1,\ldots,m\}}\sum_{j=1}^n|a_{ij}|.
-}
-The $\|\cdot\|_1$ is the \bt{maximum absolute column sum}, the $\|\cdot\|_{\infty}$ is the \bt{maximum absolute row sum}.\\
-The \tbf{spectral norm}:
-\eq{
-    \|A\|:=\|A\|_2:=\sqrt{\lambda_{\max}(A^\top A)}.
-}
-The \tbf{Frobenius Norm}:
-\eq{
-    \|A\|_F=\left(\sum_{i=1}^m\sum_{j=1}^n|a_{ij}|^2\right)^{1/2}=\sqrt{\operatorname{tr}(A^\top A)}.
-}
+    This measures how much the matrix $A$ can stretch an $n$ dimensional vector at most. Because norms are homogeneous to scaling, we also have:
+    \eq{
+        \|A\|_{\mathcal{V},\mathcal{W}}=\sup_{\|v\|_{\mathcal{V}=1}}\|Av\|_{\mathcal{W}}.
+    }
+    Besides the 3 satisfactions listed above, there are two more properties that a matrix norm needs to satisfy:
+    \tab{
+        \item \tit{Sub-multiplicative:} $\|AB\|\leq\|A\|\cdot\|B\|\text{ for all }A,B$;
+        \item \tit{Compatible with vector norm}: $\|Ax\|\leq\|A\|\cdot\|x\|\text{ for all }A \text{ and vector }x$.
+    }
+    \proo{Sub-multiplicative}{
+        \eq{
+            \|AB\|=\max_{\|v\|=1}\|ABv\|\le\max_{\|v\|=1}\|A\|\|Bv\|=\|A\|\|B\|.
+        }
+    }
+    For a matrix $A\in\RR^{m\times n}$:
+    \eq{
+        \|A\|_1:=\max_{j\in\{1,\ldots,n\}}\sum_{i=1}^m|a_{ij}|, \|A\|_\infty:=\max_{i\in\{1,\ldots,m\}}\sum_{j=1}^n|a_{ij}|.
+    }
+    The $\|\cdot\|_1$ is the \bt{maximum absolute column sum}, the $\|\cdot\|_{\infty}$ is the \bt{maximum absolute row sum}.\\
+    The \tbf{spectral norm}:
+    \eq{
+        \|A\|:=\|A\|_2:=\sqrt{\lambda_{\max}(A^\top A)}.
+    }
+    The \tbf{Frobenius Norm}:
+    \eq{
+        \|A\|_F=\left(\sum_{i=1}^m\sum_{j=1}^n|a_{ij}|^2\right)^{1/2}=\sqrt{\operatorname{tr}(A^\top A)}.
+    }
 }
 
 \subsubsection{Norms for Random Variables}
@@ -274,7 +274,6 @@ The $p$-th moment is defined as $\mathbb{E}X^p,p>0$, and the \tit{absolute $p$-t
     }
     Specifically, $\|X\|_\infty = ess sup |X|$. When $p\in[1,\infty)$, the quantity $\|X\|_p$ is a norm (satisfying the triangle inequality) and $L_p=\{X:\|X\|_p<\infty\}$ is a \tit{Banach space}. $L_2$ is a \tit{Hilbert space}.
 }
-\thm{}{}
 
 \clearpage
 \section{Probability Theory}
@@ -329,14 +328,14 @@ The main contents of this section are from \cite{Ross2014}.
 }
 \tbf{Negative Binomial}($r,p$)\\
 \tit{pmf}: $P(X=x\mid r,p)=\binom{r+x-1}{x}p^r(1-p)^x,\quad x=0,1,\ldots;\quad0\leq p\leq1$\\
-\tit{mean}: $EX=\frac{r(1-p)}{p}$; \tit{varaince}: $\frac{r(1-p)}{p^2}$\\
+\tit{mean}: $EX=\frac{r(1-p)}{p}$; \tit{variance}: $\frac{r(1-p)}{p^2}$\\
 \tab{
     \item assume there are many independent and identical experiments, to observe the $r$th success, $X$ is the number of games to see the failure;
 }
 \tbf{Hypergeometric}($N,M,K$)\\
 \tit{pmf}: $\begin{aligned}P(X=x\mid N,M,K) & =\frac{\binom{M}{k}\binom{N-M}{K-x}}{\binom{N}{K}};
                \quad x=0,1,2,\ldots,K;                                                \\M-(N-K)&\le x\le M;\quad N,M,K\ge0\end{aligned}$\\
-\tit{mean}: $EX=\frac{KM}{N}$; \tit{varaince}: $\frac{KM}{N}\frac{(N-M)(N-K)}{N(N-1)}$\\
+\tit{mean}: $EX=\frac{KM}{N}$; \tit{variance}: $\frac{KM}{N}\frac{(N-M)(N-K)}{N(N-1)}$\\
 
 \sep{Common Continuous Distribution}
 \tbf{Uniform}($a,b$)\\
@@ -377,8 +376,8 @@ This section is mainly the notes from \cite{casella2021statistical}
 Statistics uses observed data to \hl{inference} the statistical model.
 
 \subsection{Exponential Families}
-\defi{Exponential Families
-}{A family of pdfs or pmfs is called an \tit{exponential family} if:
+\defi{Exponential Families} 
+{A family of pdfs or pmfs is called an \tit{exponential family} if:
     \eq{
         f(x|\boldsymbol{\theta})=h(x)c(\boldsymbol{\theta})\exp\left(\sum_{i=1}^kw_i(\boldsymbol{\theta})t_i(x)\right)
     }
@@ -489,14 +488,14 @@ $h(x)=I_{[0,1]}(x),c(\alpha,\beta)=\frac{1}{B(\alpha,\beta)},w_1(\alpha)=\alpha-
              & h(x)=1,c(\mu,\sigma)=\frac1{\sqrt{2\pi}\sigma}\exp\left(-\frac{\mu^2}{2\sigma^2}\right),                                                                                                                                                         \\
              & t_{1}(x)=-\frac{x^{2}}{2},w_{1}(\mu,\sigma)=\frac{1}{\sigma^{2}},t_{2}(x)=x\mathrm{and}w_{2}(\mu,\sigma)=\frac{\mu}{\sigma^{2}}.                                                                                                                 \\
              & \mathrm{Then},                                                                                                                                                                                                                                   \\
-             & \begin{aligned}\frac{\partial w_1(\mu,\sigma)}{\partial\mu}=\frac{\partial(1/\sigma^2)}{\partial\mu}=0,\end{aligned}                                                                                                                             \\
+             & \begin{aligned}\frac{\partial w_1(\mu,\sigma)}{\partial\mu}=\frac{\partial(1/\sigma^2)}{\partial\mu}=0,\end{aligned}                 \\
              & \begin{aligned}\frac{\partial w_2(\mu,\sigma)}{\partial\mu}=\frac{\partial(\mu/\sigma^2)}{\partial\mu}=\frac{1}{\sigma^2},\end{aligned}                                                                                                          \\
              & \begin{aligned}\frac{\partial w_1(\mu,\sigma)}{\partial\sigma}=\frac{\partial(1/\sigma^2)}{\partial\sigma}=-\frac{2}{\sigma^3},\end{aligned}                                                                                                     \\
              & \frac{\partial w_2(\mu,\sigma)}{\partial\sigma}=\frac{\partial(\mu/\sigma^2)}{\partial\sigma}=-\frac{2\mu}{\sigma^3},                                                                                                                            \\
              & \frac{\partial}{\partial\mu}\log\left(c(\mu,\sigma)\right)=\frac{\partial}{\partial\mu}\left(-\frac{\log(2\pi)}{2}-\log(\sigma)-\frac{\mu^{2}}{2\sigma^{2}}\right)=-\frac{\mu}{\sigma^{2}},                                                      \\
              & \frac\partial{\partial\sigma}\log\left(c(\mu,\sigma)\right)=\frac\partial{\partial\sigma}\left(-\frac{\log(2\pi)}2-\log(\sigma)-\frac{\mu^2}{2\sigma^2}\right)=-\frac1\sigma+\frac{\mu^2}{\sigma^3}.                                             \\
              & \operatorname{E}\left(\frac{1}{\sigma^{2}}X\right)=\frac{\mu}{\sigma^{2}}\operatorname{and}\operatorname{E}\left(-\frac{2}{\sigma^{3}}\left(-\frac{X^{2}}{2}\right)-\frac{2\mu}{\sigma^{3}}X\right)=\frac{1}{\sigma}-\frac{\mu^{2}}{\sigma^{3}}, \\
-             & \text{which implies}                                                                                                                                                                                                                             \\
+             & \text{which implies}                                         \\
              & \operatorname{E}(X)=\mu,\operatorname{E}(X^{2})=\mu^{2}+\sigma^{2}\mathrm{and}\mathrm{Var}(X)=\mathrm{E}(X^{2})-(\mathrm{E}X)^{2}=\sigma^{2}
         \end{aligned}
     }
@@ -554,7 +553,7 @@ then $\theta$ is only a scale parameter because $f_X(x)=\frac1\theta\exp\{1-\fra
 }
 \thm{For any pdf $f(\cdot)$, and $\sigma, \mu>0$. Then $X$ is a random variable with pdf $\frac{1}{\sigma}f\left(\frac{x-\mu}{\sigma}\right)$
     \tbf{if and only if} there is a random variable $Z$ with pdf $f(z)$ and $X=\sigma Z+\mu$.}{
-    \proo{Rigorous Proof}{The ncessity of the proof can be found in \ref{thm:ScaleLocation}, here the sufficiency need }
+    \proo{Rigorous Proof}{The necessity of the proof can be found in \ref{thm:ScaleLocation}, here the sufficiency need }
     \proo{Intuitive Proof}{}
 }
 
@@ -564,7 +563,7 @@ The idea of data reduction is to summarize or reduce the data $X_1,X_2,\cdots,X_
 There are many sample point $\bold{x}=(x_1,x_2,\cdots,x_n)$, which are realizations (observations) of the random variable $\bold{X}=(X_1,X_2,\cdots,X_n)$.
 A \tbf{Statistic} $T(\bold{X})$ is a form of data reduction, or a summary of the data, $T(\bold{x})$ is an observation of $T(\bold{X})$. $\cX$ is
 the \tbf{sample space}. $\mathcal{T}=\{t:t=T(\mathbf{x}),\mathrm{~for~}\mathbf{x}\in\mathcal{X}\}$ is the image of $cX$ under $T(\bold{X})$.
-$T(\bold{X})$ partition the sapmle sapce $\cX$ into sets $A_t=\{\mathbf{x}:T(\mathbf{x})=t,\mathbf{x}\in\mathcal{X}\}$.
+$T(\bold{X})$ partition the sample space $\cX$ into sets $A_t=\{\mathbf{x}:T(\mathbf{x})=t,\mathbf{x}\in\mathcal{X}\}$.
 \ex{
     Give a two-dimensional example for random variable, sample point, Statistic, observation of Statistic, sample space, image and $A_t$.
 }{
@@ -574,7 +573,7 @@ $T(\bold{X})$ partition the sapmle sapce $\cX$ into sets $A_t=\{\mathbf{x}:T(\ma
 }
 
 \subsection{Moment Generating Function}
-The \tbf{Moment Genarating Function} (mgf) is:
+The \tbf{Moment Generating Function} (mgf) is:
 \eq{
     M_X(t)=\mathbb{E}(e^{tX}).
 }
@@ -583,7 +582,7 @@ If taking the $n$ order derivatives of the mgf by $t$, and let $t=0$, then:
 M_X^{(n)}(t)|_{t=0}=\mathbb{E}\left(X^n\right).
 }
 
-\subsection{Concentrtion Inequality}
+\subsection{Concentration Inequality}
 \begin{center}
     \rt{\tit{Averages of independent random variables concentrate around their expectations.}}
 \end{center}
@@ -635,7 +634,7 @@ Now consider $t$ as a parameter, to achieve the tightest bound, we can tune $t$ 
     \eq{
         M_{X_1+\cdotp\cdotp\cdotp+X_n}(\lambda)=\prod_{i=1}^n M_{X_i}(\lambda),
     }
-    this means that when we calculate a Chernoff bound of a sum of i.i.d. variables, we need  need only calculate the moment generating function for \tit{one} of them, assume $n$ zero-mean independent variables:
+    this means that when we calculate a Chernoff bound of a sum of i.i.d. variables, we only need to calculate the moment generating function for \tit{one} of them, assume $n$ zero-mean independent variables:
     \eq{
         \begin{aligned}
             \mathbb{P}\bigg(\sum_{i=1}^nX_i\geq t\bigg) & \leq\frac{\prod_{i=1}^n\mathbb{E}\left[\exp(\lambda X_i)\right]}{e^{\lambda t}} \\
@@ -3235,11 +3234,9 @@ We can obtain an estimation on $\beta$ if $D_i$ is strongly ignorable: $E(\varep
 
 \section{Machine Learning}
 
+
+
 \subsection{Imitation Learning}
-
-\subsection{Clustering}
-
-
 
 \sep{DAGGER}
 Imitation learning, which learns from the demonstration, is a kind of supervised learning. Generally, experts provide a set of demonstration trajectories, which are sequences of states
