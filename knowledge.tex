@@ -575,7 +575,7 @@ If taking the $n$ order derivatives of the mgf by $t$, and let $t=0$, then:
 M_X^{(n)}(t)|_{t=0}=\mathbb{E}\left(X^n\right).
 }
 
-\subsection{Concentration Inequality}
+\subsection{Concentration Inequality}\label{subsec:concentration_inequality}
 \begin{center}
     \rt{\tit{Averages of independent random variables concentrate around their expectations.}}
 \end{center}
@@ -3489,7 +3489,7 @@ When $U$ is a control variable $X$ rather than a confunder, controlling $X$ can 
 \fig{Front-Door Criteria}{Front-Door Criteria}{0.6}
 
 \clearpage
-\section{Reinforcement Learning}
+\section{Reinforcement Learning \& Dynamic Programming}
 
 This section is mainly the notes of \cite{thrun2000reinforcement} and \cite{agarwal2019reinforcement}.
 \fig{A Taxonomy of RL Algorithms}{A Taxonomy of RL Algorithms}{1}
@@ -3599,8 +3599,50 @@ A policy $\pi$ is better $\pi'$ if and only if $v_{\pi}(s)\le v_{\pi'}(S) \text{
         }
     }}
 
-\subsection{Bandit Algorithms}
+\subsection{Bandit Algorithms \& Online Learning}
 
+See notes of concentration inequalities at \ref{subsec:concentration_inequality}. Difference between online learning and optimization problem: in online learning you don't konw the objective function, which needs to be learn over time.
+
+\subsubsection{Bayesian (Rested) Bandit}
+\ass{The Markovian MAB}{
+    \tab{
+        \item We have $k$ arms, each has reward Bernoulli $p_i$ with unknown $p_i$;
+        \item However, $p_i$ is drawn from a known prior distribution $Beta(\alpha,\beta)$:
+        \[
+            f(x|\alpha,\beta)=\frac{x^{\alpha-1}(1-x)^{\beta-1}}{B(\alpha,\beta)}, B(\alpha,\beta)=\int_0^1t^{\alpha-1}(1-t)^{\beta-1}dt
+        \]
+        Note that the Beta distribution is a conjugate prior for the Bernoulli.
+        \item For arm $i$, if observe $m$ success out of $n$ trials, we can update the posterior to $Beta(\alpha+n,\beta+n-m)$;
+        \item Define $X_i(n) = (\alpha+m,\beta+m-n)$ as the state space. From a Bayesian view, the transition is given by
+        \[
+            \mathsf{P}(X_{i}(n+1)=X_{i}(n)+(1,0)|X_{i}(n))=\frac{\alpha+m}{\alpha+\beta+n}
+        \]
+        \item We can use $X(n)$ denote the state of $n$ arms, the state space has $2k$ dimensions;
+        \item The Marvian MAB is also called Rested Bandit, because once you pull arm $i$, you will get a reward and update $R(X_i(N_i(t)))$, where $N_i(t)$ is the number pulling arm $i$ by time $t-1$. $N_i(t+1)=N_i(t)+1$ if $A_t=i$ otherwise $N_i(t+1)=N_i(t)$.
+    }
+}
+The policy is given by $A_{t}=\pi_{t}(\mathcal{F}_{t})$ and the cummulative reward is given by:
+\eq{
+    J^\pi=\mathbb{E}\left[\sum_{t=0}^\infty\beta^tR(X_{A_t}(N_{A_t}(t)))\right]
+} 
+Now we can transfrom the Bayesian bandit game to an infinite-horizon MDP, \cite{frostig2016four} prove that the optimal policy has a very simple closed-form and intuitive structure. Consider a policy on arm $i$ given $X_i(0)$ at $t=0$:
+\lis{
+    \item select arm $i$ and continue this policy;
+    \item retire from the game and receive $v$ every time in the future.
+}
+We can choose $v$ so that at $t=0$ these two options are no different:
+\eq{
+    v_i(X_i(0))=\sup\left\{v:\sum\limits_{t=0}^\infty\beta^tv\leq\sup\limits_{\tau\geq1}\mathbb{E}\left[\sum\limits_{t=0}^{\tau-1}\beta^tR_i(X_i(t))+\sum\limits_{t=\tau}^\infty\beta^tv|X_i(0)\right]\right\}
+}
+Alternatively, we can rewrite $v_i(X_i(0))$ to:
+\defi{Gittins Index}{
+    \eq{
+        v_i(X_i(0))=\max_{\tau>0}\frac{\mathbb{E}\left[\sum_{t=0}^{\tau-1}\beta^tR_i(X_i(t))|X_i(0)\right]}{\mathbb{E}\left[\sum_{t=0}^{\tau-1}\beta^t|X_i(0)\right]}
+    }
+}
+The optimal policy is to pull arms with the highest Gittins index.
+
+\subsubsection{Stochastic Bandit}
 The regret for bandit games is defined as :
 \eq{
     \overline{R}_t=\sum_{i=1}^m\mathbb{E}[N_{t,i}]\Delta_i
