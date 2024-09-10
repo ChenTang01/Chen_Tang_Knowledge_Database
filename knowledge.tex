@@ -579,6 +579,25 @@ M_X^{(n)}(t)|_{t=0}=\mathbb{E}\left(X^n\right).
 \begin{center}
     \rt{\tit{Averages of independent random variables concentrate around their expectations.}}
 \end{center}
+\thm{Law of Large Numbers}{
+    Suppose $X_1, X_2, \cdots, X_n$ are \tit{i.i.d. RVs} with mean $\mu$, then
+    \[
+        \lim_{n\to\infty}\bar{X}_{n}=\frac{1}{n}\sum_{i=1}^{n}X_{i}=\mu 
+    \]
+}
+However, LLN does not provide the rate of convergence. It doesn’t require the finite variance (weakest assumption among similar results). 
+\thm{Central Limit Theorem}{
+    Suppose $X_1, X_2, \cdots, X_n$ are \tit{i.i.d. RVs} with mean $\mu$ and variance $\sigma^2$, then
+    \[
+        \frac{\sqrt{n}(\bar{X}_n-\mu)}\sigma\xrightarrow{d}N(0,1)
+    \]
+    It implies:
+    \[
+        \mathsf P(\frac{\sqrt{n}(\bar{X}_n-\mu)}{\sigma})\to\Phi(x)
+    \]
+}
+Still, the result holds asymptotically (not useful if you want to analyze a finite $n$).
+
 \emogood Denote $\overline{X}=\frac{1}{n}\sum_{i=1}^{n}X_i$, where $X_1,\cdots,X_n$ are generated \tit{i.i.d.}, the general form of concentration inequality:
 \eq{
     \mathbb{P}(|\overline{X}-\mathbb{E}[\overline{X}]|\geq\varepsilon(n))\leq1-\delta(n)
@@ -3635,7 +3654,7 @@ Alternatively, we can rewrite $v_i(X_i(0))$ to:
 The optimal policy is to pull arms with the highest Gittins index.
 
 \subsubsection{Stochastic Bandit}
-The regret for bandit games is defined as :
+The regret for stochastic bandit games is defined as :
 \eq{
     \overline{R}_t=\sum_{i=1}^m\mathbb{E}[N_{t,i}]\Delta_i
 }
