@@ -74,7 +74,7 @@ The properties of inverses and transposes:
 \item $(A+B)^\top=A^\top+B^\top $;
 \item $(A^\top)^{-1} = (A^{-1})^\top$.
 }
-To find the inverse matrix, gaussian elimination can be applied: $[A\mid I]=[I\mid A^{-1}]$.\\
+Gaussian elimination can find the inverse matrix: $[A\mid I]=[I\mid A^{-1}]$.\\
 \sep{Solutions of Linear Systems}
 \tbf{Reduced Row-Echelon Form Matrix}:
 \eq{
@@ -143,13 +143,13 @@ The size of $I-r$ is the rank of $A$.
 }
 \fig{Image and Kernel}{Image and Kernel}{0.5}
 \sep{Determinant and Trace}
-\tbf{Determinant} is used to decide whether a matrix is invertible, denoted by $det(A)$ or $|A|$, its geometric meaning is the signed volume. \tit{Laplace Expansian} can be used to compute the determinant for large matrixes:
+\tbf{Determinant} is used to decide whether a matrix is invertible, denoted by $det(A)$ or $|A|$. Its geometric meaning is the signed volume. \tit{Laplace Expansian} can be used to compute the determinant for large matrixes:
 \eq{
     \det A=\sum_{j=1}^n(-1)^{1+j}a_{1j}\det A(1|j)，
 }
 where $A(1|j)$ is the matrix $A$ after eliminating row $1$ and column $j$. If $det(A)=0$, then it's non-invertible. Otherwise, it's invertible. \tbf{Trace} is defined as $Tr(A)=\sum_{i=1}^n a_{ii}$. Both determinant and trace can only be applied to the squared matrix.
 \sep{Eigenvalue and Postive-Definiteness}
-Consider matrix $A\in \RR^{n\times n}$ as a linear mapping rather than a simple matrix, $A$ can map a n-dimensional space to another n-dimensional space.
+Consider matrix $A\in \RR^{n\times n}$ as a linear mapping rather than a simple matrix; $A$ can map a n-dimensional space to another n-dimensional space.
 \fig{Mona-Lisa}{A shear mapping example}{0.3}
 The Mona Lisa example is a linear mapping of two-dimensional space, but during the mapping, there are some vectors (such as the blue vector) that are only modified in length rather than direction. This is the idea of the eigenvector.
 \defi{Eigenvalue and Eigenvector}{
@@ -165,7 +165,7 @@ The Mona Lisa example is a linear mapping of two-dimensional space, but during t
 }
 The definiteness is similar to the idea of eigenvalue. Consider $X^T MX$ as the inner product of $X$ and $MX$, where $MX$ can be regarded as a transformed version of $X$. If $X^T MX>0$ for all $X$, then we can get $\cos \theta=\frac{X^T \cdot MX}{||X||\cdot ||MX||}>0$, which means for all vectors, the linear mapping $M$ can map the vector to an angle less than 90 degrees.
 
-So, to show whether a matrix is positive, definite, all the eigenvalues of the matrix must be calculated. If all values are larger than 0, then it's positive definite.
+So, to show whether a matrix is positive definite, all the eigenvalues of the matrix must be calculated. If all values are larger than 0, then it's positive definite.
 \re{
     \tab{
         \item $Tr(A)=\sum_i^n \lambda_i$;
@@ -552,13 +552,13 @@ then $\theta$ is only a scale parameter because $f_X(x)=\frac1\theta\exp\{1-\fra
 
 \subsection{Data Reduction}
 
-The idea of data reduction is to summarize or reduce the data $X_1,X_2,\cdots,X_n$ to get the information of the unknown parameter $\theta$.\\
+The idea of data reduction is to summarize or reduce the data $X_1, X_2,\cdots, X_n$ to get the information of the unknown parameter $\theta$.\\
 There are many sample point $\bold{x}=(x_1,x_2,\cdots,x_n)$, which are realizations (observations) of the random variable $\bold{X}=(X_1,X_2,\cdots,X_n)$.
 A \tbf{Statistic} $T(\bold{X})$ is a form of data reduction, or a summary of the data, $T(\bold{x})$ is an observation of $T(\bold{X})$. $\cX$ is
 the \tbf{sample space}. $\mathcal{T}=\{t:t=T(\mathbf{x}),\mathrm{~for~}\mathbf{x}\in\mathcal{X}\}$ is the image of $cX$ under $T(\bold{X})$.
 $T(\bold{X})$ partition the sample space $\cX$ into sets $A_t=\{\mathbf{x}:T(\mathbf{x})=t,\mathbf{x}\in\mathcal{X}\}$.
 \ex{
-    Give a two-dimensional example for random variable, sample point, Statistic, observation of Statistic, sample space, image and $A_t$.
+    Give a two-dimensional example for the random variable, sample point, Statistic, observation of Statistic, sample space, image and $A_t$.
 }{
     Assume $\bold{X}=X_1,X_2$, among which $X_1,X_2$ are Bernoulli R.V. with $p=0.5$. $\bold{x}=(0,1)$ is a sample point.\\
     The sample space $\cX$ is $(0,0), (0,1), (1,0), (1,1)$, set $T(\bold{X})$ as the statistic, then the image $\cT$ is $(0,1,2)$.\\
@@ -615,19 +615,19 @@ where $\varepsilon(n)$ and $\delta(n)$ converge to $0$ when $n\to\infty$.
 }
 \lem{Chernoff Method}{
 \emocool This trick is extremely important.\\
-Assume the mgf for $X$ is finite for all $|t|\le b,b>0$. Then we can use mgf to produce a tail bound by Markov inequality:
+Assume the mgf for $X$ is finite for all $|t|\le b,b>0$. Then, we can use mgf to produce a tail bound by Markov inequality:
 \eq{
 \mathbb{P}((X-\mu)\geq u)=\mathbb{P}(\exp(t(X))\geq\exp(t(u+\mu)))\leq\frac{\mathbb{E}[\exp(tX)]}{\exp(t(u+\mu))}
 }
-Now consider $t$ as a parameter, to achieve the tightest bound, we can tune $t$ that satisfies:
+Now consider $t$ as a parameter. To achieve the tightest bound, we can tune $t$ that satisfies:
 \eq{
     \mathbb{P}((X-\mu)\geq u)\leq\inf_{0\leq t\leq b}\exp(-t(u+\mu))\mathbb{E}[\exp(tX)].
     }
-    This is called the \tbf{Chernoff Bound}. The Chernoff bound "plays" nicely with summations, assume $X_i$ are independent:
+    This is called the \tbf{Chernoff Bound}. The Chernoff bound "plays" nicely with summations, assuming $X_i$ are independent:
     \eq{
         M_{X_1+\cdotp\cdotp\cdotp+X_n}(\lambda)=\prod_{i=1}^n M_{X_i}(\lambda),
     }
-    this means that when we calculate a Chernoff bound of a sum of i.i.d. variables, we only need to calculate the moment generating function for \tit{one} of them, assume $n$ zero-mean independent variables:
+    This means that when we calculate a Chernoff bound of a sum of i.i.d. variables, we only need to calculate the moment generating function for \tit{one} of them, assume $n$ zero-mean independent variables:
     \eq{
         \begin{aligned}
             \mathbb{P}\bigg(\sum_{i=1}^nX_i\geq t\bigg) & \leq\frac{\prod_{i=1}^n\mathbb{E}\left[\exp(\lambda X_i)\right]}{e^{\lambda t}} \\
@@ -666,7 +666,7 @@ Let $X$ be a random variable bounded in $[a,b]$, let $X^\prime$ to be an indepen
 \eq{
 \mathbb{E}_X[\exp(\lambda(X-\mathbb{E}_X[X]))]=\mathbb{E}_X[\exp(\lambda(X-\mathbb{E}_{X^{\prime}}[X^{\prime}]))]\overset{(i)}{\operatorname*{\leq}}\mathbb{E}_X[\mathbb{E}_{X^{\prime}}\exp(\lambda(X-X^{\prime}))],
 }
-where $i$ follows Jensen's inequality. Let $S\in\{-1,1\}$ to be a random sign variable, then $S(X-X^\prime)$ has the same distribution as $X-X^\prime$:
+Where $i$ follows Jensen's inequality. Let $S\in\{-1,1\}$ to be a random sign variable, then $S(X-X^\prime)$ has the same distribution as $X-X^\prime$:
 \eq{
     \begin{aligned}
         \begin{aligned}\mathbb{E}_{X,X'}[\exp(\lambda(X-X'))]\end{aligned} & =\mathbb{E}_{X,X^\prime,S}[\exp(\lambda S(X-X^\prime))]                                         \\
@@ -702,7 +702,7 @@ Rewriting this and minimize over $\lambda\ge 0$, we have
     A problem that is solvable by polynomial-time algorithms is said to be \tbf{tractable, easy, efficient}.
 }
 \sep{Decision Problem V.S. Optimization Problem}
-Decision problems need to decide simply `yes' or `no', optimization needs to decide a specific value. 
+Decision problems simply need to answer `yes' or `no'; optimization needs to decide a specific value. 
 Every optimization problem has a decision version that is \rt{no harder than} the optimization problem.
 \ex{
     $A_{opt}$: given a graph, find the length of the shortest path.\\
@@ -739,7 +739,7 @@ A reduction is an algorithm for \tbf{transforming a problem instance into anothe
     \[
         f(\mathbb{E}[X]) \le \mathbb{E}[f(X)],
     \]
-    vice versa.
+    Vice versa.
 }
 \defi{Local Minimum (Relative Minimum)}{
     A point $x^* \in \Omega$ is said to be a local minimum point of $f$ over $\Omega$ if there is an $\epsilon>0$, such that for any $x\in\Omega$ and
@@ -804,7 +804,7 @@ If $x^*$ is a local minimizer of $f$, then it holds that:
 \item $\mathrm{For~all~}d\in\mathbb{R}^n{:}d^\top\nabla^2f(x^*)d\geq0$ ($\nabla^2f(x^*)$ is positive semidefinite);
 }
 \defi{Saddle Point}{
-    A point satisfying FONC is a \tbf{stationary point}, a stationary point with an indefinite Hessian matrix is called \tbf{saddle point}.
+    A point satisfying FONC is a \tbf{stationary point}; a stationary point with an indefinite Hessian matrix is called \tbf{saddle point}.
 }
 }
 \fig{An example of saddle point}{An example of saddle point}{}
@@ -1075,7 +1075,7 @@ The \tit{standard form} of the linear programming:
 \eq{
     \begin{array}{rl}\text{minimize}&c_1x_1+c_2x_2+\ldots+c_nx_n\\\text{subject to}&a_{11}x_1+a_{12}x_2+\ldots+a_{1n}x_n=b_1\\&a_{21}x_1+a_{22}x_2+\ldots+a_{2n}x_n=b_2\\&\vdots\quad\vdots\\&a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n=b_m\\\text{and}&x_1\geqslant0,x_2\geqslant0,\ldots,x_n\geqslant0,\end{array}
 }
-or the above equations can be concisely written in:
+Or the above equations can be concisely written in:
 \eq{
     \begin{array}{ll}\text{minimize}&\mathbf{c}^T\mathbf{x}\\\text{subject to}&\mathbf{A}\mathbf{x}=\mathbf{b}\quad\text{and}\quad\mathbf{x}\geqslant\mathbf{0}.\end{array}
 }
@@ -1089,11 +1089,11 @@ The above formulation can be transformed into the following standard form:
 \eq{
     \begin{array}{rlr}\text{minimize}&c_1x_1+c_2x_2+\cdots+c_nx_n\\\text{subject to}&a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n+y_1=b_1\\&a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n+y_2=b_2\\&\vdots\quad\vdots\\&a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n+y_m=b_m\\\text{and}&x_1\geqslant0,x_2\geqslant0,\ldots,x_n\geqslant0,\\\text{and}&y_1\geqslant0,y_2\geqslant0,\ldots,y_m\geqslant0.\end{array}
 }
-Now the constraint would be modified from $\tbf{A}$ to $\tbf{[A, I]}$, and the number of unknowns is changed from $n$ to $n+m$.\\
+Now, the constraint would be modified from $\tbf{A}$ to $\tbf{[A, I]}$, and the number of unknowns is changed from $n$ to $n+m$.\\
 \tbf{Surplus Variable}\\
 Similar to the slack variable, formulation like:
 \eq{
-a_{i1}x_1+a_{i2}x_2+\cdots+a_{in}x_n\geqslant b_i
+    a_{i1}x_1+a_{i2}x_2+\cdots+a_{in}x_n\geqslant b_i
 }
 can be transformed into:
 \eq{
@@ -1127,7 +1127,7 @@ where $\tbf{A}$ is a $m\times n$ constraint matrix and $\tbf{x}$ is the $n \time
 \ass{
     Full Rank Assumption
 }{The $m\times n \tbf{A}$ has $m<n$, and the $m$ rows of $\tbf{A}$ are linearly independent}.
-This assumption makes the linear equalities always have at least one basic solution.
+This assumption ensures that linear equalities always have at least one basic solution.
 At least $m$ linearly independent columns $\to \tbf{B}$, then would get:
 \eq{
 \mathbf{B}\mathbf{x}_{\mathbf{B}}=\mathbf{b}
@@ -1160,7 +1160,7 @@ Similar to the definition above, we have \tbf{degenerate basic feasible solution
             Through such iteration, we can get at least one basic feasible solution.
         }\\
         (2)\\
-        The idea is the same as the first one. In case one it's obvious. in case two, we need to prove for any $\epsilin$, $\mathbf{x}-\varepsilon\mathbf{y}$ is still optimal.\\
+        The idea is the same as the first one. In case one, it's obvious. in case two, we need to prove for any $\epsilin$, $\mathbf{x}-\varepsilon\mathbf{y}$ is still optimal.\\
         Note the new value is $\mathbf{c}^T\mathbf{x}-\varepsilon\mathbf{c}^T\mathbf{y}$. Because $\varepsilon$ can be both positive and
         negative, thus $\mathbf{c}^T\mathbf{y}=0$, which makes $\mathbf{x}-\varepsilon\mathbf{y}$ still as optimal solution.
     }
@@ -1196,7 +1196,7 @@ linearly independent $\to$ $\mathbf{x}$ is a BFS.
 }}
 \co{}{\lis{
         \item If the convex set $\tbf{K}$ is nonempty, there is at least one extreme point;
-        \item If there is a finite optimal solution to a linear programming problem, there is a finite optimal solution which is an extreme point of the constraint set.;
+        \item If there is a finite optimal solution to a linear programming problem, there is a finite optimal solution, which is an extreme point of the constraint set.;
         \item The constraint set $\tbf{K}$ possesses at most a finite number of extreme points;
         \item If \tit{K} is bounded, then it's a \tit{convex polyhedron}.
     }}
@@ -1272,8 +1272,7 @@ A popular stopping criterion is $\|\nabla f(x^k)\|\leq\text{to}1$ with \rt{toler
 \re{
     \tab{
         \item The steepest descent norm depends on the chosen norm (here it is Euclidean norm);
-        \item The gradient $\nabla f(y)$ is \tit{perpendicular} to the level set and it points towards a
-        direction where $f$ is decreasing the most.
+        \item The gradient $\nabla f(y)$ is \tit{perpendicular} to the level set, and it points towards a direction where $f$ is decreasing the most.
     }
 }
 \fig{Gradient Descent Method}{Gradient Descent Method}{0.7}
@@ -1516,7 +1515,7 @@ These two problems are equivalent because of $\nabla \pho(x)=Ax-b$. We are inter
         }
     }
 }
-Now, reconsider the quadratic minimization problem, let $x^*$ denote the solution. Since the linear Independence lemma:
+Now, reconsider the quadratic minimization problem and let $x^*$ denote the solution. Since the linear Independence lemma:
 \eq{
 x^*=\alpha_0d_0+\ldots+\alpha_{n-1}d_{n-1}
 }
@@ -1554,7 +1553,7 @@ So,
 }
 }
 }
-The CG-method is a \tit{special}  conjugate direction method that iteratively generates the conjugate vectors. $d^k$ is chosen as a linear
+The CG method is a \tit{special}  conjugate direction method that iteratively generates the conjugate vectors. $d^k$ is chosen as a linear
 combination of the previous $d^{k-1}$ and the gradient $g(d^k)$:
 \eq{
     p^k=-g^k_\beta_kp^{k-1}
@@ -1564,7 +1563,7 @@ To satisfy $(d^{k-1})^{T}Qd^k=0$, we obtain:
 \beta_k=\frac{(g^k)^{T}Qd^{k-1}}{(d^{k-1})^TQd^{k-1}}
 }
 \fig{The CG Method}{The CG Method}{0.7}
-The CG-method generates a set of conjugate directions and stops after at most $n$ steps returning a solution of the linear system.
+The CG method generates a set of conjugate directions and stops after at most $n$ steps, returning a solution of the linear system.
 
 \subsection{Newton's Method}
 To solve $\min_{x\in\mathbb{R}^n}f(x)\mathrm{~with~}f:\mathbb{R}^n\to\mathbb{R}$ using Newton's method, we approximate the function by its second-order Taylor
@@ -1627,11 +1626,11 @@ When $\nabla^2f(x^k)$ is singular, we can regularize the optimization problem to
 \eq{
 \|[\nabla^2f(x^k)+\delta_kI]d^k+\nabla f(x^k)\|\leq\text{to}1_k, \delta_k\ge 0.
 }
-To implement the inexact Newton method, we can combine it with the CG-method:
+To implement the inexact Newton method, we can combine it with the CG method:
 \fig{The Full Newton-CG Method}{The Full Newton-CG Method}{0.8}
 
 \subsubsection{Quasi-Newton Methods}
-The principle idea of quasi-Newton methods is similar to inexact Newton-type methods. Computing the Hessian is expensive, We consider an approximation
+The principle idea of quasi-Newton methods is similar to inexact Newton-type methods. Computing the Hessian is expensive; We consider an approximation
 to the Taylor expansion:
 \eq{
     f(x^k+d)\approx q_k(d)=f(x^k)+\nabla f(x^k)^\top d+\frac12d^\top B_kd.
@@ -1657,7 +1656,7 @@ Suppose $A\in\RR^{n\times n}$ is invertible, and let $u,v\in\RR^n$ be given, the
 (A+uv^\top)^{-1}=A^{-1}-\frac{A^{-1}uv^\top A^{-1}}{1+v^\top A^{-1}u}
 }
 }
-Using the SMW formula, we can calculate the inverse of the SR-1 update explicitly. (Because to implement the Newton method using the approximation $B_k$, we need the inverse of $B_k$ to update every step).
+Using the SMW formula, we can explicitly calculate the inverse of the SR-1 update. (Because to implement the Newton method using the approximation $B_k$, we need the inverse of $B_k$ to update every step).
 \eq{
     H_{k+1}^{\mathrm{SR-1}}=H_k+\frac{(s^k-H_ky^k)(s^k-H_ky^k)^\top}{(s^k-H_ky^k)^\top y^k}.
 }
@@ -1695,7 +1694,7 @@ and $\mathcal{I}:=\{i:\mathrm{mask}_i=1\}=\{q_1,q_2,\cdots,q_s\}$. Then we can d
 \eq{
     $A=\begin{bmatrix}-&e_{q_1}^\top&-\\&\vdots&\\-&e_{q_s}^\top&-\end{bmatrix}\in\mathbb{R}^{s\times mn},\quad[\mathbf{e}_j]_i=\begin{cases}1&\mathrm{~if~}i=j,\\0&\mathrm{~otherwise},&\end{cases}\quad\forall j\in\mathcal{I}.$
 }
-Let $U\in \RR^{m\times n}$ be the \tit{original undamaged image}, and $u=vec(U)\in\RR^{mn}$. Then we can formalize $b=Au\in\RR^s$ as
+Let $U\in \RR^{m\times n}$ be the \tit{original undamaged image}, and $u=vec(U)\in\RR^{mn}$. Then, we can formalize $b=Au\in\RR^s$ as
 the information of all undamaged pixels in $U$. Just solving $Ax=b$ can produce infinite solutions. Instead, we inpaint via \tbf{total variation minimization}:
 \eq{
 \min_x\frac12\|Ax-b\|^2+\mu\sum_{i=1}^{m-1}\sum_{j=1}^{n-1}\|D_{(i,j)}\boldsymbol{x}\|_2,
@@ -1721,7 +1720,7 @@ we can model it to a $\cL_0$ problem:
 \eq{
     \min_x\quad\|\Psi x\|_0\quad\mathrm{s.t.}\quad Ax=b
 }
-This is a combinatorial problem, we can transform it into a convex problem:
+This is a combinatorial problem; we can transform it into a convex problem:
 \eq{
     \min_x\quad\|\Psi x\|_1\quad\mathrm{s.t.}\quad Ax=b
 }
@@ -1816,7 +1815,7 @@ The goal is to \tit{derive optimality conditions} for this more general class of
     we must have $\nabla f(x^*)^\top d\geq0.$\\
     When $x^*$ lies in the \tit{interior} of $X$, or the unconstrained case, it can be reduced to $\nabla f(x^*)=0$.
 }
-More than the FONC, we want to generalize the optimality conditions for the general nonlinear problems.
+More than the FONC, we want to generalize the optimal conditions for general nonlinear problems.
 \defi{Active and Inactive Constraint}{
     Reconsidering the general nonlinear optimization problem, at point $x\in X$, the set $\mathcal{A}(x):=\{i:g_i(x)=0\}$
     denotes the set of \tbf{active constraints}. $\mathcal{I}(x):=\{i:g_i(x)<0\}$ denotes \tbf{inactive constraints}.
@@ -1863,19 +1862,19 @@ More than the FONC, we want to generalize the optimality conditions for the gene
         }
     \end{center}
     Compared to the FONC for inequality problems, the condition reduces the term $y_i\cdot(a_i^\top x^*-b_i)=0$.
-    This is easy to understand since every constraint is active so $a_i^\top x^*-b_i=0$.\\
+    This is easy to understand since every constraint is active, so $a_i^\top x^*-b_i=0$.\\
     Another difference is that $y$ doesn't need to be greater than 0.
 }
 
 \subsubsection{The KKT Conditions}
-Now, we can extend the FONC for the general nonlinear optimization problem, this is called the \tbf{\rt{KKT}}
+Now, we can extend the FONC for the general nonlinear optimization problem; this is called the \tbf{\rt{KKT}}
 condition, named by \tit{H. Kuhn}, \tit{A. Tucker} and \tit{W.Karush}. The first step is to construct the \tbf{\bt{Lagrangian multiplier}}:
 $g_i(x)\leq0 \cdots \lambda_i$, $h_j(x) =0 \cdots&\mu_j$. Then we define the \tbf{\bt{Lagrangian}} of the problem:
 \eq{
     L(x,\lambda,\mu):=f(x)+\sum_{i=1}^m\lambda_ig_i(x)+\sum_{j=1}^p\mu_jh_j(x).
 }
 We require "$\lambda_i\ge0$, $\mu_i$ free". These conditions are called \tbf{\bt{dual feasibility}} conditions.
-Taking the derivative with respect to $x$ and setting it to zero, forms the \rt{main condition} of KKT conditions. Besides,
+Taking the derivative with respect to $x$ and setting it to zero forms the \rt{main condition} of KKT conditions. Besides,
 we have a set of \rt{complementary conditions}: $\lambda_i\cdot g_i(x)=0, \forall i$.
 \fig{KKT Conditions}{KKT Conditions}{0.7}
 \re{
@@ -1887,9 +1886,7 @@ we have a set of \rt{complementary conditions}: $\lambda_i\cdot g_i(x)=0, \foral
     to be \tbf{linearly independent} (full rank). A feasible point satisfying the LICQ is called \tit{regular}.
 }
 \re{
-    A (feasible) point satisfying the KKT conditions is called a \rt{KKT point}.
-    The KKT conditions are only necessary conditions, meaning the KKT points are only candidates for
-    local optimal solutions — just like stationary points
+    A (feasible) point satisfying the KKT conditions is called a \rt{KKT point}. The KKT conditions are only necessary conditions, meaning the KKT points are only candidates for local optimal solutions — just like stationary points.
 }
 \pro{Convexity and KKT Conditions}{
     We call the problem $\min_{x\in\mathbb{R}^n}f(x)\quad\mathrm{s.t.}\quad g(x)\leq0,\quad h(x)=0$ convex
@@ -1958,8 +1955,7 @@ If we assume that $f, g_i, h_j$ are twice continuously differentiable, the Hessi
 }
 
 \subsubsection{Algorithms for Constrained Problems}
-The first class of algorithm is the \tbf{penalty method}, the basic idea is to solve the constrained
-problem via a sequence of unconstrained optimization problems, which are built by adding \gt{penalty terms}
+The first class of algorithm is the \tbf{penalty method}; the basic idea is to solve the constrained problem via a sequence of unconstrained optimization problems, which are built by adding \gt{penalty terms}
 with positive \gt{penalty parameters} for the constraints to the objective function.
 \eq{
     \min_{x\in\mathbb{R}^n}f(x)+\alpha p(x),\quad\alpha>0,
@@ -1985,10 +1981,9 @@ $P_\alpha$ is once continuously differentiable with:
 \fig{The Quadratic Penalty Method}{The Quadratic Penalty Method}{0.5}
 By applying the penalty method, every accumulation point of $\{x^k\}_k$ is a \tit{global solution}.\\
 \tbf{Projected Gradient Method}\\
-Applying the gradient method to the constraint problem directly may produce $x^k$ outside the feasible set, one idea is
-to project $x^k$ onto the feasible set.
+Applying the gradient method to the constraint problem directly may produce $x^k$ outside the feasible set. One idea is to project $x^k$ onto the feasible set.
 \defi{Euclidean Projections}{
-    Let $X$ be the convex feasible set, the (Euclidean) projection of $x$ is defined as:
+    Let $X$ be the convex feasible set. The (Euclidean) projection of $x$ is defined as:
     \eq{
         \min_y\frac12\|x-y\|^2\quad\mathrm{s.t.}\quad y\in X
     }
@@ -2039,7 +2034,7 @@ The contents of this section referenced \cite{fudenberg1991game}.
     }
 }
 \thm{von Neumann-Morgenstern’s Utility Theorem}{
-    Let $C$ be a set of outcomes and $P$ be the set of distributions over outcomes, a utility function $U:P \to \RR$ has an
+    Let $C$ be a set of outcomes and $P$ be the set of distributions over outcomes; a utility function $U:P \to \RR$ has an
     expected utility form if there exists a function $u: C \to \RR$ s.t. $U(x)=\sum_{c\in C}x(c)u(c)$ for all $x\in P$. In this
     case, $U(\cdot)$ is called an expected utility function, and $u(\cdot)$ is called a \tbf{VNM utility function}.\\
     The VNM (\cite{von2007theory}) is an axiomatic way to formalize the preference. 
@@ -2057,7 +2052,7 @@ The contents of this section referenced \cite{fudenberg1991game}.
 }
 \proo{}{
         The proof is finding and constructing $u_i$ that satisfies the axioms.
-        Suppose there are $n$ outcomes $C_1,\cdots,C_n$, by the axioms of completeness and transitivity, we can rank them by order:
+        Suppose there are $n$ outcomes $C_1,\cdots, C_n$, by the axioms of completeness and transitivity, we can rank them by order:
         \[C_1\lesssim C_2\lesssim\cdots\lesssim C_n\]
         In those circumstance where $C_1\sim C_n$, the therom holds obviously; otherwise $C_1\lesssim C_n$, we can define:
         \[L(p)=p\cdot C_1+(1-p)\cdot C_n, 0\le p \le 1\]
@@ -2094,9 +2089,7 @@ The contents of this section referenced \cite{fudenberg1991game}.
         }
 }
 \proo{}{
-    First, we show that the action set $\Sigma=\prod_{i\in\mathcal{I}}\Sigma_i$ is compact, convex, and non-empty. 
-    This conclusion is quite natural, since each $\Sigma_i=\{x\mid\sum_jx_j=1\}$ is a simplex, thus compact, convex, and non-empty, 
-    so is the product. Then we note the best correspondence $B(\sigma)$ is not empty because:
+    First, we show that the action set $\Sigma=\prod_{i\in\mathcal{I}}\Sigma_i$ is compact, convex, and non-empty. This conclusion is quite natural, since each $\Sigma_i=\{x\mid\sum_jx_j=1\}$ is a simplex, thus compact, convex, and non-empty, so is the product. Then we note the best correspondence $B(\sigma)$ is not empty because:
     \[B_i(\sigma_{-i})=\arg\max_{x\in\Sigma_i}u_i(x,\sigma_{-i})\]
     is non-empty by Weirstrass’s theorem.\\
     Next, we show that $B(\sigma)$ is a convex set for all $\sigma$. When $\|B(\sigma)\|=1$, it's a convex set by nature. When $B(\sigma)$ 
@@ -2150,7 +2143,7 @@ $D_i^\infty$ is the set of strategies that survive iterated strict dominance.
         \item each $a_j\in Z_j$ is a BR to some belief $\mu_j\in\Delta(Z_{-j})$.
     }
     Another definition of rationalizability is given: A strategy is said to be rationalizable 
-    if and only if it survives the iterated elimination of never best response.
+    if and only if it survives the iterated elimination of the never-best response.
 }
 \defi{Never Best Responses (NBR)}{
     A pure strategy $s_i$ is a never-best response if for all beliefs $\sigma_{-i}$ there exists $\sigma_i \in \sum_i$ s.t.:
@@ -2172,8 +2165,7 @@ $D_i^\infty$ is the set of strategies that survive iterated strict dominance.
     for all $t_i\in S_i$.
 }
 \defi{Nash Equilibrium}{
-    $a^*=(a_1^*,...,a_n^*)\in A$ is an NE if $a_i^*\in B_i(a_{-i}^*)\mathrm{~}\forall i\in\mathbb{N}$. An NE can be either pure-strategy or mixed-strategy, 
-    every NE is also a correlated equilibrium. 
+    $a^*=(a_1^*,...,a_n^*)\in A$ is an NE if $a_i^*\in B_i(a_{-i}^*)\mathrm{~}\forall i\in\mathbb{N}$. An NE can be either pure-strategy or mixed-strategy, and every NE is also a correlated equilibrium. 
     \re{
         The relationship is given as:
         \eq{
@@ -2182,7 +2174,7 @@ $D_i^\infty$ is the set of strategies that survive iterated strict dominance.
         where $NE_i$ is the Nash Equilibrium, $R_i^\infty$ is the set of rationalizable strategies, and $D_i^\infty$ is the set of 
         strategies that survive iterated strict dominance.
     }
-    Not all games have an NE (usually due to the dis-coutinuity in $u_i$).
+    Not all games have an NE (usually due to the discontinuity in $u_i$).
 }
 \thm{Existence of NE (Nash 1951)}{
     Any game with a finite set of players and a finite set of strategies has an NE of mixed strategies (this theorem emphasizes on \tit{finite games}).
@@ -2255,10 +2247,10 @@ $D_i^\infty$ is the set of strategies that survive iterated strict dominance.
     }
     }{
         The game has no NE: To avoid the circumstance of $\tbf{1}(x=x^\prime)=1$, player 1 has to decide $x$ stochasticity on $[0,1]$, 
-        thus $\tbf{1}(y\ne x\ne x^\prime)=1$ almost surely. This would lead the game to a zero-sum game between player 1 and palyer 2, where 
+        thus $\tbf{1}(y\ne x\ne x^\prime)=1$ almost surely. This would lead the game to a zero-sum game between player 1 and player 2, where 
         $A_i$ is not compact for each player (can not apply the Minimax Theorem). This dual-player game has no NE.\\
-        But this game has correlated equilibriums, under which players 1 and 2 make decisions $x$ and $y$ based on a joint distribution $\{(x,y)\| x=y\}$ (only with mass point on the diagonal $x=y$). 
-        From player 3's perspective, the marginal distribution of player 1 is still stochastic. This can make $\tbf{1}(y=x\ne x^\prime)=1$ almost surely, and this is a set of correlated equilibriums.
+        But this game has correlated equilibriums, under which players 1 and 2 make decisions $x$ and $y$ based on a joint distribution $\{(x,y)\| x=y\}$ (only with a mass point on the diagonal $x=y$). 
+        From Player 3's perspective, the marginal distribution of Player 1 is still stochastic. This can make $\tbf{1}(y=x\ne x^\prime)=1$ almost surely, and this is a set of correlated equilibriums.
 }
 \thm{Minimax Theorem}{
     Let $G=(\{1,2\},(A_i),(u_i))$ be a \tbf{zero-sum} game where $A_i$ is compact and $u_i$ is continuous. Then $a^*$ is NE iff:
@@ -2275,18 +2267,18 @@ $D_i^\infty$ is the set of strategies that survive iterated strict dominance.
     Any continuous game has a mixed strategy NE.
     \proo{}{
         \lis{
-            \item First we approximate the original game with a sequence of finite games;
+            \item First, we approximate the original game with a sequence of finite games;
             \item Then show these finite games have equilibriums using Nash's theorem;
-            \item At last using the continuity and closed assumption to show these converge to the original game.
+            \item At last, using the continuity and closed assumption to show these converge to the original game.
         }
     }
 }
-Nash Equilibrium sometimes can bring unreasonable behavior. In this game, both $(A,A)$ and $(B,B)$ are NEs, but $(A,A)$ is surely more reasonable.
+Nash Equilibrium sometimes can bring unreasonable behavior. In this game, both $(A, A)$ and $(B, B)$ are NEs, but $(A, A)$ is surely more reasonable.
 \fig{Nash Equilibrium unreasonable}{Example of unreasonable NE}{0.4}
 \defi{Trembling Hand Perfect Equilibrium}{
     A strategy $\sigma$ is a trembling hand perfect equilibrium if there exists a sequence of \tbf{totally mixed} 
     ($\sigma_i(s_i)>0$ for all $s_i\in S$) strategy $\sigma^n$ converging to $\sigma$, such that $\sigma_i\in BR_i(\sigma^n_{-i})$ for all $n, i$.\\
-    Using this definition, we can observe that $(B,B)$ is not a trembling hand perfect equilibrium, because it's not the best response for any totally mixed strategy.
+    Using this definition, we can observe that $(B, B)$ is not a trembling hand perfect equilibrium because it's not the best response for any totally mixed strategy.
     \re{
         \tab{
             \item Every trembling hand perfect equilibrium is an NE;
@@ -2312,7 +2304,7 @@ the pure strategy in the sequential games is a plan for every possible history $
     A subgame $G^\prime$ of an extensive form game $G$ consists of a single node and all its successors in $G$, with the property that 
     if $x^\prime \in V_{G^\prime}, x^{\prime\prime}\in h(x^{\prime})$, then $x^{\prime\prime}\in V_{G^{\prime}}$.\\
     A \tbf{Subgame Perfect (Nash) Equilibrium} is a strategy $s^*$ that for any $G^\prime \in G$, $S^*|G^{\prime}$ is an NE for $G^\prime$. 
-    The SPNE can remove noncredible threats. Every finite extensive form game $G$ has an SPNE and every finite perfect information extensive form game 
+    The SPNE can remove noncredible threats. Every finite extensive form game $G$ has an SPNE, and every finite perfect information extensive form game 
     has a pure strategy SPNE.
     \re{
         How to find SPNE:
@@ -2332,12 +2324,12 @@ given that the true state is $w$ (analogous to 'information set').
     }
 }
 \defi{Knowledge Operator}{
-    We say that $i$ knows event $A\subset\Omega$ at $\omega$ if $P_i(\omega)\subset A$. Thus the event that $i$ knows A is:
+    We say that $i$ knows event $A\subset\Omega$ at $\omega$ if $P_i(\omega)\subset A$. Thus, the event that $i$ knows A is:
     \eq{
         K_i(A):=\{\omega\in\Omega:P_i(\omega)\subset A\}
     }
     \ex{
-        Consider the game between $A$ and $B$, $A$ may feel good or sick, $B$ can see whether has received a message of `$A$ is sick'. $\Omega=\{a,b,c\}$:
+        Consider the game between $A$ and $B$; $A$ may feel good or sick, and $B$ can see whether he has received a message saying, `$A$ is sick'. $\Omega=\{a,b,c\}$:
         \lis{
             \item a: $A$ is good;
             \item b: $A$ is sick, $B$ receive the message;
@@ -2364,7 +2356,7 @@ given that the true state is $w$ (analogous to 'information set').
         \tbf{common knowledge} at state $\omega$ if exists a self-evident $A$ s.t. $w\in A\subset E$ for all players (or $P_i(\omega)\subset E$ for all $i$).
     }
 }
-In games with incomplete information, one agent is unsure about the payoffs of others. One solution is to suppose that players have \tbf{common} prior on the distribution 
+In games with incomplete information, one agent is unsure about the payoffs of others. One solution is to suppose that players have \tbf{common} prior to the distribution 
 of possible games, this can create common knowledge by making the original game into a `bigger' one (incomplete information to imperfect information).
 \defi{Bayesian Games}{
     Compared to normal games, the Bayesian games have two more elements:
@@ -2406,11 +2398,11 @@ In a dynamic game of complete and perfect information, PBE is equivalent to SPNE
     Find the PBE for the game.
 }
 \sep{The signaling game}
-Player $1$ has some private information $t_1$ and first move $A_1$, player $2$ sees $A_1$ and make move $A_2$. In this case, when player $2$ moves first, it's called a \tbf{screening game}. 
+Player $1$ has some private information $t_1$ and first move $A_1$, player $2$ sees $A_1$ and make a move $A_2$. In this case, when player $2$ moves first, it's called a \tbf{screening game}. 
 An example is the job market game (\cite{Spence1973}): player $1$ is the worker, who has the intrinsic ability $t_1$ and education decision $a_1$. Player $2$ is the firm that can decide the wage offered $a_2$.
 \fig{The stylised signaling game}{The stylised signaling game}{0.5}
 Consider a stylized signaling game: a seller has an item with quality of either $H$ (with probability $p$) or $L$ (probability $1-p$), and the seller can advertise either $H$ or $L$. In this case, the game only has a 
-\tbf{pooling} equilibrium (the player $2$'s belief is independent of the seller's action). But suppose there is a cost $c$ ($H-c<L$) when the seller lies, this game has an \tbf{separating} equilibrium: the seller 
+\tbf{pooling} equilibrium (the player $2$'s belief is independent of the seller's action). But suppose there is a cost $c$ ($H-c<L$) when the seller lies; this game has an \tbf{separating} equilibrium: the seller 
 always tells the truth and the player $2$ always believes the advertisement.
 
 \subsection{Repeated Games}
@@ -2423,19 +2415,19 @@ We assume \tit{perfect monitoring}: the outcomes of all past periods are observe
     \item $u_i(\mathbf{a})=\sum_{t=0}^T\delta^tg_i(a_i^t,a_{-i}^t)$: payoff.
 }
 In any finitely repeated prisoner's dilemma game, the unique SPE is always to defect. If the game has multiple NEs, the SPE is to select one NE in each period. 
-In infinitely repeated games, we can consider \rt{trigger strategies}: both cooperate if no defect in the past, otherwise always defect. This is a SPE when $\delta$ is large enough. 
+In infinitely repeated games, we can consider \rt{trigger strategies}: both cooperate if there is no defect in the past; otherwise, always a defect. This is a SPE when $\delta$ is large enough. 
 \fig{Sustaining Cooperation}{Sustaining Cooperation}{0.5}
 In the examples above, the game has two NEs. Now consider the following strategies:
 \lis{
-    \item In period 1, play (A,A);
+    \item In period 1, play (A, A);
     \item In period $2,\cdots,t^*$, $t^*\in(1,T)$: if (A,A), then continue; otherwise (C,C);
-    \item In period $t^*+1,\cdots,T$: if all (A,A) in stage 2 and (B,B) after stage 2: (B,B); otherwise (C,C).
+    \item In period $t^*+1,\cdots, T$: if all (A, A) in stage 2 and (B, B) after stage 2: (B, B); otherwise (C, C).
 }
 By \tbf{one-shot deviation principle}, this is an SPE for appropriate $t^*$. For the largest available $t^*$:
 \eq{
     1 \leq \sum_n^{T-t^*}\delta^n
 }
-When both $T$ and $\delta$ are sufficiency large, we can make the actions (A,A) be played for arbitrarily many periods (infinite game). 
+When both $T$ and $\delta$ are sufficiency large, we can make the actions (A, A) be played for arbitrarily many periods (infinite game). 
 \thm{Nash Folk Theorem}{
     If $(v_1,\cdots, v_n)$ is feasible and higher than the minmax payoff lower bounds $\underline{v}_i$ for all $i$, then there exists $1>\delta\ge\underline{\delta}$, that 
     for all game $G^{\infty}(\delta)$, there is a equilibrium with payoffs $(v_1,\cdots, v_n)$. 
@@ -2450,7 +2442,7 @@ Rubinstein considers the infinite case.
 \thm{\cite{Rubinstein1982}}{
     There is a \tbf{unique} SPE in the infinite bargaining game: player $1$ always proposes a split $(x,1-x)$ with $x=(1-\delta_2)/(1-\delta_1\delta_2)$, player $2$ always accepts when her split $\ge 1-x$; player $2$ always proposes a split $(y,1-y)$ with $y=\delta_1(1-\delta_2)/(1-\delta_1\delta_2)$, player $1$ always accepts when her split $\ge y$.
     \proo{}{
-        It's easy to show that this is an SPE. To show the uniqueness of the SPE, let $\underline{v}_1$ and $\bar{v}_1$ denote the lowest and highest payoffs that player $1$ could get in any SPE starting at a date where he gets to make an offer. Consider a date when player $2$ makes an offer, he can make (the proposal accepted by player $1$) at most $1-\delta_1\underline{v}_1$ by a split $\delta_1\underline{v}_1, 1-\delta_1\underline{v}_1$, and at least $1-\delta_1\bar{v}_1$ by a split $\delta_1\bar{v}_1,1-\delta_1\bar{v}_1$. Now reconsider the decision of the player $1$, we can obtain:
+        It's easy to show that this is an SPE. To show the uniqueness of the SPE, let $\underline{v}_1$ and $\bar{v}_1$ denote the lowest and highest payoffs that player $1$ could get in any SPE starting at a date where he gets to make an offer. Consider a date when player $2$ makes an offer he can make (the proposal accepted by player $1$) at most $1-\delta_1\underline{v}_1$ by a split $\delta_1\underline{v}_1, 1-\delta_1\underline{v}_1$, and at least $1-\delta_1\bar{v}_1$ by a split $\delta_1\bar{v}_1,1-\delta_1\bar{v}_1$. Now reconsider the decision of the player $1$, we can obtain:
         \meq{
             \overline{v}_1\leq1-\delta_2\left(1-\delta_1\overline{v}_1\right), \\
             \underline{v}_1\geq1-\delta_2\left(1-\delta_1\underline{v}_1\right),
@@ -2465,7 +2457,7 @@ Rubinstein considers the infinite case.
 \subsection{Cooperative Game}
 
 A \tbf{cooperative game} (coalitional game) is a model of interacting decision-makers that focuses on the behavior of groups of players ($N$). 
-A \tbf{coalition} is a subset $S\subset N$, we call $N$ the \tbf{grand coalition}. 
+A \tbf{coalition} is a subset $S\subset N$; we call $N$ the \tbf{grand coalition}. 
 Every coalition $S$ has a set of available actions $A_S$. 
 An \tbf{outcome} consists of a CS (\tbf{coalition structure}) and one action associated with the CS:
 \[
@@ -2550,7 +2542,7 @@ An \tit{allocation} $\{x_i\}_{i\in N}$ with $x \in \RR_+$ is feasible if
     }
     Intuitive understanding: $x_i^*$ is the consumption bundle that maximizes consumer $i$'s utility among bundles he can afford given the price $p^*$. 
 }
-We can view the market as a cooperative game (without considering prices), and for any coalition $S$ in the game, the distribution need to satisfy:
+We can view the market as a cooperative game (without considering prices), and for any coalition $S$ in the game, the distribution needs to satisfy:
 \eq{
     A_S=\left\{(x_i)_{i\in S}\mid\sum_{i\in S}x_i=\sum_{i\in S}\omega_i\right\}.
 }
@@ -2566,7 +2558,7 @@ Note that in this game there is no transferable utility function.
         \[
             p\cdot x_i>p\cdot \omega_i, \forall i\in S
         \]
-        Adding up these conditions we obtain
+        Adding up these conditions, we obtain
         \eq{
             p\cdot\sum_{i\in S}x_i>p\cdot\sum_{i\in S}\omega_i.
         }
@@ -2634,7 +2626,7 @@ To make the efficient decision happen, we can define a \tbf{transfer function} $
     \eq{
         u_i(\widehat{\theta},\theta_i,d,t)=v_i(d(\widehat{\theta}),\theta_i)+t_i(\widehat{\theta}).
     }
-    A \tbf{mechanism} is a pair $M,g$, where $M=M_1\times\cdots\times M_n$ is the space of message (`announced' information) for all individuals, and $g:M\to D\times\R^n$ is an outcome function.
+    A \tbf{mechanism} is a pair $M,g$, where $M=M_1\times\cdots\times M_n$ is the space of message (`announced' information) for all individuals, and $g: M\to D\times\R^n$ is an outcome function.
     \re{
         \tab{
             \item A \tit{social choice} function contains a mapping from decisions to the outcome: $d, v$, thus imply $u$;
@@ -2663,7 +2655,7 @@ for all $m_{-i}\in M_{-i}$ and ̂$\widehat{m_i} \in M_i$. This is a strong situa
         u_i(g(t_i,\mathbf{t}_{-i});\mathbf{t})\geq u_i(g(t_i^{\prime},\mathbf{t}_{-i});\mathbf{t}),\quad\forall i\in[n],\forall t_i^{\prime}\in T_i,\forall\mathbf{t}_{-i}\in T_{-i}.
     }
     \re{
-        In a direct mechanism, EPIC is equivalent to DSIC.
+        EPIC is equivalent to DSIC in a direct mechanism.
     }
 }
 \thm{The Revelation Principle for Dominant Strategies}{
@@ -2671,11 +2663,11 @@ for all $m_{-i}\in M_{-i}$ and ̂$\widehat{m_i} \in M_i$. This is a strong situa
 }
 Considering cases that have no transfer function $t$, a decision $d$ is DSIC if the social choice function $f=(d,t^0)$ is DSIC. A decision rule $d$ is \tbf{dictatorial} if there exists $i$ such that $d(\theta) \in \arg\max_{d\in D}v_i(d,\theta_i)$ for all $\theta$.
 \thm{The Gibbard-Satterthwaite Theorem}{
-    Suppose that $|D|\ge 3$ and each individual can have any strict ranking of these decisions. Then a decision rule $d$ with no transfer function is DSIC iff it is dictatorial. The proof can be found in \cite{benoit2000gibbard}.
+    Suppose that $|D|\ge 3$ and each individual can have a strict ranking of these decisions. Then a decision rule $d$ with no transfer function is DSIC iff it is dictatorial. The proof can be found in \cite{benoit2000gibbard}.
 }
 The Gibbard-Satterthwaite theorem has quite \rt{negative} implications for the hopes of implementing non-trivial decision rules in dominant strategies in a general set of environments.
 \begin{center}
-    In most of the settings, the transfer functions are needed. 
+    In most settings, the transfer functions are needed. 
 \end{center}
 \sep{Grove's Schemes}
 \lis{
@@ -2731,7 +2723,7 @@ This scheme is always feasible since $t_i(\theta)\le 0$.
     One example of the pivotal mechanism is the \tit{Vickrey Auction} (second-price auction). The payment(transfer function) of the winner is $t_i(\theta)~=~-\max_{j\neq i}\theta_j$, which is the price of the second highest valuation. Such a mechanism is DSIC so every player reports $\theta_i$ truthfully.
 }
 \sep{DSIC, Groves Scheme and the Efficiency}
-Sometimes when the space of the type is large, using the Grove scheme can give an inefficient mechanism (due to the unbalance of the transfer function). Considering the public goods problem with two individuals and $\Theta_1=\Theta_2=\RR$, $c=1.5$. By the Jerry Green and Jean-Jacques Laffont theorem, there exists $X_i$ that can make a mechanism DSIC. Applying the feasibility of the transfer function, we can obtain: 
+Sometimes, when the space of the type is large, using the Grove scheme can result in an inefficient mechanism (due to the imbalance of the transfer function). Considering the public goods problem with two individuals and $\Theta_1=\Theta_2=\RR$, $c=1.5$. By the Jerry Green and Jean-Jacques Laffont theorem, there exists $X_i$ that can make a mechanism DSIC. Applying the feasibility of the transfer function, we can obtain: 
 \lis{
     \item $\theta_1=\theta_2=1$: $-0.5\ge x_1(1)+x_2(1)$;
     \item $\theta_1=\theta_2=0$: $0\ge x_1(0)+x_2(0)$;
@@ -2897,7 +2889,7 @@ where $X_i$ is some additional characteristic. Note that the definition of ATE i
 }
 \defi{Identification}{
     \emocool Estimate the estimand from the data we observe. \\
-    There is another similar definition of identification from the perspective of structural form: a structure $S$ is a DGP, let $\cS$ be the set of all structures and $S_0\in\cS$ be the true structure. Identification is to test the hypothesis $S_0$ and estimate the paramters $\theta(S_0)$.
+    There is another similar definition of identification from the perspective of structural form: a structure $S$ is a DGP, let $\cS$ be the set of all structures and $S_0\in\cS$ be the true structure. Identification is to test the hypothesis $S_0$ and estimate the parameters $\theta(S_0)$.
 }
 
 \subsubsection{Randomization}
@@ -3285,7 +3277,7 @@ If all the hidden layer output and the input are vectors, we can write the gradi
 This may lead to \tbf{gradient vanishing} or \tbf{gradient exploding}. 
 \sep{Data Preprocessing}
 Setting all weights of an NN to the same constant can not work, because, for all neurons at the same layer, the gradient is the same, thus the update is the same, and it can not 
-learn different features. For small networks, it is OK to set $W_0=0.01*random.rand()$. XAvier initialization aims to make the variance across every layer is the same, 
+learn different features. For small networks, it is OK to set $W_0=0.01*random.rand()$. Xavier initialization aims to make the variance across every layer is the same, 
 preventing gradient explosion or diminishing:
 \[w_{1,i}\overset{\mathrm{iid}}{\operatorname*{\sim}}N\left(0,\frac1d\right)\]
 where $d$ is the number of inputs for each neuron. Another initialization note is to scale the features.\\
@@ -5592,10 +5584,10 @@ The authors analyze two conditions: without hosting and hosting. By solving the 
 }
 They find that in both the sell-to and sell-on conditions, the entry of the platform owner may not harm the incumbent sellers.
 What's more, comparing to the entry of a new third-party sellers, the incumbent sellers profit more when facing the entry of the owner.
-\cite{lai2022fulfilled} investigates the introduction of Amazon's fullfillment program (FBA) on the third-party sellers in the E-commerce platform.
+\cite{lai2022fulfilled} investigates the introduction of Amazon's fulfillment program (FBA) on the third-party sellers in the E-commerce platform.
 \ass{FBA on the third-party sellers}{
     \tab{
-        \item Both Amazon and the third-party sell substitute products, at price of $p_A$ and $p_S$;
+        \item Both Amazon and the third party sell substitute products, at price of $p_A$ and $p_S$;
         \item Amazon procure the products from OEM supplier at price $w$ with a cost $c_0$, the third-party obtain its products with a cost $g$;
         \item The third party pays $r$ share of its revenue to Amazon as commission;
         \item The delivery cost for different means are all $c$, the Amazon provides a better service $S_A>S_s$, the third party can pay $T>c$ to use FBA;
@@ -5618,12 +5610,12 @@ To given insights which policy would benefit different parties, they took the fo
 \lis{
 \item In the without-FBA condition, given $w$, solve the equilibrium for $p_A^{\star}(w),p_S^{\star}(w)$;
 \item Substituting them into the decision model of OEM, solve the optimal $w^{\star}$ in the SOSC condition.
-\item In the FBA condition, repete above steps, solve the equilibrium for $p_A^{\star}(w),p_S^{\star}(w),w^{\star}$;
+\item In the FBA condition, repeat above steps, solve the equilibrium for $p_A^{\star}(w),p_S^{\star}(w),w^{\star}$;
 \item Substituting them into the decision model of OEM, solve the optimal $T^{\star}$.
 }
 They find some interesting insights:
 \lis{
-    \item The third-party benifits from FBA when $T<\bar{T}$;
+    \item The third-party benefits from FBA when $T<\bar{T}$;
     \item Amazon can benefit from FBA if $\eta$ is either small or large;
     \item The FBA program can achieve a \tit{win-win-win} outcome for the third-party seller, Amazon and its OEM supplier.
 }
