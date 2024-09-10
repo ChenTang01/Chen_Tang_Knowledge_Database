@@ -15,14 +15,8 @@
 \chapter*{Preface}
 \addcontentsline{toc}{chapter}{Preface}
 \begin{center}
-    {\Large The following is a compendium of my academic notes
-        spanning various domains.
-        I present these notes
-        publicly to share my methodological framework for
-        managing and structuring an individual's knowledge
-        networks.\\
-        The inevitability of encountering
-        occasional errors is acknowledged.\\
+    {\Large The following is a compendium of my academic notes spanning various domains. I present these notes publicly to share my methodology for managing one's knowledge networks.\\ 
+    The inevitability of encountering occasional errors is acknowledged.\\
         \bigskip
         \textbf{This notebook will undergo continuous updates.}}
 \end{center}
@@ -116,7 +110,7 @@ For subspaces $V_1$ and $V_2$, the sum operation of $V_1$ and $V_2$ is defined a
 \eq{
     \dim V_1+\dim V_2=\dim(V_1+V_2)+\dim(V_1\cap V_2).
 }
-If $v=\sum_{i=1}^{k}\lambda_ix_i$, then $v$ is a linear combination of $(x_1,x_2,\cdots,x_k)$. If \tbf{not} all values of a solution are
+If $v=\sum_{i=1}^{k}\lambda_ix_i$, then $v$ is a linear combination of $(x_1,x_2,\cdots,x_k)$. If \tbf{not}, all values of a solution are
 0, then it's called a non-trivial solution. For $\sum_{i=1}^{k}\lambda_ix_i=0$, if the non-trivial solution exists, then the vectors are called \tbf{linearly dependent}.
 \defi{Basis and Rank}{
     \tab{
@@ -153,8 +147,7 @@ The size of $I-r$ is the rank of $A$.
 \eq{
     \det A=\sum_{j=1}^n(-1)^{1+j}a_{1j}\det A(1|j)，
 }
-where $A(1|j)$ is the matrix $A$ after eliminating row $1$ and column $j$. If $det(A)=0$, then it's non-invertible. otherwise, it's invertible.
-\tbf{Trace} is defined as $Tr(A)=\sum_{i=1}^n a_{ii}$. Both determinant and trace can only be applied to the squared matrix.
+where $A(1|j)$ is the matrix $A$ after eliminating row $1$ and column $j$. If $det(A)=0$, then it's non-invertible. Otherwise, it's invertible. \tbf{Trace} is defined as $Tr(A)=\sum_{i=1}^n a_{ii}$. Both determinant and trace can only be applied to the squared matrix.
 \sep{Eigenvalue and Postive-Definiteness}
 Consider matrix $A\in \RR^{n\times n}$ as a linear mapping rather than a simple matrix, $A$ can map a n-dimensional space to another n-dimensional space.
 \fig{Mona-Lisa}{A shear mapping example}{0.3}
@@ -172,7 +165,7 @@ The Mona Lisa example is a linear mapping of two-dimensional space, but during t
 }
 The definiteness is similar to the idea of eigenvalue. Consider $X^T MX$ as the inner product of $X$ and $MX$, where $MX$ can be regarded as a transformed version of $X$. If $X^T MX>0$ for all $X$, then we can get $\cos \theta=\frac{X^T \cdot MX}{||X||\cdot ||MX||}>0$, which means for all vectors, the linear mapping $M$ can map the vector to an angle less than 90 degrees.
 
-So to show whether a matrix is positive definite, calculate all the eigenvalues of the matrix. If all values are larger than 0, then it's positive definite.
+So, to show whether a matrix is positive, definite, all the eigenvalues of the matrix must be calculated. If all values are larger than 0, then it's positive definite.
 \re{
     \tab{
         \item $Tr(A)=\sum_i^n \lambda_i$;
@@ -2516,7 +2509,7 @@ We call a game \tbf{cohesive} if there exists some action $a_N$ in the grand coa
     }
 }
 \defi{Convex Cooperative Game}{
-    A game with transferable playoffs $v$ is \tit{convex} (sometimes referred to as super-modularity) if for any two colations $S$ and $T$:
+    A game with transferable playoffs $v$ is \tit{convex} (sometimes referred to as super-modularity) if for any two collations $S$ and $T$:
     \eq{
         v(S\cup T)+v(S\cap T)\geq v(S)+v(T),
     }
@@ -3022,8 +3015,7 @@ Take the expectation of $X_i$ at both sides:
 $\tilde{x}_{ki}$ is uncorrelated with $e_i$ and other covariates by construction, thus $Cov(\tilde{x}_{ki},x_{ki})=Var(\tilde{x}_{ki})$,
 thus $Cov(Y_i,\tilde{x_{ki}}=\beta_k x_{ki})$.
 }
-\re{The regression anatomy shows that each $\beta_k$ in multi-regression is the bivariate slope after "partialing out"
-    all the other regressors.}
+\re{The regression anatomy shows that each $\beta_k$ in multi-regression is the bivariate slope after "partitioning out" all the other regressors.}
 }
 \emogood Why the population regression coefficient is what we are interested in (Link with CEF):
 \thm{Regression Justification}{\lis{
