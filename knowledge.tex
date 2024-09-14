@@ -3237,7 +3237,62 @@ We can obtain an estimation on $\beta$ if $D_i$ is strongly ignorable: $E(\varep
 
 \section{Machine Learning}
 
+\subsection{Learning Theory}
 
+\subsection{Classification}
+
+\subsubsection{Perceptron}
+perceptron is a linear classifier with the form:
+\[
+    f_{\boldsymbol{\theta}}(\boldsymbol{x})=\boldsymbol{\theta}^\top\boldsymbol{x}+b
+\]
+To simpify the notation, we often absord $b$ into $\theta^\top$ and add $x_0=1$ for all samples:
+\[
+    \widetilde{\boldsymbol{x}}=(x_0,\boldsymbol{x})\in\mathbb{R}^{d+1}, \widetilde{\boldsymbol{\theta}}=(\theta_0,\boldsymbol{\theta})\in\mathbb{R}^{d+1}
+\]
+The formal linear classification model is given by:
+\[
+    f_{\boldsymbol{\theta}}(\boldsymbol{x})=\boldsymbol{\theta}^\top\boldsymbol{x}\quad\mathrm{and}\quad y=\mathrm{sign}(f_{\boldsymbol{\theta}}(\boldsymbol{x}))
+\]
+Implementation:
+\tab{
+    \item Pick a misclassified data whose $\mathrm{sign}(f_{\boldsymbol{\theta}}(\boldsymbol{x_i}))\ne y_i$;
+    \item Update rule: $\theta=\theta+ y_i\boldsymbol{x}_i$ (this will push the hyperplane toward the misclassified sample);
+    \item Iterate until there is no misclassified data.
+}
+
+\subsection{Rrgression}
+
+\subsubsection{Linear Regression}
+Given data $\{(x_i,y_i)\}_{i=1}^n$, where $x_i\in\mathbb{R}^d$, we use a linear model to predict $y_i$ for a given $x_i$:
+\eq{
+    y_i\approx f_\theta(x_i)=\theta x_i
+}
+Using \tbf{least square} (LS) to solve $\hat{\theta}$:
+\[
+    \widehat{\boldsymbol{\theta}}=\operatorname*{argmin}_{\boldsymbol{\theta}\in\mathbb{R}^d}\frac{1}{n}\sum_{i=1}^n\ell\left(f_{\boldsymbol{\theta}}(\boldsymbol{x}_i),y_i\right)
+\]
+Using $\ell_2$ loss:
+\[
+    \widehat{\boldsymbol{\theta}}=\operatorname*{argmin}_{\boldsymbol{\theta}}\frac1n\sum_{i=1}^n(\boldsymbol{\theta}^\top\boldsymbol{x}_i-y_i)^2
+\]
+To solve the LS:
+\[
+    \begin{aligned}
+        \mathcal{L}(\boldsymbol\theta)& =(\boldsymbol{X\theta}-\boldsymbol{y})^\top(\boldsymbol{X\theta}-\boldsymbol{y}) \\
+        &=\boldsymbol{\theta}^\top\boldsymbol{X}^\top\boldsymbol{X}\boldsymbol{\theta}-2\boldsymbol{\theta}^\top\boldsymbol{X}^\top\boldsymbol{y}+\boldsymbol{y}^\top\boldsymbol{y}
+    \end{aligned}
+\]
+When $n\ge d$, we can directly set $\nabla_\theta\mathcal{L}(\boldsymbol{\theta})=2\boldsymbol{X}^\top(\boldsymbol{X}\boldsymbol{\theta}-\boldsymbol{y})=0$ and we could obtain:
+\eq{
+    \widehat{\boldsymbol{\theta}}=\left(\boldsymbol{X}^\top\boldsymbol{X}\right)^{-1}\boldsymbol{X}^\top\boldsymbol{y}
+}
+\re{
+    LS is a maximum likelihood estimator under Gaussian noise assumption:
+    \[
+        y=X\theta+\epsilon\quad\text{with}\quad\epsilon\sim\mathcal{N}(0,\boldsymbol{\Sigma})
+    \]
+}
 
 \subsection{Imitation Learning}
 
