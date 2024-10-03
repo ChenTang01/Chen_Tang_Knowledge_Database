@@ -56,6 +56,14 @@
 
 \subsection{Keys of Calculus}
 
+Solving Limit:
+
+\lis{
+    \item By definition, prove $\forall \epsilon > 0$, there exists a $\delta > 0$ such that $\forall x \in (D(c, \delta)), |f(x)-L| \le \delta$;
+    \item The Sandwish theorem, find $h(x) \le f(x) \le g(x)$ in an interval;
+    \item Fraction form: eliminating common factors or rationalizing the denominator; l'hopital's rule (differentiable); bounded numerator while infinite denominator.
+}
+
 \subsection{Keys of Linear Algebra and Matrix Theory}
 
 The main contents of this subsection are notes from \cite{deisenroth2020mathematics}.
@@ -5123,6 +5131,7 @@ However, to reduce the search number to $log n$, the estimation for $v_i,w_i$ is
     This shouldn't happen when $k$ is a closer substitute for $j$ than for $i$. This equation indicates that the ratio $\pi_i(S)/\pi_j(S)=\frac{v_i}{v_j}$, which is \tbf{independent} of the set $S$. IIA results in the
     \rt{red bus, blue bus paradox}: $\pi_{rbus}(\{rbus,bbus\})=\frac{1}{2}$, but $\pi_{rbus}(\{rbus,bbus1,bbus2\})=\frac{1}{3}$.
 }
+
 \subsubsection{Assortment for BAM/GAM with TUM constraints}
 In practice, the assortment optimization is usually a constrained optimization:
 \eq{
@@ -5237,6 +5246,7 @@ which can be rewritten as:
     \sum_{i\in M}f_i(x_i)-\mathcal{R}^*\sum_{i\in M}g_i(x_i)\leq\mathcal{R}^*v_0,\forall x_i\in\{0,1\}^n,i\in M.
 } 
 The inequality is tight at the optimal solution, we can transform it into a linear program:
+
 \eq{
     \begin{aligned}
         \mathcal{R}^*&=\min z\\
@@ -5244,7 +5254,9 @@ The inequality is tight at the optimal solution, we can transform it into a line
         &f_i(x_i)-zg_i(x_i)\leq y_i\quad\forall x_i\in\{0,1\}^n,\quad i\in M,
     \end{aligned}
 }
+
 where $z$ and $y_i$ are decision variables ($m+1$). 
+
 \subsubsection{Properties of the Choice Model}
 There are two important properties for the MNL-based choice model: \tbf{regularity} and \tbf{submodularity}. 
 Regularity means for any assortment $S$, adding a new item $j\notin S$ would reduce the probability of $P_i(S\cup j)$ for any $i\in S$ under the choice model.\\
@@ -5324,21 +5336,86 @@ If $j\notin S$, the consumer would switch to product $i$ w.p. $\rho_{ji}$.
     }
 }
 To capture the impact of market share on consumers’ choice, the utility for product $i$ at time $t+1$ is modeled as:
+
 \eq{
 U_i^{t+1}=u_i(q_i^t)+\xi_i^{t+1},
 }
-where $\mathbf{q}^t:=(q_i^t)_{i\in S}$ is the market share in assortment $S$. The function $u_i(\cdot)$ is assumed to be linear or log-linear:
-$u_{i}(q_{i})=\alpha_{i}+\gamma_{i}q_{i}$, where $\alpha_i$ is the intrinsic utility and $\gamma_i$ measures the magnititude pf the network effects.
-According to the MNL model, the market share at time $t+1$ is given by:
+
+where $\mathbf{q}^t:=(q_i^t)_{i\in S}$ is the market share in assortment $S$. The function $u_i(\cdot)$ is assumed to be linear or log-linear: $u_{i}(q_{i})=\alpha_{i}+\gamma_{i}q_{i}$, where $\alpha_i$ is the intrinsic utility and $\gamma_i$ measures the magnititude pf the network effects. According to the MNL model, the market share at time $t+1$ is given by:
+
 \eq{
 q_i^{t+1}=\frac{\exp(u_i(q_i^t))}{1+\Sigma_{j\in S}\exp(u_j(q_j^t))},\quad\forall i\in S.
 }
+
 This could result $\mathbf{q^t}$ to converge to a steady-state $\mathbf{q}$:
+
 \eq{
     q_i=\frac{\exp(u_i(q_i))}{1+\sum_{j\in S}\exp(u_j(q_j))}:=G_i(\mathbf{q}),\quad\forall i\in S,
 }
-and $q_0=1-\sum_{i\in S}q_i$. This is the \tbf{endogenized MNL model}. Given sufficient condition on $u_i$, $\mathbf{q}^t$ would converge to an unique $\mathbf{q}$
-whatever $\mathbf{q}^0$.
+
+and $q_0=1-\sum_{i\in S}q_i$. This is the \tbf{endogenized MNL model}. Given sufficient condition on $u_i$, $\mathbf{q}^t$ would converge to an unique $\mathbf{q}$ whatever $\mathbf{q}^0$.
+
+\subsubsection{literature Reading Notes}
+
+\cite{liu2023simultaneous} study the Simultaneous Recommendation (SMR) and the Sequential Recommendation (SQR) model, and find that the SQR model can always bring more revenue but would reduce the connsumer welfare given a certain assortment. Denote $c_i^k(S)= \min_{j\in\{l|k\in S_{l}\}} c_{ij}^{k}$ as the least utility discount of purchasing from another store.
+
+\thm{Assortment Structure of the SMR model}{
+    The choice probability for each store $i$ is given by:
+
+    \[
+        p_{ik}^{M}(S)=
+        \begin{cases}
+            \frac{v_{k}}{1+\sum_{l\in S_{i}}v_{l}+\sum_{l\in S\setminus S_{i}}v_{l}\exp{(-c_{i}^{l}(S))}}&\mathrm{if~}k\in S_{i},\\
+            \frac{v_{k}\exp{(-c_{i}^{k}(S))}}{1+\sum_{l\in S_{i}}v_{l}+\sum_{l\in S\setminus S_{i}}v_{l}\exp{(-c_{i}^{l}(S))}}&\mathrm{if~}k\in\bar{S}\setminus S_{i},\\
+            0&\mathrm{otherwise},
+        \end{cases}
+    \]
+
+    The optimization problem is formulated by:
+
+    $\max_{\boldsymbol{S}=(S_1,S_2,...,S_m)}\quad\sum_{i=1}^m\lambda_i\sum_{k=1}^nr_kp_{ik}^M(\boldsymbol{S})$
+
+    It's proved that the optimal assortment is $\boldsymbol{S}^*=(\tilde{S},\tilde{S},\ldots,\tilde{S})$, where $\tilde{S}$ is the optimal revenue-ordered assortment for an independent store. 
+}
+
+\thm{Assortment Structure of the SQR model}{
+    The choice probability is given by (\cite{gao2021assortment}):
+
+    \[
+        p_{ik}^Q(\boldsymbol{S})= 
+        \begin{cases}
+            \frac{v_k}{1+\sum_{l\in S_i}v_l}&\quad if k\in S_i,\\
+            \frac{v_k\exp(-c_i^k(\boldsymbol{S}))}{(1+\sum_{l\in S_i}v_l)(1+\sum_{l\in S_i}v_l+\sum_{l\in \bar{S}\setminus S_i}v_l\exp(-c_i^l(\boldsymbol{S})))}&\quad if k\in\bar{S}\setminus S_i,\\
+            0&\quad otherwise.
+        \end{cases}
+    \]
+
+    When the utility discouts are store-wise homogeneous ($c_{ij}^k = c_i$), and assume $\lambda_m =\min{(\lambda_1,\cdots, \lambda_m)}$ and $c_1\le c_2\le \cdots \le c_m$. There exists an optimal solution $(S_{1}^{*},S_{2}^{*},\ldots,S_{m}^{*})$ such that $S_{1}^{*}\subseteq S_{2}^{*}\subseteq\cdots\subseteq S_{m-1}^{*}\subseteq\tilde{S}\subseteq S_{m}^{*}$ and $s_i^*$ are all revenue-ordered.
+}
+
+\cite{gao2021assortment} study the assortment optimization in an MNL model with impatient customers. Consider $\mathcal{N}=\{1,\ldots,n\}$ products and $\mathcal{M}=\{1,\ldots,m\}$ stages. The assortments in different stages are disjoint: $S_{k}\cap S_{\ell}=\emptyset $ for all $k\ne l$. The patience level of a customer is a RV taking values in $\mathcal{M}$, let $\lambda_{k}=\mathbb{P}\{Y\geq k\}$. \emogood One importance of this paper is that it shows the closed-form choice probability under multi-stage setting. 
+
+\thm{Choice Probability in \cite{gao2021assortment}}{
+    
+    \eq{
+        \phi_{i}^{k}(S_{1},\ldots,S_{m})=\frac{\lambda_{k}v_{i}}{\left(1+\sum_{\ell=1}^{k-1}V(S_{\ell})\right)\left(1+\sum_{\ell=1}^{k}V(S_{\ell})\right)},
+    }
+
+    where $V(S)=\sum_{i\in s}v_i$.
+
+    \proo{}{
+        \eq{
+            \begin{aligned}
+                \phi_{i}^{k}(S_{1},\ldots,S_{k})&=\mathbb{P}\{Y\geq k\}\cdot\mathbb{P}\Big\{U_{0}\geq\max_{j\in S_{1}\cup\ldots\cup S_{k-1}}U_{j},\\
+                &\times U_{i}\geq\max\{U_{0},\max_{j\in S_{k}\setminus\{t\}}U_{j}\}\Big\}\\&=\lambda_{k}\cdot\mathbb{P}\big\{U_{0}\geq\hat{U}_{k-1}\big\}\\
+                &\cdot\mathbb{P}\big\{U_{i}\geq\max\big\{U_{0},\tilde{U}_{k}\big\}\mid U_{0}\geq\hat{U}_{k-1}\big\}.
+            \end{aligned}
+        }
+        Note the conditional part $\mid U_{0}\geq\hat{U}_{k-1}$, which is very important.
+    }
+}
+
+\cite{peng2024transformer} proposes a transformer-based deep learning choice model.
 
 \subsection{RM in the Railway System}
 
