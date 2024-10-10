@@ -62,7 +62,8 @@ Solving Limit:
     \item By definition, prove $\forall \epsilon > 0$, there exists a $\delta > 0$ such that $\forall x \in (D(c, \delta)), |f(x)-L| \le \delta$;
     \item The Sandwish theorem, find $h(x) \le f(x) \le g(x)$ in an interval;
     \item $\lim_{x\to0}(\sin x)/x=1$, if $\lim_{x\to c}f(x)=0$ and $f(x)\ne 0$ in an open interval near $x=c$ (except at $x=c$): $\lim_{x\to c}\frac{\sin f(x)}{f(x)}=1$;
-    \item Fraction form: eliminating common factors or rationalizing the denominator; l'hopital's rule (differentiable); bounded numerator while infinite denominator.
+    \item Fraction form: eliminating common factors or rationalizing the denominator; l'hopital's rule (differentiable); bounded numerator while infinite denominator；
+    \item Order of growth: $f=o(g)$ if $\lim_{x\to\infty}\frac{f(x)}{g(x)}=0$, a tighter bound is $f=O(g)$ if $\frac{f(x)}{g(x)}\leq M$ for some $M>0$. If $f=O(g)$ and $g=O(f)$, then $g$ and $f$ are at the same order.
 }
 
 \re{
@@ -72,9 +73,12 @@ Solving Limit:
         \item Definition: $\lim_{x\to c}f(x) = f(x)$ and both exist;
         \item If $f$ and $g$ are both continuous function, their algebraic combinations and compositions are also continuous;
         \item If $g$ is continuous at $b$ and $\lim_{x\to c}f(x)=b$, then $\lim_{x\to c} g(f(x)) = \lim_{f(x)\to b}g(f(x)) = g(\lim_{x\to c}f(x))=g(b)$;
-        \item Intermediate Value Theorem: if $f$ is continuous on $[a, b]$, for any $f(a)\le y \le f(b)$, there exists some $a\le c \le b$ such that $f(c)=y$.
+        \item Intermediate Value Theorem: if $f$ is continuous on $[a, b]$, for any $f(a)\le y \le f(b)$, there exists some $a\le c \le b$ such that $f(c)=y$；
+        \item Mean-value theorem: if $f$ is differentiable on $[a,b]$, there must exist a point $x \in (a, b)$ such that $\frac{f(b)-f(a)}{b-a}=f'(c)$; Cauchy's Mean-value theorem: $\frac{f'(c)}{g'(c)}=\frac{f(b)-f(a)}{g(b)-g(a)}$.
     }
 }
+
+\fig{Integration Table}{Basic integration formulas}{0.45}
 
 \subsection{Keys of Linear Algebra and Matrix Theory}
 
@@ -5331,7 +5335,7 @@ The RO-assortment is to find $\tau$ and the corresponding assortment under $\tau
 $\mathcal{R}^0:=\max_{\tau\geq0}R(S(\tau))$, and it's proven that $\mathcal{R}^0\geq\frac1n\mathcal{R}^*$.
 \sep{The Refined Greedy Heuristic}
 
-\cite{NiP2021} consider the competitive and cooperative assortment games under the Markov Chain Choice Model. They assume There are $\mathcal{M}=\{1,\ldots,m\}$ retailers, each manages a
+\cite{nipCompetitiveCooperativeAssortment2021} consider the competitive and cooperative assortment games under the Markov Chain Choice Model. They assume There are $\mathcal{M}=\{1,\ldots,m\}$ retailers, each manages a
 collection of $\cN_k$ products. We call product $j$ an \tit{exclusive} product to $k$ if $j\in\mathcal{N}_{k}\backslash\mathcal{N}_{-k}$, \tit{common} otherwise. In the game, each retailer needs to dicide
 the assortment $S_k \subseteq \cN_k$, and the prices $r_j^k$ are assumed to be fixed. We assume the consumers follow the Markov Chain Choice Model to select the products: with probability $\lambda_j>0$ and $\sum_{j=1}^n \lambda_=1$, a customer
 arrives for product $j$, he would choose $j$ from seller $k$ following the distribution $\beta_j^k(S_1,\ldots,S_m)$:
