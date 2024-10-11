@@ -80,6 +80,27 @@ Solving Limit:
 
 \fig{Integration Table}{Basic integration formulas}{0.45}
 
+\sep{Differential Equation}
+
+\defi{First-order Linear Differential Equation}{
+
+    \[
+        \frac{dy}{dx}+P(x)y=Q(x),
+    \]
+
+    where $P,Q$ are continuous functions on $x$.
+
+    Solution: multiply $v(x)=e^{\int P(x) dx}$ on both sides, transform it into:
+
+    \[
+        \begin{aligned}
+            \frac{d}{dx}(v(x)\cdot y)& = v(x)Q(x) \\
+            v(x)\cdot y& =\int v(x)Q(x) dx \\
+            \text{y}& =\frac{1}{v(x)}\int v(x)Q(x) dx 
+        \end{aligned}
+    \]
+}
+
 \subsection{Keys of Linear Algebra and Matrix Theory}
 
 The main contents of this subsection are notes from \cite{deisenroth2020mathematics}.
@@ -3291,6 +3312,8 @@ $$
 
 On the generalization side, we need less complex $\mathcal{H}$; on the training side, we need more complex $\mathcal{H}$.
 
+\fig{LearningCurve}{Learning Curve from VC Analysis}{0.35}
+
 Under the i.i.d. assumption, we have the following formula given training samples $\mathcal{S}=\{\boldsymbol{x}_1,\ldots,\boldsymbol{x}_n\}$:
 
 \eq{
@@ -3467,6 +3490,51 @@ Implementation:
     \item Pick a misclassified data whose $\mathrm{sign}(f_{\boldsymbol{\theta}}(\boldsymbol{x_i}))\ne y_i$;
     \item Update rule: $\theta=\theta+ y_i\boldsymbol{x}_i$ (this will push the hyperplane toward the misclassified sample);
     \item Iterate until there is no misclassified data.
+}
+
+\subsubsection{Logistic Regression}
+
+Consider a Bayesian classifier: $y\leftarrow\underset{y\in\mathcal{Y}}{\operatorname*{\text{argmax Pr}}}[y|\boldsymbol{x}]$. We can learn an estimator $\Pr_{\boldsymbol{\theta}}[y|\boldsymbol{x}]$ for $\Pr[y|\boldsymbol{x}]$ based on the training data.
+
+\defi{Logistic/Sigmoid Function}{
+    \[
+        h(t)=\frac{e^t}{e^t+1}=\frac1{1+e^{-t}}
+    \]
+
+    $h(t)$ can be used to approximate $\Pr[y|\boldsymbol{x}]$:
+
+    \[
+        \Pr_{\boldsymbol{\theta}}\left[y=+1|\boldsymbol{x}\right]=h(\boldsymbol{\theta}^{\top}\boldsymbol{x})=\frac{1}{1+e^{{-\boldsymbol{\theta}^{\top}\boldsymbol{x}}}}
+    \]
+
+    \[\Pr_{\boldsymbol{\theta}}\left[y=-1|\boldsymbol{x}\right]=1-\Pr\left[y=+1|\boldsymbol{x};\boldsymbol{\theta}\right]=\frac1{1+e^{\boldsymbol{\theta}^\top\boldsymbol{x}}}\]
+
+    Finally, we have:
+
+    \eq{
+        \Pr_{\boldsymbol{\theta}}\left[y|\boldsymbol{x}\right]=\frac1{1+\exp\left(-y\cdot\boldsymbol{\theta}^\top\boldsymbol{x}\right)}
+    }
+}
+
+Using MLE to estimate $\theta$, the log-likelihood of all data $\{(x_i,y_i)\}$ is given as: 
+
+\[
+    \sum_{i=1}^n\log(\Pr_\boldsymbol{\theta}[y_i|\boldsymbol{x}_i])=-\sum_{i=1}^n\log(1+\exp(-y_i\cdot\boldsymbol{\theta}^\top\boldsymbol{x}_i))
+\]
+
+The MLE is equivalent to minimize the \rt{logistic loss} (cross-entropy loss):
+
+\eq{
+    \widehat{\boldsymbol{\theta}}=\underset{\boldsymbol{\theta}\in\mathbb{R}^d}{\operatorname*{argmin}}\quad\frac1n\sum_{i=1}^n\underbrace{\log\left(1+\exp\left(-y_i\cdot\boldsymbol{\theta}^\top\boldsymbol{x}_i\right)\right)}_{\ell(f_{\boldsymbol{\theta}}(\boldsymbol{x}_i),y_i)}
+}
+
+\re{
+    \tab{
+        \item Comparing to LS, no closed-form solution;
+        \item Comparing to Perceptron, no linearly-separable requirement (better boundary);
+        \item Can be extended to multi-class version: Softmax:
+        \[\Pr_\boldsymbol{\Theta}\left[y_i=k|\boldsymbol{x}_i\right]=\frac{\exp(\boldsymbol{\theta}_k^\top\boldsymbol{x}_i)}{\sum_{j=1}^K\exp(\boldsymbol{\theta}_j^\top\boldsymbol{x}_i)}\]
+    }
 }
 
 \subsubsection{Decision Tree}
@@ -5074,22 +5142,29 @@ decreases compared to the baseline model.
 
 \subsection{Consumer Choice Model and Assortment Optimization}
 
-Assume the products that could be offered is $N:=\{1,\cdots,n\}$, for any assortment $S\subseteq N$ and product $j$, we denote $\pi_j(S)$ as the probability that a consumer will select product $j\in S$.
-$\Pi(S)&:=\sum_{j\in S}\pi_j(S)=0$indicates that the consumer does not purchase or purchases outside $S$. Denote $p$ and $z$ as $n$-dimensioanl vectors for prices and costs of each product. The decision maker
+Assume the products that could be offered is $N:=\{1,\cdots,n\}$, for any assortment $S\subseteq N$ and product $j$, we denote $\pi_j(S)$ as the probability that a consumer will select product $j\in S$. $\Pi(S)&:=\sum_{j\in S}\pi_j(S)=0$indicates that the consumer does not purchase or purchases outside $S$. Denote $p$ and $z$ as $n$-dimensioanl vectors for prices and costs of each product. The decision maker
 should optimize a combinatorial problem:
+
 \eq{
     \mathcal{R}(z):=\max_{S\subseteq N, p\ge z} R(S,p,z):= \sum_{j\in S}(p_j - z_j)\pi_j(S,p)
 }
+
 Most of the time, by setting $p_j \to \infty$, we can make $pi_j(N,j)=0$ (remove $j$ out of $S$). Thus, we can transform the problem above to:
+
 \eq{
     \mathcal{R}(z):=\max_{p\geq z}R(p,z) :=\sum_{j\in N}(p_j-z_j)\pi_j(N,p)
 }
+
 \sep{Basic Attraction Model (BAM)}
+
 Each $j\in N_+$ has an attraction value $v_j>0$ ($v_0$ indicates no-purchase), the choice model is given by:
+
 \eq{
     \pi_j(S)=\frac{v_j}{v_0+V(S)}\quad\forall j\in S
 }
-BAM has a great property: for any $S\subseteq T$, we have $\pi_S(T):=\sum_{j\in S}\pi_j(T)$。
+
+BAM has a great property: for any $S\subseteq T$, we have $\pi_S(T):=\sum_{j\in S}\pi_j(T)$.
+
 \ax{The Luce Axiom}{
     If $\pi_i(\{i\})\in(0,1), \forall i\in T$, then for any $Q\subseteq S_+,S\subseteq T$:
     \eq{
@@ -5100,6 +5175,7 @@ BAM has a great property: for any $S\subseteq T$, we have $\pi_S(T):=\sum_{j\in 
         \pi_S(T)=\pi_{S\setminus\{i\}}(T\setminus\{i\}).
     }
 }
+
 \re{
     Shortage of BAM:
     \tab{
