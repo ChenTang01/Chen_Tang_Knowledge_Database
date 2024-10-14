@@ -78,6 +78,61 @@ Solving Limit:
     }
 }
 
+\defi{Convergence of Sequence}{
+    The sequence $\{a_n\}$ converges to the number $L$ if for every $\epsilon>0$ there exists an $N$ such that:
+
+    \[n>N\quad\Rightarrow\quad\left|a_n-L\right|<\epsilon\]
+
+    If $a_n=f(n)$ for $n\ge n_0$, then:
+    
+    \[\lim_{x\to\infty}f(x)=L\quad\Rightarrow\quad\lim_{n\to\infty}a_{n}=L.\]
+
+    A sequence which is both bounded and monotonic must converge.
+}
+
+\defi{Series}{
+    The sequence of partial sums of $\{a_n\}$ is a series: $\sum_{n=1}^\infty a_n$. Some ways to test convergence of the series:
+
+    \lis{
+        \item If $\lim_{n\to\infty}a_{n}$ fails to exist or is different from zero, $\sum_{n=1}^\infty a_n$ diverges;
+        \item Integral test: Let $\{a_n\}$ be a sequence of positive terms. Suppose $f(n)=a_n$ for all $n\ge n_0$, where $f$ is a decreasing function, then $\sum_{n=N}^{\infty}a_{n}$ and $\int_N^\infty f(x)$ both converge or both diverge;
+        \item Comparison test: let $\sum{a_n},\sum b_n, \sum c_n$ be series with nonnegative terms, for all $n>n_0$: $a_n\leq b_n\leq c_n$. If $\sum c_n$ converges, then $\sum b_n$ converges; if $\sum a_n$ diverges, then $\sum b_n$ diverges;
+        \item Limit comparison test: suppose $a_n>0$ and $b_n >0$ for all $n\ge n_0$. If $\lim_{n\to\infty}\frac{a_{n}}{b_{n}}=c>0$, then $\sum a_n$ and $\sum b_n$ both converge or diverge; if $\lim_{n\to\infty}\frac{a_{n}}{b_{n}}=0$ and $\sum b_n$ converges, $\sum a_n$ converges; if $\lim_{n\to\infty}\frac{a_{n}}{b_{n}}=\infty$ and $\sum b_n$ diverges, $\sum a_n$ diverges;
+        \item Absolute convergence test; Let $\rho = \lim_{n\to\infty}\left|\frac{a_{n+1}}{a_n}\right|$ or $\rho = \sqrt[n]{|a_{n}|}$, the series converges if $\rho<1$ and diverges if $\rho > 1$;
+        \item The alternating series $\sum_{n=1}^{\infty}(-1)^{n+1}u_n=u_1-u_2+u_3-u_4+\cdots $ converges if $u_n > 0, u_n \to 0$ and are (eventuallly) nonincreasing.
+    }
+}
+
+Power Series about $x=a$: $\sum_{n=0}^\infty c_n(x-a)^n=c_0+c_1(x-a)+c_2(x-a)^2+\cdots+c_n(x-a)^n+\cdots $. A great property about the power series is that: if $\sum_{n=0}^\infty a_nx^n$ converges at $x=c\ne 0$, then it converges absolutely for all $x$ with $|x|<|c|$; if it diverges at $x=d$, it also diverges for all $x$ with $|x|>|d|$. $R$ is called the \tab{radius of convergence} of the power series if for all points $x\in d(a, R)$, the series converges absolutely; and the series diverges for all points outside the domain.
+
+\tbf{Taylor Series} for a function $f$ generated at $x=a$ is defined as:
+
+\[\begin{aligned}\sum_{k=0}^{\infty}\frac{f^{(k)}(a)}{k!}(x-a)^{k}&= f(a) + f^{\prime}(a)(x - a) + \frac{f^{\prime\prime}(a)}{2!}(x - a)^{2}\\&+ \cdots + \frac{f^{(n)}(a)}{n!}(x - a)^{n} + \cdots .\end{aligned}\]
+
+When $a=0$, this is called a \tbf{Maclaurin series}. A \tbf{Taylor Polynomial} of order $n$ is given by:
+
+\[\sum_{k=0}^{n}\frac{f^{(k)}(a)}{k!}(x-a)^{k}\]
+
+\thm{Taylor’s Formula}{
+    If $f$ has derivatives of all orders, then:
+
+    \eq{
+        \begin{aligned}f(x)&= f(a) + f^{\prime}(a)(x - a) + \frac{f^{\prime\prime}(a)}{2!} (x - a)^{2} + \cdots\\&+ \frac{f^{(n)}(a)}{n!} (x - a)^{n} + R_{n}(x),\end{aligned}
+    }
+
+    where $R_n(x)=\frac{f^{(n+1)}(c)}{(n+1)!}(x-a)^{n+1}$ for some $c\in (a, x)$.
+
+    \emogood If $R_n(x)\to 0$ as $n\to 0$ for all $x$, the Taylar series generated at $x=a$ converges to $f$:
+
+    \[f(x) = \sum_{k=0}^\infty\frac{f^{(k)}(a)}{k!} (x - a)^k.\]
+
+    If there is some $M>0$ such that $\left|f^{(n+1)}(t)\right|\leq M$ for all $t\in (a, x)$, the remainder is bounded by:
+
+    \[R_n(x)\leq M\frac{x-a^{n+1}}{(n+1)!}\]
+
+    This theorem is proved by the mean-value theorem (Rolle’s Theorem).
+}
+
 \fig{Integration Table}{Basic integration formulas}{0.45}
 
 \sep{Differential Equation}
