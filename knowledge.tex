@@ -3516,6 +3516,29 @@ Generally, the VC generalization bound has the form:
     n\geq\frac{8}{\varepsilon^2}\log\left(\frac{4((2n)^{d_\text{vc}}+1)}{\delta}\right)
 }
 
+\subsubsection{Overfitting}
+
+Catalysts of overfitting:
+
+\lis{
+    \item Noise in data;
+    \item Model Complexity;
+    \item Low number of training samples.
+}
+
+\sep{Validation}
+
+Validation tries to estimate $Er_{out}(f)$ directly and is used to select hyperparameters and model.
+
+\fig{ValidationforModelSelection}{Validation Processes}{0.5}
+
+Validation data is \tbf{not} the test data: the test set can never influence the training phase in any way.
+
+\begin{equation}
+    \operatorname{Er}_{\mathrm{out}}(\widehat{f})\leq\operatorname{Er}_{\mathrm{out}}(f'_{j^\star})~\leq\operatorname{Er}_{\mathrm{val}}(f'_{j^\star})+\mathcal{O}\left(\sqrt{\frac{\log m}{k}}\right)
+\end{equation}
+
+The first inequality is only a reasonable guess from VC analysis. The first approximation needs low $k$ and the second approximation needs high $k$. Cross-validation can provide a high and low $k$ simultaneously.
 
 \subsection{Classification}
 
@@ -3610,7 +3633,51 @@ The MLE is equivalent to minimize the \rt{logistic loss} (cross-entropy loss):
 
 \subsubsection{SVM: Support Vector Machine}
 
+\sep{Linear SVM: Optimal Margin classifier}
 
+\defi{Functional Margin \& Geometric Margin}{
+    Given a training example $(x^{(i)},y^{(i)})$, the functional margin is:
+
+    \[\hat{\gamma}^{(i)}=y^{(i)}(w^Tx+b)\]
+
+    This can be regarded as a measure of confidence, and it would be large if $||w||$ is large.
+
+    the geometric margin measures the distance to the decision boundary:
+
+    \[\gamma^{(i)}=\frac{w^Tx^{(i)}+b}{||w||}=\left(\frac w{||w||}\right)^Tx^{(i)}+\frac b{||w||}\]
+
+    When $||w||=1$, the two margins are equivalent.
+}
+
+The optimal margin classifier tries to find the boundary with tha largest geometric margin:
+
+\begin{equation}
+    \begin{aligned}
+        \max_{\gamma,w,b}&\gamma\\
+        \mathrm{s.t.}&y^{(i)}(w^Tx^{(i)}+b)\geq\gamma, i=1,\ldots,m\\
+        &||w||=1.
+    \end{aligned}
+\end{equation}
+
+This is equivalent to maximize the geometric margin directly when all points are separated correctly:
+
+\begin{equation}
+    \begin{aligned}
+        \max_{\hat{\gamma},w,b}&\frac{\hat{\gamma}}{||w||}\\
+        \mathrm{s.t.}&y^{(i)}(w^Tx^{(i)}+b)\geq\hat{\gamma},&i=1,\ldots,m
+    \end{aligned}
+\end{equation}
+
+Using the property that the geometric margin is invariance to arbitrary scaling constraint on $w$ and $b$. Setting $\hat{\gamma}=1$, we can transform it into:
+
+\begin{equation}
+    \begin{aligned}
+        \min_{\gamma,w,b}&\frac{1}{2}||w||^{2}\\
+        \mathrm{s.t.}&y^{(i)}(w^Tx^{(i)}+b)\geq1, i=1,\ldots,m
+    \end{aligned}
+\end{equation}
+
+This is a tractable problem and is called \tbf{optimal margin classifier}.
 
 \subsection{Rrgression}
 
