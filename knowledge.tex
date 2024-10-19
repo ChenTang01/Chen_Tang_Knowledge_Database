@@ -59,7 +59,7 @@
 Solving Limit:
 
 \lis{
-    \item By definition, prove $\forall \epsilon > 0$, there exists a $\delta > 0$ such that $\forall x \in (D(c, \delta)), |f(x)-L| \le \delta$;
+    \item By definition, prove $\forall \epsilon > 0$, there exists a $\delta > 0$ such that $\forall x \in (D(c, \delta)/c), |f(x)-L| \le \delta$;
     \item The Sandwish theorem, find $h(x) \le f(x) \le g(x)$ in an interval;
     \item $\lim_{x\to0}(\sin x)/x=1$, if $\lim_{x\to c}f(x)=0$ and $f(x)\ne 0$ in an open interval near $x=c$ (except at $x=c$): $\lim_{x\to c}\frac{\sin f(x)}{f(x)}=1$;
     \item Fraction form: eliminating common factors or rationalizing the denominator; l'hopital's rule (differentiable); bounded numerator while infinite denominator；
@@ -3607,6 +3607,10 @@ The MLE is equivalent to minimize the \rt{logistic loss} (cross-entropy loss):
         IG = H(D) - \sum_i \frac{|D_i|}{|D|} H(D_i)
     }
 }
+
+\subsubsection{SVM: Support Vector Machine}
+
+
 
 \subsection{Rrgression}
 
