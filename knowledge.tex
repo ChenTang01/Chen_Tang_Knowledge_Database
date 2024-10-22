@@ -369,9 +369,158 @@ The $p$-th moment is defined as $\mathbb{E}X^p,p>0$, and the \tit{absolute $p$-t
 }
 
 \clearpage
-\section{Probability Theory}
+\section{Analysis \& Measure Theory}
 
-The main contents of this section are from \cite{Ross2014}.
+\subsection{Riemann Integration}
+
+Suppose $a,b\in\mathbb{R}$ with $a<b$, a \tbf{partition} of $[a,b]$ is a finite list of the form $x_0,x_1,\ldots,x_n$:
+
+\[
+    a=x_0<x_1<\cdots<x_n=b.
+\]
+
+\defi{lower and upper Riemann sums}{
+    Suppose $f:[a,b]\to\mathbf{R}$ is a bounded function and $P$ is a partition $x_0,x_1,\ldots,x_n$ on $[a,b]$. The \tbf{lower Riemann sums} is defined as:
+
+    \eq{
+        L(f,P,[a,b])=\sum_{j=1}^n(x_j-x_{j-1})\inf_{[x_{j-1},x_j]}f
+    }
+
+    and the \tbf{upper Riemann sums} is defined as:
+
+    \eq{
+        U(f,P,[a,b])=\sum_{j=1}^n(x_j-x_{j-1})\sup_{[x_{j-1},x_j]}f
+    }
+
+    It can be shown that for partitions $P,P^\prime$ where $P$ is a sublist of $P^\prime$:
+
+    \eq{
+        L(f,P,[a,b])\leq L(f,P^{\prime},[a,b])\leq U(f,P^{\prime},[a,b])\leq U(f,P,[a,b])
+    }
+
+    \proo{}{
+        Proof on the first inequality. Denote $P$ as $x_0, \cdots, x_n$, and $P^\prime$ as $x_0^\prime,\ldots,x_N^\prime$. For each $j=1,\cdots, n$, there exists $k\in \{0,\cdots,N-1\}$ and $m>0$ such that $x_{j-1}=x_k^\prime<x_{k+1}^\prime<\cdots<x_{k+m}^\prime=x_j$. Then we have:
+
+        \eq{
+            \begin{aligned}
+                (x_j-x_{j-1})\inf_{[x_{j-1},x_j]}f& =\sum_{i=1}^m(x_{k+i}^{\prime}-x_{k+i-1}^{\prime})\inf_{[x_{j-1},x_j]}f \\
+                &\leq\sum_{i=1}^m(x_{k+i}^{\prime}-x_{k+i-1}^{\prime})\inf_{[x_{k+i-1}^{\prime},x_{k+i}^{\prime}]}f.
+            \end{aligned}
+        }
+    }
+}
+
+\defi{lower and upper Riemann integrals}{
+    Suppose $f\colon[a,b]\to\mathbf{R}$ is a bounded function, the \tbf{lower Riemann integral} is defined as:
+
+    \eq{
+        L(f,[a,b])=\sup_PL(f,P,[a,b])
+    }
+
+    The \tbf{upper Riemann integral} is defined as:
+
+    \eq{
+        U(f,[a,b])=\inf_PU(f,P,[a,b])
+    }
+}
+
+\pro{lower Riemann sums $\le$ upper Riemann sums}{
+    Suppose $f:[a,b]\to\mathbb{R}$ is a bounded function and $P, P^\prime$ are partitions of $[a, b]$, then:
+
+    \eq{
+        L(f,P,[a,b])\leq U(f,P',[a,b])
+    }
+
+    \proo{}{
+        Construct a new partition $P^{\prime\prime}$ by merging the list defined by $P,P^\prime$:
+
+        \eq{
+            \begin{aligned}
+                L(f,P,[a,b])& \leq L(f,P^{\prime\prime},[a,b]) \\
+                &\leq U(f,P^{\prime\prime},[a,b]) \\
+                &\leq U(f,P',[a,b]),
+            \end{aligned}
+        }
+    }
+
+    \co{lower Riemann integral $le$ upper Riemann integral}{
+        Suppose $f:[a,b]\to\mathbb{R}$ is a bounded function, then
+
+        \eq{
+            L(f,[a,b])\leq U(f,[a,b])
+        }
+    }
+}
+
+\emotree The intuition is: the less segmentations the partition include, the more extreme that the upper or lower Riemann sums would deviate from the Riemann integration. It can be further shown that:
+
+\eq{
+    (b-a)\inf_{[a,b]}f\leq\int_a^bf\leq(b-a)\sup_{[a,b]}f, 
+}
+
+where $P$ here contains no partition. 
+
+\defi{Riemann integrable}{
+    A bounded function on a closed bounded interval is called Riemann integrable if its lower Riemann integral equals its upper Riemann integral. The \tbf{Riemann integral} is defined as:
+
+    \eq{
+        \int_a^bf=L(f,[a,b])=U(f,[a,b])
+    }
+}
+
+If there exists two partitions $P,P^\prime$ such that $L(f,P,[a,b]) = U(f,P^\prime,[a,b])=I$, then $\int_{a}^b f=I$.
+
+\thm{continuous functions are Riemann integrable}{
+    Suppose $f: [a,b]\to\mathbf{R}$ is continuous, using the definition of continuity: for any $\epsilon>0$, there exists $\delta>0$ such that:
+    
+    \[|f(s)-f(t)|<\varepsilon\text{ for all }s,t\in[a,b]\mathrm{~with~}|s-t|<\delta \]
+
+    Let $n\in\mathbb{Z}^+$ be such that $\frac{b-a}n<\delta $, and pick the partition equally spaced within $[a,b]$ with $x_j-x_{j-1}=\frac{b-a}n$.
+
+    \eq{
+        \begin{aligned}
+            U(f,[a,b])-L(f,[a,b])& \leq U(f,P,[a,b])-L(f,P,[a,b]) \\
+            &=\frac{b-a}n\sum_{j=1}^n\sup_{[x_{j-1},x_j]}f-\inf_{[x_{j-1},x_j]}f\\ 
+            &\leq (b-a)\varepsilon,
+        \end{aligned}
+    }
+}
+
+\ex{
+    Suppose $f: [a,b]\to\mathbf{R}$ is continuous, prove that:
+
+    \[\int_a^bf=\lim_{n\to\infty}\frac{b-a}n\sum_{j=1}^nf\left(a+\frac{j(b-a)}n\right)\]
+}{
+    When $f$ is continuous, for any $\epsilon \ge 0$, we can find $\delta > 0$ such that for all $|s-t|<\delta$: $|f(s)-f(t)|<\frac{\varepsilon}{2(b-a)}$. Consider the partition $P$ which spaces $[a,b]$ into $n$ equivalent intervals and each interval length is less than $\delta$:
+
+    \[|\sum_{j=1}^n \frac{b-a}{n}f(a+\frac{j(b-a)}{n})-U(f,P,[a,b])| \le \epsilon/2, |\sum_{j=1}^n \frac{b-a}{n}f(a+\frac{j(b-a)}{n})-L(f,P,[a,b])| \le \epsilon/2\]
+
+    \[|L(f,P,[a,b])-U(f,P,[a,b])| \le \epsilon\]
+
+    So $\int_{a}^{b} f = \lim_{n\to \infty}L(f,P,[a,b]) = \lim_{n\to \infty}U(f,P,[a,b])$, and for any $\epsilon>0$, there exists $n$ sucg that $\int_a^bf-\frac{b-a}n\sum_{j=1}^nf\left(a+\frac{j(b-a)}n\right) \le \epsilon$.
+}
+
+\sep{Drawbacks of Riemann Integration}
+
+\lis{
+    \item Doesn't work well with unbounded function (especially unbounded everywhere);
+    \item Doesn't work well with pointwise limits;
+}
+
+\clearpage
+\section{Probability Theory \& Statistics}
+
+The main contents of this section are from \cite{ross1995stochastic}, \cite{Ross2014} \cite{casella2021statistical}.
+
+\ax{Axioms on Probability}{
+    For each event $E$ in the sample space $S$ a mapping $P(E)$ can be probability if:
+
+    \lis{
+        \item $0\le P(E) \le 1$;
+        \item $P(S) = 1$;
+        \item For mutually exclusive events $E_1,E_2, \cdots$: $P\left(\bigcup_{i=1}^\infty E_i\right)=\sum_{i=1}^\infty P(E_i)$.
+    }
+}
 
 \subsection{Probability Distribution}
 \sep{Common Discrete Distribution}
@@ -463,10 +612,7 @@ The main contents of this section are from \cite{Ross2014}.
 }
 \fig{type of distribution}{Type of distribution}{}
 
-\section{Statistical Inference}
-This section is mainly the notes from \cite{casella2021statistical}
 \fig{statistical inference}{The scope of statistical inference}{}
-Statistics uses observed data to \hl{inference} the statistical model.
 
 \subsection{Exponential Families}
 \defi{Exponential Families} 
@@ -809,7 +955,8 @@ Rewriting this and minimize over $\lambda\ge 0$, we have
 }
 }
 
-\subsection{Convergence}
+\clearpage
+\section{Stochastic Process}
 
 \clearpage
 \section{Theory of Optimization}
